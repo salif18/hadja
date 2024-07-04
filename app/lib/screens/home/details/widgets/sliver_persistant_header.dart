@@ -33,7 +33,7 @@ final double minHeight;
               ),
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: Colors.green.withOpacity(0.5),
+                color: const Color.fromARGB(255, 5, 191, 100).withOpacity(0.5),
                 shape: BoxShape.circle,
               ),
               child: const Icon(
@@ -60,7 +60,7 @@ final double minHeight;
               alignment: Alignment.center,
               width: 60,
               height: 5,
-              color: Colors.green,
+              color: const Color.fromARGB(255, 5, 191, 100),
             ),
           ),
         )

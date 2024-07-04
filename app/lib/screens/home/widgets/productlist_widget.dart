@@ -40,7 +40,7 @@ class _MyProductListWidgetState extends State<MyProductListWidget> {
                     style: GoogleFonts.roboto(
                         fontSize: 20,
                         fontWeight: FontWeight.w500,
-                        color:  const Color(0xFF55AB60)),
+                        color:  const Color.fromARGB(255, 5, 191, 100)),
                   ),
                 )
               ],

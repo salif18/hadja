@@ -136,7 +136,7 @@ class _SingleProductVerSionSliverState extends State<SingleProductVerSionSliver>
           ReadMoreText(
          widget.item.desc,
             trimLines: 2,
-            colorClickableText: Colors.green,
+            colorClickableText: const Color.fromARGB(255, 5, 191, 100),
             trimMode: TrimMode.Line,
             trimCollapsedText: 'Voir plus',
             trimExpandedText: ' reduire',
@@ -203,7 +203,7 @@ class _SingleProductVerSionSliverState extends State<SingleProductVerSionSliver>
                     children: [
                       ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.green),
+                              backgroundColor: const Color.fromARGB(255, 5, 191, 100)),
                           onPressed: () {
                             setState(() {
                               qty = qty + 1;
@@ -232,7 +232,7 @@ class _SingleProductVerSionSliverState extends State<SingleProductVerSionSliver>
             child: ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
                     minimumSize: const Size(300, 50),
-                    backgroundColor: Colors.green),
+                    backgroundColor: const Color.fromARGB(255, 5, 191, 100)),
                 onPressed: () {
                    addToCart(widget.item, qty);
                 },
