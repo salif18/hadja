@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hadja_grish/screens/auth/views/validation.dart';
+import 'package:hadja_grish/screens/auth/validation.dart';
 
 class ResetToken extends StatefulWidget {
   const ResetToken({super.key});

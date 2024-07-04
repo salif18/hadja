@@ -23,12 +23,12 @@ class _MySplashScreenState extends State<MySplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff55ab60),
+      backgroundColor: const Color.fromARGB(255, 5, 191, 100),
       body: AnimatedSwitcher(
         transitionBuilder: (Widget child, Animation<double> animation) {
           return ScaleTransition(scale: animation, child: child);
         },
-        duration: const Duration(seconds: 8),
+        duration: const Duration(seconds: 5),
         child: Container(
           padding: const EdgeInsets.all(20),
           child: Center(

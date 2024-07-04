@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hadja_grish/screens/auth/views/update_password.dart';
+import 'package:hadja_grish/screens/auth/update_password.dart';
 import 'package:hadja_grish/screens/cart/widgets/maps.dart';
 import 'package:hadja_grish/screens/command/views/orders_admin.dart';
 import 'package:hadja_grish/screens/command/views/orders_client.dart';
