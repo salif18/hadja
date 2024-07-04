@@ -131,7 +131,7 @@ class _SingleOrderClientState extends State<SingleOrderClient> {
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(400,50),
-                backgroundColor: const Color(0xFF4caf50),),
+                backgroundColor: const Color.fromARGB(255, 5, 191, 100),),
               child: Text("Suis le livreur",
                   style: GoogleFonts.roboto(
                       fontSize: 20,

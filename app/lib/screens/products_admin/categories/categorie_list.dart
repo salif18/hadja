@@ -32,7 +32,7 @@ class MyCategoriList extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           FloatingActionButton(
-            backgroundColor: const Color(0xFF4caf50),
+            backgroundColor: const Color.fromARGB(255, 5, 191, 100),
             onPressed: () {
               _addCateShow(context);
             },
@@ -72,7 +72,7 @@ class MyCategoriList extends StatelessWidget {
                       ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF4caf50),
+                              backgroundColor: const Color.fromARGB(255, 5, 191, 100),
                               minimumSize: const Size(400,50)
                               ),
                           child: Text("Enregistrer",

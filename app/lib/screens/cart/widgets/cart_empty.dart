@@ -45,7 +45,7 @@ class EmptyCart extends StatelessWidget {
                           builder: (context) => const MyArticlePage()));
                 },
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xff55ab60),
+                    backgroundColor: const Color.fromARGB(255, 5, 191, 100),
                     minimumSize: const Size(400, 50)),
                 child: Text("Voir les articles",
                     style:

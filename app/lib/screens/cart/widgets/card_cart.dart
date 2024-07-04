@@ -59,10 +59,10 @@ class _MyCardState extends State<MyCard> {
                   Container(
                     height: 50,
                     decoration: BoxDecoration(
-                      color: const Color(0xff55AB60),
+                      color: const Color.fromARGB(255, 5, 191, 100),
                       borderRadius:BorderRadius.circular(20),
                       border: Border.all(
-                        color: const Color(0xff55AB60)
+                        color: const Color.fromARGB(255, 5, 191, 100),
                       )
                     ),
                     child: Row(

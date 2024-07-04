@@ -50,7 +50,7 @@ class _MyRootsState extends State<MyRoots> {
           },
           backgroundColor: Colors.white,
           elevation: 20,
-          selectedItemColor: const Color(0xFF55AB60),
+          selectedItemColor: const Color.fromARGB(255, 5, 191, 100),
           unselectedItemColor: Colors.black,
           iconSize: 30,
           items: [

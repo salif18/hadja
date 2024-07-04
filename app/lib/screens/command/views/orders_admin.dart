@@ -31,7 +31,7 @@ class _AdminOdersState extends State<AdminOders> {
                 icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 24)),
             bottom: TabBar(
                 isScrollable: true,
-                indicatorColor: const Color(0xFF4caf50),
+                indicatorColor: const Color.fromARGB(255, 5, 191, 100),
                 indicatorWeight: 2.3,
                 tabs: [
                   Tab(

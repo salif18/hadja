@@ -84,7 +84,7 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
-      backgroundColor: const Color(0xFF55AB60),
+      backgroundColor: const Color.fromARGB(255, 5, 191, 100),
       body: SingleChildScrollView(
         child: Column(
           children: [

@@ -81,7 +81,7 @@ class _MyCarouselState extends State<MyCarouselWidget> {
                   size: const Size(12.0, 12.0),
                   activeSize: const Size(40.0, 12.0),
                   color: Colors.grey[400]!,
-                  activeColor:  const Color(0xFF55AB60),
+                  activeColor:  const Color.fromARGB(255, 5, 191, 100),
                   spacing: const EdgeInsets.all(3.0),
                   activeShape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5.0),

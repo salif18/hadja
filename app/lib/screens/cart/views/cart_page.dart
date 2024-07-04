@@ -66,7 +66,7 @@ class _CartPageState extends State<CartPage> {
                       alignment: Alignment.centerRight,
                       padding: const EdgeInsets.only(right: 20),
                       decoration: const BoxDecoration(
-                        color: Color(0xFF55AB60),
+                        color:  Color.fromARGB(255, 5, 191, 100),
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(20),
                           bottomLeft: Radius.circular(20),
@@ -153,7 +153,7 @@ class _CartPageState extends State<CartPage> {
                     padding: const EdgeInsets.symmetric(vertical: 15.0),
                     child: ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF55AB60),
+                        backgroundColor: const Color.fromARGB(255, 5, 191, 100),
                         minimumSize: const Size(400, 50),
                       ),
                       icon: const Icon(

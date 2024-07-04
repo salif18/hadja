@@ -88,8 +88,8 @@ class _SingleProductVerSionSliverState extends State<SingleProductVerSionSliver>
                       Provider.of<FavoriteProvider>(context,listen:false).addMyFavorites(widget.item);
                     },
                     icon: favorites.firstWhereOrNull((item)=> item.productId.contains(widget.item.productId)) == null ?
-                    const Icon(Icons.favorite_border, size: 38,color:Colors.green)
-                    :const Icon(Icons.favorite, size: 38,color:Colors.green)
+                    const Icon(Icons.favorite_border, size: 38,color:Color.fromARGB(255, 5, 191, 100),)
+                    :const Icon(Icons.favorite, size: 38,color:Color.fromARGB(255, 5, 191, 100),)
                     )
                
             )],
