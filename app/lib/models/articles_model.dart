@@ -113,7 +113,7 @@ class ArticlesModel {
           category: "pommade",
           desc:
               "Rayman is stranger to peril, but when a fateful flight puts the owlet ku in harm's way. Ori is stranger to peril, but when a fateful flight puts the owlet ku in harm's way. Ori is stranger to peril, but when a fateful flight puts the owlet ku in harm's way.",
-          price: 5000,
+          price: 15000,
           stock: 2,
           favorite: true,
           likes: 10),
@@ -129,7 +129,7 @@ class ArticlesModel {
           category: "pommade",
           desc:
               "Rayman is stranger to peril, but when a fateful flight puts the owlet ku in harm's way. Ori is stranger to peril, but when a fateful flight puts the owlet ku in harm's way. Ori is stranger to peril, but when a fateful flight puts the owlet ku in harm's way.",
-          price: 5000,
+          price: 4000,
           stock: 2,
           favorite: true,
           likes: 10),
@@ -145,7 +145,7 @@ class ArticlesModel {
           category: "pommade",
           desc:
               "Rayman is stranger to peril, but when a fateful flight puts the owlet ku in harm's way. Ori is stranger to peril, but when a fateful flight puts the owlet ku in harm's way. Ori is stranger to peril, but when a fateful flight puts the owlet ku in harm's way.",
-          price: 5000,
+          price: 800,
           stock: 2,
           favorite: true,
           likes: 10),
@@ -161,7 +161,7 @@ class ArticlesModel {
           category: "pommade",
           desc:
               "Rayman is stranger to peril, but when a fateful flight puts the owlet ku in harm's way. Ori is stranger to peril, but when a fateful flight puts the owlet ku in harm's way. Ori is stranger to peril, but when a fateful flight puts the owlet ku in harm's way.",
-          price: 5000,
+          price: 1500,
           stock: 2,
           favorite: true,
           likes: 10),
@@ -177,7 +177,55 @@ class ArticlesModel {
           category: "pommade",
           desc:
               "Rayman is stranger to peril, but when a fateful flight puts the owlet ku in harm's way. Ori is stranger to peril, but when a fateful flight puts the owlet ku in harm's way. Ori is stranger to peril, but when a fateful flight puts the owlet ku in harm's way.",
-          price: 5000,
+          price: 1000,
+          stock: 2,
+          favorite: true,
+          likes: 10),
+           ArticlesModel(
+          productId: "9",
+          name: "Nivea",
+          img: "assets/images/prod10.jpeg",
+          galerie: [
+            "assets/images/prod10.jpeg",
+            "assets/images/prod11.jpeg",
+            "assets/images/prod12.jpeg",
+          ],
+          category: "pommade",
+          desc:
+              "Rayman is stranger to peril, but when a fateful flight puts the owlet ku in harm's way. Ori is stranger to peril, but when a fateful flight puts the owlet ku in harm's way. Ori is stranger to peril, but when a fateful flight puts the owlet ku in harm's way.",
+          price: 2000,
+          stock: 2,
+          favorite: true,
+          likes: 10),
+           ArticlesModel(
+          productId: "10",
+          name: "Topicrem",
+          img: "assets/images/prod13.jpeg",
+          galerie: [
+            "assets/images/prod13.jpeg",
+            "assets/images/prod10.jpeg",
+            "assets/images/prod12.jpeg",
+          ],
+          category: "pommade",
+          desc:
+              "Rayman is stranger to peril, but when a fateful flight puts the owlet ku in harm's way. Ori is stranger to peril, but when a fateful flight puts the owlet ku in harm's way. Ori is stranger to peril, but when a fateful flight puts the owlet ku in harm's way.",
+          price: 8000,
+          stock: 2,
+          favorite: true,
+          likes: 10),
+           ArticlesModel(
+          productId: "11",
+          name: "Axe",
+          img: "assets/images/prod12.jpeg",
+          galerie: [
+            "assets/images/prod12.jpeg",
+            "assets/images/prod13.jpeg",
+            "assets/images/prod11.jpeg",
+          ],
+          category: "pommade",
+          desc:
+              "Rayman is stranger to peril, but when a fateful flight puts the owlet ku in harm's way. Ori is stranger to peril, but when a fateful flight puts the owlet ku in harm's way. Ori is stranger to peril, but when a fateful flight puts the owlet ku in harm's way.",
+          price: 2000,
           stock: 2,
           favorite: true,
           likes: 10),

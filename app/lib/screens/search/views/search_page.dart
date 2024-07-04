@@ -82,6 +82,12 @@ class _SearchPageState extends State<SearchPage> {
     });
   }
 
+void _removeRecenteSearch(String search){
+   setState(() {
+     recentSearches.remove(search);
+     _saveRecentSearches();
+   });
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -113,6 +119,9 @@ class _SearchPageState extends State<SearchPage> {
           children: searchValue.text.isEmpty
               ? recentSearches.map((search) {
                   return ListTile(
+                    trailing: IconButton(onPressed: (){
+                      _removeRecenteSearch(search);
+                    }, icon: Icon(Icons.highlight_remove_rounded, size:24, color:Colors.grey[400])),
                     title: Row(
                       children: [const Icon(Icons.history,size:24),
                       const SizedBox(width: 10),

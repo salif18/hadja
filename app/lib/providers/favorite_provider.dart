@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 // ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -10,16 +9,16 @@ class FavoriteProvider extends ChangeNotifier {
   List<ArticlesModel> _favoriteArray;
 
   FavoriteProvider() : _favoriteArray = [] {
-    loadCartFromLocalStorage();
+    loadFavoritesFromLocalStorage();
   }
 
   List<ArticlesModel> get getFavorites => _favoriteArray;
 
   void addMyFavorites(ArticlesModel article) {
-    final existInfavorite = _favoriteArray.firstWhereOrNull(
-        (favoriteItem) => favoriteItem.productId.contains(article.productId));
-    if (existInfavorite != null) {
-      _favoriteArray.removeWhere((item)=>item.productId == article.productId);
+    final existInFavorites = _favoriteArray.firstWhereOrNull(
+        (favoriteItem) => favoriteItem.productId == article.productId);
+    if (existInFavorites != null) {
+      _favoriteArray.removeWhere((item) => item.productId == article.productId);
     } else {
       _favoriteArray.add(article);
     }
@@ -36,18 +35,19 @@ class FavoriteProvider extends ChangeNotifier {
 
   Future<void> saveToLocalStorage() async {
     final prefs = await SharedPreferences.getInstance();
-    final cartJson = _favoriteArray.map((item) => item.toJson()).toList();
-    await prefs.setString("favorites", jsonEncode(cartJson));
+    final favoritesJson = _favoriteArray.map((item) => item.toJson()).toList();
+    await prefs.setString("favorites", jsonEncode(favoritesJson));
   }
 
-  Future<void> loadCartFromLocalStorage() async {
+  Future<void> loadFavoritesFromLocalStorage() async {
     final prefs = await SharedPreferences.getInstance();
-    final cartJsonString = prefs.getString("favorites");
-    if (cartJsonString != null) {
-      final cartJson = jsonDecode(cartJsonString) as List;
-      _favoriteArray = cartJson
+    final favoritesJsonString = prefs.getString("favorites");
+    if (favoritesJsonString != null) {
+      final favoritesJson = jsonDecode(favoritesJsonString) as List;
+      _favoriteArray = favoritesJson
           .map((item) => ArticlesModel.fromJson(item as Map<String, dynamic>))
           .toList();
     }
+    notifyListeners();
   }
 }

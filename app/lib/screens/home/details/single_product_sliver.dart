@@ -64,35 +64,36 @@ class _SingleProductVerSionSliverState extends State<SingleProductVerSionSliver>
             ),
           ),
           const SizedBox(width: 15),
-          Row(
-            // crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(widget.item.name,
-                        style: GoogleFonts.roboto(
-                            fontSize: 20, fontWeight: FontWeight.w600)),
-                    Text(widget.item.price.toString(),
-                        style: GoogleFonts.roboto(
-                            fontSize: 18, fontWeight: FontWeight.w200)),
-                  ],
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(widget.item.name,
+                          style: GoogleFonts.roboto(
+                              fontSize: 20, fontWeight: FontWeight.w600)),
+                      Text(widget.item.price.toString(),
+                          style: GoogleFonts.roboto(
+                              fontSize: 18, fontWeight: FontWeight.w200)),
+                    ],
+                  ),
                 ),
-              ),
-              // const SizedBox(width: 15,),
-              SizedBox(
-                child:  IconButton(
-                  onPressed: (){
-                    Provider.of<FavoriteProvider>(context,listen:false).addMyFavorites(widget.item);
-                  },
-                  icon: favorites.firstWhereOrNull((item)=> item.productId.contains(widget.item.productId)) == null ?
-                  const Icon(Icons.favorite_border, size: 38,color:Colors.green)
-                  :const Icon(Icons.favorite, size: 38,color:Colors.green)
-                  )
-             
-          )],
+                // const SizedBox(width: 15,),
+                SizedBox(
+                  child:  IconButton(
+                    onPressed: (){
+                      Provider.of<FavoriteProvider>(context,listen:false).addMyFavorites(widget.item);
+                    },
+                    icon: favorites.firstWhereOrNull((item)=> item.productId.contains(widget.item.productId)) == null ?
+                    const Icon(Icons.favorite_border, size: 38,color:Colors.green)
+                    :const Icon(Icons.favorite, size: 38,color:Colors.green)
+                    )
+               
+            )],
+            ),
           ),
         ],
       ),
