@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.transparent,
         elevation: 0.1,
         toolbarHeight: 80,
-        centerTitle: true,
+        centerTitle: false,
         leading: IconButton(
             onPressed: () {
               drawerKey.currentState!.openDrawer();
@@ -41,6 +41,7 @@ class _HomePageState extends State<HomePage> {
               size: 28,
               color: Colors.white,
             )),
+            title: Text("La Hadja",style:GoogleFonts.allison(fontSize:45,fontWeight: FontWeight.bold,color:Colors.white)),
         actions: [
           Stack(children: [
             IconButton(
@@ -84,7 +85,7 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
-      backgroundColor: const Color.fromARGB(255, 5, 191, 100),
+      backgroundColor: const Color(0xFF1D1A30),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -101,6 +102,7 @@ class _HomePageState extends State<HomePage> {
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20))),
               child: const Column(
+                // ici affichage des widget differentes partie de cette page
                 children: [
                   MyCarouselWidget(),
                   MyChooseCategoryWidget(),

@@ -16,7 +16,7 @@ class _UpdateProfilState extends State<UpdateProfil> {
       appBar: AppBar(
         leading: IconButton(
             onPressed: () => Navigator.pop(context),
-            icon: Icon(Icons.arrow_back_ios_new_rounded, size: 24)),
+            icon:const Icon(Icons.arrow_back_ios_new_rounded, size: 24)),
         title: Text(
           "Modification de compte",
           style: GoogleFonts.roboto(
@@ -143,7 +143,7 @@ class _UpdateProfilState extends State<UpdateProfil> {
       child: ElevatedButton.icon(
           onPressed: () {},
           style: ElevatedButton.styleFrom(
-              backgroundColor: const Color.fromARGB(255, 5, 191, 100),
+              backgroundColor: const Color(0xFF1D1A30),
               elevation: 5,
               fixedSize: const Size(320, 50)),
           icon: Icon(Icons.edit, size: 30, color: Colors.grey[100]),

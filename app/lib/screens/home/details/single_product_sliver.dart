@@ -88,8 +88,8 @@ class _SingleProductVerSionSliverState extends State<SingleProductVerSionSliver>
                       Provider.of<FavoriteProvider>(context,listen:false).addMyFavorites(widget.item);
                     },
                     icon: favorites.firstWhereOrNull((item)=> item.productId.contains(widget.item.productId)) == null ?
-                    const Icon(Icons.favorite_border, size: 38,color:Color.fromARGB(255, 5, 191, 100),)
-                    :const Icon(Icons.favorite, size: 38,color:Color.fromARGB(255, 5, 191, 100),)
+                    const Icon(Icons.favorite_border, size: 38,color: Color(0xff2c3e50),)
+                    :const Icon(Icons.favorite, size: 38,color: Color(0xff2c3e50))
                     )
                
             )],
@@ -136,12 +136,12 @@ class _SingleProductVerSionSliverState extends State<SingleProductVerSionSliver>
           ReadMoreText(
          widget.item.desc,
             trimLines: 2,
-            colorClickableText: const Color.fromARGB(255, 5, 191, 100),
+            colorClickableText: Colors.blue[400],
             trimMode: TrimMode.Line,
             trimCollapsedText: 'Voir plus',
             trimExpandedText: ' reduire',
             style: TextStyle(
-              color: const Color.fromARGB(255, 128, 128, 128).withOpacity(0.7),
+              color: const Color(0xFF1D1A30).withOpacity(0.7),
               height: 1.5,
             ),
           )
@@ -203,7 +203,7 @@ class _SingleProductVerSionSliverState extends State<SingleProductVerSionSliver>
                     children: [
                       ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color.fromARGB(255, 5, 191, 100)),
+                              backgroundColor: const Color(0xFF1D1A30)),
                           onPressed: () {
                             setState(() {
                               qty = qty + 1;
@@ -213,7 +213,7 @@ class _SingleProductVerSionSliverState extends State<SingleProductVerSionSliver>
                       const SizedBox(width: 15),
                      if(qty >1)  ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.black),
+                              backgroundColor: const Color(0xFF1D1A30),),
                           onPressed: () {
                             setState(() {
                               qty = qty -1;
@@ -232,7 +232,7 @@ class _SingleProductVerSionSliverState extends State<SingleProductVerSionSliver>
             child: ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
                     minimumSize: const Size(300, 50),
-                    backgroundColor: const Color.fromARGB(255, 5, 191, 100)),
+                    backgroundColor: const Color(0xFF1D1A30),),
                 onPressed: () {
                    addToCart(widget.item, qty);
                 },

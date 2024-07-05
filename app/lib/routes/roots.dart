@@ -50,8 +50,8 @@ class _MyRootsState extends State<MyRoots> {
           },
           backgroundColor: Colors.white,
           elevation: 20,
-          selectedItemColor: const Color.fromARGB(255, 5, 191, 100),
-          unselectedItemColor: Colors.black,
+          selectedItemColor: const Color(0xFF1D1A30),
+          unselectedItemColor: const Color.fromARGB(255, 168, 168, 168),
           iconSize: 30,
           items: [
             const BottomNavigationBarItem(

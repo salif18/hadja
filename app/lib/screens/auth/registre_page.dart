@@ -26,7 +26,7 @@ class _RegistrePageState extends State<RegistrePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 5, 191, 100),
+      backgroundColor: Colors.black,
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -34,7 +34,7 @@ class _RegistrePageState extends State<RegistrePage> {
             Padding(
               padding: const EdgeInsets.only(top:50.0),
               child: Image.asset(
-                "assets/logos/logo5.jpg",
+                "assets/logos/logo4.jpg",
                 width: 200,
                 height: 200,
               ),
@@ -121,7 +121,7 @@ class _RegistrePageState extends State<RegistrePage> {
                           style: ElevatedButton.styleFrom(
                             minimumSize: const Size(400, 50),
                             backgroundColor:
-                                const Color.fromARGB(255, 5, 191, 100),
+                                const Color(0xff1d1a30),
                           ),
                           onPressed: () {},
                           child: Text("Creer compte",
@@ -146,7 +146,7 @@ class _RegistrePageState extends State<RegistrePage> {
                                 style: GoogleFonts.roboto(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
-                                    color: const Color.fromARGB(255, 5, 191, 100),),
+                                    color: Colors.blue[400],),
                               ))
                         ],
                       ),

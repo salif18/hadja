@@ -117,7 +117,7 @@ class _ResetTokenState extends State<ResetToken> {
   Widget _sendButton(BuildContext context) {
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFF4caf50),
+            backgroundColor:const Color(0xFF1D1A30),
             minimumSize: const Size(350, 50)),
         onPressed: () {
           Navigator.push(context,

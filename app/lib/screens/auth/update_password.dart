@@ -157,7 +157,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
           padding: const EdgeInsets.all(5),
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF4caf50),
+              backgroundColor: const Color(0xFF1D1A30),
               elevation: 5,
               fixedSize: const Size(400, 50),
             ),

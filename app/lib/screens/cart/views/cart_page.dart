@@ -39,7 +39,7 @@ class _CartPageState extends State<CartPage> {
                     MaterialPageRoute(
                         builder: (context) => const MyArticlePage()));
               },
-              icon: const Icon(Icons.add, size: 28, color: Color(0xFF55AB60))),
+              icon: const Icon(Icons.add, size: 28, color:  Color(0xFF1D1A30),)),
           const SizedBox(
             width: 25,
           )
@@ -66,7 +66,7 @@ class _CartPageState extends State<CartPage> {
                       alignment: Alignment.centerRight,
                       padding: const EdgeInsets.only(right: 20),
                       decoration: const BoxDecoration(
-                        color:  Color.fromARGB(255, 5, 191, 100),
+                        color:  Color(0xFF1D1A30),
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(20),
                           bottomLeft: Radius.circular(20),
@@ -113,7 +113,7 @@ class _CartPageState extends State<CartPage> {
                           style: GoogleFonts.roboto(
                             fontSize: 22,
                             fontWeight: FontWeight.w400,
-                            color: const Color(0xFF121212),
+                            color: const Color(0xFF1D1A30),
                           ),
                         ),
                         Text(
@@ -121,7 +121,7 @@ class _CartPageState extends State<CartPage> {
                           style: GoogleFonts.roboto(
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
-                            color: const Color(0xFF121212),
+                            color: const Color(0xFF1D1A30),
                           ),
                         ),
                       ],
@@ -153,7 +153,7 @@ class _CartPageState extends State<CartPage> {
                     padding: const EdgeInsets.symmetric(vertical: 15.0),
                     child: ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 5, 191, 100),
+                        backgroundColor: const Color(0xFF1D1A30),
                         minimumSize: const Size(400, 50),
                       ),
                       icon: const Icon(
@@ -205,22 +205,28 @@ class _CartPageState extends State<CartPage> {
                   color: Colors.grey,
                 ),
               ),
-              TextButton(
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red
+                ),
                 onPressed: () {
                   Navigator.of(context).pop(true);
                 },
                 child: Text(
                   "Supprimer",
-                  style: GoogleFonts.roboto(fontSize: 22, color: Colors.red),
+                  style: GoogleFonts.roboto(fontSize: 18, color: Colors.white),
                 ),
               ),
-              TextButton(
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue
+                ),
                 onPressed: () {
                   Navigator.of(context).pop(false);
                 },
                 child: Text(
                   "Annuler",
-                  style: GoogleFonts.roboto(fontSize: 22, color: Colors.blue),
+                  style: GoogleFonts.roboto(fontSize: 18, color: Colors.white),
                 ),
               ),
             ],

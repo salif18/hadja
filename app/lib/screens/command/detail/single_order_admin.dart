@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hadja_grish/screens/maps/natives/client_track_delivery.dart';
+import 'package:hadja_grish/screens/maps/natives/admin_track_move.dart';
 
-class SingleOrderClient extends StatefulWidget {
-  const SingleOrderClient({super.key});
+
+class SingleOder extends StatefulWidget {
+  const SingleOder({super.key});
 
   @override
-  State<SingleOrderClient> createState() => _SingleOrderClientState();
+  State<SingleOder> createState() => _SingleOderState();
 }
 
-class _SingleOrderClientState extends State<SingleOrderClient> {
+class _SingleOderState extends State<SingleOder> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,13 +29,10 @@ class _SingleOrderClientState extends State<SingleOrderClient> {
     );
   }
 
- Widget _orders(BuildContext context) {
-    return Container(  
+  Widget _orders(BuildContext context) {
+    return Container(
+      color: Colors.white,
       padding: const EdgeInsets.all(15),
-      decoration: BoxDecoration(
-         color: Colors.white,
-         borderRadius: BorderRadius.circular(20)
-      ),
       child: Column(
         children: [
         Padding(
@@ -48,7 +46,7 @@ class _SingleOrderClientState extends State<SingleOrderClient> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                CircleAvatar(), 
+                Image.asset("assets/images/prod1.jpeg",height: 80,width: 80,), 
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -69,7 +67,7 @@ class _SingleOrderClientState extends State<SingleOrderClient> {
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                   Image.asset("assets/images/prod1.jpeg",height: 80,width: 80,), 
+                  CircleAvatar(), 
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -91,14 +89,22 @@ class _SingleOrderClientState extends State<SingleOrderClient> {
           ],
         ),
         ),
-       
         Padding(padding: const EdgeInsets.all(15), 
         child:Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Livreur",style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400)),
+            Text("Payer",style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400)),
             const SizedBox(width: 15),
-            Text("78303208",style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400))
+            Text("oui",style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400))
+          ],
+        )),
+        Padding(padding: const EdgeInsets.all(15), 
+        child:Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text("Client",style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400)),
+            const SizedBox(width: 15),
+            Text("Oumou",style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400))
           ],
         )),
          Padding(padding: const EdgeInsets.all(15), 
@@ -114,12 +120,11 @@ class _SingleOrderClientState extends State<SingleOrderClient> {
         child:Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Livrer",style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400)),
+            Text("Addresse",style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400)),
             const SizedBox(width: 15),
-            Text("oui",style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400))
+            Text("Bamako,hamdalleye",style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400))
           ],
         )),
-        
         Padding(
           padding: const EdgeInsets.all(15),
           child: ElevatedButton(
@@ -127,12 +132,12 @@ class _SingleOrderClientState extends State<SingleOrderClient> {
                 Navigator.push(
                     context,
                     (MaterialPageRoute(
-                        builder: (context) => const ClientTrackingDelivery())));
+                        builder: (context) => const AdminTrackingDelivery())));
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(400,50),
-                backgroundColor: const Color.fromARGB(255, 5, 191, 100),),
-              child: Text("Suis le livreur",
+                backgroundColor: const Color(0xFF1D1A30),),
+              child: Text("Suivis du courier",
                   style: GoogleFonts.roboto(
                       fontSize: 20,
                       fontWeight: FontWeight.w400,

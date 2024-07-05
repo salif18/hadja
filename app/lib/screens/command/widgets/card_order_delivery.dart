@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hadja_grish/screens/command/widgets/single_order_delivery.dart';
+import 'package:hadja_grish/screens/command/detail/single_order_delivery.dart';
 
 class CardOrderDelivery extends StatelessWidget {
   const CardOrderDelivery({super.key});

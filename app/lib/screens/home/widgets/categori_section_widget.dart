@@ -47,7 +47,7 @@ class _MyChooseCategoryState extends State<MyChooseCategoryWidget> {
                       width: 120,
                       margin: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                          color:  const Color.fromARGB(255, 5, 191, 100),
+                          color:  const Color(0xFF1D1A30),
                           borderRadius: BorderRadius.circular(10)),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,

@@ -49,20 +49,19 @@ class MyCardFavorites extends StatelessWidget {
                           style: GoogleFonts.roboto(
                               fontWeight: FontWeight.bold,
                               fontSize: 20,
-                              color: const Color(0xff121212)),
+                              color: const Color(0xFF1D1A30)),
                         ),
                         Text(item.price.toString(),
                             style: GoogleFonts.roboto(
-                                fontSize: 18, color: const Color(0xff121212)))
+                                fontSize: 18, color: const Color(0xFF1D1A30)))
                       ],
                     ),
                   ),
                   IconButton(
                       onPressed: () {
                          Provider.of<FavoriteProvider>(context,listen:false).removeToFavorite(item);
-                         print(Provider.of<FavoriteProvider>(context,listen:false).getFavorites.length);
                       },
-                      icon: const Icon(Icons.favorite_rounded,color:Color.fromARGB(255, 5, 191, 100), size: 30))
+                      icon: const Icon(Icons.favorite_rounded,color: Color(0xFF1D1A30), size: 30))
                 ],
               ))
             ],

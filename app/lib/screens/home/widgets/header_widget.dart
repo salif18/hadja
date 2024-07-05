@@ -25,7 +25,7 @@ class _MyHeaderState extends State<MyHeaderWidget> {
               children: [
                 Text("Salut! Salif",
                     style: GoogleFonts.aBeeZee(
-                        fontWeight: FontWeight.w500, fontSize: 25)),
+                        fontWeight: FontWeight.w500, fontSize: 25,color:Colors.white)),
                 const SizedBox(height: 5),
                 Text("Quel produit veux tu ?",
                     style: GoogleFonts.roboto(

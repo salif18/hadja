@@ -46,7 +46,7 @@ class _MyCarouselState extends State<MyCarouselWidget> {
                     height: 200,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        color: Color(0xffF0FCF3),
+                        color: const Color(0xffF0FCF3),
                         image: DecorationImage(
                           image: AssetImage(item.img),
                           fit: BoxFit.contain
@@ -54,10 +54,7 @@ class _MyCarouselState extends State<MyCarouselWidget> {
                         ),
                   ),
                 );
-              }).toList()
-                
-               
-              ,
+              }).toList(),
               options: CarouselOptions(
                   height: 200,
                   enlargeCenterPage: true,
@@ -81,7 +78,8 @@ class _MyCarouselState extends State<MyCarouselWidget> {
                   size: const Size(12.0, 12.0),
                   activeSize: const Size(40.0, 12.0),
                   color: Colors.grey[400]!,
-                  activeColor:  const Color.fromARGB(255, 5, 191, 100),
+                  activeColor: const Color(0xFF1D1A30),
+                  //const Color.fromARGB(255, 5, 191, 100),
                   spacing: const EdgeInsets.all(3.0),
                   activeShape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5.0),

@@ -133,7 +133,7 @@ class _ClientTrackingDeliveryState extends State<ClientTrackingDelivery> {
                 padding: const EdgeInsets.all(15),
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blueAccent),
+                        backgroundColor: const Color(0xFF1D1A30),),
                     onPressed: () {
                       _openMap();
                     },

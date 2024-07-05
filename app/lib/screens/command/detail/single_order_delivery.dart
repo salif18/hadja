@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hadja_grish/screens/maps/natives/admin_track_move.dart';
+import 'package:hadja_grish/screens/maps/natives/delivery_track_client.dart';
 
-
-class SingleOder extends StatefulWidget {
-  const SingleOder({super.key});
+class SingleOrderDelivery extends StatefulWidget {
+  const SingleOrderDelivery({super.key});
 
   @override
-  State<SingleOder> createState() => _SingleOderState();
+  State<SingleOrderDelivery> createState() => _SingleOrderDeliveryState();
 }
 
-class _SingleOderState extends State<SingleOder> {
+class _SingleOrderDeliveryState extends State<SingleOrderDelivery> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return  Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
         centerTitle: true,
@@ -28,7 +27,6 @@ class _SingleOderState extends State<SingleOder> {
       ),
     );
   }
-
   Widget _orders(BuildContext context) {
     return Container(
       color: Colors.white,
@@ -46,7 +44,7 @@ class _SingleOderState extends State<SingleOder> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                Image.asset("assets/images/prod1.jpeg",height: 80,width: 80,), 
+                 Image.asset("assets/images/prod1.jpeg",height: 80,width: 80,),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -125,6 +123,7 @@ class _SingleOderState extends State<SingleOder> {
             Text("Bamako,hamdalleye",style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400))
           ],
         )),
+        
         Padding(
           padding: const EdgeInsets.all(15),
           child: ElevatedButton(
@@ -132,12 +131,13 @@ class _SingleOderState extends State<SingleOder> {
                 Navigator.push(
                     context,
                     (MaterialPageRoute(
-                        builder: (context) => const AdminTrackingDelivery())));
+                        builder: (context) => const DeliveryTrackingClient())));
               },
               style: ElevatedButton.styleFrom(
+                backgroundColor:const Color(0xFF1D1A30),
                 minimumSize: const Size(400,50),
-                backgroundColor: const Color.fromARGB(255, 5, 191, 100),),
-              child: Text("Suivis du courier",
+                ),
+              child: Text("Demarer la course",
                   style: GoogleFonts.roboto(
                       fontSize: 20,
                       fontWeight: FontWeight.w400,

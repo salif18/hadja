@@ -27,7 +27,7 @@ class EmptyFavorite extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Text("Ajouter des articles dans vos favoris",
                 style: GoogleFonts.roboto(
-                    fontSize: 20, color: const Color(0xff121212))),
+                    fontSize: 20, color: const Color(0xFF1D1A30))),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 8.0),
@@ -45,7 +45,7 @@ class EmptyFavorite extends StatelessWidget {
                           builder: (context) => const MyArticlePage()));
                 },
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 5, 191, 100),
+                    backgroundColor: const Color(0xFF1D1A30),
                     minimumSize: const Size(400, 50)),
                 child: Text("Voir les articles",
                     style:

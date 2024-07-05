@@ -117,7 +117,7 @@ void _removeRecenteSearch(String search){
       body: SingleChildScrollView(
         child: Column(
           children: searchValue.text.isEmpty
-              ? recentSearches.map((search) {
+              ? recentSearches.reversed.map((search) {
                   return ListTile(
                     trailing: IconButton(onPressed: (){
                       _removeRecenteSearch(search);
