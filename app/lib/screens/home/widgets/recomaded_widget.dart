@@ -15,7 +15,7 @@ class MyRecomadationWidget extends StatefulWidget {
 
 class _MyRecomadationWidgetState extends State<MyRecomadationWidget> {
 
-final StreamController <List<ArticlesModel>> _articles = StreamController();
+final StreamController <List<ArticlesModel>> _articlesData = StreamController();
 
 @override 
 void initState(){
@@ -25,7 +25,7 @@ void initState(){
 
 @override 
 void dispose(){
-  _articles.close();
+  _articlesData.close();
   super.dispose();
 }
 
@@ -37,9 +37,9 @@ void didChangeDependencies(){
 
 Future<void> _getProducts()async{
    try{
-     _articles.add(ArticlesModel.data());
+     _articlesData.add(ArticlesModel.data());
    }catch(e){
-    _articles.addError("error");
+    _articlesData.addError("error");
    }
 }
   @override
@@ -64,7 +64,7 @@ Future<void> _getProducts()async{
           ),
           Expanded(
               child: StreamBuilder<List<ArticlesModel>>(
-                stream: _articles.stream, 
+                stream: _articlesData.stream, 
                 builder: (context, snaptshot){
                   if(snaptshot.connectionState == ConnectionState.waiting){
                     return const Center(child: CircularProgressIndicator());

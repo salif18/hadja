@@ -22,18 +22,18 @@ class FavoriteProvider extends ChangeNotifier {
     } else {
       _favoriteArray.add(article);
     }
-    saveToLocalStorage();
+    saveFavoritesToLocalStorage();
     notifyListeners();
   }
 
   void removeToFavorite(ArticlesModel article) {
     _favoriteArray.removeWhere(
         (favoriteItem) => favoriteItem.productId == article.productId);
-    saveToLocalStorage();
+    saveFavoritesToLocalStorage();
     notifyListeners();
   }
 
-  Future<void> saveToLocalStorage() async {
+  Future<void> saveFavoritesToLocalStorage() async {
     final prefs = await SharedPreferences.getInstance();
     final favoritesJson = _favoriteArray.map((item) => item.toJson()).toList();
     await prefs.setString("favorites", jsonEncode(favoritesJson));
@@ -47,7 +47,7 @@ class FavoriteProvider extends ChangeNotifier {
       _favoriteArray = favoritesJson
           .map((item) => ArticlesModel.fromJson(item as Map<String, dynamic>))
           .toList();
+       
     }
-    notifyListeners();
   }
 }

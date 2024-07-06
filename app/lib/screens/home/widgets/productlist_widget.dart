@@ -14,7 +14,7 @@ class MyProductListWidget extends StatefulWidget {
 }
 
 class _MyProductListWidgetState extends State<MyProductListWidget> {
-  final StreamController<List<ArticlesModel>> _articles = StreamController();
+  final StreamController<List<ArticlesModel>> _articlesData = StreamController();
 
   @override
   void initState() {
@@ -24,7 +24,7 @@ class _MyProductListWidgetState extends State<MyProductListWidget> {
 
   @override
   void dispose() {
-    _articles.close();
+    _articlesData.close();
     super.dispose();
   }
 
@@ -37,9 +37,9 @@ void didChangeDependencies(){
 
   Future<void> _getProducts() async {
     try {
-      _articles.add(ArticlesModel.data());
+      _articlesData.add(ArticlesModel.data());
     } catch (e) {
-      _articles.addError("");
+      _articlesData.addError("");
     }
   }
 
@@ -79,7 +79,7 @@ void didChangeDependencies(){
           ),
           SizedBox(
             child: StreamBuilder<List<ArticlesModel>>(
-              stream: _articles.stream,
+              stream: _articlesData.stream,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
