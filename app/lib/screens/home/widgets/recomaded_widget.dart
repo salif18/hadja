@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/models/articles_model.dart';
@@ -12,7 +14,34 @@ class MyRecomadationWidget extends StatefulWidget {
 }
 
 class _MyRecomadationWidgetState extends State<MyRecomadationWidget> {
-final List<ArticlesModel> _data = ArticlesModel.data();
+
+final StreamController <List<ArticlesModel>> _articles = StreamController();
+
+@override 
+void initState(){
+  super.initState();
+  _getProducts();
+}
+
+@override 
+void dispose(){
+  _articles.close();
+  super.dispose();
+}
+
+@override 
+void didChangeDependencies(){
+  super.didChangeDependencies();
+  _getProducts();
+}
+
+Future<void> _getProducts()async{
+   try{
+     _articles.add(ArticlesModel.data());
+   }catch(e){
+    _articles.addError("error");
+   }
+}
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -34,14 +63,25 @@ final List<ArticlesModel> _data = ArticlesModel.data();
             ),
           ),
           Expanded(
-              child: ListView.builder(
+              child: StreamBuilder<List<ArticlesModel>>(
+                stream: _articles.stream, 
+                builder: (context, snaptshot){
+                  if(snaptshot.connectionState == ConnectionState.waiting){
+                    return const Center(child: CircularProgressIndicator());
+                  }else if(snaptshot.hasError){
+                   return const Text("error");
+                  }else if(!snaptshot.hasData || snaptshot.data!.isEmpty){
+                     return const Text("No data available");
+                  }else{
+                    final articles = snaptshot.data!;
+                    return ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: _data.length,
+                  itemCount: articles.length,
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
                       onTap: (){
                         Navigator.push(context, MaterialPageRoute(
-                          builder: (context)=> SingleProductVerSionSliver(item:_data[index])));
+                          builder: (context)=> SingleProductVerSionSliver(item:articles[index])));
                       },
                       child:Container(
                         margin: const EdgeInsets.all(5),
@@ -62,7 +102,7 @@ final List<ArticlesModel> _data = ArticlesModel.data();
                               borderRadius: BorderRadius.circular(20)
                             ),
                             child: Image.asset(
-                            _data[index].img,
+                            articles[index].img,
                             fit: BoxFit.contain,
                                                      ),
                           ),
@@ -72,8 +112,8 @@ final List<ArticlesModel> _data = ArticlesModel.data();
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(_data[index].name,style:GoogleFonts.roboto(fontSize:20,fontWeight:FontWeight.w600)),  
-                              Text("${_data[index].price.toString()} fcfa",style:GoogleFonts.roboto(fontSize:18,color:Colors.grey[500]))
+                              Text(articles[index].name,style:GoogleFonts.roboto(fontSize:20,fontWeight:FontWeight.w600)),  
+                              Text("${articles[index].price.toString()} fcfa",style:GoogleFonts.roboto(fontSize:18,color:Colors.grey[500]))
                             ],
                           ),
                         ),
@@ -81,7 +121,11 @@ final List<ArticlesModel> _data = ArticlesModel.data();
                       ],),
                       ), 
                     );
-                  }))
+                  });
+                  }
+                }
+                ),
+              )
         ],
       ),
     );

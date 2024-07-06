@@ -14,66 +14,92 @@ class FavoritesPage extends StatefulWidget {
   State<FavoritesPage> createState() => _FavoritesPageState();
 }
 
-class _FavoritesPageState extends State<FavoritesPage> {
-  final List<ArticlesModel> _data = ArticlesModel.data();
+class _FavoritesPageState extends State<FavoritesPage>
+    with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
 
-  
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused) {
+    } else if (state == AppLifecycleState.resumed) {}
+  }
 
   @override
   Widget build(BuildContext context) {
-    FavoriteProvider favoriteProvider = Provider.of<FavoriteProvider>(context);
-    List<ArticlesModel> myFavorites = favoriteProvider.getFavorites;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         toolbarHeight: 80,
         centerTitle: true,
-        title: Text("Favoris",
-            style:
-                GoogleFonts.roboto(fontSize: 24, fontWeight: FontWeight.w400)),
+        title: Text(
+          "Favoris",
+          style: GoogleFonts.roboto(fontSize: 24, fontWeight: FontWeight.w400),
+        ),
       ),
-      body: SingleChildScrollView(
-          child: Padding(
-        padding: const EdgeInsets.all(15),
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: Consumer<FavoriteProvider>(
+        builder: (context, favoriteProvider, child) {
+          List<ArticlesModel> myFavorites = favoriteProvider.getFavorites;
+          return SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(15),
+              child: Column(
                 children: [
-                  Text(
-                    "Mes produits",
-                    style: GoogleFonts.roboto(
-                        fontSize: 24, fontWeight: FontWeight.w400),
+                  Container(
+                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Mes produits",
+                          style: GoogleFonts.roboto(
+                              fontSize: 24, fontWeight: FontWeight.w400),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: myFavorites.isNotEmpty
+                        ? ListView.builder(
+                            itemCount: myFavorites.length,
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemBuilder: (BuildContext context, int index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          SingleProductVerSionSliver(
+                                        item: myFavorites[index],
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child:
+                                    MyCardFavorites(item: myFavorites[index]),
+                              );
+                            },
+                          )
+                        : const EmptyFavorite(),
                   ),
                 ],
               ),
             ),
-            Container(
-                padding: const EdgeInsets.only(top: 20),
-                child: myFavorites.isNotEmpty
-                    ? ListView.builder(
-                        itemCount: myFavorites.length,
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemBuilder: (BuildContext context, int index) {
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          SingleProductVerSionSliver(
-                                              item: _data[index])));
-                            },
-                            child: MyCardFavorites(item: _data[index]),
-                          );
-                        })
-                    : const EmptyFavorite())
-          ],
-        ),
-      )),
+          );
+        },
+      ),
     );
   }
 }

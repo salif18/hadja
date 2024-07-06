@@ -22,6 +22,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> drawerKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,53 +34,80 @@ class _HomePageState extends State<HomePage> {
         toolbarHeight: 80,
         centerTitle: false,
         leading: IconButton(
-            onPressed: () {
-              drawerKey.currentState!.openDrawer();
-            },
-            icon: const Icon(
-              Icons.sort,
-              size: 28,
-              color: Colors.white,
-            )),
-            title: Text("La Hadja",style:GoogleFonts.allison(fontSize:45,fontWeight: FontWeight.bold,color:Colors.white)),
+          onPressed: () {
+            drawerKey.currentState!.openDrawer();
+          },
+          icon: const Icon(
+            Icons.sort,
+            size: 28,
+            color: Colors.white,
+          ),
+        ),
+        title: Text(
+          "La Hadja",
+          style: GoogleFonts.allison(
+            fontSize: 45,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
         actions: [
-          Stack(children: [
-            IconButton(
+          Stack(
+            children: [
+              IconButton(
                 onPressed: () {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const CartPage()));
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const CartPage(),
+                    ),
+                  );
                 },
                 icon: const Icon(
                   FontAwesomeIcons.cartShopping,
                   size: 28,
                   color: Colors.white,
-                )),
-                if(Provider.of<CartProvider>(context).myCart.isNotEmpty)
-                Positioned(
-                  left: 30,
-                  bottom: 25,
-                  child: Badge.count(
-                    count: Provider.of<CartProvider>(context).myCart.length, 
-                    backgroundColor: Colors.amber,
-                    largeSize:45/2, 
-                    textStyle: GoogleFonts.roboto(fontSize:18,fontWeight:FontWeight.bold,color:Colors.white),
-                    ),
-                )
-          ]),
+                ),
+              ),
+              Consumer<CartProvider>(
+                builder: (context, cartProvider, child) {
+                  if (cartProvider.myCart.isNotEmpty) {
+                    return Positioned(
+                      left: 30,
+                      bottom: 25,
+                      child: Badge.count(
+                        count: cartProvider.myCart.length,
+                        backgroundColor: Colors.amber,
+                        largeSize: 45 / 2,
+                        textStyle: GoogleFonts.roboto(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    );
+                  } else {
+                    return Container();
+                  }
+                },
+              ),
+            ],
+          ),
           IconButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const FavoritesPage()));
-              },
-              icon: const Icon(
-                FontAwesomeIcons.heart,
-                size: 28,
-                color: Colors.white,
-              )),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const FavoritesPage(),
+                ),
+              );
+            },
+            icon: const Icon(
+              FontAwesomeIcons.heart,
+              size: 28,
+              color: Colors.white,
+            ),
+          ),
           const SizedBox(
             width: 15,
           )
@@ -89,7 +117,7 @@ class _HomePageState extends State<HomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const Column(
+           const Column(
               children: [
                 MyHeaderWidget(),
                 MySearchSectionWidget(),
@@ -97,20 +125,21 @@ class _HomePageState extends State<HomePage> {
             ),
             Container(
               decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20))),
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                ),
+              ),
               child: const Column(
-                // ici affichage des widget differentes partie de cette page
                 children: [
                   MyCarouselWidget(),
                   MyChooseCategoryWidget(),
                   MyRecomadationWidget(),
-                  MyProductListWidget()
+                  MyProductListWidget(),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),

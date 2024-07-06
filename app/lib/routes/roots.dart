@@ -18,7 +18,6 @@ class MyRoots extends StatefulWidget {
 
 class _MyRootsState extends State<MyRoots> {
   int _currentIndex = 0;
-  bool isAdmin = true;
 
   @override
   Widget build(BuildContext context) {
@@ -41,46 +40,55 @@ class _MyRootsState extends State<MyRoots> {
     return SizedBox(
       height: 80,
       child: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          currentIndex: _currentIndex,
-          onTap: (index) {
-            setState(() {
-              _currentIndex = index;
-            });
-          },
-          backgroundColor: Colors.white,
-          elevation: 20,
-          selectedItemColor: const Color(0xFF1D1A30),
-          unselectedItemColor: const Color.fromARGB(255, 168, 168, 168),
-          iconSize: 30,
-          items: [
-            const BottomNavigationBarItem(
-                icon: Icon(Icons.home_outlined), label: "acceuil"),
-            const BottomNavigationBarItem(
-                icon: Icon(Icons.search_rounded), label: "rechercher"),
-            const BottomNavigationBarItem(
-                icon: Icon(FontAwesomeIcons.productHunt), label: "produits"),
-            BottomNavigationBarItem(
-                icon: Stack(children: [
-                  const Icon(Icons.shopping_cart_outlined),
-                  if(Provider.of<CartProvider>(context).myCart.isNotEmpty)
-                  Positioned(
-                    left: 15,
-                    bottom: 15,
-                    child: Badge.count(
-                      count: Provider.of<CartProvider>(context).myCart.length,
-                      backgroundColor: Colors.red,
-                      textStyle: GoogleFonts.roboto(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    ),
-                  )
-                ]),
-                label: "panier"),
-            const BottomNavigationBarItem(
-                icon: Icon(Icons.favorite_border_rounded), label: "favoris"),
-          ]),
+        type: BottomNavigationBarType.fixed,
+        currentIndex: _currentIndex,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        backgroundColor: Colors.white,
+        elevation: 20,
+        selectedItemColor: const Color(0xFF1D1A30),
+        unselectedItemColor: const Color.fromARGB(255, 168, 168, 168),
+        iconSize: 30,
+        items: [
+          const BottomNavigationBarItem(
+              icon: Icon(Icons.home_outlined), label: "Accueil"),
+          const BottomNavigationBarItem(
+              icon: Icon(Icons.search_rounded), label: "Rechercher"),
+          const BottomNavigationBarItem(
+              icon: Icon(FontAwesomeIcons.productHunt), label: "Produits"),
+          BottomNavigationBarItem(
+            icon: Consumer<CartProvider>(
+              builder: (context, cartProvider, child) {
+                return Stack(
+                  children: [
+                    const Icon(Icons.shopping_cart_outlined),
+                    if (cartProvider.myCart.isNotEmpty)
+                      Positioned(
+                        left: 15,
+                        bottom: 15,
+                        child: Badge.count(
+                          count: cartProvider.myCart.length,
+                          backgroundColor: Colors.red,
+                          textStyle: GoogleFonts.roboto(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                  ],
+                );
+              },
+            ),
+            label: "Panier",
+          ),
+          const BottomNavigationBarItem(
+              icon: Icon(Icons.favorite_border_rounded), label: "Favoris"),
+        ],
+      ),
     );
   }
 }

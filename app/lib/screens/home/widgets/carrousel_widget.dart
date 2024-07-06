@@ -1,10 +1,11 @@
+import 'dart:async';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/models/articles_model.dart';
 import 'package:hadja_grish/screens/home/details/single_product_sliver.dart';
-
 
 class MyCarouselWidget extends StatefulWidget {
   const MyCarouselWidget({super.key});
@@ -14,8 +15,36 @@ class MyCarouselWidget extends StatefulWidget {
 }
 
 class _MyCarouselState extends State<MyCarouselWidget> {
- final List<ArticlesModel> _data = ArticlesModel.data();
+  final StreamController<List<ArticlesModel>> _articlesData =
+      StreamController();
   int currentIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _getProducts();
+  }
+
+  @override
+  void dispose() {
+    _articlesData.close();
+    super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _getProducts();
+  }
+
+  Future<void> _getProducts() async {
+    try {
+      _articlesData.add(ArticlesModel.data());
+    } catch (e) {
+      _articlesData.addError(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -27,7 +56,7 @@ class _MyCarouselState extends State<MyCarouselWidget> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                  padding: const EdgeInsets.only(left: 15,bottom: 15),
+                  padding: const EdgeInsets.only(left: 15, bottom: 15),
                   alignment: Alignment.topLeft,
                   child: Text(
                     "Nouveaux arrivages",
@@ -35,41 +64,56 @@ class _MyCarouselState extends State<MyCarouselWidget> {
                         fontSize: 24, fontWeight: FontWeight.w400),
                   )),
             ),
-            CarouselSlider(
-              items: _data.take(5).map((item){
-                return GestureDetector(
-                  onTap: (){
-                      Navigator.push(context, MaterialPageRoute(
-                          builder: (context)=> SingleProductVerSionSliver(item:item)));
-                  },
-                  child: Container(
-                    height: 200,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: const Color(0xffF0FCF3),
-                        image: DecorationImage(
-                          image: AssetImage(item.img),
-                          fit: BoxFit.contain
-                          )
-                        ),
-                  ),
-                );
-              }).toList(),
-              options: CarouselOptions(
-                  height: 200,
-                  enlargeCenterPage: true,
-                  aspectRatio: 16 / 9,
-                  autoPlay: true,
-                  autoPlayCurve: Curves.fastOutSlowIn,
-                  enableInfiniteScroll: true,
-                  autoPlayAnimationDuration: const Duration(milliseconds: 800),
-                  viewportFraction: 0.8,
-                  onPageChanged: (index, reason) {
-                    setState(() {
-                      currentIndex = index;
-                    });
-                  }),
-            ),
+            StreamBuilder<List<ArticlesModel>>(
+                stream: _articlesData.stream,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text("err");
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return Text("No data available");
+                  } else {
+                    return CarouselSlider(
+                      items: snapshot.data!.take(5).map((item) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        SingleProductVerSionSliver(
+                                            item: item)));
+                          },
+                          child: Container(
+                            height: 200,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: const Color(0xffF0FCF3),
+                                image: DecorationImage(
+                                    image: AssetImage(item.img),
+                                    fit: BoxFit.contain)),
+                          ),
+                        );
+                      }).toList(),
+                      options: CarouselOptions(
+                          height: 200,
+                          enlargeCenterPage: true,
+                          aspectRatio: 16 / 9,
+                          autoPlay: true,
+                          autoPlayCurve: Curves.fastOutSlowIn,
+                          enableInfiniteScroll: true,
+                          autoPlayAnimationDuration:
+                              const Duration(milliseconds: 800),
+                          viewportFraction: 0.8,
+                          onPageChanged: (index, reason) {
+                            setState(() {
+                              currentIndex = index;
+                            });
+                          }),
+                    );
+                  }
+                }),
             const SizedBox(height: 20),
             DotsIndicator(
               dotsCount: 5,
@@ -93,5 +137,4 @@ class _MyCarouselState extends State<MyCarouselWidget> {
       ),
     );
   }
-   
 }
