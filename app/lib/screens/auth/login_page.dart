@@ -1,5 +1,8 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hadja_grish/api/auth_api.dart';
 import 'package:hadja_grish/screens/auth/registre_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -12,15 +15,51 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
 
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
-  final _email = TextEditingController();
+  ServicesApiAuth api = ServicesApiAuth();
+  final _contacts = TextEditingController();
   final _password = TextEditingController(); 
 
   @override 
   void dispose(){
-    _email.dispose(); 
+    _contacts.dispose(); 
     _password.dispose();
     super.dispose();
   }
+
+  Future<void> _sendToserver(BuildContext context) async {
+  if (_globalKey.currentState!.validate()) {
+    final data = {
+      "contacts": _contacts.text,
+      "password": _password.text
+    };
+    try {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          });
+      final res = await api.postLoginUser(data);
+      final body = res.data;
+      Navigator.pop(context); // Fermer le dialog
+
+      if (res.statusCode == true) {
+        
+        api.showSnackBarSuccessPersonalized(context, body["message"]);
+      } else {
+        
+        api.showSnackBarErrorPersonalized(context, body["message"]);
+      }
+    } catch (e) {
+      Navigator.pop(context); // Fermer le dialog
+      
+      api.showSnackBarErrorPersonalized(context, e.toString());
+      print(e);
+    }
+  }
+}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,14 +102,20 @@ class _LoginPageState extends State<LoginPage> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
-                        controller: _email,
+                        controller: _contacts,
+                         validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Veuillez entrer un numero ou un e-mail';
+                          }
+                          return null;
+                        },
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
-                            hintText: "Email",
+                            hintText: "Numero ou e-mail",
                             hintStyle: GoogleFonts.roboto(fontSize: 20),
                             filled: true,
                             fillColor: const Color(0xfff0fcf3),
-                            prefixIcon: const Icon(Icons.mail_outline, size: 28),
+                            prefixIcon: const Icon(Icons.person_2_outlined, size: 28),
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20),
                                 borderSide: BorderSide.none)),
@@ -81,6 +126,12 @@ class _LoginPageState extends State<LoginPage> {
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
                         controller: _password,
+                         validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Veuillez entrer votre mot de passe';
+                          }
+                          return null;
+                        },
                         keyboardType: TextInputType.visiblePassword,
                         obscureText: true,
                         decoration: InputDecoration(
@@ -119,7 +170,9 @@ class _LoginPageState extends State<LoginPage> {
                             backgroundColor:
                                 const Color(0xff1d1a30),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            _sendToserver(context);
+                          },
                           child: Text("Se connecter",
                               style: GoogleFonts.roboto(
                                   fontSize: 20, color: Colors.white))),
