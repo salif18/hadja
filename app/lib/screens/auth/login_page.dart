@@ -44,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
       final body = res.data;
       Navigator.pop(context); // Fermer le dialog
 
-      if (res.statusCode == true) {
+      if (res.statusCode == 200) {
         
         api.showSnackBarSuccessPersonalized(context, body["message"]);
       } else {

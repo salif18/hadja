@@ -1,35 +1,35 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import "package:http/http.dart" as http;
+import 'package:dio/dio.dart';
 const String urlServer = "http://10.0.2.2:8000/api";
 
 class ServicesApiCategory{
   
-
+Dio dio = Dio();
    //ajouter de categorie pour formulaire
  postCategories(data)async{
+  
     var uri = "$urlServer/categories";
-    return await http.post(Uri.parse(uri),
-    body:jsonEncode(data),
-     headers: {
+    return await dio.post(uri,
+    data:data,
+     options:Options(headers: {
             "Content-Type": "application/json; charset=UTF-8",
             "Accept":"*/*",
             "Accept-Encoding":"gzip, deflate, br",
           },
-    );
+    ));
   }
    //obtenir categorie pour formulaire
   getCategories()async{
     var uri = "$urlServer/categories";
-    return await http.get(Uri.parse(uri),
-     headers: {
+    return await dio.get(uri,
+     options:Options(headers: {
             "Content-Type": "application/json; charset=UTF-8",
             "Accept":"*/*",
             "Accept-Encoding":"gzip, deflate, br",
           },
-    );
+    ));
   }
 
   //messade d'affichage de reponse de la requette recus
