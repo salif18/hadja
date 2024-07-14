@@ -13,9 +13,8 @@ class ArticlesController extends Controller
     public function createArticles(Request $req)
     {
         try {
-            $body = $req->all();
             // Vérifier les champs
-            $verifyField = Validator::make($body, [
+            $validate = Validator::make($req->all(), [
                 'name' => 'required|string',
                 'img' => 'required|file|mimes:jpg,jpeg,png,bmp|max:2048',
                 'galleries.*' => 'required|file|mimes:jpg,jpeg,png,bmp|max:2048',
@@ -27,11 +26,11 @@ class ArticlesController extends Controller
                 'disLikes' => 'required|integer'
             ]);
 
-            if ($verifyField->fails()) {
+            if ($validate->fails()) {
                 return response()->json([
                     "status" => false,
                     "message" => "Veuillez vérifier les champs.",
-                    "errors" => $verifyField->errors()
+                    "errors" => $validate->errors()
                 ]);
             }
 

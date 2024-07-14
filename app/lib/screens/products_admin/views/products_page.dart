@@ -1,16 +1,17 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/api/category_api.dart';
 import 'package:hadja_grish/api/product_admin_api.dart';
+import 'package:hadja_grish/models/articles_model.dart';
 import 'package:hadja_grish/models/categorie_model.dart';
 import 'dart:io';
 import 'package:hadja_grish/screens/products_admin/details/singleProduct_admin.dart';
 import 'package:image_picker/image_picker.dart';
-
-
 
 class ProductPage extends StatefulWidget {
   const ProductPage({super.key});
@@ -24,17 +25,13 @@ class _ProductPageState extends State<ProductPage> {
   ServicesAPiProducts api = ServicesAPiProducts();
   ServicesApiCategory apiCatego = ServicesApiCategory();
   List<CategoriesModel> _listCategories = [];
+  final StreamController<List<ArticlesModel>> _articlesData =
+      StreamController();
 
-  @override
-  void initState() {
-    _getCategories();
-    super.initState();
-  }
-
-   //coisir image depuis gallerie de phone
+  //coisir image depuis gallerie de phone
   final picker = ImagePicker();
   File? _imageProduct;
-  final List<File> _gallery = [];
+  final List<File>? _gallery = [];
 
   final _nameController = TextEditingController();
   String? _categoryController;
@@ -43,21 +40,42 @@ class _ProductPageState extends State<ProductPage> {
   final _stockController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    _getProducts();
+    _getCategories();
+  }
+
+  @override
   void dispose() {
     _nameController.dispose();
     _descController.dispose();
     _priceController.dispose();
     _stockController.dispose();
+    _articlesData.close();
     super.dispose();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _getProducts();
+  }
+
+  Future<void> _getProducts() async {
+    try {
+      _articlesData.add(ArticlesModel.data());
+    } catch (e) {
+      _articlesData.addError(e);
+    }
+  }
+
   Future<void> _getImageToGalleriePhone() async {
-    final imagePicked =
-        await picker.pickImage(source: ImageSource.gallery);
+    final imagePicked = await picker.pickImage(source: ImageSource.gallery);
     setState(() {
       if (imagePicked != null) {
         _imageProduct = File(imagePicked.path);
-      } 
+      }
     });
   }
 
@@ -70,21 +88,22 @@ class _ProductPageState extends State<ProductPage> {
     } on Exception catch (e) {
       Exception(e.toString());
     }
-
   }
 
   Future<void> _sendToServer() async {
     if (_globalKey.currentState!.validate()) {
-       List<MultipartFile> imageFiles = [];
+      List<MultipartFile> imageFiles = [];
       for (var asset in _gallery!) {
         final paths = asset.path;
-        imageFiles.add(await MultipartFile.fromFile(paths,));
+        imageFiles.add(await MultipartFile.fromFile(
+          paths,
+        ));
       }
       FormData formData = FormData.fromMap({
         "name": _nameController.text,
-        "img":
-            await MultipartFile.fromFile(_imageProduct!.path, filename: "photo.png"),
-        "galleries*":imageFiles,
+        "img": await MultipartFile.fromFile(_imageProduct!.path,
+            filename: "photo.png"),
+        "galleries*": imageFiles,
         "category": _categoryController,
         "desc": _descController.text,
         "price": _priceController.text,
@@ -96,13 +115,11 @@ class _ProductPageState extends State<ProductPage> {
         final res = await api.postNewProduct(formData);
         if (res.statusCode == 201) {
           api.showSnackBarSuccessPersonalized(context, res.data["message"]);
-          
         } else {
           api.showSnackBarErrorPersonalized(context, res.data["message"]);
         }
       } catch (e) {
-        Exception(e);
-        print(e);
+        api.showSnackBarErrorPersonalized(context, e.toString());
       }
     }
   }
@@ -151,12 +168,94 @@ class _ProductPageState extends State<ProductPage> {
           const SizedBox(width: 20),
         ],
       ),
-      body: const SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [],
-          ),
-        ),
+      body: SafeArea(
+        child: StreamBuilder<List<ArticlesModel>>(
+            stream: _articlesData.stream,
+            builder: (context, snaptshot) {
+              if (snaptshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator();
+              } else if (snaptshot.hasError) {
+                return Text("err",
+                    style: GoogleFonts.roboto(
+                        fontSize: 20, fontWeight: FontWeight.w600));
+              } else if (!snaptshot.hasData || snaptshot.data!.isEmpty) {
+                return Text("No data available",
+                    style: GoogleFonts.roboto(
+                        fontSize: 20, fontWeight: FontWeight.w600));
+              } else {
+                return ListView.builder(
+                    itemCount: snaptshot.data!.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final article = snaptshot.data!;
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      _showSingleProduct(context)));
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: const Color(0xfff0fcf3),
+                            border: Border(bottom: BorderSide(color: const Color.fromARGB(255, 235, 235, 235)))
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      width: 50,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(20)),
+                                      child: Image.asset(
+                                        article[index].img,
+                                        fit: BoxFit.contain,
+                                      ),
+                                    ),
+                                  ),
+                                   Padding(
+                                padding: const EdgeInsets.only(left: 15),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(article[index].name,
+                                        style: GoogleFonts.roboto(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500)),
+                                    Text(
+                                        "${article[index].price.toString()} fcfa",
+                                        style: GoogleFonts.roboto(
+                                            fontSize: 18,
+                                            color: Colors.grey[500]))
+                                  ],
+                                ),
+                              ),
+                                ],
+                              ),
+                             
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                                    Text("stocks:"),
+                                    const SizedBox(width: 10),
+                                    Text(article[index].stock.toString()),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    });
+              }
+            }),
       ),
     );
   }
@@ -314,11 +413,11 @@ class _ProductPageState extends State<ProductPage> {
                     : Wrap(
                         spacing: 8.0,
                         runSpacing: 8.0,
-                        children: _gallery!.map((asset) {
-                          return Container(
+                        children: _gallery.map((asset) {
+                          return SizedBox(
                             width: 100,
                             height: 100,
-                            child:Image.file(asset),
+                            child: Image.file(asset),
                           );
                         }).toList(),
                       ),
@@ -391,7 +490,7 @@ class _ProductPageState extends State<ProductPage> {
     );
   }
 
-  void _showSingleProduct(BuildContext context) {
+  _showSingleProduct(BuildContext context) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
