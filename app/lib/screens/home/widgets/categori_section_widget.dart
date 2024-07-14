@@ -1,15 +1,20 @@
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hadja_grish/models/categorie_model.dart';
+import 'package:hadja_grish/screens/products_admin/categories/categorie_list.dart';
 
 class MyChooseCategoryWidget extends StatefulWidget {
-  const MyChooseCategoryWidget({super.key});
+  final listCategories;
+  const MyChooseCategoryWidget({super.key, required this.listCategories});
 
   @override
   State<MyChooseCategoryWidget> createState() => _MyChooseCategoryState();
 }
 
 class _MyChooseCategoryState extends State<MyChooseCategoryWidget> {
-  List<String> marques = ["Bracelet", "Creme", "Insecticide", "Pommade","The"];
+ 
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -35,36 +40,60 @@ class _MyChooseCategoryState extends State<MyChooseCategoryWidget> {
               ),
             ),
             Expanded(
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: marques.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final String marque = marques[index];
-                  return GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      height: 50,
-                      width: 120,
-                      margin: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          color:  const Color(0xFF1D1A30),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text( marque,
-                            style: GoogleFonts.roboto(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                              color:Colors.white),
-                          )
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
+                child: StreamBuilder<List<CategoriesModel>>(
+                    stream: widget.listCategories.stream,
+                    builder: (context, snaptshot) {
+                      if (snaptshot.hasError) {
+                        return const Center(
+                          child: Text("Error"),
+                        );
+                      } else if (!snaptshot.hasData ||
+                          snaptshot.data!.isEmpty) {
+                        return Container(
+                          alignment: Alignment.center,
+                          child: IconButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const MyCategoriList()));
+                              },
+                              icon: const Icon(Icons.add)),
+                        );
+                      } else {
+                        return ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: snaptshot.data!.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final marque = snaptshot.data![index];
+                            return GestureDetector(
+                              onTap: () {},
+                              child: Container(
+                                height: 50,
+                                width: 120,
+                                margin: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                    color: const Color(0xFF1D1A30),
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      marque.nameCategorie,
+                                      style: GoogleFonts.roboto(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20,
+                                          color: Colors.white),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      }
+                    })),
           ],
         ),
       ),

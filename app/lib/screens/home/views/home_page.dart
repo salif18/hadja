@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hadja_grish/api/category_api.dart';
 import 'package:hadja_grish/components/drawer.dart';
+import 'package:hadja_grish/models/categorie_model.dart';
 import 'package:hadja_grish/providers/cart_provider.dart';
 import 'package:hadja_grish/screens/cart/views/cart_page.dart';
 import 'package:hadja_grish/screens/favorites/views/favorites_page.dart';
@@ -22,6 +26,44 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> drawerKey = GlobalKey<ScaffoldState>();
+   
+  ServicesApiCategory api = ServicesApiCategory();
+
+  final StreamController<List<CategoriesModel>> _listCategories =
+      StreamController<List<CategoriesModel>>();
+
+  @override
+  void initState() {
+    _getCategories();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _listCategories.close();
+    super.dispose();
+  }
+
+   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _getCategories();
+  }
+
+
+  Future<void> _getCategories() async {
+    try {
+      final res = await api.getCategories();
+      final body = res.data;
+      if (res.statusCode == 200) {
+        _listCategories.add((body["categories"] as List)
+            .map((json) => CategoriesModel.fromJson(json))
+            .toList());
+      }
+    } catch (e) {
+      Exception(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -131,10 +173,10 @@ class _HomePageState extends State<HomePage> {
                   topRight: Radius.circular(20),
                 ),
               ),
-              child: const Column(
+              child: Column(
                 children: [
                   MyCarouselWidget(),
-                  MyChooseCategoryWidget(),
+                  MyChooseCategoryWidget(listCategories:_listCategories),
                   MyRecomadationWidget(),
                   MyProductListWidget(),
                 ],

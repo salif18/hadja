@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Articles_Controller;
 use App\Http\Controllers\Auth_controller;
 use App\Http\Controllers\Categorie_Controller;
 use Illuminate\Http\Request;
@@ -30,3 +31,6 @@ Route::post("/delete",[Auth_controller::class,"delete"]);
 //REQUETTES CATEGORIES
 Route::post("/categories",[Categorie_Controller::class,"createCategorys"]);
 Route::get("/categories",[Categorie_controller::class,"getCategorys"]);
+
+//REQUETTES ARTICLES
+Route::post("/articles",[Articles_Controller::class,"createArticles"]);

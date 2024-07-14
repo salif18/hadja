@@ -1,3 +1,22 @@
+class Galleries{
+  String id;
+  String urlImg;
+  Galleries({
+    required this.id,
+    required this.urlImg});
+
+    factory Galleries.fromJson(Map<String,dynamic> json){
+      return Galleries(id: json["id"],urlImg: json["urlImg"]);
+    }
+
+    Map<String,dynamic> toJson(){
+      return {
+          "id":id, 
+          "urlImg":urlImg
+      };
+    }
+}
+
 class ArticlesModel {
   final String productId;
   final String name;
