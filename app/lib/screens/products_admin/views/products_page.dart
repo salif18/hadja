@@ -11,6 +11,7 @@ import 'package:hadja_grish/screens/products_admin/details/singleProduct_admin.d
 import 'package:image_picker/image_picker.dart';
 
 
+
 class ProductPage extends StatefulWidget {
   const ProductPage({super.key});
 
@@ -33,7 +34,7 @@ class _ProductPageState extends State<ProductPage> {
    //coisir image depuis gallerie de phone
   final picker = ImagePicker();
   File? _imageProduct;
-  // List<Asset>? _gallery = [];
+  final List<File> _gallery = [];
 
   final _nameController = TextEditingController();
   String? _categoryController;
@@ -61,44 +62,29 @@ class _ProductPageState extends State<ProductPage> {
   }
 
   Future<void> _selectMultiImageGallery() async {
-    // List<Asset> resultList = <Asset>[];
     try {
-      // resultList = await  MultiImagePicker.pickImages(
-      //     maxImages: 5,
-      //     enableCamera: true,
-      //     selectedAssets: _gallery!,
-      //     cupertinoOptions: const CupertinoOptions(takePhotoIcon: "chat"),
-      //     materialOptions: const MaterialOptions(
-      //       actionBarColor: "#abcdef",
-      //       actionBarTitle: "Sélectionner des images",
-      //       allViewTitle: "Toutes les photos",
-      //       useDetailsView: false,
-      //       selectCircleStrokeColor: "#000000",
-      //     ));
+      var images = await picker.pickImage(source: ImageSource.gallery);
+      setState(() {
+        _gallery!.add(File(images!.path));
+      });
     } on Exception catch (e) {
       Exception(e.toString());
     }
 
-    if (!mounted) return;
-
-    setState(() {
-      // _gallery = resultList;
-    });
   }
 
   Future<void> _sendToServer() async {
     if (_globalKey.currentState!.validate()) {
-      //  List<MultipartFile> imageFiles = [];
-      // for (var asset in _gallery!) {
-      //   final paths = await asset.
-      //   final fileName = paths!.split('/').last;
-      //   imageFiles.add(await MultipartFile.fromFile(paths, filename: fileName));
-      // }
+       List<MultipartFile> imageFiles = [];
+      for (var asset in _gallery!) {
+        final paths = asset.path;
+        imageFiles.add(await MultipartFile.fromFile(paths,));
+      }
       FormData formData = FormData.fromMap({
         "name": _nameController.text,
         "img":
             await MultipartFile.fromFile(_imageProduct!.path, filename: "photo.png"),
-        // "galleries":imageFiles,
+        "galleries*":imageFiles,
         "category": _categoryController,
         "desc": _descController.text,
         "price": _priceController.text,
@@ -110,11 +96,13 @@ class _ProductPageState extends State<ProductPage> {
         final res = await api.postNewProduct(formData);
         if (res.statusCode == 201) {
           api.showSnackBarSuccessPersonalized(context, res.data["message"]);
+          
         } else {
           api.showSnackBarErrorPersonalized(context, res.data["message"]);
         }
       } catch (e) {
         Exception(e);
+        print(e);
       }
     }
   }
@@ -319,21 +307,21 @@ class _ProductPageState extends State<ProductPage> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                 ),
-                // child: _gallery == null
-                //     ? Text("Aucune image sélectionnée",
-                //         style: GoogleFonts.roboto(
-                //             fontSize: 18, color: Colors.grey))
-                    // : Wrap(
-                    //     spacing: 8.0,
-                    //     runSpacing: 8.0,
-                    //     children: _gallery!.map((asset) {
-                    //       return AssetThumb(
-                    //         asset: asset,
-                    //         width: 100,
-                    //         height: 100,
-                    //       );
-                    //     }).toList(),
-                    //   ),
+                child: _gallery == null
+                    ? Text("Aucune image sélectionnée",
+                        style: GoogleFonts.roboto(
+                            fontSize: 18, color: Colors.grey))
+                    : Wrap(
+                        spacing: 8.0,
+                        runSpacing: 8.0,
+                        children: _gallery!.map((asset) {
+                          return Container(
+                            width: 100,
+                            height: 100,
+                            child:Image.file(asset),
+                          );
+                        }).toList(),
+                      ),
               ),
             ),
           ),
