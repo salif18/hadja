@@ -3,7 +3,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/api/auth_api.dart';
+import 'package:hadja_grish/models/user.dart';
+import 'package:hadja_grish/providers/auth_provider.dart';
+import 'package:hadja_grish/providers/user_provider.dart';
+import 'package:hadja_grish/routes/roots.dart';
 import 'package:hadja_grish/screens/auth/registre_page.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -32,6 +37,9 @@ class _LoginPageState extends State<LoginPage> {
       "contacts": _contacts.text,
       "password": _password.text
     };
+     final providerAuth = Provider.of<AuthProvider>(context, listen: false);
+      final providerProfil =
+          Provider.of<UserInfosProvider>(context, listen: false);
     try {
       showDialog(
           context: context,
@@ -45,8 +53,15 @@ class _LoginPageState extends State<LoginPage> {
       Navigator.pop(context); // Fermer le dialog
 
       if (res.statusCode == 200) {
-        
+        ModelUser user = ModelUser.fromJson(body['profil']);
+
         api.showSnackBarSuccessPersonalized(context, body["message"]);
+         providerAuth.loginButton(body['token'], body["userId"].toString());
+         providerProfil.saveToLocalStorage(user);
+           Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const MyRoots()));
+              print(user.userStatut);
+         
       } else {
         
         api.showSnackBarErrorPersonalized(context, body["message"]);

@@ -15,13 +15,14 @@ class Auth_Controller extends Controller
     {
         try {
             // Récupération des données de la requête
-            $body = $request->only("name", "phone_number", "email", "password");
+            $body = $request->only("name", "phone_number", "email", "user_statut", "password");
 
             // Validation des champs de la requête
             $validator = Validator::make($body, [
                 "name" => "required|string",
                 "phone_number" => "required|string|unique:users|min:8|max:15",
                 "email" => "required|email|unique:users",
+                "user_statut"=>"required|string",
                 "password" => "required|min:6"
             ]);
 
@@ -38,6 +39,7 @@ class Auth_Controller extends Controller
                 "name" => $request->name,
                 "phone_number" => $request->phone_number,
                 "email" => $request->email,
+                "user_statut"=>$request->user_statut,
                 "password" => bcrypt($request->password),
             ]);
 
@@ -48,7 +50,8 @@ class Auth_Controller extends Controller
             $dataUser = [
                 "name" => $user->name,
                 "number" => $user->phone_number,
-                "email" => $user->email
+                "email" => $user->email,
+                "user_statut"=>$user->user_statut,
             ];
 
             // Retour des informations sur l'utilisateur et du jeton JWT

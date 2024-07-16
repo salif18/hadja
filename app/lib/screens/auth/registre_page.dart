@@ -2,7 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/api/auth_api.dart';
+import 'package:hadja_grish/providers/auth_provider.dart';
 import 'package:hadja_grish/screens/auth/login_page.dart';
+import 'package:provider/provider.dart';
 
 class RegistrePage extends StatefulWidget {
   const RegistrePage({super.key});
@@ -36,6 +38,7 @@ class _RegistrePageState extends State<RegistrePage> {
       "email": _email.text,
       "password": _password.text
     };
+    final provider = Provider.of<AuthProvider>(context, listen: false);
     try {
       showDialog(
           context: context,
@@ -52,6 +55,7 @@ class _RegistrePageState extends State<RegistrePage> {
       if (res.statusCode == 201) {
         // ignore: use_build_context_synchronously
         api.showSnackBarSuccessPersonalized(context, body["message"]);
+        provider.loginButton(body['token'], body["userId"].toString());
       } else {
         // ignore: use_build_context_synchronously
         api.showSnackBarErrorPersonalized(context, body["message"]);

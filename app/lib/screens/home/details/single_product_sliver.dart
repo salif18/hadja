@@ -287,6 +287,22 @@ class _SingleProductVerSionSliverState extends State<SingleProductVerSionSliver>
               ),
               onPressed: () {
                 addToCart(widget.item, qty);
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(
+                    "Article ajouté",
+                    style: GoogleFonts.roboto(
+                        fontSize: 16),
+                  ),
+                  // backgroundColor: const Color.fromARGB(255, 255, 35, 19),
+                  duration: const Duration(seconds: 1),
+                   backgroundColor: Colors.blueAccent,
+                   action: SnackBarAction(
+                    label: "",
+                    onPressed: () {
+                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                    },
+                  ),
+                ));
               },
               icon: const Icon(Icons.add_shopping_cart,
                   color: Colors.white, size: 30),

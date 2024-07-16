@@ -1,10 +1,13 @@
 import 'dart:async';
-
+// ignore: depend_on_referenced_packages
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/models/articles_model.dart';
+import 'package:hadja_grish/providers/favorite_provider.dart';
 import 'package:hadja_grish/screens/articles/articles.dart';
 import 'package:hadja_grish/screens/home/details/single_product_sliver.dart';
+import 'package:provider/provider.dart';
 
 class MyProductListWidget extends StatefulWidget {
   const MyProductListWidget({super.key});
@@ -45,6 +48,10 @@ void didChangeDependencies(){
 
   @override
   Widget build(BuildContext context) {
+    final favoriteProvider = Provider.of<FavoriteProvider>(
+      context,
+    );
+    List<ArticlesModel> favorites = favoriteProvider.getFavorites;
     return Padding(
       padding: const EdgeInsets.all(15),
       child: Column(
@@ -131,18 +138,46 @@ void didChangeDependencies(){
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 15),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(articles[index].name,
-                                        style: GoogleFonts.roboto(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w600)),
-                                    Text(
-                                        "${articles[index].price.toString()} fcfa",
-                                        style: GoogleFonts.roboto(
-                                            fontSize: 18,
-                                            color: Colors.grey[500])),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(articles[index].name,
+                                            style: GoogleFonts.roboto(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w600)),
+                                        Text(
+                                            "${articles[index].price.toString()} fcfa",
+                                            style: GoogleFonts.roboto(
+                                                fontSize: 18,
+                                                color: Colors.grey[500])),
+                                      ],
+                                    ),
+                                     IconButton(
+                                          onPressed: () {
+                                            favoriteProvider.addMyFavorites(
+                                                articles[index]);
+                                          },
+                                          icon: favorites.firstWhereOrNull(
+                                                      (item) => item.productId
+                                                          .contains(articles[
+                                                                  index]
+                                                              .productId)) ==
+                                                  null
+                                              ? const Icon(
+                                                  Icons.favorite_border,
+                                                  size: 28,
+                                                  color: Color(0xff2c3e50),
+                                                )
+                                              : const Icon(
+                                                  Icons.favorite,
+                                                  size: 28,
+                                                  color: Color.fromARGB(
+                                                      255, 22, 212, 79),
+                                                ),
+                                        ),
                                   ],
                                 ),
                               ),

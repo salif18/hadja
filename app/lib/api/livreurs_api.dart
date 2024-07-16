@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import "package:http/http.dart" as http;
@@ -7,19 +5,6 @@ const String urlServer = "http://10.0.2.2:8000/api";
 
 class ServicesApiDelibery{
   
-
-   //ajouter de categorie pour formulaire
- postNewDelibery(data)async{
-    var uri = "$urlServer/livreurs";
-    return await http.post(Uri.parse(uri),
-    body:jsonEncode(data),
-     headers: {
-            "Content-Type": "application/json; charset=UTF-8",
-            "Accept":"*/*",
-            "Accept-Encoding":"gzip, deflate, br",
-          },
-    );
-  }
    //obtenir categorie pour formulaire
   getAllDelibery()async{
     var uri = "$urlServer/livreurs";
