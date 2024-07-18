@@ -10,29 +10,34 @@ use Illuminate\Support\Facades\Validator;
 
 class Orders_controller extends Controller
 {
-    //creer nouveaux corder
+    //créer un nouveau order
     public function createOrders(Request $req){
        try{
 
-        $isValide = Validator::make($req->all(),[
-           "userId"=>"required",
-           "deliberyId"=>"required",
-           "address"=>"required",
-           "latitude"=>"required",
-           "longitude"=>"required",
-           "telephone"=>"required",
-           "total"=>"required",
-           "statut_of_delibery"=>"required",
-           "articles"=>"required"
-        ]) ;
+         $data = $req->only("articles");
 
-        if($isValide->fails()){
-            return response()->json([
-              "statut"=>false, 
-              "message"=>"Vos champs ne sont pas corrects"
-            ]);
-        }
+         // Validation des données
+         $isValide = Validator::make($req->all(),[
+            "userId"=>"required",
+            "deliberyId"=>"required",
+            "address"=>"required",
+            "latitude"=>"required",
+            "longitude"=>"required",
+            "telephone"=>"required",
+            "total"=>"required",
+            "statut_of_delibery"=>"required",
+            "articles"=>"required|array"
+         ]);
 
+         if($isValide->fails()){
+             return response()->json([
+               "status"=>false, 
+               "message"=>"Vos champs ne sont pas corrects",
+               "errors" => $isValide->errors()
+             ]);
+         }
+
+        // Créer la commande
         $orders = Order::create([
            "userId"=>$req->userId,
            "deliberyId"=>$req->deliberyId,
@@ -44,15 +49,15 @@ class Orders_controller extends Controller
            "statut_of_delibery"=>$req->statut_of_delibery,
         ]);
 
-        foreach($req->only("articles") as $item){
+        // Créer les articles de commande
+        foreach($data["articles"] as $item){
             OrderItem::create([
                 "order_id"=>$orders->id,
-                "productId"=>$item->productId,
-                "name"=>$item->name,
-                "img"=>$item->img,
-                "qty"=>$item->qty,
-                "prix"=>$item->prix,
-
+                "productId"=>$item['productId'],
+                "name"=>$item['name'],
+                "img"=>$item['img'],
+                "qty"=>$item['qty'],
+                "prix"=>$item['prix'],
             ]);
         }
 
@@ -64,7 +69,7 @@ class Orders_controller extends Controller
        }catch(Exception $err){
         return response()->json([
              "status"=>false,
-             "message"=>$req->getMessage()
+             "message"=>$err->getMessage()
         ],500);
        }
     }

@@ -13,7 +13,7 @@ class Gallerie extends Model
     //     'article_id',
     //     'img_path'
     // ];
-
+    protected $table = 'galleries';  // Ajoutez cette ligne
     public function article()
     {
         return $this->belongsTo(Article::class);

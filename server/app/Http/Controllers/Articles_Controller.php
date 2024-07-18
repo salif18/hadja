@@ -15,9 +15,8 @@ class ArticlesController extends Controller
             // Vérifier les champs
             $validate = Validator::make($req->all(), [
                 'name' => 'required|string',
-                'img' => 'required|image|mimes:jpg,jpeg,png,bmp|max:2048',
+                'img' => 'required',
                 'galleries' => 'required|array',
-                'galleries.*' => 'image|mimes:jpg,jpeg,png,bmp|max:2048',
                 'categorie' => 'required|string',
                 'desc' => 'required|string',
                 'price' => 'required|integer',
@@ -35,11 +34,11 @@ class ArticlesController extends Controller
             }
 
             // Insérer le produit dans la base
-            if ($req->has("img")) {
-                $urlimg = $req->file("img")->store("uploads", "public");
+            // if ($req->has("img")) {
+                // $urlimg = $req->file("img")->store("uploads", "public");
                 $article = Article::create([
                     "name" => $req->name,
-                    "img" => $urlimg,
+                    "img" => $req->img,
                     "categorie" => $req->categorie,
                     "desc" => $req->desc,
                     "price" => $req->price,
@@ -49,22 +48,22 @@ class ArticlesController extends Controller
                 ]);
 
                 // Insérer les images dans galleries
-                if ($req->hasFile('galleries')) {
-                    foreach ($req->file('galleries') as $image) {
-                        $path = $image->store('uploads', 'public');
+                // if ($req->hasFile('galleries')) {
+                    foreach ($req->galleries as $image) {
+                        // $path = $image->store('uploads', 'public');
                         Gallerie::create([
                             'article_id' => $article->id,
-                            'img_path' => $path,
+                            'img_path' => $image,
                         ]);
                     }
-                }
+                
 
                 return response()->json([
                     "status" => true,
                     "message" => "Article ajouté.",
                     "article" => $article
                 ], 201);
-            }
+            
 
             return response()->json([
                 "status" => false,

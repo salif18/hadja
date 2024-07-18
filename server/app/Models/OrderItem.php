@@ -8,9 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class OrderItem extends Model
 {
     use HasFactory;
-    protected $guarded =[];
+    protected $guarded = [];
 
-    public function Orders(){
+    protected $table = 'orders_items';  // Ajoutez cette ligne
+
+    public function orders()
+    {
         return $this->belongsTo(Order::class);
     }
 }
