@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -7,17 +8,18 @@ import 'package:http/http.dart' as http;
 const String urlServer = "http://10.0.2.2:8000/api";
 
 class ServicesAPiProducts {
+  Dio dio = Dio();
   //ajouter depense
   postNewProduct(data) async {
     var uri = "$urlServer/articles";
-    return await http.post(
-      Uri.parse(uri),
-      body: jsonEncode(data),
-      headers: {
+    return await dio.post(
+      uri,
+      data: data,
+      options: Options(headers: {
         "Content-Type": "application/json; charset=UTF-8",
         "Accept": "*/*",
         "Accept-Encoding": "gzip, deflate, br",
-      },
+      },)
     );
   }
 

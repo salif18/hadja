@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Gallerie extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'article_id',
-        'img_path'
-    ];
+    protected $guarded = [];
+    // protected $fillable = [
+    //     'article_id',
+    //     'img_path'
+    // ];
 
     public function article()
     {

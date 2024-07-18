@@ -2,7 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/api/auth_api.dart';
+import 'package:hadja_grish/models/user.dart';
 import 'package:hadja_grish/providers/auth_provider.dart';
+import 'package:hadja_grish/providers/user_provider.dart';
+import 'package:hadja_grish/routes/roots.dart';
 import 'package:hadja_grish/screens/auth/login_page.dart';
 import 'package:provider/provider.dart';
 
@@ -20,6 +23,7 @@ class _RegistrePageState extends State<RegistrePage> {
   final _numero = TextEditingController();
   final _email = TextEditingController();
   final _password = TextEditingController();
+  bool isVisibility = false;
 
   @override
   void dispose() {
@@ -36,9 +40,12 @@ class _RegistrePageState extends State<RegistrePage> {
       "name": _nom.text,
       "phone_number": _numero.text,
       "email": _email.text,
+      "user_statut":"isClient",
       "password": _password.text
     };
     final provider = Provider.of<AuthProvider>(context, listen: false);
+    final providerProfil =
+          Provider.of<UserInfosProvider>(context, listen: false);
     try {
       showDialog(
           context: context,
@@ -56,6 +63,11 @@ class _RegistrePageState extends State<RegistrePage> {
         // ignore: use_build_context_synchronously
         api.showSnackBarSuccessPersonalized(context, body["message"]);
         provider.loginButton(body['token'], body["userId"].toString());
+        ModelUser user = ModelUser.fromJson(body['profil']);
+         providerProfil.saveToLocalStorage(user);
+           // ignore: use_build_context_synchronously
+           Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const MyRoots()));
       } else {
         // ignore: use_build_context_synchronously
         api.showSnackBarErrorPersonalized(context, body["message"]);
@@ -191,7 +203,7 @@ class _RegistrePageState extends State<RegistrePage> {
                           return null;
                         },
                         keyboardType: TextInputType.visiblePassword,
-                        obscureText: true,
+                        obscureText: isVisibility,
                         decoration: InputDecoration(
                             hintText: "Mot de passe",
                             hintStyle: GoogleFonts.roboto(fontSize: 20),
@@ -199,7 +211,14 @@ class _RegistrePageState extends State<RegistrePage> {
                             fillColor: const Color(0xfff0fcf3),
                             prefixIcon:
                                 const Icon(Icons.lock_outline, size: 28),
-                            suffixIcon: const Icon(Icons.visibility, size: 28),
+                               suffixIcon: IconButton(
+                      onPressed: (){
+                           setState(() {
+                      isVisibility = !isVisibility;
+                    });
+                      }, 
+                      icon: Icon(isVisibility ? Icons.visibility:Icons.visibility_off)
+                      ),
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20),
                                 borderSide: BorderSide.none)),

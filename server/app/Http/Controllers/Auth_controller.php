@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
@@ -46,19 +47,12 @@ class Auth_Controller extends Controller
             // Génération d'un jeton d'authentification JWT
             $token = $user->createToken("user_token")->plainTextToken;
 
-            //creer un profil
-            $dataUser = [
-                "name" => $user->name,
-                "number" => $user->phone_number,
-                "email" => $user->email,
-                "user_statut"=>$user->user_statut,
-            ];
 
             // Retour des informations sur l'utilisateur et du jeton JWT
             return response()->json([
                 "status" => true,
                 "message" => "Compte crée avec succès !!",
-                "profil" => $dataUser,
+                "profil" => $user,
                 "userId" => $user->id,
                 "token" => $token,
             ], 201);
@@ -77,7 +71,7 @@ class Auth_Controller extends Controller
         try {
             // Récupération des données de la requête
             $body = $request->only('contacts', 'password');
-            // print $body ;
+
             // Validation des champs de la requête
             $validator = Validator::make($body, [
                 'contacts' => 'required',
@@ -93,9 +87,8 @@ class Auth_Controller extends Controller
             }
 
             // Recherche de l'utilisateur dans la base de données
-            $user = User::where('email', $body['contacts'])
-                ->orwhere("phone_number", $body["contacts"])
-                ->first();
+            $user = User::where('phone_number', $request->contacts)
+                ->orwhere("email", $request->contacts)->first();
 
             // Si l'utilisateur n'existe pas, retourner un message d'erreur
             if (!$user) {
@@ -106,7 +99,7 @@ class Auth_Controller extends Controller
             }
 
             // Vérification du mot de passe
-            if (!Hash::check($body['password'], $user->password)) {
+            if (!Hash::check($request->password, $user->password)) {
                 return response()->json([
                     "status" => false,
                     "message" => 'Votre mot de passe est incorrect'
@@ -225,7 +218,22 @@ class Auth_Controller extends Controller
         }
     }
 
+// recuperer les libery
+public function getLibery(){
+    try{
 
+        $liberys = User::where("user_statut","isLibery")->get();
+        return response()->json([
+            "status" => true,
+            "theLiberys" => $liberys
+        ], 200);
+    }catch(Exception $err){
+        return response()->json([
+            "status" => false,
+            "error" => $err->getMessage()
+        ],500);
+    }
+}
 
     // Fonction de connexion de l'utilisateur
     // public function login(Request $req){

@@ -5,9 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b2695200-05a9-4cd8-bca7-760580dfc912" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/app/lib/api/livreurs_api.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/api/livreurs_api.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/screens/livreurs/views/delivery_list.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/livreurs/views/delivery_list.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/components/drawer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/components/drawer.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/models/user.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/models/user.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/screens/auth/login_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/auth/login_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/screens/auth/registre_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/auth/registre_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/screens/livreurs/views/delivery_list.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/app/Http/Controllers/Auth_controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/server/app/Http/Controllers/Auth_controller.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,7 +44,7 @@
     "dart.analysis.tool.window.visible": "false",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
-    "settings.editor.selected.configurable": "terminal",
+    "settings.editor.selected.configurable": "AndroidSdkUpdater",
     "show.migrate.to.gradle.popup": "false"
   }
 }]]></component>

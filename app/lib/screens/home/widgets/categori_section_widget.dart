@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/models/categorie_model.dart';
-import 'package:hadja_grish/screens/products_admin/categories/categorie_list.dart';
+import 'package:hadja_grish/screens/admin/categories/categorie_list.dart';
 
 class MyChooseCategoryWidget extends StatefulWidget {
   final listCategories;

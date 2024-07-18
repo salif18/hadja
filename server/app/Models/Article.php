@@ -13,7 +13,7 @@ class Article extends Model
     //     'product_id',
     //     'name',
     //     'img',
-    //     'category',
+    //     'categorie',
     //     'desc',
     //     'price',
     //     'stock',

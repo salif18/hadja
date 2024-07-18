@@ -3,6 +3,7 @@
 use App\Http\Controllers\ArticlesController;
 use App\Http\Controllers\Auth_controller;
 use App\Http\Controllers\Categorie_Controller;
+use App\Http\Controllers\Orders_controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,9 +19,15 @@ Route::post("/login",[Auth_controller::class,"login"]);
 Route::post("/update_password/{userId}",[Auth_controller::class,"updatePassword"]);
 Route::post("/delete",[Auth_controller::class,"delete"]);
 
+//RECURER LES LIVREURS
+Route::get("/livreurs",[Auth_controller::class,"getLibery"]);
+
 //REQUETTES CATEGORIES
 Route::post("/categories",[Categorie_Controller::class,"createCategorys"]);
 Route::get("/categories",[Categorie_controller::class,"getCategorys"]);
 
 //REQUETTES ARTICLES
 Route::post("/articles",[ArticlesController::class,"createArticles"]);
+
+//REQUETTES ORDERS
+Route::post("/orders",[Orders_controller::class,"createOrders"]);

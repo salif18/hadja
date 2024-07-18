@@ -1,9 +1,12 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/api/auth_api.dart';
-import 'package:hadja_grish/models/articles_model.dart';
+import 'package:hadja_grish/api/livreurs_api.dart';
+
+import 'package:hadja_grish/models/user.dart';
 
 class DeliveryList extends StatefulWidget {
   const DeliveryList({super.key});
@@ -13,22 +16,36 @@ class DeliveryList extends StatefulWidget {
 }
 
 class _DeliveryListState extends State<DeliveryList> {
-  final StreamController<List<ArticlesModel>> _articlesData =
-      StreamController();
+  final StreamController<List<ModelUser>> _liberyData =
+      StreamController<List<ModelUser>>();
 
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
   ServicesApiAuth api = ServicesApiAuth();
+  ServicesApiDelibery apiDelibry = ServicesApiDelibery();
   final _nom = TextEditingController();
   final _numero = TextEditingController();
    String? _statutUser ;
   final _email = TextEditingController();
   final _password = TextEditingController();
+   bool isVisibility = false;
 
   final List<String> _statutList = ["isAdmin","isLibery","isClient"];
 
+   @override
+  void initState() {
+    super.initState();
+    _getLibery();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _getLibery();
+  }
+
   @override
   void dispose() {
-    _articlesData.close();
+    _liberyData.close();
     _nom.dispose();
     _numero.dispose();
     _email.dispose();
@@ -70,28 +87,19 @@ class _DeliveryListState extends State<DeliveryList> {
         Navigator.pop(context); // Fermer le dialog
         // ignore: use_build_context_synchronously
         api.showSnackBarErrorPersonalized(context, e.toString());
-        print(e);
       }
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    _getProducts();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _getProducts();
-  }
-
-  Future<void> _getProducts() async {
-    try {
-      _articlesData.add(ArticlesModel.data());
-    } catch (e) {
-      _articlesData.addError(e);
+  Future<void> _getLibery()async{
+    try{
+       final res = await apiDelibry.getAllDelibery();
+       final body = json.decode(res.body);
+       if(res.statusCode == 200){
+         _liberyData.add((body["theLiberys"] as List).map((json) => ModelUser.fromJson(json)).toList());
+       }
+    }catch(e){
+      print(e);
     }
   }
 
@@ -121,98 +129,95 @@ class _DeliveryListState extends State<DeliveryList> {
             },
             icon: const Icon(Icons.arrow_back_ios_rounded, size: 24)),
       ),
-      body: StreamBuilder<List<ArticlesModel>>(
-          stream: _articlesData.stream,
-          builder: (context, snaptshot) {
-            if (snaptshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
-            } else if (snaptshot.hasError) {
-              return Text("err",
-                  style: GoogleFonts.roboto(
-                      fontSize: 20, fontWeight: FontWeight.w600));
-            } else if (!snaptshot.hasData || snaptshot.data!.isEmpty) {
-              return Text("No data available",
-                  style: GoogleFonts.roboto(
-                      fontSize: 20, fontWeight: FontWeight.w600));
-            } else {
-              return ListView.builder(
-                  itemCount: snaptshot.data!.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    final article = snaptshot.data!;
-                    return GestureDetector(
-                      onTap: () {
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) =>
-                        //             _showSingleProduct(context)));
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: const Color(0xfff0fcf3),
-                            border: const Border(
-                                bottom: BorderSide(
-                                    color: Color.fromARGB(
-                                        255, 235, 235, 235)))),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    width: 50,
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(20)),
-                                    child: Image.asset(
-                                      article[index].img,
-                                      fit: BoxFit.contain,
+      body: Container(
+        padding: const EdgeInsets.all(20),
+        child: StreamBuilder<List<ModelUser>>(
+            stream: _liberyData.stream,
+            builder: (context, snaptshot) {
+              if (snaptshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (snaptshot.hasError) {
+                return Text("err",
+                    style: GoogleFonts.roboto(
+                        fontSize: 20, fontWeight: FontWeight.w600));
+              } else if (!snaptshot.hasData || snaptshot.data!.isEmpty) {
+                return Text("No data available",
+                    style: GoogleFonts.roboto(
+                        fontSize: 20, fontWeight: FontWeight.w600));
+              } else {
+                return ListView.builder(
+                    itemCount: snaptshot.data!.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final livreur = snaptshot.data!;
+                      return GestureDetector(
+                        onTap: () {
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) =>
+                          //             _showSingleProduct(context)));
+                        },
+                        child: Container(
+                          height: 100,
+                          padding: const EdgeInsets.all(15),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white,
+                              border: const Border(
+                                  bottom: BorderSide(
+                                      color: Color.fromARGB(
+                                          255, 235, 235, 235)))),
+                          child: Row(
+                            
+                           
+                            children: [
+                              Row(
+                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                 mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      width: 50,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(20)),
+                                      child: Image.asset(
+                                        livreur[index].photo ?? "assets/images/profil.jpeg",
+                                        fit: BoxFit.contain,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 15),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(article[index].name,
-                                          style: GoogleFonts.roboto(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w500)),
-                                      Text(
-                                          "${article[index].price.toString()} fcfa",
-                                          style: GoogleFonts.roboto(
-                                              fontSize: 18,
-                                              color: Colors.grey[500]))
-                                    ],
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 15),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(livreur[index].name!,
+                                            style: GoogleFonts.roboto(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w500)),
+                                        Text(
+                                            livreur[index].number.toString(),
+                                            style: GoogleFonts.roboto(
+                                                fontSize: 18,
+                                                color: Colors.grey[500]))
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children: [
-                                  Text("stocks:", style: GoogleFonts.roboto(
-                                              fontSize: 18,
-                                              color: Colors.grey[500])),
-                                  const SizedBox(width: 10),
-                                  Text(article[index].stock.toString()),
                                 ],
                               ),
-                            )
-                          ],
+                             
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  });
-            }
-          }),
+                      );
+                    });
+              }
+            }),
+      ),
     );
   }
 
@@ -352,6 +357,8 @@ class _DeliveryListState extends State<DeliveryList> {
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
                 keyboardType: TextInputType.name,
+                obscureText: isVisibility,
+               
                 controller: _password,
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -364,6 +371,14 @@ class _DeliveryListState extends State<DeliveryList> {
                     hintStyle:
                         GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
                     prefixIcon: const Icon(Icons.key, size: 20),
+                    suffixIcon: IconButton(
+                      onPressed: (){
+                           setState(() {
+                      isVisibility = !isVisibility;
+                    });
+                      }, 
+                      icon: Icon(isVisibility ? Icons.visibility:Icons.visibility_off)
+                      ),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20))),
               ),

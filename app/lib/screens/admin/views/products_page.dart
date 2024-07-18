@@ -10,7 +10,7 @@ import 'package:hadja_grish/api/product_admin_api.dart';
 import 'package:hadja_grish/models/articles_model.dart';
 import 'package:hadja_grish/models/categorie_model.dart';
 import 'dart:io';
-import 'package:hadja_grish/screens/products_admin/details/singleProduct_admin.dart';
+import 'package:hadja_grish/screens/admin/details/singleProduct_admin.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProductPage extends StatefulWidget {
@@ -27,11 +27,12 @@ class _ProductPageState extends State<ProductPage> {
   List<CategoriesModel> _listCategories = [];
   final StreamController<List<ArticlesModel>> _articlesData =
       StreamController();
+     
 
   //coisir image depuis gallerie de phone
   final picker = ImagePicker();
   File? _imageProduct;
-  final List<File>? _gallery = [];
+  final List<File> _gallery = [];
 
   final _nameController = TextEditingController();
   String? _categoryController;
@@ -83,7 +84,7 @@ class _ProductPageState extends State<ProductPage> {
     try {
       var images = await picker.pickImage(source: ImageSource.gallery);
       setState(() {
-        _gallery!.add(File(images!.path));
+        _gallery.add(File(images!.path));
       });
     } on Exception catch (e) {
       Exception(e.toString());
@@ -93,7 +94,7 @@ class _ProductPageState extends State<ProductPage> {
   Future<void> _sendToServer() async {
     if (_globalKey.currentState!.validate()) {
       List<MultipartFile> imageFiles = [];
-      for (var asset in _gallery!) {
+      for (var asset in _gallery) {
         final paths = asset.path;
         imageFiles.add(await MultipartFile.fromFile(
           paths,
@@ -104,7 +105,7 @@ class _ProductPageState extends State<ProductPage> {
         "img": await MultipartFile.fromFile(_imageProduct!.path,
             filename: "photo.png"),
         "galleries*": imageFiles,
-        "category": _categoryController,
+        "categorie": _categoryController,
         "desc": _descController.text,
         "price": _priceController.text,
         "likes": 0,
@@ -120,6 +121,7 @@ class _ProductPageState extends State<ProductPage> {
         }
       } catch (e) {
         api.showSnackBarErrorPersonalized(context, e.toString());
+        print(e);
       }
     }
   }
@@ -168,7 +170,8 @@ class _ProductPageState extends State<ProductPage> {
           const SizedBox(width: 20),
         ],
       ),
-      body: SafeArea(
+      body: Container(
+        padding: const EdgeInsets.all(20),
         child: StreamBuilder<List<ArticlesModel>>(
             stream: _articlesData.stream,
             builder: (context, snaptshot) {
@@ -198,8 +201,8 @@ class _ProductPageState extends State<ProductPage> {
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: const Color(0xfff0fcf3),
-                            border: Border(bottom: BorderSide(color: const Color.fromARGB(255, 235, 235, 235)))
+                            color: Colors.white,
+                            border: const Border(bottom: BorderSide(color: Color.fromARGB(255, 235, 235, 235)))
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -243,7 +246,7 @@ class _ProductPageState extends State<ProductPage> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(
                                   children: [
-                                    Text("stocks:"),
+                                    Text("stocks:",style:GoogleFonts.roboto(fontSize:18)),
                                     const SizedBox(width: 10),
                                     Text(article[index].stock.toString()),
                                   ],
@@ -282,21 +285,7 @@ class _ProductPageState extends State<ProductPage> {
                   ),
                 ),
                 _formulaires(context),
-                const SizedBox(height: 15),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF1D1A30),
-                    minimumSize: const Size(400, 50),
-                  ),
-                  onPressed: _sendToServer,
-                  child: Text(
-                    "Enregistrer",
-                    style: GoogleFonts.roboto(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.white),
-                  ),
-                ),
+                
               ],
             ),
           ),
@@ -485,6 +474,21 @@ class _ProductPageState extends State<ProductPage> {
               ),
             ),
           ),
+          const SizedBox(height: 15),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF1D1A30),
+                    minimumSize: const Size(400, 50),
+                  ),
+                  onPressed: ()=>_sendToServer(),
+                  child: Text(
+                    "Enregistrer",
+                    style: GoogleFonts.roboto(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white),
+                  ),
+                ),
         ],
       ),
     );

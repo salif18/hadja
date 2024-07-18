@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Article;
@@ -16,9 +15,10 @@ class ArticlesController extends Controller
             // Vérifier les champs
             $validate = Validator::make($req->all(), [
                 'name' => 'required|string',
-                'img' => 'required|file|mimes:jpg,jpeg,png,bmp|max:2048',
-                'galleries.*' => 'required|file|mimes:jpg,jpeg,png,bmp|max:2048',
-                'category' => 'required|string',
+                'img' => 'required|image|mimes:jpg,jpeg,png,bmp|max:2048',
+                'galleries' => 'required|array',
+                'galleries.*' => 'image|mimes:jpg,jpeg,png,bmp|max:2048',
+                'categorie' => 'required|string',
                 'desc' => 'required|string',
                 'price' => 'required|integer',
                 'stock' => 'required|integer',
@@ -31,21 +31,21 @@ class ArticlesController extends Controller
                     "status" => false,
                     "message" => "Veuillez vérifier les champs.",
                     "errors" => $validate->errors()
-                ]);
+                ], 400);
             }
 
             // Insérer le produit dans la base
-            if ($req->hasFile("img")) {
+            if ($req->has("img")) {
                 $urlimg = $req->file("img")->store("uploads", "public");
                 $article = Article::create([
                     "name" => $req->name,
                     "img" => $urlimg,
-                    "category" => $req->category,
+                    "categorie" => $req->categorie,
                     "desc" => $req->desc,
                     "price" => $req->price,
                     "stock" => $req->stock,
-                    "likes" => $req->likes,
-                    "disLikes" => $req->disLikes
+                    "likes" => 0,
+                    "disLikes" => 0
                 ]);
 
                 // Insérer les images dans galleries

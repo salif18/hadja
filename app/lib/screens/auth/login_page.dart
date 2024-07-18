@@ -23,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
   ServicesApiAuth api = ServicesApiAuth();
   final _contacts = TextEditingController();
   final _password = TextEditingController(); 
-
+  bool isVisibility = false;
   @override 
   void dispose(){
     _contacts.dispose(); 
@@ -60,7 +60,6 @@ class _LoginPageState extends State<LoginPage> {
          providerProfil.saveToLocalStorage(user);
            Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (context) => const MyRoots()));
-              print(user.userStatut);
          
       } else {
         
@@ -141,6 +140,7 @@ class _LoginPageState extends State<LoginPage> {
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
                         controller: _password,
+                        
                          validator: (value) {
                           if (value!.isEmpty) {
                             return 'Veuillez entrer votre mot de passe';
@@ -148,14 +148,20 @@ class _LoginPageState extends State<LoginPage> {
                           return null;
                         },
                         keyboardType: TextInputType.visiblePassword,
-                        obscureText: true,
+                        obscureText: isVisibility,
                         decoration: InputDecoration(
                             hintText: "Mot de passe",
                             hintStyle: GoogleFonts.roboto(fontSize: 20),
                             filled: true,
                             fillColor: const Color(0xfff0fcf3),
-                            prefixIcon: const Icon(Icons.lock_outline, size: 28),
-                            suffixIcon: const Icon(Icons.visibility, size: 28),
+                           suffixIcon: IconButton(
+                      onPressed: (){
+                           setState(() {
+                      isVisibility = !isVisibility;
+                    });
+                      }, 
+                      icon: Icon(isVisibility ? Icons.visibility:Icons.visibility_off)
+                      ),
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20),
                                 borderSide: BorderSide.none)),

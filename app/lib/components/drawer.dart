@@ -10,9 +10,9 @@ import 'package:hadja_grish/screens/cart/widgets/maps.dart';
 import 'package:hadja_grish/screens/command/views/orders_admin.dart';
 import 'package:hadja_grish/screens/command/views/orders_client.dart';
 import 'package:hadja_grish/screens/command/views/orders_delibery.dart';
-import 'package:hadja_grish/screens/livreurs/views/delivery_list.dart';
-import 'package:hadja_grish/screens/products_admin/categories/categorie_list.dart';
-import 'package:hadja_grish/screens/products_admin/views/products_page.dart';
+import 'package:hadja_grish/screens/admin/livreurs/delivery_list.dart';
+import 'package:hadja_grish/screens/admin/categories/categorie_list.dart';
+import 'package:hadja_grish/screens/admin/views/products_page.dart';
 import 'package:hadja_grish/screens/profil/update_profil.dart';
 import 'package:provider/provider.dart';
 
@@ -38,11 +38,11 @@ class _DrawerWindowState extends State<DrawerWindow> {
 
   Future<void> logoutUserClearTokenTosServer(BuildContext context) async {
     final provider = Provider.of<AuthProvider>(context, listen: false);
-    var token = await provider.token();
+    var token = await provider.token();provider.logoutButton();
     try {
       final res = await api.postLogoutTokenUser(token);
       if (res.statusCode == 200) {
-        provider.logoutButton();
+        
         Navigator.pushReplacement(
             // ignore: use_build_context_synchronously
             context,
@@ -66,8 +66,12 @@ class _DrawerWindowState extends State<DrawerWindow> {
               return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
               return Center(child: Text('Error: ${snapshot.error}'));
-            } else if (snapshot.hasData) {
-              final ModelUser? profil = snapshot.data;
+            } else if (snapshot.hasData ) {
+              final ModelUser profil = snapshot.data!;
+              bool isAdmin = profil.statut == "isAdmin" ? true :false;
+              bool isLibery = profil.statut == "isLibery" ? true :false;
+              bool isClient = profil.statut == "isClient" ? true :false;
+
               return Drawer(
                 child: ListView(children: [
                   DrawerHeader(
@@ -160,7 +164,7 @@ class _DrawerWindowState extends State<DrawerWindow> {
                       ),
                     ),
                   ),
-                  if (profil!.userStatut != "isAdmin")
+                  // if (!isAdmin)
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 15, vertical: 5),
@@ -263,7 +267,7 @@ class _DrawerWindowState extends State<DrawerWindow> {
                         ),
                       ),
                     ),
-                  if (profil.userStatut == "isLibery")
+                  // if (isLibery)
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 15, vertical: 5),
@@ -320,7 +324,7 @@ class _DrawerWindowState extends State<DrawerWindow> {
                         ),
                       ),
                     ),
-                  if (profil.userStatut == "isClient")
+                  // if (isClient)
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 15, vertical: 5),
