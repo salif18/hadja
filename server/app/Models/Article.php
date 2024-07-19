@@ -9,17 +9,6 @@ class Article extends Model
 {
     use HasFactory;
     protected $guarded =[];
-    // protected $fillable = [
-    //     'product_id',
-    //     'name',
-    //     'img',
-    //     'categorie',
-    //     'desc',
-    //     'price',
-    //     'stock',
-    //     'likes',
-    //     'disLikes'
-    // ];
 
     public function galleries()
     {

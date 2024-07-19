@@ -6,7 +6,7 @@ use App\Models\Gallerie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class ArticlesController extends Controller
+class Articles_Controller extends Controller
 {
     // Ajouter un article
     public function createArticles(Request $req)
@@ -34,41 +34,30 @@ class ArticlesController extends Controller
             }
 
             // Insérer le produit dans la base
-            // if ($req->has("img")) {
-                // $urlimg = $req->file("img")->store("uploads", "public");
-                $article = Article::create([
-                    "name" => $req->name,
-                    "img" => $req->img,
-                    "categorie" => $req->categorie,
-                    "desc" => $req->desc,
-                    "price" => $req->price,
-                    "stock" => $req->stock,
-                    "likes" => 0,
-                    "disLikes" => 0
+            $articles = Article::create([
+                "name" => $req->name,
+                "img" => $req->img,
+                "categorie" => $req->categorie,
+                "desc" => $req->desc,
+                "price" => $req->price,
+                "stock" => $req->stock,
+                "likes" => $req->likes,
+                "disLikes" => $req->disLikes
+            ]);
+
+            // Insérer les images dans galleries
+            foreach ($req->galleries as $image) {
+                Gallerie::create([
+                    'article_id' => $articles->id,
+                    'img_path' => $image,
                 ]);
-
-                // Insérer les images dans galleries
-                // if ($req->hasFile('galleries')) {
-                    foreach ($req->galleries as $image) {
-                        // $path = $image->store('uploads', 'public');
-                        Gallerie::create([
-                            'article_id' => $article->id,
-                            'img_path' => $image,
-                        ]);
-                    }
-                
-
-                return response()->json([
-                    "status" => true,
-                    "message" => "Article ajouté.",
-                    "article" => $article
-                ], 201);
-            
+            }
 
             return response()->json([
-                "status" => false,
-                "message" => "Erreur lors de l'upload de l'image principale."
-            ], 400);
+                "status" => true,
+                "message" => "Article ajouté.",
+                "article" => $articles
+            ], 201);
 
         } catch (\Throwable $err) {
             return response()->json([

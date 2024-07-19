@@ -9,11 +9,9 @@ class Gallerie extends Model
 {
     use HasFactory;
     protected $guarded = [];
-    // protected $fillable = [
-    //     'article_id',
-    //     'img_path'
-    // ];
-    protected $table = 'galleries';  // Ajoutez cette ligne
+
+    protected $table = 'galleries';
+
     public function article()
     {
         return $this->belongsTo(Article::class);

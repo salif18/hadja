@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\ArticlesController;
+use App\Http\Controllers\Articles_Controller;
 use App\Http\Controllers\Auth_controller;
 use App\Http\Controllers\Categorie_Controller;
 use App\Http\Controllers\Orders_controller;
@@ -27,7 +27,11 @@ Route::post("/categories",[Categorie_Controller::class,"createCategorys"]);
 Route::get("/categories",[Categorie_controller::class,"getCategorys"]);
 
 //REQUETTES ARTICLES
-Route::post("/articles",[ArticlesController::class,"createArticles"]);
+Route::post("/articles",[Articles_Controller::class,"createArticles"]);
 
 //REQUETTES ORDERS
 Route::post("/orders",[Orders_controller::class,"createOrders"]);
+Route::get("/orders",[Orders_controller::class,"getAllOrders"]);
+Route::get("/orders/{userId}",[Orders_controller::class,"getOrdersByUser"]);
+Route::get("/orders/status/{statut}", [Orders_Controller::class, "getOrdersByStatut"]);
+Route::put("/orders/{id}",[Orders_controller::class,"updateOrdersStatut"]);
