@@ -35,3 +35,8 @@ Route::get("/orders",[Orders_controller::class,"getAllOrders"]);
 Route::get("/orders/{userId}",[Orders_controller::class,"getOrdersByUser"]);
 Route::get("/orders/status/{statut}", [Orders_Controller::class, "getOrdersByStatut"]);
 Route::put("/orders/{id}",[Orders_controller::class,"updateOrdersStatut"]);
+
+// MY ROUTE
+Route::post('/upload', [Articles_Controller::class, 'uploadGalerieImages']);
+Route::post('/AddArticle', [Articles_Controller::class, 'AddArticle']);
+Route::get('/getArticleWithGaleries', [Articles_Controller::class, 'getArticleWithGaleries']);
