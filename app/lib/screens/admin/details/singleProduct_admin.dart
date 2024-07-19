@@ -102,7 +102,6 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
         }
       } catch (e) {
         api.showSnackBarErrorPersonalized(context, e.toString());
-        print(e);
       }
     }
   }
@@ -204,7 +203,7 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
                           child: SizedBox(
                             width: 120,
                             height: 120,
-                            child: Image.asset(element,),
+                            child: Image.asset(element,)
                           ),
                         );
                       }).toList()
