@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hadja_grish/screens/command/views/order_delivery.dart';
-import 'package:hadja_grish/screens/command/views/order_en_cours.dart';
-import 'package:hadja_grish/screens/command/views/order_non_payer.dart';
-import 'package:hadja_grish/screens/command/views/order_payer.dart';
+import 'package:hadja_grish/screens/command/views/order_en_cours_page.dart';
+import 'package:hadja_grish/screens/command/views/order_livrer_page.dart';
 
 class AdminOders extends StatefulWidget {
   const AdminOders({super.key});
@@ -16,7 +14,7 @@ class _AdminOdersState extends State<AdminOders> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
+      length: 2,
       child: Scaffold(
           appBar: AppBar(
             title: Text("Commandes",
@@ -32,18 +30,9 @@ class _AdminOdersState extends State<AdminOders> {
             bottom: TabBar(
                 isScrollable: true,
                 indicatorColor: const Color.fromARGB(255, 5, 191, 100),
-                indicatorWeight: 2.3,
+                indicatorWeight: 4.3,
+                labelPadding: const EdgeInsets.only(left: 50, right: 50),
                 tabs: [
-                  Tab(
-                    child: Text("Payé",
-                        style: GoogleFonts.roboto(
-                            fontSize: 20, fontWeight: FontWeight.w400)),
-                  ),
-                  Tab(
-                    child: Text("Non payé",
-                        style: GoogleFonts.roboto(
-                            fontSize: 20, fontWeight: FontWeight.w400)),
-                  ),
                   Tab(
                     child: Text("En cours",
                         style: GoogleFonts.roboto(
@@ -58,10 +47,8 @@ class _AdminOdersState extends State<AdminOders> {
           ),
           body: const TabBarView(
             children: [
-              Tab(child: OrderPaid()),
-              Tab(child: OrderNoPaid()),
-              Tab(child: OrderWait()),
-              Tab(child: OrderDelivery()),
+              Tab(child: OrderEnCours()),
+              Tab(child: OrderLivrer()),
             ],
           )),
     );

@@ -196,7 +196,7 @@ class _ProductPageState extends State<ProductPage> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      _showSingleProduct(context)));
+                                      SingleProductAdmin(article: article[index])));
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -494,16 +494,4 @@ class _ProductPageState extends State<ProductPage> {
     );
   }
 
-  _showSingleProduct(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      builder: (BuildContext context) {
-        return Container(
-          height: MediaQuery.of(context).size.height * 0.9,
-          child: SingleProductAdmin(),
-        );
-      },
-    );
-  }
 }

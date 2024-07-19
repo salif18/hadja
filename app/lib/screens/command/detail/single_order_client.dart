@@ -37,28 +37,7 @@ class _SingleOrderClientState extends State<SingleOrderClient> {
       ),
       child: Column(
         children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            height: 100,
-            padding: const EdgeInsets.all(8.0),
-            decoration: BoxDecoration(
-                color: Colors.grey[100], borderRadius: BorderRadius.circular(20)),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                CircleAvatar(), 
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Savon",style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400)),
-                    Text("Quantite 1",style:GoogleFonts.roboto(fontSize: 20,color:Colors.grey[500]))
-                  ],
-                ), 
-                Text("prix: 234",style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400))]),
-          ),
-        ),
+      
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(

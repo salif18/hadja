@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:hadja_grish/screens/command/widgets/card_orders_admin.dart';
 
-class OrderPaid extends StatefulWidget {
-  const OrderPaid({super.key});
+class OrderEnCours extends StatefulWidget {
+  const OrderEnCours({super.key});
 
   @override
-  State<OrderPaid> createState() => _OrderPaidState();
+  State<OrderEnCours> createState() => _OrderEnCoursState();
 }
 
-class _OrderPaidState extends State<OrderPaid> {
+class _OrderEnCoursState extends State<OrderEnCours> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,7 +17,7 @@ class _OrderPaidState extends State<OrderPaid> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(15),
+              padding: EdgeInsets.all(15),
               child: CardOrder(),
               ),
           ],
