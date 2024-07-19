@@ -67,4 +67,97 @@ class Articles_Controller extends Controller
             ], 500);
         }
     }
+
+
+
+    // Exemple code to add article and galerie image to an article
+
+        //
+        // public function uploadGalerieImages(Request $request)
+        // {
+        //     $request->validate([
+        //         'urlImg.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:22048',
+        //     ]);
+
+        //     $imageNames = [];
+        //     if ($request->hasfile('urlImg')) {
+        //         foreach ($request->file('urlImg') as $file) {
+
+        //             $name = time() . '_' . $file->getClientOriginalName();
+        //             $file->move(public_path('galeries'), $name);
+        //             $imageNames[] = $name;
+        //         }
+        //          $galeriesImages=Gallerie::create([
+        //         'article_id'=>$request->article_id,
+        //         'urlImg'=>json_encode($imageNames),
+        //     ]);
+        //     return response()->json(['success' => 'Files uploaded successfully', 'files' => $imageNames]);
+        //     }
+
+        // }
+
+        // public function AddArticle(Request $request){
+
+        //     try {
+        //         $valid=Validator::make($request->all(),[
+        //             'name'=>'required',
+        //             'category'=>'required',
+        //             'desc'=>'required',
+        //             'stock'=>'required',
+        //             'price'=>'required'
+
+        //         ]);
+        //         if($valid->fails()){
+        //             return response()->json([
+        //                 'status'=>false,
+        //                 'message'=> $valid->errors(),
+        //             ]);
+        //         }
+
+
+        //         //traitement de l'image recu de l'article
+
+        //         $imageNames = '';
+        //         if ($request->hasfile('img')) {
+        //             $image=$request->file('img');
+        //                 $name = time() . '_' . $image->getClientOriginalName();
+        //                 $image->move(public_path('images'), $name);
+        //                 $imageNames = $name;
+        //             }
+        //         $Article=Article::create([
+        //             'name'=>$request->name,
+        //             'category'=>$request->category,
+        //             'desc'=>$request->desc,
+        //             'favorite'=>$request->favorite,
+        //             'likes'=>$request->likes,
+        //             'stock'=>$request->stock,
+        //             'price'=>$request->price,
+        //             'img'=>$imageNames,
+        //         ]);
+
+        //         return response()->json([
+        //             'status'=>true,
+        //             'Article'=> $Article,
+        //             'message'=>'Article ajouter avec succes',
+        //         ]);
+
+        //     } catch (\Throwable $th) {
+        //         return response()->json([
+        //             'status'=>false,
+        //             'message'=> $th->getMessage(),
+        //         ]);
+        //     }
+
+        // }
+
+        // public function getArticleWithGaleries(){
+
+        //     $a = Article::with('galleries')->get();
+        //     return response()->json(['success' => 'articles are : ', 'Articles' => $a]);
+
+
+        // }
+
+
+
 }
