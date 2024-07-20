@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hadja_grish/models/cart_item_model.dart';
 import 'package:hadja_grish/providers/cart_provider.dart';
 import 'package:hadja_grish/screens/articles/articles.dart';
 import 'package:hadja_grish/screens/cart/views/cart_page.dart';

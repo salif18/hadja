@@ -58,7 +58,8 @@ class _DrawerWindowState extends State<DrawerWindow> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<UserInfosProvider>(builder: (context, provider, child) {
+    return Consumer<UserInfosProvider>(
+      builder: (context, provider, child) {
       return FutureBuilder<ModelUser?>(
           future: provider.loadProfilFromLocalStorage(),
           builder: (context, snapshot) {
@@ -67,7 +68,7 @@ class _DrawerWindowState extends State<DrawerWindow> {
             } else if (snapshot.hasError) {
               return Center(child: Text('Error: ${snapshot.error}'));
             } else if (snapshot.hasData ) {
-              final ModelUser profil = snapshot.data!;
+               ModelUser profil = snapshot.data!;
               return Drawer(
                 child: ListView(children: [
                   DrawerHeader(
@@ -160,7 +161,7 @@ class _DrawerWindowState extends State<DrawerWindow> {
                       ),
                     ),
                   ),
-                  if (profil.statut.toString() == "isAdmin")
+                  if (profil.statut.toString() != "isAdmin")
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 15, vertical: 5),

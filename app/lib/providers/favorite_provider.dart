@@ -16,7 +16,7 @@ class FavoriteProvider extends ChangeNotifier {
 
   void addMyFavorites(ArticlesModel article) {
     final existInFavorites = _favoriteArray.firstWhereOrNull(
-        (favoriteItem) => favoriteItem.productId == article.productId);
+        (favoriteItem) => favoriteItem.productId.contains(article.productId));
     if (existInFavorites != null) {
       _favoriteArray.removeWhere((item) => item.productId == article.productId);
     } else {

@@ -11,6 +11,7 @@ class UserInfosProvider extends ChangeNotifier {
   Future<void> saveToLocalStorage(ModelUser data) async {
     final SharedPreferences storage = await SharedPreferences.getInstance(); 
     await storage.setString("profil", jsonEncode(data));
+    notifyListeners();
   }
 
 //load to localStorage
