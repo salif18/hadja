@@ -25,7 +25,7 @@ class ServicesAPiProducts {
 
   //obtenir depenses
   getAllProducts() async {
-    var uri = "$urlServer/articles";
+    var uri = "$urlServer/getArticleWithGaleries";
     return await http.get(
       Uri.parse(uri),
       headers: {

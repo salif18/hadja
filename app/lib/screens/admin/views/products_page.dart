@@ -1,7 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:async';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -25,14 +24,11 @@ class _ProductPageState extends State<ProductPage> {
   ServicesAPiProducts api = ServicesAPiProducts();
   ServicesApiCategory apiCatego = ServicesApiCategory();
   List<CategoriesModel> _listCategories = [];
-  final StreamController<List<ArticlesModel>> _articlesData =
-      StreamController();
-     
+  final StreamController<List<ArticlesModel>> _articlesData = StreamController();
 
-  //coisir image depuis gallerie de phone
   final picker = ImagePicker();
   File? _imageProduct;
-  final List<File> _gallery = [];
+  final List<File>? _gallery = [];
 
   final _nameController = TextEditingController();
   String? _categoryController;
@@ -84,7 +80,9 @@ class _ProductPageState extends State<ProductPage> {
     try {
       var images = await picker.pickImage(source: ImageSource.gallery);
       setState(() {
-        _gallery.add(File(images!.path));
+        if (images != null) {
+          _gallery?.add(File(images.path));
+        }
       });
     } on Exception catch (e) {
       Exception(e.toString());
@@ -93,20 +91,24 @@ class _ProductPageState extends State<ProductPage> {
 
   Future<void> _sendToServer() async {
     if (_globalKey.currentState!.validate()) {
-      List<MultipartFile> imageFiles = [];
-      for (var asset in _gallery) {
-        final paths = asset.path;
-        imageFiles.add(await MultipartFile.fromFile(
-          paths,
-        ));
+      if (_imageProduct == null || _categoryController == null) {
+        api.showSnackBarErrorPersonalized(context, "Veuillez sélectionner une image et une catégorie.");
+        return;
       }
+
+      List<MultipartFile> imageFiles = [];
+      for (var asset in _gallery!) {
+        final paths = asset.path;
+        imageFiles.add(await MultipartFile.fromFile(paths));
+      }
+      
       FormData formData = FormData.fromMap({
         "name": _nameController.text,
-        "img": await MultipartFile.fromFile(_imageProduct!.path,
-            filename: "photo.png"),
-        "galleries*": imageFiles,
+        "img": await MultipartFile.fromFile(_imageProduct!.path, filename: "photo.png"),
+        "galleries": imageFiles,
         "categorie": _categoryController,
         "desc": _descController.text,
+        "stock": _stockController.text,
         "price": _priceController.text,
         "likes": 0,
         "disLikes": 0
@@ -174,22 +176,22 @@ class _ProductPageState extends State<ProductPage> {
         padding: const EdgeInsets.all(20),
         child: StreamBuilder<List<ArticlesModel>>(
             stream: _articlesData.stream,
-            builder: (context, snaptshot) {
-              if (snaptshot.connectionState == ConnectionState.waiting) {
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
                 return const CircularProgressIndicator();
-              } else if (snaptshot.hasError) {
-                return Text("err",
+              } else if (snapshot.hasError) {
+                return Text("Erreur",
                     style: GoogleFonts.roboto(
                         fontSize: 20, fontWeight: FontWeight.w600));
-              } else if (!snaptshot.hasData || snaptshot.data!.isEmpty) {
-                return Text("No data available",
+              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return Text("Aucune donnée disponible",
                     style: GoogleFonts.roboto(
                         fontSize: 20, fontWeight: FontWeight.w600));
               } else {
                 return ListView.builder(
-                    itemCount: snaptshot.data!.length,
+                    itemCount: snapshot.data!.length,
                     itemBuilder: (BuildContext context, int index) {
-                      final article = snaptshot.data!;
+                      final article = snapshot.data!;
                       return GestureDetector(
                         onTap: () {
                           Navigator.push(
@@ -285,7 +287,6 @@ class _ProductPageState extends State<ProductPage> {
                   ),
                 ),
                 _formulaires(context),
-                
               ],
             ),
           ),
@@ -475,23 +476,22 @@ class _ProductPageState extends State<ProductPage> {
             ),
           ),
           const SizedBox(height: 15),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF1D1A30),
-                    minimumSize: const Size(400, 50),
-                  ),
-                  onPressed: ()=>_sendToServer(),
-                  child: Text(
-                    "Enregistrer",
-                    style: GoogleFonts.roboto(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.white),
-                  ),
-                ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF1D1A30),
+              minimumSize: const Size(400, 50),
+            ),
+            onPressed: _sendToServer,
+            child: Text(
+              "Enregistrer",
+              style: GoogleFonts.roboto(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.white),
+            ),
+          ),
         ],
       ),
     );
   }
-
 }

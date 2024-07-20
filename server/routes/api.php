@@ -26,9 +26,6 @@ Route::get("/livreurs",[Auth_controller::class,"getLibery"]);
 Route::post("/categories",[Categorie_Controller::class,"createCategorys"]);
 Route::get("/categories",[Categorie_controller::class,"getCategorys"]);
 
-//REQUETTES ARTICLES
-Route::post("/articles",[Articles_Controller::class,"createArticles"]);
-
 //REQUETTES ORDERS
 Route::post("/orders",[Orders_controller::class,"createOrders"]);
 Route::get("/orders",[Orders_controller::class,"getAllOrders"]);
@@ -36,7 +33,7 @@ Route::get("/orders/{userId}",[Orders_controller::class,"getOrdersByUser"]);
 Route::get("/orders/status/{statut}", [Orders_Controller::class, "getOrdersByStatut"]);
 Route::put("/orders/{id}",[Orders_controller::class,"updateOrdersStatut"]);
 
-// MY ROUTE
+// MY ROUTE ARTICLES
 Route::post('/upload', [Articles_Controller::class, 'uploadGalerieImages']);
-Route::post('/AddArticle', [Articles_Controller::class, 'AddArticle']);
-Route::get('/getArticleWithGaleries', [Articles_Controller::class, 'getArticleWithGaleries']);
+Route::post('/articles', [Articles_Controller::class, 'createArticle']);
+Route::get('/get_article_with_galeries', [Articles_Controller::class, 'getArticleWithGaleries']);
