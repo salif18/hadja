@@ -68,10 +68,6 @@ class _DrawerWindowState extends State<DrawerWindow> {
               return Center(child: Text('Error: ${snapshot.error}'));
             } else if (snapshot.hasData ) {
               final ModelUser profil = snapshot.data!;
-              bool isAdmin = profil.statut == "isAdmin" ? true :false;
-              bool isLibery = profil.statut == "isLibery" ? true :false;
-              bool isClient = profil.statut == "isClient" ? true :false;
-
               return Drawer(
                 child: ListView(children: [
                   DrawerHeader(
@@ -79,13 +75,13 @@ class _DrawerWindowState extends State<DrawerWindow> {
                     child: Column(
                       children: [
                         ClipRect(
-                          child: Image.asset("assets/images/profil.jpeg",
+                          child: Image.asset(profil.photo ?? "assets/images/profil.jpeg",
                               height: 50, width: 50, fit: BoxFit.fill),
                         ),
-                        const Padding(
-                          padding: EdgeInsets.all(5),
+                        Padding(
+                          padding: const EdgeInsets.all(5),
                           child: Column(
-                            children: [Text("User"), Text("user@gmail.com")],
+                            children: [Text(profil.name ?? "User"), Text( profil.email ?? "user@gmail.com")],
                           ),
                         )
                       ],
@@ -164,7 +160,7 @@ class _DrawerWindowState extends State<DrawerWindow> {
                       ),
                     ),
                   ),
-                  // if (!isAdmin)
+                  if (profil.statut.toString() == "isAdmin")
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 15, vertical: 5),
@@ -267,7 +263,7 @@ class _DrawerWindowState extends State<DrawerWindow> {
                         ),
                       ),
                     ),
-                  // if (isLibery)
+                  if (profil.statut.toString() == "isLibery")
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 15, vertical: 5),
@@ -324,7 +320,7 @@ class _DrawerWindowState extends State<DrawerWindow> {
                         ),
                       ),
                     ),
-                  // if (isClient)
+                  if (profil.statut.toString() == "isClient")
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 15, vertical: 5),

@@ -11,14 +11,13 @@ class ServicesApiAuth{
   // fonction de connection
   postLoginUser(data)async{
     var url = "$domaineApi/login";
-    return await dio.post(url, 
-    data:data, 
-    options:Options(
+    return await http.post(Uri.parse(url), 
+    body:jsonEncode(data), 
       headers: {
         "Content-Type": "application/json; charset=UTF-8",
         "Accept": "*/*",
         "Accept-Encoding": "gzip, deflate, br",
-    }));
+    });
   }
 
 // fonction de creation de compte

@@ -17,13 +17,18 @@ class RegistrePage extends StatefulWidget {
 }
 
 class _RegistrePageState extends State<RegistrePage> {
+  // CLE KEY FORMULAIRE
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+  // API SERVICE AUTHENTIFICATION
   ServicesApiAuth api = ServicesApiAuth();
+
+  //CHAMPS FORMULAIRES
   final _nom = TextEditingController();
   final _numero = TextEditingController();
   final _email = TextEditingController();
   final _password = TextEditingController();
-  bool isVisibility = false;
+
+  bool isVisibility = true;
 
   @override
   void dispose() {
@@ -34,6 +39,7 @@ class _RegistrePageState extends State<RegistrePage> {
     super.dispose();
   }
 
+// ENVOIE DES DONNEE VERS API SERVER
   Future<void> _sendToserver(BuildContext context) async {
   if (_globalKey.currentState!.validate()) {
     final data = {
@@ -61,7 +67,6 @@ class _RegistrePageState extends State<RegistrePage> {
 
       if (res.statusCode == 201) {
         // ignore: use_build_context_synchronously
-        api.showSnackBarSuccessPersonalized(context, body["message"]);
         provider.loginButton(body['token'], body["userId"].toString());
         ModelUser user = ModelUser.fromJson(body['profil']);
          providerProfil.saveToLocalStorage(user);
@@ -77,7 +82,7 @@ class _RegistrePageState extends State<RegistrePage> {
       Navigator.pop(context); // Fermer le dialog
       // ignore: use_build_context_synchronously
       api.showSnackBarErrorPersonalized(context, e.toString());
-      print(e);
+    
     }
   }
 }
@@ -217,7 +222,7 @@ class _RegistrePageState extends State<RegistrePage> {
                       isVisibility = !isVisibility;
                     });
                       }, 
-                      icon: Icon(isVisibility ? Icons.visibility:Icons.visibility_off)
+                      icon: Icon(isVisibility ? Icons.visibility_off:Icons.visibility)
                       ),
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20),

@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/api/auth_api.dart';
@@ -19,11 +21,15 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
 
+// CLE KEY POUR LE FORMULAIRE
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+  // API SERVICE AUTHENTIFICATION
   ServicesApiAuth api = ServicesApiAuth();
+  // CHAMPS FORMULAIRE
   final _contacts = TextEditingController();
   final _password = TextEditingController(); 
-  bool isVisibility = false;
+  bool isVisibility = true;
+
   @override 
   void dispose(){
     _contacts.dispose(); 
@@ -31,6 +37,7 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
+// ENVOIE DES DONNEES VERS API SERVER
   Future<void> _sendToserver(BuildContext context) async {
   if (_globalKey.currentState!.validate()) {
     final data = {
@@ -48,28 +55,22 @@ class _LoginPageState extends State<LoginPage> {
               child: CircularProgressIndicator(),
             );
           });
-      final res = await api.postLoginUser(data);
-      final body = res.data;
+      final response = await api.postLoginUser(data);
+      final body = jsonDecode(response.body);
       Navigator.pop(context); // Fermer le dialog
 
-      if (res.statusCode == 200) {
+      if (response.statusCode == 200) {
         ModelUser user = ModelUser.fromJson(body['profil']);
-
-        api.showSnackBarSuccessPersonalized(context, body["message"]);
          providerAuth.loginButton(body['token'], body["userId"].toString());
          providerProfil.saveToLocalStorage(user);
            Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (context) => const MyRoots()));
-         
-      } else {
-        
-        api.showSnackBarErrorPersonalized(context, body["message"]);
+      } else{
+         api.showSnackBarErrorPersonalized(context, body["message"]);
       }
     } catch (e) {
       Navigator.pop(context); // Fermer le dialog
-      
       api.showSnackBarErrorPersonalized(context, e.toString());
-      print(e);
     }
   }
 }
@@ -101,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
             Padding(
               padding: const EdgeInsets.only(top: 29.0),
               child: Container(
-                height: 500,
+                height: 620,
                 width: double.infinity,
                 padding: const EdgeInsets.only(top: 50, left: 15, right: 15),
                 decoration: const BoxDecoration(
@@ -150,7 +151,7 @@ class _LoginPageState extends State<LoginPage> {
                         keyboardType: TextInputType.visiblePassword,
                         obscureText: isVisibility,
                         decoration: InputDecoration(
-                            hintText: "Mot de passe",
+                            hintText:"Mot de passe",
                             hintStyle: GoogleFonts.roboto(fontSize: 20),
                             filled: true,
                             fillColor: const Color(0xfff0fcf3),
@@ -160,7 +161,7 @@ class _LoginPageState extends State<LoginPage> {
                       isVisibility = !isVisibility;
                     });
                       }, 
-                      icon: Icon(isVisibility ? Icons.visibility:Icons.visibility_off)
+                      icon: Icon(isVisibility ? Icons.visibility_off:Icons.visibility)
                       ),
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20),
