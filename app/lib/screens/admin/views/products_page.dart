@@ -28,7 +28,7 @@ class _ProductPageState extends State<ProductPage> {
 
   final picker = ImagePicker();
   File? _imageProduct;
-  final List<File>? _gallery = [];
+  final List<File> _gallery = [];
 
   final _nameController = TextEditingController();
   String? _categoryController;
@@ -78,12 +78,10 @@ class _ProductPageState extends State<ProductPage> {
 
   Future<void> _selectMultiImageGallery() async {
     try {
-      var images = await picker.pickImage(source: ImageSource.gallery);
+      final List<XFile> images = await picker.pickMultiImage();
       setState(() {
-        if (images != null) {
-          _gallery?.add(File(images.path));
-        }
-      });
+       _gallery.addAll(images.map((image) => File(image.path)).toList());
+            });
     } on Exception catch (e) {
       Exception(e.toString());
     }
@@ -97,9 +95,9 @@ class _ProductPageState extends State<ProductPage> {
       }
 
       List<MultipartFile> imageFiles = [];
-      for (var asset in _gallery!) {
+      for (var asset in _gallery) {
         final paths = asset.path;
-        imageFiles.add(await MultipartFile.fromFile(paths));
+        imageFiles.add( await MultipartFile.fromFile(paths));
       }
       
       FormData formData = FormData.fromMap({
@@ -396,6 +394,7 @@ class _ProductPageState extends State<ProductPage> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                 ),
+                // ignore: unnecessary_null_comparison
                 child: _gallery == null
                     ? Text("Aucune image sélectionnée",
                         style: GoogleFonts.roboto(
