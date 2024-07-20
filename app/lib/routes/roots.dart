@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hadja_grish/models/cart_item_model.dart';
 import 'package:hadja_grish/providers/cart_provider.dart';
 import 'package:hadja_grish/screens/articles/articles.dart';
 import 'package:hadja_grish/screens/cart/views/cart_page.dart';
@@ -61,16 +62,19 @@ class _MyRootsState extends State<MyRoots> {
               icon: Icon(FontAwesomeIcons.productHunt), label: "Produits"),
           BottomNavigationBarItem(
             icon: Consumer<CartProvider>(
-              builder: (context, cartProvider, child) {
-                return Stack(
+              builder: (context, provider, child) {
+                return FutureBuilder(
+                  future: provider.loadCartFromLocalStorage(), 
+                  builder: (context, snaptshot){
+                    return Stack(
                   children: [
                     const Icon(Icons.shopping_cart_outlined),
-                    if (cartProvider.myCart.isNotEmpty)
+                    if (provider.myCart.isNotEmpty)
                       Positioned(
                         left: 15,
                         bottom: 15,
                         child: Badge.count(
-                          count: cartProvider.myCart.length,
+                          count: provider.myCart.length,
                           backgroundColor: Colors.red,
                           textStyle: GoogleFonts.roboto(
                             fontSize: 14,
@@ -81,6 +85,8 @@ class _MyRootsState extends State<MyRoots> {
                       ),
                   ],
                 );
+                  }
+                  );
               },
             ),
             label: "Panier",

@@ -26,7 +26,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> drawerKey = GlobalKey<ScaffoldState>();
-   
+
   ServicesApiCategory api = ServicesApiCategory();
 
   final StreamController<List<CategoriesModel>> _listCategories =
@@ -44,12 +44,11 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-   @override
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     _getCategories();
   }
-
 
   Future<void> _getCategories() async {
     try {
@@ -112,25 +111,29 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               Consumer<CartProvider>(
-                builder: (context, cartProvider, child) {
-                  if (cartProvider.myCart.isNotEmpty) {
-                    return Positioned(
-                      left: 30,
-                      bottom: 25,
-                      child: Badge.count(
-                        count: cartProvider.myCart.length,
-                        backgroundColor: Colors.amber,
-                        largeSize: 45 / 2,
-                        textStyle: GoogleFonts.roboto(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                    );
-                  } else {
-                    return const SizedBox.shrink();
-                  }
+                builder: (context, provider, child) {
+                  return FutureBuilder(
+                      future: provider.loadCartFromLocalStorage(),
+                      builder: (context, snaptshot) {
+                        if (provider.myCart.isNotEmpty) {
+                          return Positioned(
+                            left: 30,
+                            bottom: 25,
+                            child: Badge.count(
+                              count: provider.myCart.length,
+                              backgroundColor: Colors.amber,
+                              largeSize: 45 / 2,
+                              textStyle: GoogleFonts.roboto(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                          );
+                        } else {
+                          return const SizedBox.shrink();
+                        }
+                      });
                 },
               ),
             ],
@@ -159,7 +162,7 @@ class _HomePageState extends State<HomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-           const Column(
+            const Column(
               children: [
                 MyHeaderWidget(),
                 MySearchSectionWidget(),
@@ -176,7 +179,7 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 children: [
                   MyCarouselWidget(),
-                  MyChooseCategoryWidget(listCategories:_listCategories),
+                  MyChooseCategoryWidget(listCategories: _listCategories),
                   MyRecomadationWidget(),
                   MyProductListWidget(),
                 ],
