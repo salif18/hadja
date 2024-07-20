@@ -20,16 +20,22 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends State<ProductPage> {
+  // Clé Key du formulaire
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+  // api denvoie vers le server
   ServicesAPiProducts api = ServicesAPiProducts();
   ServicesApiCategory apiCatego = ServicesApiCategory();
+  // declarations des Variables list categories et list des articles
   List<CategoriesModel> _listCategories = [];
-  final StreamController<List<ArticlesModel>> _articlesData = StreamController();
+  final StreamController<List<ArticlesModel>> _articlesData =
+      StreamController();
 
-  final picker = ImagePicker();
-  File? _imageProduct;
-  final List<File> _gallery = [];
+// configuration de selection image depuis gallerie
+  final ImagePicker _picker = ImagePicker();
+  XFile? _articleImage;
+  List<XFile>? gallerieImages = [];
 
+// configuration des champs de formulaires pour le controller
   final _nameController = TextEditingController();
   String? _categoryController;
   final _descController = TextEditingController();
@@ -59,6 +65,24 @@ class _ProductPageState extends State<ProductPage> {
     _getProducts();
   }
 
+// fonction de recuperation des categories list depuis server
+  Future<void> _getCategories() async {
+    try {
+      final res = await apiCatego.getCategories();
+      final body = res.data;
+      if (res.statusCode == 200) {
+        setState(() {
+          _listCategories = (body["categories"] as List)
+              .map((json) => CategoriesModel.fromJson(json))
+              .toList();
+        });
+      }
+    } catch (e) {
+      Exception(e);
+    }
+  }
+
+// fonction fetch data articles depuis server
   Future<void> _getProducts() async {
     try {
       _articlesData.add(ArticlesModel.data());
@@ -67,43 +91,52 @@ class _ProductPageState extends State<ProductPage> {
     }
   }
 
+// obtenir l"image depuis gallerie du telephone
   Future<void> _getImageToGalleriePhone() async {
-    final imagePicked = await picker.pickImage(source: ImageSource.gallery);
+    final XFile? imagePicked =
+        await _picker.pickImage(source: ImageSource.gallery);
     setState(() {
       if (imagePicked != null) {
-        _imageProduct = File(imagePicked.path);
+        _articleImage = imagePicked;
       }
     });
   }
 
+// selectionner plusieur images depuis gallerie du telephone
   Future<void> _selectMultiImageGallery() async {
     try {
-      final List<XFile> images = await picker.pickMultiImage();
-      setState(() {
-       _gallery.addAll(images.map((image) => File(image.path)).toList());
-            });
+      final List<XFile> pickedFiles = await _picker.pickMultiImage();
+      if (pickedFiles.isNotEmpty) {
+        setState(() {
+          gallerieImages?.addAll(pickedFiles);
+        });
+      }
     } on Exception catch (e) {
       Exception(e.toString());
     }
   }
 
+// Envoie des donnees vers le server
   Future<void> _sendToServer() async {
     if (_globalKey.currentState!.validate()) {
-      if (_imageProduct == null || _categoryController == null) {
-        api.showSnackBarErrorPersonalized(context, "Veuillez sélectionner une image et une catégorie.");
+      if (_articleImage == null || _categoryController == null) {
+        api.showSnackBarErrorPersonalized(
+            context, "Veuillez sélectionner une image et une catégorie.");
         return;
       }
 
-      List<MultipartFile> imageFiles = [];
-      for (var asset in _gallery) {
-        final paths = asset.path;
-        imageFiles.add( await MultipartFile.fromFile(paths));
+// recuperation des chemins de chaque images ajouter dans gallerieImages
+      List<MultipartFile> imageFilesPaths = [];
+      for (var image in gallerieImages!) {
+        imageFilesPaths.add(
+            await MultipartFile.fromFile(image.path, filename: "photo.png"));
       }
-      
+
       FormData formData = FormData.fromMap({
         "name": _nameController.text,
-        "img": await MultipartFile.fromFile(_imageProduct!.path, filename: "photo.png"),
-        "galleries": imageFiles,
+        "img": await MultipartFile.fromFile(_articleImage!.path,
+            filename: "photo.png"),
+        "galleries": imageFilesPaths,
         "categorie": _categoryController,
         "desc": _descController.text,
         "stock": _stockController.text,
@@ -121,24 +154,7 @@ class _ProductPageState extends State<ProductPage> {
         }
       } catch (e) {
         api.showSnackBarErrorPersonalized(context, e.toString());
-        print(e);
       }
-    }
-  }
-
-  Future<void> _getCategories() async {
-    try {
-      final res = await apiCatego.getCategories();
-      final body = res.data;
-      if (res.statusCode == 200) {
-        setState(() {
-          _listCategories = (body["categories"] as List)
-              .map((json) => CategoriesModel.fromJson(json))
-              .toList();
-        });
-      }
-    } catch (e) {
-      Exception(e);
     }
   }
 
@@ -195,15 +211,17 @@ class _ProductPageState extends State<ProductPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      SingleProductAdmin(article: article[index])));
+                                  builder: (context) => SingleProductAdmin(
+                                      article: article[index])));
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.white,
-                            border: const Border(bottom: BorderSide(color: Color.fromARGB(255, 235, 235, 235)))
-                          ),
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white,
+                              border: const Border(
+                                  bottom: BorderSide(
+                                      color:
+                                          Color.fromARGB(255, 235, 235, 235)))),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -215,38 +233,41 @@ class _ProductPageState extends State<ProductPage> {
                                       width: 50,
                                       height: 50,
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(20)),
+                                          borderRadius:
+                                              BorderRadius.circular(20)),
                                       child: Image.asset(
                                         article[index].img,
                                         fit: BoxFit.contain,
                                       ),
                                     ),
                                   ),
-                                   Padding(
-                                padding: const EdgeInsets.only(left: 15),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(article[index].name,
-                                        style: GoogleFonts.roboto(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w500)),
-                                    Text(
-                                        "${article[index].price.toString()} fcfa",
-                                        style: GoogleFonts.roboto(
-                                            fontSize: 18,
-                                            color: Colors.grey[500]))
-                                  ],
-                                ),
-                              ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 15),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(article[index].name,
+                                            style: GoogleFonts.roboto(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w500)),
+                                        Text(
+                                            "${article[index].price.toString()} fcfa",
+                                            style: GoogleFonts.roboto(
+                                                fontSize: 18,
+                                                color: Colors.grey[500]))
+                                      ],
+                                    ),
+                                  ),
                                 ],
                               ),
-                             
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(
                                   children: [
-                                    Text("stocks:",style:GoogleFonts.roboto(fontSize:18)),
+                                    Text("stocks:",
+                                        style:
+                                            GoogleFonts.roboto(fontSize: 18)),
                                     const SizedBox(width: 10),
                                     Text(article[index].stock.toString()),
                                   ],
@@ -312,11 +333,11 @@ class _ProductPageState extends State<ProductPage> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                 ),
-                child: _imageProduct == null
+                child: _articleImage == null
                     ? Text("Aucune image sélectionnée",
                         style: GoogleFonts.roboto(
                             fontSize: 18, color: Colors.grey))
-                    : Image.file(_imageProduct!, height: 100),
+                    : Image.file(File(_articleImage!.path), height: 100),
               ),
             ),
           ),
@@ -389,24 +410,24 @@ class _ProductPageState extends State<ProductPage> {
                   hintText: "Autres images",
                   hintStyle:
                       GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
-                  prefixIcon: const Icon(Icons.image, size: 20),
+                  prefixIcon: const Icon(Icons.add, size: 30),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
                 ),
                 // ignore: unnecessary_null_comparison
-                child: _gallery == null
+                child: gallerieImages == null
                     ? Text("Aucune image sélectionnée",
                         style: GoogleFonts.roboto(
                             fontSize: 18, color: Colors.grey))
                     : Wrap(
                         spacing: 8.0,
                         runSpacing: 8.0,
-                        children: _gallery.map((asset) {
+                        children: gallerieImages!.map((asset) {
                           return SizedBox(
                             width: 100,
                             height: 100,
-                            child: Image.file(asset),
+                            child: Image.file(File(asset.path)),
                           );
                         }).toList(),
                       ),

@@ -10,10 +10,14 @@ use Illuminate\Support\Facades\Validator;
 
 class Articles_Controller extends Controller
 {
+
+    //AJOUT DE NOUVEAUX ARTICLES
     public function createArticle(Request $request)
     {
 
         try {
+            error_log(print_r($request->all(),true));
+            // VERIFIER LA VALIDATION DES CHAMPS DE LA REQUETTE
             $valid = Validator::make($request->all(), [
                 'name' => 'required',
                 'categorie' => 'required',
@@ -33,7 +37,6 @@ class Articles_Controller extends Controller
                 ]);
             }
 
-
             //traitement de l'image recu de l'article
             $imageNames = '';
             if ($request->hasfile('img')) {
@@ -43,6 +46,7 @@ class Articles_Controller extends Controller
                 $imageNames = $name;
             }
 
+            // INSERTION DES ARTICLES DANS LA TABLE ARTICLE
             $article = Article::create([
                 'name' => $request->name,
                 'categorie' => $request->categorie,
@@ -53,40 +57,51 @@ class Articles_Controller extends Controller
                 'img' => $imageNames,
             ]);
 
+            //INSERTIONS DES IMAGES GALLERIES DANS LA TABLE GALLERIES
             $imageNames = [];
             if ($request->hasfile('galleries')) {
                 foreach ($request->file('galleries') as $file) {
-
                     $name = time() . '_' . $file->getClientOriginalName();
                     $file->move(public_path('galeries'), $name);
                     $imageNames[] = $name;
                 }
+
                 Gallerie::create([
                     'article_id' => $article->id,
                     'img_path' => json_encode($imageNames),
                 ]);
-                return response()->json(['success' => 'Files uploaded successfully', 'files' => $imageNames]);
+
+                return response()->json([
+                    "statut"=>true,
+                    'success' => 'Files uploaded successfully', 
+                    'files' => $imageNames
+                ],201);
             }
 
             return response()->json([
                 'status' => true,
                 'Article' => $article,
                 'message' => 'Article ajouter avec succes',
-            ]);
-        } catch (\Throwable $th) {
+            ],201);
+
+        } catch (\Throwable $err) {
             return response()->json([
                 'status' => false,
-                'message' => $th->getMessage(),
+                'message' => $err->getMessage(),
             ]);
         }
     }
 
+    //  OBTENIR LES ARTICLES
     public function getArticleWithGaleries()
     {
-
         try {
-            $a = Article::with('galleries')->get();
-            return response()->json(['success' => 'articles are : ', 'Articles' => $a]);
+            $articles = Article::with('galleries')->get();
+            return response()->json([
+                "statut"=>true,
+                'success' => 'articles are : ', 
+                'Articles' => $articles
+            ],200);
         } catch (Exception $err) {
 
             return response()->json([
