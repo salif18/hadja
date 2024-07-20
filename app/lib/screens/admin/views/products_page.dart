@@ -136,7 +136,7 @@ class _ProductPageState extends State<ProductPage> {
         "name": _nameController.text,
         "img": await MultipartFile.fromFile(_articleImage!.path,
             filename: "photo.png"),
-        "galleries": imageFilesPaths,
+        "galleries[]": imageFilesPaths,
         "categorie": _categoryController,
         "desc": _descController.text,
         "stock": _stockController.text,
