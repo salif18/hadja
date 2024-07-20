@@ -158,8 +158,7 @@ class _MyRecomadationWidgetState extends State<MyRecomadationWidget> {
                                               : const Icon(
                                                   Icons.favorite,
                                                   size: 28,
-                                                  color: Color.fromARGB(
-                                                      255, 22, 212, 79),
+                                                  color: Colors.red,
                                                 ),
                                         ),
                                       ],

@@ -21,16 +21,22 @@ class SingleProductAdmin extends StatefulWidget {
 }
 
 class _SingleProductAdminState extends State<SingleProductAdmin> {
+   // Clé Key du formulaire
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+  // api denvoie vers le server
   ServicesAPiProducts api = ServicesAPiProducts();
   ServicesApiCategory apiCatego = ServicesApiCategory();
+  // declarations des Variables list categories et list des articles
   List<CategoriesModel> _listCategories = [];
+  final StreamController<List<ArticlesModel>> _articlesData =
+      StreamController();
 
-  //coisir image depuis gallerie de phone
-  final picker = ImagePicker();
-  File? _imageProduct;
-  final List<File> _gallery = [];
+// configuration de selection image depuis gallerie
+  final ImagePicker _picker = ImagePicker();
+  XFile? _articleImage;
+  List<XFile>? gallerieImages = [];
 
+// configuration des champs de formulaires pour le controller
   final _nameController = TextEditingController();
   String? _categoryController;
   final _descController = TextEditingController();
@@ -40,6 +46,7 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
   @override
   void initState() {
     super.initState();
+    _getProducts();
     _getCategories();
   }
 
@@ -49,45 +56,91 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
     _descController.dispose();
     _priceController.dispose();
     _stockController.dispose();
+    _articlesData.close();
     super.dispose();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _getProducts();
+  }
+
+// fonction de recuperation des categories list depuis server
+  Future<void> _getCategories() async {
+    try {
+      final res = await apiCatego.getCategories();
+      final body = res.data;
+      if (res.statusCode == 200) {
+        setState(() {
+          _listCategories = (body["categories"] as List)
+              .map((json) => CategoriesModel.fromJson(json))
+              .toList();
+        });
+      }
+    } catch (e) {
+      Exception(e);
+    }
+  }
+
+// fonction fetch data articles depuis server
+  Future<void> _getProducts() async {
+    try {
+      _articlesData.add(ArticlesModel.data());
+    } catch (e) {
+      _articlesData.addError(e);
+    }
+  }
+
+// obtenir l"image depuis gallerie du telephone
   Future<void> _getImageToGalleriePhone() async {
-    final imagePicked = await picker.pickImage(source: ImageSource.gallery);
+    final XFile? imagePicked =
+        await _picker.pickImage(source: ImageSource.gallery);
     setState(() {
       if (imagePicked != null) {
-        _imageProduct = File(imagePicked.path);
+        _articleImage = imagePicked;
       }
     });
   }
 
+// selectionner plusieur images depuis gallerie du telephone
   Future<void> _selectMultiImageGallery() async {
     try {
-      var images = await picker.pickImage(source: ImageSource.gallery);
-      setState(() {
-        _gallery.add(File(images!.path));
-      });
+      final List<XFile> pickedFiles = await _picker.pickMultiImage();
+      if (pickedFiles.isNotEmpty) {
+        setState(() {
+          gallerieImages?.addAll(pickedFiles);
+        });
+      }
     } on Exception catch (e) {
       Exception(e.toString());
     }
   }
 
+// Envoie des donnees vers le server
   Future<void> _sendToServer() async {
     if (_globalKey.currentState!.validate()) {
-      List<MultipartFile> imageFiles = [];
-      for (var asset in _gallery) {
-        final paths = asset.path;
-        imageFiles.add(await MultipartFile.fromFile(
-          paths,
-        ));
+      if (_articleImage == null || _categoryController == null) {
+        api.showSnackBarErrorPersonalized(
+            context, "Veuillez sélectionner une image et une catégorie.");
+        return;
       }
+
+// recuperation des chemins de chaque images ajouter dans gallerieImages
+      List<MultipartFile> imageFilesPaths = [];
+      for (var image in gallerieImages!) {
+        imageFilesPaths.add(
+            await MultipartFile.fromFile(image.path, filename: "photo.png"));
+      }
+
       FormData formData = FormData.fromMap({
         "name": _nameController.text,
-        "img": await MultipartFile.fromFile(_imageProduct!.path,
+        "img": await MultipartFile.fromFile(_articleImage!.path,
             filename: "photo.png"),
-        "galleries*": imageFiles,
+        "galleries": imageFilesPaths,
         "categorie": _categoryController,
         "desc": _descController.text,
+        "stock": _stockController.text,
         "price": _priceController.text,
         "likes": 0,
         "disLikes": 0
@@ -103,22 +156,6 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
       } catch (e) {
         api.showSnackBarErrorPersonalized(context, e.toString());
       }
-    }
-  }
-
-  Future<void> _getCategories() async {
-    try {
-      final res = await apiCatego.getCategories();
-      final body = res.data;
-      if (res.statusCode == 200) {
-        setState(() {
-          _listCategories = (body["categories"] as List)
-              .map((json) => CategoriesModel.fromJson(json))
-              .toList();
-        });
-      }
-    } catch (e) {
-      Exception(e);
     }
   }
 
@@ -228,7 +265,7 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
     );
   }
 
-  void _updatedProducts(BuildContext context) {
+   void _updatedProducts(BuildContext context) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -236,23 +273,23 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
         return Container(
           padding: const EdgeInsets.all(15),
           height: MediaQuery.of(context).size.height,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 80,
-                  child: Center(
-                    child: Text(
-                      "Ajouter produits",
-                      style: GoogleFonts.roboto(
-                          fontSize: 20, fontWeight: FontWeight.w400),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 80,
+                    child: Center(
+                      child: Text(
+                        "Ajouter produits",
+                        style: GoogleFonts.roboto(
+                            fontSize: 20, fontWeight: FontWeight.w400),
+                      ),
                     ),
                   ),
-                ),
-                _formulaires(context),
-              ],
+                  _formulaires(context),
+                ],
+              ),
             ),
-          ),
         );
       },
     );
@@ -260,201 +297,204 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
 
   Widget _formulaires(BuildContext context) {
     return Form(
-      key: _globalKey,
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: InkWell(
-              onTap: _getImageToGalleriePhone,
-              child: InputDecorator(
-                decoration: InputDecoration(
-                  hintText: "Photo",
-                  hintStyle:
-                      GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
-                  prefixIcon: const Icon(Icons.image, size: 20),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-                child: _imageProduct == null
-                    ? Text("Aucune image sélectionnée",
-                        style: GoogleFonts.roboto(
-                            fontSize: 18, color: Colors.grey))
-                    : Image.file(_imageProduct!, height: 100),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextFormField(
-              controller: _nameController,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Veuillez entrer le nom';
-                }
-                return null;
-              },
-              decoration: InputDecoration(
-                hintText: "Nom du produit",
-                hintStyle: GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
-                prefixIcon: const Icon(Icons.pix_rounded, size: 20),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: DropdownButtonFormField<String?>(
-              hint: Text(
-                "Choisir une catégorie",
-                style: GoogleFonts.roboto(
-                    fontSize: 20, fontWeight: FontWeight.w500),
-              ),
-              value: _categoryController,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Veuillez choisir une catégorie';
-                }
-                return null;
-              },
-              onChanged: (value) {
-                setState(() {
-                  _categoryController = value;
-                });
-              },
-              decoration: InputDecoration(
-                fillColor: Colors.grey[100],
-                filled: true,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                prefixIcon: const Icon(Icons.category_outlined, size: 28),
-              ),
-              items: _listCategories.map((categorie) {
-                return DropdownMenuItem<String?>(
-                  value: categorie.nameCategorie,
-                  child: Text(
-                    categorie.nameCategorie,
-                    style:
-                        GoogleFonts.roboto(fontSize: 20, color: Colors.black),
-                  ),
-                );
-              }).toList(),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: InkWell(
-              onTap: _selectMultiImageGallery,
-              child: InputDecorator(
-                decoration: InputDecoration(
-                  hintText: "Autres images",
-                  hintStyle:
-                      GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
-                  prefixIcon: const Icon(Icons.image, size: 20),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-                child: _gallery == null
-                    ? Text("Aucune image sélectionnée",
-                        style: GoogleFonts.roboto(
-                            fontSize: 18, color: Colors.grey))
-                    : Wrap(
-                        spacing: 8.0,
-                        runSpacing: 8.0,
-                        children: _gallery.map((asset) {
-                          return SizedBox(
-                            width: 100,
-                            height: 100,
-                            child: Image.file(asset),
-                          );
-                        }).toList(),
+        key: _globalKey,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: InkWell(
+                  onTap: _getImageToGalleriePhone,
+                  child: InputDecorator(
+                    decoration: InputDecoration(
+                      hintText: "Photo",
+                      hintStyle:
+                          GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
+                      prefixIcon: const Icon(Icons.image, size: 20),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
                       ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextFormField(
-              controller: _descController,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Veuillez entrer la description';
-                }
-                return null;
-              },
-              decoration: InputDecoration(
-                hintText: "Description",
-                hintStyle: GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
-                prefixIcon: const Icon(Icons.list, size: 20),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: _articleImage == null
+                        ? Text("Aucune image sélectionnée",
+                            style: GoogleFonts.roboto(
+                                fontSize: 18, color: Colors.grey))
+                        : Image.file(File(_articleImage!.path), height: 50),
+                  ),
                 ),
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextFormField(
-              controller: _priceController,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Veuillez entrer le prix';
-                }
-                return null;
-              },
-              decoration: InputDecoration(
-                hintText: "Prix",
-                hintStyle: GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
-                prefixIcon: const Icon(Icons.monetization_on_rounded, size: 20),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  controller: _nameController,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Veuillez entrer le nom';
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    hintText: "Nom du produit",
+                    hintStyle: GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
+                    prefixIcon: const Icon(Icons.pix_rounded, size: 20),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextFormField(
-              controller: _stockController,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Veuillez entrer un nombre de stock';
-                }
-                return null;
-              },
-              decoration: InputDecoration(
-                hintText: "Stock",
-                hintStyle: GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
-                prefixIcon:
-                    const Icon(Icons.store_mall_directory_sharp, size: 20),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: DropdownButtonFormField<String?>(
+                  hint: Text(
+                    "Choisir une catégorie",
+                    style: GoogleFonts.roboto(
+                        fontSize: 20, fontWeight: FontWeight.w500),
+                  ),
+                  value: _categoryController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Veuillez choisir une catégorie';
+                    }
+                    return null;
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      _categoryController = value;
+                    });
+                  },
+                  decoration: InputDecoration(
+                    fillColor: Colors.grey[100],
+                    filled: true,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    prefixIcon: const Icon(Icons.category_outlined, size: 28),
+                  ),
+                  items: _listCategories.map((categorie) {
+                    return DropdownMenuItem<String?>(
+                      value: categorie.nameCategorie,
+                      child: Text(
+                        categorie.nameCategorie,
+                        style:
+                            GoogleFonts.roboto(fontSize: 20, color: Colors.black),
+                      ),
+                    );
+                  }).toList(),
                 ),
               ),
-            ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: InkWell(
+                  onTap: _selectMultiImageGallery,
+                  child: InputDecorator(
+                    decoration: InputDecoration(
+                      hintText: "Autres images",
+                      hintStyle:
+                          GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
+                      prefixIcon: const Icon(Icons.add, size: 30),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                    // ignore: unnecessary_null_comparison
+                    child: gallerieImages == null
+                        ? Text("Aucune image sélectionnée",
+                            style: GoogleFonts.roboto(
+                                fontSize: 18, color: Colors.grey))
+                        : Wrap(
+                            spacing: 8.0,
+                            runSpacing: 8.0,
+                            children: gallerieImages!.map((asset) {
+                              return SizedBox(
+                                width: 50,
+                                height: 50,
+                                child: Image.file(File(asset.path)),
+                              );
+                            }).toList(),
+                          ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  controller: _descController,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Veuillez entrer la description';
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    hintText: "Description",
+                    hintStyle: GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
+                    prefixIcon: const Icon(Icons.list, size: 20),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  controller: _priceController,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Veuillez entrer le prix';
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    hintText: "Prix",
+                    hintStyle: GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
+                    prefixIcon: const Icon(Icons.monetization_on_rounded, size: 20),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  controller: _stockController,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Veuillez entrer un nombre de stock';
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    hintText: "Stock",
+                    hintStyle: GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
+                    prefixIcon:
+                        const Icon(Icons.store_mall_directory_sharp, size: 20),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 15),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF1D1A30),
+                  minimumSize: const Size(400, 50),
+                ),
+                onPressed: _sendToServer,
+                child: Text(
+                  "Enregistrer",
+                  style: GoogleFonts.roboto(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.white),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 15),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF1D1A30),
-              minimumSize: const Size(400, 50),
-            ),
-            onPressed: () => _sendToServer(),
-            child: Text(
-              "Enregistrer",
-              style: GoogleFonts.roboto(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.white),
-            ),
-          ),
-        ],
-      ),
+        ),
     );
   }
 }

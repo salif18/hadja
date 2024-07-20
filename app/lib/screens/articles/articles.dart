@@ -1,9 +1,12 @@
 import 'dart:async';
-
+// ignore: depend_on_referenced_packages
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/models/articles_model.dart';
+import 'package:hadja_grish/providers/favorite_provider.dart';
 import 'package:hadja_grish/screens/home/details/single_product_sliver.dart';
+import 'package:provider/provider.dart';
 
 class MyArticlePage extends StatefulWidget {
   const MyArticlePage({super.key});
@@ -44,6 +47,10 @@ class _MyArticlePageState extends State<MyArticlePage> {
 
   @override
   Widget build(BuildContext context) {
+      final favoriteProvider = Provider.of<FavoriteProvider>(
+      context,
+    );
+    List<ArticlesModel> favorites = favoriteProvider.getFavorites;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -103,62 +110,81 @@ class _MyArticlePageState extends State<MyArticlePage> {
                             itemBuilder: (BuildContext context, int index) {
                               final article = snaptshot.data!;
                               return GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              SingleProductVerSionSliver(
-                                                  item: article[index])));
-                                },
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SingleProductVerSionSliver(item: article[index])));
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: const Color(0xfff0fcf3),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
                                 child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 150,
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: const Color(0xfff0fcf3),
+                                    borderRadius: BorderRadius.circular(20),
                                   ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Container(
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          height: 150,
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(20)),
-                                          child: Image.asset(
-                                            article[index].img,
-                                            fit: BoxFit.contain,
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 15),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(article[index].name,
-                                                style: GoogleFonts.roboto(
-                                                    fontSize: 20,
-                                                    fontWeight:
-                                                        FontWeight.w600)),
-                                            Text(
-                                                "${article[index].price.toString()} fcfa",
-                                                style: GoogleFonts.roboto(
-                                                    fontSize: 18,
-                                                    color: Colors.grey[500]))
-                                          ],
-                                        ),
-                                      ),
-                                    ],
+                                  child: Image.asset(
+                                    article[index].img,
+                                    fit: BoxFit.contain,
                                   ),
                                 ),
-                              );
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 15),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(article[index].name,
+                                            style: GoogleFonts.roboto(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w600)),
+                                        Text(
+                                            "${article[index].price.toString()} fcfa",
+                                            style: GoogleFonts.roboto(
+                                                fontSize: 18,
+                                                color: Colors.grey[500])),
+                                      ],
+                                    ),
+                                     IconButton(
+                                          onPressed: () {
+                                            favoriteProvider.addMyFavorites(
+                                                article[index]);
+                                          },
+                                          icon: favorites.firstWhereOrNull(
+                                                      (item) => item.productId
+                                                          .contains(article[
+                                                                  index]
+                                                              .productId)) ==
+                                                  null
+                                              ? const Icon(
+                                                  Icons.favorite_border,
+                                                  size: 28,
+                                                  color: Color(0xff2c3e50),
+                                                )
+                                              : const Icon(
+                                                  Icons.favorite,
+                                                  size: 28,
+                                                  color: Colors.red)
+                                        ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
                             });
                       }
                     }))

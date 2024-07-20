@@ -162,6 +162,7 @@ class _ProductPageState extends State<ProductPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],
+       resizeToAvoidBottomInset: true,
       appBar: AppBar(
         toolbarHeight: 80,
         centerTitle: true,
@@ -188,6 +189,7 @@ class _ProductPageState extends State<ProductPage> {
       ),
       body: Container(
         padding: const EdgeInsets.all(20),
+        height: MediaQuery.of(context).size.height,
         child: StreamBuilder<List<ArticlesModel>>(
             stream: _articlesData.stream,
             builder: (context, snapshot) {
@@ -203,6 +205,7 @@ class _ProductPageState extends State<ProductPage> {
                         fontSize: 20, fontWeight: FontWeight.w600));
               } else {
                 return ListView.builder(
+                    shrinkWrap: true,
                     itemCount: snapshot.data!.length,
                     itemBuilder: (BuildContext context, int index) {
                       final article = snapshot.data!;
@@ -292,23 +295,23 @@ class _ProductPageState extends State<ProductPage> {
         return Container(
           padding: const EdgeInsets.all(15),
           height: MediaQuery.of(context).size.height,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 80,
-                  child: Center(
-                    child: Text(
-                      "Ajouter produits",
-                      style: GoogleFonts.roboto(
-                          fontSize: 20, fontWeight: FontWeight.w400),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 80,
+                    child: Center(
+                      child: Text(
+                        "Ajouter produits",
+                        style: GoogleFonts.roboto(
+                            fontSize: 20, fontWeight: FontWeight.w400),
+                      ),
                     ),
                   ),
-                ),
-                _formulaires(context),
-              ],
+                  _formulaires(context),
+                ],
+              ),
             ),
-          ),
         );
       },
     );
@@ -316,202 +319,204 @@ class _ProductPageState extends State<ProductPage> {
 
   Widget _formulaires(BuildContext context) {
     return Form(
-      key: _globalKey,
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: InkWell(
-              onTap: _getImageToGalleriePhone,
-              child: InputDecorator(
-                decoration: InputDecoration(
-                  hintText: "Photo",
-                  hintStyle:
-                      GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
-                  prefixIcon: const Icon(Icons.image, size: 20),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-                child: _articleImage == null
-                    ? Text("Aucune image sélectionnée",
-                        style: GoogleFonts.roboto(
-                            fontSize: 18, color: Colors.grey))
-                    : Image.file(File(_articleImage!.path), height: 100),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextFormField(
-              controller: _nameController,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Veuillez entrer le nom';
-                }
-                return null;
-              },
-              decoration: InputDecoration(
-                hintText: "Nom du produit",
-                hintStyle: GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
-                prefixIcon: const Icon(Icons.pix_rounded, size: 20),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: DropdownButtonFormField<String?>(
-              hint: Text(
-                "Choisir une catégorie",
-                style: GoogleFonts.roboto(
-                    fontSize: 20, fontWeight: FontWeight.w500),
-              ),
-              value: _categoryController,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Veuillez choisir une catégorie';
-                }
-                return null;
-              },
-              onChanged: (value) {
-                setState(() {
-                  _categoryController = value;
-                });
-              },
-              decoration: InputDecoration(
-                fillColor: Colors.grey[100],
-                filled: true,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                prefixIcon: const Icon(Icons.category_outlined, size: 28),
-              ),
-              items: _listCategories.map((categorie) {
-                return DropdownMenuItem<String?>(
-                  value: categorie.nameCategorie,
-                  child: Text(
-                    categorie.nameCategorie,
-                    style:
-                        GoogleFonts.roboto(fontSize: 20, color: Colors.black),
-                  ),
-                );
-              }).toList(),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: InkWell(
-              onTap: _selectMultiImageGallery,
-              child: InputDecorator(
-                decoration: InputDecoration(
-                  hintText: "Autres images",
-                  hintStyle:
-                      GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
-                  prefixIcon: const Icon(Icons.add, size: 30),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-                // ignore: unnecessary_null_comparison
-                child: gallerieImages == null
-                    ? Text("Aucune image sélectionnée",
-                        style: GoogleFonts.roboto(
-                            fontSize: 18, color: Colors.grey))
-                    : Wrap(
-                        spacing: 8.0,
-                        runSpacing: 8.0,
-                        children: gallerieImages!.map((asset) {
-                          return SizedBox(
-                            width: 100,
-                            height: 100,
-                            child: Image.file(File(asset.path)),
-                          );
-                        }).toList(),
+        key: _globalKey,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: InkWell(
+                  onTap: _getImageToGalleriePhone,
+                  child: InputDecorator(
+                    decoration: InputDecoration(
+                      hintText: "Photo",
+                      hintStyle:
+                          GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
+                      prefixIcon: const Icon(Icons.image, size: 20),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
                       ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextFormField(
-              controller: _descController,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Veuillez entrer la description';
-                }
-                return null;
-              },
-              decoration: InputDecoration(
-                hintText: "Description",
-                hintStyle: GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
-                prefixIcon: const Icon(Icons.list, size: 20),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: _articleImage == null
+                        ? Text("Aucune image sélectionnée",
+                            style: GoogleFonts.roboto(
+                                fontSize: 18, color: Colors.grey))
+                        : Image.file(File(_articleImage!.path), height: 50),
+                  ),
                 ),
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextFormField(
-              controller: _priceController,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Veuillez entrer le prix';
-                }
-                return null;
-              },
-              decoration: InputDecoration(
-                hintText: "Prix",
-                hintStyle: GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
-                prefixIcon: const Icon(Icons.monetization_on_rounded, size: 20),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  controller: _nameController,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Veuillez entrer le nom';
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    hintText: "Nom du produit",
+                    hintStyle: GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
+                    prefixIcon: const Icon(Icons.pix_rounded, size: 20),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextFormField(
-              controller: _stockController,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Veuillez entrer un nombre de stock';
-                }
-                return null;
-              },
-              decoration: InputDecoration(
-                hintText: "Stock",
-                hintStyle: GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
-                prefixIcon:
-                    const Icon(Icons.store_mall_directory_sharp, size: 20),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: DropdownButtonFormField<String?>(
+                  hint: Text(
+                    "Choisir une catégorie",
+                    style: GoogleFonts.roboto(
+                        fontSize: 20, fontWeight: FontWeight.w500),
+                  ),
+                  value: _categoryController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Veuillez choisir une catégorie';
+                    }
+                    return null;
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      _categoryController = value;
+                    });
+                  },
+                  decoration: InputDecoration(
+                    fillColor: Colors.grey[100],
+                    filled: true,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    prefixIcon: const Icon(Icons.category_outlined, size: 28),
+                  ),
+                  items: _listCategories.map((categorie) {
+                    return DropdownMenuItem<String?>(
+                      value: categorie.nameCategorie,
+                      child: Text(
+                        categorie.nameCategorie,
+                        style:
+                            GoogleFonts.roboto(fontSize: 20, color: Colors.black),
+                      ),
+                    );
+                  }).toList(),
                 ),
               ),
-            ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: InkWell(
+                  onTap: _selectMultiImageGallery,
+                  child: InputDecorator(
+                    decoration: InputDecoration(
+                      hintText: "Autres images",
+                      hintStyle:
+                          GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
+                      prefixIcon: const Icon(Icons.add, size: 30),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                    // ignore: unnecessary_null_comparison
+                    child: gallerieImages == null
+                        ? Text("Aucune image sélectionnée",
+                            style: GoogleFonts.roboto(
+                                fontSize: 18, color: Colors.grey))
+                        : Wrap(
+                            spacing: 8.0,
+                            runSpacing: 8.0,
+                            children: gallerieImages!.map((asset) {
+                              return SizedBox(
+                                width: 50,
+                                height: 50,
+                                child: Image.file(File(asset.path)),
+                              );
+                            }).toList(),
+                          ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  controller: _descController,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Veuillez entrer la description';
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    hintText: "Description",
+                    hintStyle: GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
+                    prefixIcon: const Icon(Icons.list, size: 20),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  controller: _priceController,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Veuillez entrer le prix';
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    hintText: "Prix",
+                    hintStyle: GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
+                    prefixIcon: const Icon(Icons.monetization_on_rounded, size: 20),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  controller: _stockController,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Veuillez entrer un nombre de stock';
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    hintText: "Stock",
+                    hintStyle: GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
+                    prefixIcon:
+                        const Icon(Icons.store_mall_directory_sharp, size: 20),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 15),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF1D1A30),
+                  minimumSize: const Size(400, 50),
+                ),
+                onPressed: _sendToServer,
+                child: Text(
+                  "Enregistrer",
+                  style: GoogleFonts.roboto(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.white),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 15),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF1D1A30),
-              minimumSize: const Size(400, 50),
-            ),
-            onPressed: _sendToServer,
-            child: Text(
-              "Enregistrer",
-              style: GoogleFonts.roboto(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.white),
-            ),
-          ),
-        ],
-      ),
+        ),
     );
   }
 }

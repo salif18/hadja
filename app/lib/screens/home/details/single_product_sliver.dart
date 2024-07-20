@@ -124,7 +124,7 @@ class _SingleProductVerSionSliverState extends State<SingleProductVerSionSliver>
                             : const Icon(
                                 Icons.favorite,
                                 size: 38,
-                                color: Color(0xff2c3e50),
+                                color: Colors.red,
                               ),
                       ),
                     ),

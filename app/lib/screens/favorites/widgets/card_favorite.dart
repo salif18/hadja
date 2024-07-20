@@ -61,7 +61,7 @@ class MyCardFavorites extends StatelessWidget {
                       onPressed: () {
                          Provider.of<FavoriteProvider>(context,listen:false).removeToFavorite(item);
                       },
-                      icon: const Icon(Icons.favorite_rounded,color: Color(0xFF1D1A30), size: 30))
+                      icon: const Icon(Icons.favorite_rounded,color: Colors.red, size: 30))
                 ],
               ))
             ],
