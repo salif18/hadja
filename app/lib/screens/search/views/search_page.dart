@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hadja_grish/api/product_admin_api.dart';
 import 'package:hadja_grish/models/articles_model.dart';
 import 'package:hadja_grish/screens/search/widgets/card_recherche.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,8 +15,9 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  ServicesAPiProducts api = ServicesAPiProducts();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  List<ArticlesModel> articles = ArticlesModel.data();
+  List<ArticlesModel> articles = [];
   TextEditingController searchValue = TextEditingController();
   List<ArticlesModel> resultOfSearch = [];
   List<String> recentSearches = [];
@@ -21,6 +25,7 @@ class _SearchPageState extends State<SearchPage> {
   @override
   void initState() {
     super.initState();
+    _getProducts();
     _loadRecentSearches();
 
     // Ajouter un écouteur pour le champ de recherche
@@ -88,6 +93,23 @@ void _removeRecenteSearch(String search){
      _saveRecentSearches();
    });
 }
+
+Future<void> _getProducts() async {
+    try {
+      final res = await api.getAllProducts();
+      final body = jsonDecode(res.body);
+      if(res.statutCode == 200){
+        setState(() {
+            articles =
+        (body["articles"] as List).map((json)=> ArticlesModel.fromJson(json)).toList()
+      ;
+        });
+    
+      }
+    } catch (e) {
+      // articles.addError("");
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

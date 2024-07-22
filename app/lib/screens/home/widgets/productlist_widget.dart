@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
 // ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hadja_grish/api/product_admin_api.dart';
 import 'package:hadja_grish/models/articles_model.dart';
 import 'package:hadja_grish/providers/favorite_provider.dart';
 import 'package:hadja_grish/screens/articles/articles.dart';
@@ -18,6 +20,7 @@ class MyProductListWidget extends StatefulWidget {
 
 class _MyProductListWidgetState extends State<MyProductListWidget> {
   final StreamController<List<ArticlesModel>> _articlesData = StreamController();
+  ServicesAPiProducts api = ServicesAPiProducts();
 
   @override
   void initState() {
@@ -38,9 +41,16 @@ void didChangeDependencies(){
   _getProducts();
 }
 
+ // fonction fetch data articles depuis server
   Future<void> _getProducts() async {
     try {
-      _articlesData.add(ArticlesModel.data());
+      final res = await api.getAllProducts();
+      final body = jsonDecode(res.body);
+      if(res.statusCode == 200){
+      _articlesData.add(
+        (body["articles"] as List).map((json)=> ArticlesModel.fromJson(json)).toList()
+      );
+      }
     } catch (e) {
       _articlesData.addError("");
     }
@@ -130,7 +140,7 @@ void didChangeDependencies(){
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(20),
                                   ),
-                                  child: Image.asset(
+                                  child: Image.network(
                                     articles[index].img,
                                     fit: BoxFit.contain,
                                   ),
@@ -161,10 +171,10 @@ void didChangeDependencies(){
                                                 articles[index]);
                                           },
                                           icon: favorites.firstWhereOrNull(
-                                                      (item) => item.productId
-                                                          .contains(articles[
+                                                      (item) => item.id
+                                                          == articles[
                                                                   index]
-                                                              .productId)) ==
+                                                              .id) ==
                                                   null
                                               ? const Icon(
                                                   Icons.favorite_border,

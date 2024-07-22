@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:async';
+import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -85,9 +86,15 @@ class _ProductPageState extends State<ProductPage> {
 // fonction fetch data articles depuis server
   Future<void> _getProducts() async {
     try {
-      _articlesData.add(ArticlesModel.data());
+      final res = await api.getAllProducts();
+      final body = jsonDecode(res.body);
+      if(res.statusCode == 200){
+      _articlesData.add(
+        (body["articles"] as List).map((json)=> ArticlesModel.fromJson(json)).toList()
+      );
+      }
     } catch (e) {
-      _articlesData.addError(e);
+      _articlesData.addError("");
     }
   }
 
@@ -129,13 +136,13 @@ class _ProductPageState extends State<ProductPage> {
       List<MultipartFile> imageFilesPaths = [];
       for (var image in gallerieImages!) {
         imageFilesPaths.add(
-            await MultipartFile.fromFile(image.path, filename: "photo.png"));
+            await MultipartFile.fromFile(image.path, filename: image.path.split("/").last));
       }
 
       FormData formData = FormData.fromMap({
         "name": _nameController.text,
         "img": await MultipartFile.fromFile(_articleImage!.path,
-            filename: "photo.png"),
+            filename: _articleImage!.path.split("/").last),
         "galleries[]": imageFilesPaths,
         "categorie": _categoryController,
         "desc": _descController.text,
@@ -194,7 +201,7 @@ class _ProductPageState extends State<ProductPage> {
             stream: _articlesData.stream,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
+                return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
                 return Text("Erreur",
                     style: GoogleFonts.roboto(
@@ -208,14 +215,15 @@ class _ProductPageState extends State<ProductPage> {
                     shrinkWrap: true,
                     itemCount: snapshot.data!.length,
                     itemBuilder: (BuildContext context, int index) {
-                      final article = snapshot.data!;
+                      final data = snapshot.data!;
+                      ArticlesModel article = data[index];
                       return GestureDetector(
                         onTap: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => SingleProductAdmin(
-                                      article: article[index])));
+                                      article: article)));
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -238,8 +246,8 @@ class _ProductPageState extends State<ProductPage> {
                                       decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(20)),
-                                      child: Image.asset(
-                                        article[index].img,
+                                      child: Image.network(
+                                        article.img,
                                         fit: BoxFit.contain,
                                       ),
                                     ),
@@ -250,12 +258,12 @@ class _ProductPageState extends State<ProductPage> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(article[index].name,
+                                        Text(article.name,
                                             style: GoogleFonts.roboto(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.w500)),
                                         Text(
-                                            "${article[index].price.toString()} fcfa",
+                                            "${article.price.toString()} fcfa",
                                             style: GoogleFonts.roboto(
                                                 fontSize: 18,
                                                 color: Colors.grey[500]))
@@ -272,7 +280,7 @@ class _ProductPageState extends State<ProductPage> {
                                         style:
                                             GoogleFonts.roboto(fontSize: 18)),
                                     const SizedBox(width: 10),
-                                    Text(article[index].stock.toString()),
+                                    Text(article.stock.toString()),
                                   ],
                                 ),
                               )

@@ -63,24 +63,22 @@ class Articles_Controller extends Controller
                 foreach ($request->file('galleries') as $file) {
                     $name = time() . '_' . $file->getClientOriginalName();
                     $file->move(public_path('galeries'), $name);
-                    $imageNames[] = $name;
+                    Gallerie::create([
+                        'article_id' => $article->id,
+                        'img_path' => json_encode($name),
+                    ]);
                 }
 
-                Gallerie::create([
-                    'article_id' => $article->id,
-                    'img_path' => json_encode($imageNames),
-                ]);
-
-                return response()->json([
-                    "statut"=>true,
-                    'success' => 'Files uploaded successfully', 
-                    'files' => $imageNames
-                ],201);
+                // return response()->json([
+                //     "statut"=>true,
+                //     'success' => 'Files uploaded successfully', 
+                //     'files' => $imageNames
+                // ],201);
             }
 
             return response()->json([
                 'status' => true,
-                'Article' => $article,
+                'articles' => $article,
                 'message' => 'Article ajouter avec succes',
             ],201);
 
@@ -100,7 +98,7 @@ class Articles_Controller extends Controller
             return response()->json([
                 "statut"=>true,
                 'success' => 'articles are : ', 
-                'Articles' => $articles
+                'articles' => $articles
             ],200);
         } catch (Exception $err) {
 

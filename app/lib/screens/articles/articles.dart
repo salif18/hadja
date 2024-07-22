@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
 // ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hadja_grish/api/product_admin_api.dart';
 import 'package:hadja_grish/models/articles_model.dart';
 import 'package:hadja_grish/providers/favorite_provider.dart';
 import 'package:hadja_grish/screens/home/details/single_product_sliver.dart';
@@ -37,15 +39,24 @@ class _MyArticlePageState extends State<MyArticlePage> {
     _getProducts();
   }
 
+ ServicesAPiProducts api = ServicesAPiProducts();
+
+// fonction fetch data articles depuis server
   Future<void> _getProducts() async {
     try {
-      _articlesData.add(ArticlesModel.data());
+      final res = await api.getAllProducts();
+      final body = jsonDecode(res.body);
+      if(res.statusCode == 200){
+      _articlesData.add(
+        (body["articles"] as List).map((json)=> ArticlesModel.fromJson(json)).toList()
+      );
+      }
     } catch (e) {
-      _articlesData.addError(e);
+      _articlesData.addError("");
     }
   }
 
-  @override
+   @override
   Widget build(BuildContext context) {
       final favoriteProvider = Provider.of<FavoriteProvider>(
       context,
@@ -132,7 +143,7 @@ class _MyArticlePageState extends State<MyArticlePage> {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(20),
                                   ),
-                                  child: Image.asset(
+                                  child: Image.network(
                                     article[index].img,
                                     fit: BoxFit.contain,
                                   ),
@@ -163,10 +174,10 @@ class _MyArticlePageState extends State<MyArticlePage> {
                                                 article[index]);
                                           },
                                           icon: favorites.firstWhereOrNull(
-                                                      (item) => item.productId
-                                                          .contains(article[
+                                                      (item) => item.id
+                                                          == article[
                                                                   index]
-                                                              .productId)) ==
+                                                              .id) ==
                                                   null
                                               ? const Icon(
                                                   Icons.favorite_border,

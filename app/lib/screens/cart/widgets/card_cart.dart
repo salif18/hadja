@@ -33,7 +33,7 @@ class _MyCardState extends State<MyCard> {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     image: DecorationImage(
-                        image: AssetImage(widget.item.img),
+                        image: NetworkImage(widget.item.img),
                         fit: BoxFit.contain)),
               ),
               Expanded(

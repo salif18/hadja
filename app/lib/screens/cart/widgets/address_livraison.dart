@@ -1,7 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hadja_grish/api/product_admin_api.dart';
+import 'package:hadja_grish/models/articles_model.dart';
+import 'package:hadja_grish/providers/cart_provider.dart';
 import 'package:hadja_grish/screens/cart/widgets/maps.dart';
+import 'package:provider/provider.dart';
 
 
 
@@ -18,17 +24,15 @@ class _AddressLivraisonState extends State<AddressLivraison> {
   late double lat;
   late double long;
 
-  Map<String,dynamic> order = {
-      "orderId":"",
-      "userId":"", 
-      "address":"", 
-      "latitude":"",
-      "longitude":"", 
-      "tel":"", 
-      "total":"", 
-      "statutOfDelivery":"", 
-      "articles":""
-    };
+ List<ArticlesModel> articles = [];
+
+   
+
+    @override
+  void initState() {
+    super.initState();
+    _getProducts();
+  }
 
   @override
   void dispose() {
@@ -42,6 +46,44 @@ class _AddressLivraisonState extends State<AddressLivraison> {
       long = position.longitude;
     });
     
+  }
+
+  Future<void> sendOrders()async{
+     Map<String,dynamic> order = {
+      "orderId":"",
+      "userId":"", 
+      "address":"", 
+      "latitude":"",
+      "longitude":"", 
+      "tel":"", 
+      "total":"", 
+      "statutOfDelivery":"", 
+      "articles":Provider.of<CartProvider>(context, listen: false).myCart
+    };
+    try{
+      
+    }catch(e){
+      print(e);
+    }
+  }
+
+ServicesAPiProducts api = ServicesAPiProducts();
+
+// fonction fetch data articles depuis server
+  Future<void> _getProducts() async {
+    try {
+      final res = await api.getAllProducts();
+      final body = jsonDecode(res.body);
+      if(res.statusCode == 200){
+        setState(() {
+            articles =
+        (body["articles"] as List).map((json)=> ArticlesModel.fromJson(json)).toList();
+        });
+    
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override

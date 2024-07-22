@@ -113,8 +113,8 @@ class _SingleProductVerSionSliverState extends State<SingleProductVerSionSliver>
                           favoriteProvider.addMyFavorites(widget.item);
                         },
                         icon: favorites.firstWhereOrNull((item) => item
-                                    .productId
-                                    .contains(widget.item.productId)) ==
+                                    .id
+                                    == widget.item.id) ==
                                 null
                             ? const Icon(
                                 Icons.favorite_border,
@@ -145,7 +145,7 @@ class _SingleProductVerSionSliverState extends State<SingleProductVerSionSliver>
       child: ListView.builder(
         padding: const EdgeInsets.symmetric(horizontal: 25),
         scrollDirection: Axis.horizontal,
-        itemCount: widget.item.galerie.length,
+        itemCount: widget.item.galleries.length,
         itemBuilder: (context, index) {
           return Container(
             margin: const EdgeInsets.all(8),
@@ -156,10 +156,10 @@ class _SingleProductVerSionSliverState extends State<SingleProductVerSionSliver>
             width: 250,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: Image.asset(
-                widget.item.galerie[index],
+              child: Image.network(
+                    widget.item.galleries[index].imgPath,
                 fit: BoxFit.contain,
-              ),
+                )
             ),
           );
         },

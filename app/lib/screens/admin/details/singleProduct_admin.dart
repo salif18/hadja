@@ -86,9 +86,15 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
 // fonction fetch data articles depuis server
   Future<void> _getProducts() async {
     try {
-      _articlesData.add(ArticlesModel.data());
+      final res = await api.getAllProducts();
+      final body = res.data;
+      if(res.statutCode == 200){
+      _articlesData.add(
+        (body["Articles"] as List).map((json)=> ArticlesModel.fromJson(json)).toList()
+      );
+      }
     } catch (e) {
-      _articlesData.addError(e);
+      _articlesData.addError("");
     }
   }
 
@@ -221,7 +227,7 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
                         const SizedBox(
                           width: 20,
                         ),
-                        Text(widget.article.category,style: GoogleFonts.roboto(fontSize:16,color:Colors.grey)),
+                        Text(widget.article.categorie,style: GoogleFonts.roboto(fontSize:16,color:Colors.grey)),
                       ],
                     )
                   ],
@@ -234,13 +240,13 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
                 child: Text("Gallerie",style:GoogleFonts.roboto(fontSize:20)),),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                      children: widget.article.galerie.map((element){
+                      children: widget.article.galleries.map((image){
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: SizedBox(
                             width: 120,
                             height: 120,
-                            child: Image.asset(element,)
+                            child:  Image.network(image.imgPath)
                           ),
                         );
                       }).toList()

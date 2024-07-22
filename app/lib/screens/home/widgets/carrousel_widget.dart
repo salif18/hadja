@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hadja_grish/api/product_admin_api.dart';
 import 'package:hadja_grish/models/articles_model.dart';
 import 'package:hadja_grish/screens/home/details/single_product_sliver.dart';
 
@@ -17,6 +19,7 @@ class MyCarouselWidget extends StatefulWidget {
 class _MyCarouselState extends State<MyCarouselWidget> {
   final StreamController<List<ArticlesModel>> _articlesData =
       StreamController();
+       ServicesAPiProducts api = ServicesAPiProducts();
   int currentIndex = 0;
 
   @override
@@ -37,13 +40,21 @@ class _MyCarouselState extends State<MyCarouselWidget> {
     _getProducts();
   }
 
+ // fonction fetch data articles depuis server
   Future<void> _getProducts() async {
     try {
-      _articlesData.add(ArticlesModel.data());
+      final res = await api.getAllProducts();
+      final body = jsonDecode(res.body);
+      if(res.statusCode == 200){
+      _articlesData.add(
+        (body["articles"] as List).map((json)=> ArticlesModel.fromJson(json)).toList()
+      );
+      }
     } catch (e) {
-      _articlesData.addError(e);
+      _articlesData.addError("");
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +102,7 @@ class _MyCarouselState extends State<MyCarouselWidget> {
                                 borderRadius: BorderRadius.circular(20),
                                 color: const Color(0xffF0FCF3),
                                 image: DecorationImage(
-                                    image: AssetImage(item.img),
+                                    image: NetworkImage(item.img),
                                     fit: BoxFit.contain)),
                           ),
                         );

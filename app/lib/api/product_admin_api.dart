@@ -25,15 +25,14 @@ class ServicesAPiProducts {
 
   //obtenir depenses
   getAllProducts() async {
-    var uri = "$urlServer/getArticleWithGaleries";
+    var uri = "$urlServer/get_article_with_galeries";
     return await http.get(
       Uri.parse(uri),
-      headers: {
+     headers: {
         "Content-Type": "application/json; charset=UTF-8",
         "Accept": "*/*",
         "Accept-Encoding": "gzip, deflate, br",
-      },
-    );
+      });
   }
 
 //obtenir depenses

@@ -24,14 +24,14 @@ class CartProvider extends ChangeNotifier {
   void addToCart(ArticlesModel article, int newQty) {
     // Vérifier si le produit est déjà dans le panier
     final itemIsExist = _cart
-        .firstWhereOrNull((item) => item.productId.contains(article.productId));
+        .firstWhereOrNull((item) => item.productId.contains(article.id.toString()));
     // Si c'est le cas, modifier seulement la quantité existante
     if (itemIsExist != null) {
       itemIsExist.qty += newQty;
     } else {
       // Sinon, ajouter le nouveau produit
       _cart.add(CartItemModel(
-          productId: article.productId,
+          productId: article.id.toString(),
           name: article.name,
           img: article.img,
           qty: newQty,

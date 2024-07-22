@@ -16,9 +16,9 @@ class FavoriteProvider extends ChangeNotifier {
 
   void addMyFavorites(ArticlesModel article) {
     final existInFavorites = _favoriteArray.firstWhereOrNull(
-        (favoriteItem) => favoriteItem.productId.contains(article.productId));
+        (favoriteItem) => favoriteItem.id == article.id );
     if (existInFavorites != null) {
-      _favoriteArray.removeWhere((item) => item.productId == article.productId);
+      _favoriteArray.removeWhere((item) => item.id == article.id);
     } else {
       _favoriteArray.add(article);
     }
@@ -28,7 +28,7 @@ class FavoriteProvider extends ChangeNotifier {
 
   void removeToFavorite(ArticlesModel article) {
     _favoriteArray.removeWhere(
-        (favoriteItem) => favoriteItem.productId == article.productId);
+        (favoriteItem) => favoriteItem.id == article.id);
     saveFavoritesToLocalStorage();
     notifyListeners();
   }

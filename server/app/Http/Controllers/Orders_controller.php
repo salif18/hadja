@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Article;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Exception;
@@ -14,8 +15,6 @@ class Orders_controller extends Controller
     public function createOrders(Request $req)
     {
         try {
-
-            $data = $req->only("articles");
 
             // Validation des données
             $isValide = Validator::make($req->all(), [
@@ -50,17 +49,31 @@ class Orders_controller extends Controller
                 "statut_of_delibery" => $req->statut_of_delibery,
             ]);
 
-            // Créer les articles de commande
-            foreach ($data["articles"] as $item) {
-                OrderItem::create([
-                    "order_id" => $orders->id,
-                    "productId" => $item['productId'],
-                    "name" => $item['name'],
-                    "img" => $item['img'],
-                    "qty" => $item['qty'],
-                    "prix" => $item['prix'],
-                ]);
+            // Créer les articles de commande et mettre à jour les stocks
+            foreach ($req->articles as $item) {
+                $article = Article::find($item['productId']);
+
+                if ($article && $item['qty'] > 0 && $item['qty'] <= $article->stock) {
+                    OrderItem::create([
+                        'order_id' => $orders->id,
+                        'productId' => $item['productId'],
+                        'name' => $item['name'],
+                        'img' => $item['img'],
+                        'qty' => $item['qty'],
+                        'prix' => $item['prix'],
+                    ]);
+
+                    // Mettre à jour le stock de l'article
+                    $article->stock -= $item['qty'];
+                    $article->save();
+                } else {
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Stock insuffisant pour le produit ' . $item['name'],
+                    ], 400);
+                }
             }
+
 
             return response()->json([
                 "status" => true,
@@ -114,7 +127,7 @@ class Orders_controller extends Controller
         }
     }
 
-    
+
     // Obtenir les commandes par statut de livraison
     public function getOrdersByStatut($statut)
     {
