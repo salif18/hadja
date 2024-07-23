@@ -16,7 +16,7 @@ final double minHeight;
   Widget build(BuildContext context, double shrinkOffset,bool overlapsContent) {
     return Stack(
        children: [
-        Image.asset(
+        Image.network(
           item.img,
           fit: BoxFit.cover,
           width: MediaQuery.of(context).size.width,

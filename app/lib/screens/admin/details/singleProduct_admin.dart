@@ -186,7 +186,7 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
               children: [
                 Padding(
                     padding: const EdgeInsets.all(15),
-                    child: Image.asset(
+                    child: Image.network(
                       widget.article.img,
                       width: 200,
                       height: 200,

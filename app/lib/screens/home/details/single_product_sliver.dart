@@ -73,7 +73,7 @@ class _SingleProductVerSionSliverState extends State<SingleProductVerSionSliver>
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
             ),
-            child: Image.asset(
+            child: Image.network(
               widget.item.img,
               width: 80,
             ),

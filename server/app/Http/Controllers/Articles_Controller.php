@@ -6,6 +6,7 @@ use App\Models\Article;
 use App\Models\Gallerie;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class Articles_Controller extends Controller
@@ -38,12 +39,9 @@ class Articles_Controller extends Controller
             }
 
             //traitement de l'image recu de l'article
-            $imageNames = '';
             if ($request->hasfile('img')) {
                 $image = $request->file('img');
-                $name = time() . '_' . $image->getClientOriginalName();
-                $image->move(public_path('images'), $name);
-                $imageNames = $name;
+               $imagePath = $image->store('pictures',"public");
             }
 
             // INSERTION DES ARTICLES DANS LA TABLE ARTICLE
@@ -54,26 +52,18 @@ class Articles_Controller extends Controller
                 'likes' => $request->likes,
                 'stock' => $request->stock,
                 'price' => $request->price,
-                'img' => $imageNames,
+                'img' => Storage::url($imagePath),
             ]);
 
             //INSERTIONS DES IMAGES GALLERIES DANS LA TABLE GALLERIES
-            $imageNames = [];
             if ($request->hasfile('galleries')) {
                 foreach ($request->file('galleries') as $file) {
-                    $name = time() . '_' . $file->getClientOriginalName();
-                    $file->move(public_path('galeries'), $name);
+                    $galleriePath = $file->store('galleries','public');
                     Gallerie::create([
                         'article_id' => $article->id,
-                        'img_path' => json_encode($name),
+                        'img_path' => Storage::url($galleriePath),
                     ]);
                 }
-
-                // return response()->json([
-                //     "statut"=>true,
-                //     'success' => 'Files uploaded successfully', 
-                //     'files' => $imageNames
-                // ],201);
             }
 
             return response()->json([

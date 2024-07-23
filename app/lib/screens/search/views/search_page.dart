@@ -98,11 +98,10 @@ Future<void> _getProducts() async {
     try {
       final res = await api.getAllProducts();
       final body = jsonDecode(res.body);
-      if(res.statutCode == 200){
+      if(res.statusCode == 200){
         setState(() {
             articles =
-        (body["articles"] as List).map((json)=> ArticlesModel.fromJson(json)).toList()
-      ;
+        (body["articles"] as List).map((json)=> ArticlesModel.fromJson(json)).toList();
         });
     
       }

@@ -203,13 +203,17 @@ class _ProductPageState extends State<ProductPage> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
-                return Text("Erreur",
-                    style: GoogleFonts.roboto(
-                        fontSize: 20, fontWeight: FontWeight.w600));
+                return Center(
+                  child: Text("Erreur",
+                      style: GoogleFonts.roboto(
+                          fontSize: 20, fontWeight: FontWeight.w600)),
+                );
               } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return Text("Aucune donnée disponible",
-                    style: GoogleFonts.roboto(
-                        fontSize: 20, fontWeight: FontWeight.w600));
+                return Center(
+                  child: Text("Aucune donnée disponible",
+                      style: GoogleFonts.roboto(
+                          fontSize: 20, fontWeight: FontWeight.w600)),
+                );
               } else {
                 return ListView.builder(
                     shrinkWrap: true,

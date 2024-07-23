@@ -81,9 +81,9 @@ class _MyCarouselState extends State<MyCarouselWidget> {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const CircularProgressIndicator();
                   } else if (snapshot.hasError) {
-                    return Text("err");
+                    return Text("err",style: GoogleFonts.roboto(fontSize:20));
                   } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return Text("No data available");
+                    return Text("No data available",style: GoogleFonts.roboto(fontSize:20),);
                   } else {
                     return CarouselSlider(
                       items: snapshot.data!.take(5).map((item) {
