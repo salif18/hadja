@@ -98,4 +98,25 @@ class Articles_Controller extends Controller
             ]);
         }
     }
+
+     //  OBTENIR LES ARTICLES BY CATEGORIES
+     public function getArticlesByCategorie($catego)
+     {
+         try {
+             $articles = Article::with('galleries')
+             ->where("categorie",$catego)
+             ->get();
+             return response()->json([
+                 "statut"=>true,
+                 'success' => 'articles are : ', 
+                 'articles' => $articles
+             ],200);
+         } catch (Exception $err) {
+ 
+             return response()->json([
+                 'status' => false,
+                 'message' => $err->getMessage(),
+             ]);
+         }
+     }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/models/categorie_model.dart';
 import 'package:hadja_grish/screens/admin/categories/categorie_list.dart';
+import 'package:hadja_grish/screens/categories/categorie_product.dart';
 
 class MyChooseCategoryWidget extends StatefulWidget {
   final listCategories;
@@ -68,7 +69,9 @@ class _MyChooseCategoryState extends State<MyChooseCategoryWidget> {
                           itemBuilder: (BuildContext context, int index) {
                             final marque = snaptshot.data![index];
                             return GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=> ArticleByCategories(categorie:marque.nameCategorie)));
+                              },
                               child: Container(
                                 height: 50,
                                 width: 120,

@@ -35,6 +35,18 @@ class ServicesAPiProducts {
       });
   }
 
+   //obtenir depenses
+  getProductByCategorie(String data) async {
+    var uri = "$urlServer/articles_by_categories/$data";
+    return await http.get(
+      Uri.parse(uri),
+     headers: {
+        "Content-Type": "application/json; charset=UTF-8",
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+      });
+  }
+
 //obtenir depenses
   getOneProduct(data) async {
     var uri = "$urlServer/articles/{}";

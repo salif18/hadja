@@ -37,3 +37,4 @@ Route::put("/orders/{id}",[Orders_controller::class,"updateOrdersStatut"]);
 Route::post('/upload', [Articles_Controller::class, 'uploadGalerieImages']);
 Route::post('/articles', [Articles_Controller::class, 'createArticle']);
 Route::get('/get_article_with_galeries', [Articles_Controller::class, 'getArticleWithGaleries']);
+Route::get('/articles_by_categories/{catego}',[Articles_Controller::class,'getArticlesByCategorie']);
