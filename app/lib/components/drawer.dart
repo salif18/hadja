@@ -321,7 +321,7 @@ class _DrawerWindowState extends State<DrawerWindow> {
                         ),
                       ),
                     ),
-                  if (profil.statut.toString() == "isClient")
+                  if (profil.statut.toString() != "isClient")
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 15, vertical: 5),

@@ -2,9 +2,8 @@ class CartItemModel{
  final String productId;
  final String name;
  final String img;
- int qty;
- final int prix;
-
+  int qty;
+  int prix;
   CartItemModel({
     required this.productId,
     required this.name,
@@ -24,7 +23,7 @@ class CartItemModel{
 
   Map<String,dynamic> toJson(){
     return {
-       "productId":productId,
+       "productId":productId.toString(),
        "name":name,
        "img":img,
        "qty":qty,

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hadja_grish/models/orders_model.dart';
 import 'package:hadja_grish/screens/maps/natives/admin_track_move.dart';
 
 
 class SingleOder extends StatefulWidget {
-  const SingleOder({super.key});
+  final OrdersModel order ;
+  const SingleOder({super.key, required this.order});
 
   @override
   State<SingleOder> createState() => _SingleOderState();
@@ -35,37 +37,43 @@ class _SingleOderState extends State<SingleOder> {
       padding: const EdgeInsets.all(15),
       child: Column(
         children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            height: 100,
+         SizedBox(
+        height: 400,
+         child: ListView.builder(
+          itemCount: widget.order.orderItems.length,
+          itemBuilder: (BuildContext context, int index){
+            final item =widget.order.orderItems[index];
+            return  Padding(
             padding: const EdgeInsets.all(8.0),
-            decoration: BoxDecoration(
-                color: Colors.grey[100], borderRadius: BorderRadius.circular(20)),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                Image.asset("assets/images/prod1.jpeg",height: 80,width: 80,), 
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+            child: Container(
+              height: 100,
+              padding: const EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(20)),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Savon",style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400)),
-                    Text("Quantite 1",style:GoogleFonts.roboto(fontSize: 20,color:Colors.grey[500]))
-                  ],
-                ), 
-                Text("prix: 234",style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400))]),
-          ),
-        ),
-       
-        const SizedBox(height: 100),
+                     Image.network(item.img,height: 80,width: 80,), 
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(item.name,style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400)),
+                        Text("Quantité ${item.qty.toString()}",style:GoogleFonts.roboto(fontSize: 20,color:Colors.grey[500]))
+                      ],
+                    ), 
+                    Text("prix ${item.prix}",style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400))]),
+            ),
+          );
+          }
+         ),
+       ),
         Padding(padding: const EdgeInsets.all(15), 
         child:Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text("Total",style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400)),
             const SizedBox(width: 15),
-            Text("12000 FCFA",style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400))
+            Text("${widget.order.total} FCFA",style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400))
           ],
         ),
         ),
@@ -73,9 +81,9 @@ class _SingleOderState extends State<SingleOder> {
         child:Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Payer",style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400)),
+            Text("Order",style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400)),
             const SizedBox(width: 15),
-            Text("oui",style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400))
+            Text(widget.order.statusOfDelibery ,style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400))
           ],
         )),
         Padding(padding: const EdgeInsets.all(15), 
@@ -84,7 +92,7 @@ class _SingleOderState extends State<SingleOder> {
           children: [
             Text("Client",style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400)),
             const SizedBox(width: 15),
-            Text("Oumou",style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400))
+            Text(widget.order.telephone,style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400))
           ],
         )),
          Padding(padding: const EdgeInsets.all(15), 
@@ -93,7 +101,7 @@ class _SingleOderState extends State<SingleOder> {
           children: [
             Text("Date",style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400)),
             const SizedBox(width: 15),
-            Text("12/06/2024",style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400))
+            Text(widget.order.createdAt.toString(),style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400))
           ],
         )),
          Padding(padding: const EdgeInsets.all(15), 
@@ -102,7 +110,7 @@ class _SingleOderState extends State<SingleOder> {
           children: [
             Text("Addresse",style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400)),
             const SizedBox(width: 15),
-            Text("Bamako,hamdalleye",style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400))
+            Text(widget.order.address,style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400))
           ],
         )),
         Padding(

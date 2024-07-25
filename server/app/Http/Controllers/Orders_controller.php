@@ -16,31 +16,33 @@ class Orders_controller extends Controller
     {
         try {
 
-            // Validation des données
-            $isValide = Validator::make($req->all(), [
-                "userId" => "required",
-                "deliberyId" => "required",
-                "address" => "required",
-                "latitude" => "required",
-                "longitude" => "required",
-                "telephone" => "required",
-                "total" => "required",
-                "statut_of_delibery" => "required",
-                "articles" => "required|array"
-            ]);
+            // // Validation des données
+            // $isValide = Validator::make($req->all(), [
+            //     "userId" => "required",
+            //     "deliberyId" => "string|nullable",
+            //     "address" => "required",
+            //     "latitude" => "required",
+            //     "longitude" => "required",
+            //     "telephone" => "required",
+            //     "total" => "required",
+            //     "statut_of_delibery" => "required",
+            //     "articles" => "required|array"
+            // ]);
 
-            if ($isValide->fails()) {
-                return response()->json([
-                    "status" => false,
-                    "message" => "Vos champs ne sont pas corrects",
-                    "errors" => $isValide->errors()
-                ]);
-            }
+            // if ($isValide->fails()) {
+            //     return response()->json([
+            //         "status" => false,
+            //         "message" => "Vos champs ne sont pas corrects",
+            //         "errors" => $isValide->errors()
+            //     ]);
+            // }
+
+            error_log(print_r($req->all(),true));
 
             // Créer la commande
             $orders = Order::create([
                 "userId" => $req->userId,
-                "deliberyId" => $req->deliberyId,
+                "deliberyId" => $req->deliberyId ,
                 "address" => $req->address,
                 "latitude" => $req->latitude,
                 "longitude" => $req->longitude,
@@ -51,7 +53,7 @@ class Orders_controller extends Controller
 
             // Créer les articles de commande et mettre à jour les stocks
             foreach ($req->articles as $item) {
-                $article = Article::find($item['productId']);
+                $article = Article::findOrFail($item['productId']);
 
                 if ($article && $item['qty'] > 0 && $item['qty'] <= $article->stock) {
                     OrderItem::create([
@@ -114,6 +116,8 @@ class Orders_controller extends Controller
             $orders = Order::where('userId', $userId)
                 ->orwhere('deliberyId', $userId)
                 ->with('orderItems')->get();
+
+                // error_log(print_r($orders,true));
 
             return response()->json([
                 "status" => true,

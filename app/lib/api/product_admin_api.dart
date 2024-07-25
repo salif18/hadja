@@ -23,6 +23,20 @@ class ServicesAPiProducts {
     );
   }
 
+  //ajouter depense
+  updateProduct(data, id) async {
+    var uri = "$urlServer/articles/update/$id";
+    return await dio.put(
+      uri,
+      data: data,
+      options: Options(headers: {
+        "Content-Type": "application/json; charset=UTF-8",
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+      },)
+    );
+  }
+
   //obtenir depenses
   getAllProducts() async {
     var uri = "$urlServer/get_article_with_galeries";
@@ -47,22 +61,10 @@ class ServicesAPiProducts {
       });
   }
 
-//obtenir depenses
-  getOneProduct(data) async {
-    var uri = "$urlServer/articles/{}";
-    return await http.get(
-      Uri.parse(uri),
-      headers: {
-        "Content-Type": "application/json; charset=UTF-8",
-        "Accept": "*/*",
-        "Accept-Encoding": "gzip, deflate, br",
-      },
-    );
-  }
 
   //delete
-  deleteProduct(data) async {
-    var uri = "$urlServer/articles/{}";
+  deleteProduct(id) async {
+    var uri = "$urlServer/articles/delete/$id";
     return await http.delete(
       Uri.parse(uri),
       headers: {
