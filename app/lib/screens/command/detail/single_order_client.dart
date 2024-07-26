@@ -87,7 +87,7 @@ class _SingleOrderClientState extends State<SingleOrderClient> {
           children: [
             Text("Livreur",style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400)),
             const SizedBox(width: 15),
-            Text("78303208",style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400))
+            Text(widget.order.deliveryId.toString(),style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400))
           ],
         )),
          Padding(padding: const EdgeInsets.all(15), 

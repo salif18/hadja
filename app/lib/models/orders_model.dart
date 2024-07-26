@@ -52,8 +52,8 @@ class OrderItem {
 
 class OrdersModel {
   final int id;
-  final int userId;
-  final int deliveryId;
+  final String userId;
+  final String? deliveryId;
   final String address;
   final double latitude;
   final double longitude;
@@ -82,8 +82,8 @@ class OrdersModel {
   factory OrdersModel.fromJson(Map<String, dynamic> json) {
     return OrdersModel(
       id: json['id'],
-      userId: int.parse(json['userId']),
-      deliveryId: int.parse(json['deliberyId']),
+      userId: json['userId'],
+      deliveryId: json['deliberyId'],
       address: json['address'],
       latitude: json['latitude'],
       longitude: json['longitude'],
@@ -102,7 +102,7 @@ class OrdersModel {
     return {
       "id": id,
       "userId": userId,
-      "deliberyId": deliveryId,
+      "deliveryId": deliveryId,
       "address": address,
       "latitude": latitude,
       "longitude": longitude,
