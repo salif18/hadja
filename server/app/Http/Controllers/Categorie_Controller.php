@@ -60,4 +60,63 @@ class Categorie_Controller extends Controller
            ],500);
           }
       }
+
+
+       //UPDATE CATEGORIES
+      // UPDATE CATEGORIES
+public function updateCategorys(Request $req, $id){
+   try{
+       // Log request data and ID
+       error_log(print_r($req->all(), true));
+       error_log(print_r($id, true));
+       
+       // Find the category by ID
+       $categorie = Categorie::findOrFail($id);
+       
+       // Update the category name
+       $categorie->update(['name_categorie' => $req->name_categorie]);
+
+       return response()->json([
+           'status' => true,
+           'categories' => $categorie,
+           'message' => 'Categorie modifiée !!'
+       ], 201);
+
+   } catch(\Exception $error){
+       return response()->json([
+           'status' => false,
+           'message' => 'Erreur survenue lors de la requête.',
+           'error' => $error->getMessage()
+       ], 500);
+   }
+}
+
+
+       //DELETE CATEGORIES
+      // DELETE CATEGORIES
+public function removeCategorys($id){
+   try{
+       // Log the ID
+       error_log(print_r($id, true));
+       
+       // Find the category by ID
+       $categorie = Categorie::findOrFail($id);
+       
+       // Delete the category
+       $categorie->delete();
+
+       return response()->json([
+           'status' => true,
+           'message' => 'Categorie supprimée !!'
+       ], 200);
+
+   } catch(\Exception $error){
+       return response()->json([
+           'status' => false,
+           'message' => 'Erreur survenue lors de la requête.',
+           'error' => $error->getMessage()
+       ], 500);
+   }
+}
+
 }

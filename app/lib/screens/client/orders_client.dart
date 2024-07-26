@@ -5,58 +5,76 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/api/orders_api.dart';
 import 'package:hadja_grish/models/orders_model.dart';
-import 'package:hadja_grish/screens/command/widgets/card_orders_admin.dart';
+import 'package:hadja_grish/providers/auth_provider.dart';
+import 'package:hadja_grish/screens/client/card_order_client.dart';
+import 'package:provider/provider.dart';
 
-class OrderLivrer extends StatefulWidget {
-  const OrderLivrer({super.key});
+class OrdersClient extends StatefulWidget {
+  const OrdersClient({super.key});
 
   @override
-  State<OrderLivrer> createState() => _OrderLivrerState();
+  State<OrdersClient> createState() => _OrdersClientState();
 }
 
-class _OrderLivrerState extends State<OrderLivrer> {
+class _OrdersClientState extends State<OrdersClient> {
   ServicesApiOrders api = ServicesApiOrders();
-
-  final StreamController<List<OrdersModel>> _ordersDataLivrer =
+   final StreamController<List<OrdersModel>> _ordersData =
       StreamController();
 
   @override
   void initState() {
     super.initState();
-    _getOrdersLivrer();
+    _getOrders();
   }
 
   @override
   void dispose() {
-    _ordersDataLivrer.close();
+    _ordersData.close();
     super.dispose();
   }
 
+
 // fonction fetch data articles depuis server
-  Future<void> _getOrdersLivrer() async {
+ Future<void> _getOrders() async {
+    final provider = Provider.of<AuthProvider>(context, listen: false);
+    final userId = await provider.userId();
     try {
-      final response = await api.getAllOrdersLivrer();
+      final response = await api.getUserOrders(userId);
       final body = jsonDecode(response.body);
-      if (response.statusCode == 200) {
-        _ordersDataLivrer.add(
+      if (response.statusCode == 200 ) {
+        _ordersData.add(
           (body["orders"] as List)
               .map((json) => OrdersModel.fromJson(json))
               .toList(),
         );
       } else {
-        _ordersDataLivrer.addError("Failed to load orders");
+        _ordersData.addError("Failed to load orders");
       }
     } catch (e) {
-      _ordersDataLivrer.addError("Failed to load orders");
+      _ordersData.addError("Failed to load orders");
     }
   }
+
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.grey[100],
-        body: StreamBuilder<List<OrdersModel>>(
-            stream: _ordersDataLivrer.stream,
+      backgroundColor:Colors.grey[100], 
+      appBar:AppBar(
+        leading: IconButton(onPressed:(){
+          Navigator.pop(context);
+        }, icon: const Icon(Icons.arrow_back_ios_new_rounded, size:20)
+        ),
+         centerTitle: true, 
+         title: Text("Commandes",style:GoogleFonts.roboto( 
+          fontSize:24, 
+          fontWeight:FontWeight.w400
+         ),
+         ),
+      ),
+      body: StreamBuilder<List<OrdersModel>>(
+            stream: _ordersData.stream,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
@@ -79,9 +97,10 @@ class _OrderLivrerState extends State<OrderLivrer> {
                     itemBuilder: (BuildContext context, int index) {
                       final data = snapshot.data!;
                       OrdersModel order = data[index];
-                      return CardOrderAdmin(order: order);
+                      return CardOrderClient(order :order);
                     });
               }
-            }));
+            }),
+    );
   }
 }

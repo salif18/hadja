@@ -7,12 +7,13 @@ import 'package:hadja_grish/providers/user_provider.dart';
 import 'package:hadja_grish/screens/auth/login_page.dart';
 import 'package:hadja_grish/screens/auth/update_password.dart';
 import 'package:hadja_grish/screens/cart/widgets/maps.dart';
-import 'package:hadja_grish/screens/command/views/orders_admin.dart';
-import 'package:hadja_grish/screens/command/views/orders_client.dart';
-import 'package:hadja_grish/screens/command/views/orders_delibery.dart';
+import 'package:hadja_grish/screens/admin/command/views/orders_admin.dart';
+import 'package:hadja_grish/screens/client/orders_client.dart';
+import 'package:hadja_grish/screens/livreur/orders_delibery.dart';
 import 'package:hadja_grish/screens/admin/livreurs/delivery_list.dart';
 import 'package:hadja_grish/screens/admin/categories/categorie_list.dart';
 import 'package:hadja_grish/screens/admin/views/products_page.dart';
+import 'package:hadja_grish/screens/livreur/list_delivery.dart';
 import 'package:hadja_grish/screens/profil/update_profil.dart';
 import 'package:provider/provider.dart';
 
@@ -264,7 +265,7 @@ class _DrawerWindowState extends State<DrawerWindow> {
                         ),
                       ),
                     ),
-                  if (profil.statut.toString() == "isLibery")
+                  if (profil.statut.toString() != "isLibery")
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 15, vertical: 5),
@@ -304,7 +305,9 @@ class _DrawerWindowState extends State<DrawerWindow> {
                               ),
                             ),
                             ListTile(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=> const ListOrderLivrer()));
+                              },
                               title: Row(
                                 children: [
                                   const Icon(Icons.check,

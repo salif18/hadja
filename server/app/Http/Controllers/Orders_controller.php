@@ -152,6 +152,28 @@ class Orders_controller extends Controller
         }
     }
 
+    
+    // Obtenir les commandes par statut de livraison
+    public function getOrdersByDeliberyStatut($userId)
+    {
+        try {
+            $orders = Order::where('statut_of_delibery', 'Livrer')
+            ->orwhere("deliberyId",$userId)
+                ->with('orderItems')
+                ->get();
+
+            return response()->json([
+                "status" => true,
+                "orders" => $orders,
+            ], 200);
+        } catch (Exception $err) {
+            return response()->json([
+                "status" => false,
+                "message" => $err->getMessage()
+            ], 500);
+        }
+    }
+
     //mis ajours du statut de order
     public function updateOrdersStatut(Request $req, $id)
     {

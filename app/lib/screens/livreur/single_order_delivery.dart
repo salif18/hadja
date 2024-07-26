@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/models/orders_model.dart';
-import 'package:hadja_grish/screens/maps/natives/admin_track_move.dart';
+import 'package:hadja_grish/screens/livreur/delivery_track_client.dart';
+import 'package:intl/intl.dart';
 
-
-class SingleOder extends StatefulWidget {
-  final OrdersModel order ;
-  const SingleOder({super.key, required this.order});
+class SingleOrderDelivery extends StatefulWidget {
+  final OrdersModel order;
+  const SingleOrderDelivery({super.key, required this.order});
 
   @override
-  State<SingleOder> createState() => _SingleOderState();
+  State<SingleOrderDelivery> createState() => _SingleOrderDeliveryState();
 }
 
-class _SingleOderState extends State<SingleOder> {
+class _SingleOrderDeliveryState extends State<SingleOrderDelivery> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return  Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
         centerTitle: true,
@@ -30,7 +30,7 @@ class _SingleOderState extends State<SingleOder> {
       ),
     );
   }
-
+  
   Widget _orders(BuildContext context) {
     return Container(
       color: Colors.white,
@@ -101,7 +101,7 @@ class _SingleOderState extends State<SingleOder> {
           children: [
             Text("Date",style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400)),
             const SizedBox(width: 15),
-            Text(widget.order.createdAt.toString(),style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400))
+            Text(DateFormat('dd/MM/yyyy').format(widget.order.createdAt),style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400))
           ],
         )),
          Padding(padding: const EdgeInsets.all(15), 
@@ -120,7 +120,7 @@ class _SingleOderState extends State<SingleOder> {
                 Navigator.push(
                     context,
                     (MaterialPageRoute(
-                        builder: (context) => const AdminTrackingDelivery())));
+                        builder: (context) => const DeliveryTrackingClient())));
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(400,50),

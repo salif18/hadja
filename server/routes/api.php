@@ -25,12 +25,15 @@ Route::get("/livreurs",[Auth_controller::class,"getLibery"]);
 //REQUETTES CATEGORIES
 Route::post("/categories",[Categorie_Controller::class,"createCategorys"]);
 Route::get("/categories",[Categorie_controller::class,"getCategorys"]);
+Route::put("/categories/update/{id}",[Categorie_controller::class,"updateCategorys"]);
+Route::delete("/categories/delete/{id}",[Categorie_controller::class,"removeCategorys"]);
 
 //REQUETTES ORDERS
 Route::post("/orders",[Orders_controller::class,"createOrders"]);
 Route::get("/orders",[Orders_controller::class,"getAllOrders"]);
 Route::get("/orders/{userId}",[Orders_controller::class,"getOrdersByUser"]);
 Route::get("/orders/status/{statut}", [Orders_Controller::class, "getOrdersByStatut"]);
+Route::get("/orders/livrer/{userId}", [Orders_Controller::class, "getOrdersByDeliberyStatut"]);
 Route::put("/orders/{id}",[Orders_controller::class,"updateOrdersStatut"]);
 
 // MY ROUTE ARTICLES

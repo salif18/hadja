@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/models/orders_model.dart';
-import 'package:hadja_grish/screens/command/detail/single_order_admin.dart';
+import 'package:hadja_grish/screens/livreur/single_order_delivery.dart';
+import 'package:intl/intl.dart';
 
-class CardOrderAdmin extends StatelessWidget {
+class CardOrderDelivery extends StatelessWidget {
   final OrdersModel order;
-  const CardOrderAdmin({super.key, required this.order});
+  const CardOrderDelivery({super.key, required this.order});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>SingleOder(order:order)));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> SingleOrderDelivery(order:order)));
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
-          height: 220, 
+          height: 180, 
           width: MediaQuery.of(context).size.width,
           padding: const EdgeInsets.all(15),
           decoration: BoxDecoration(
@@ -42,7 +43,7 @@ class CardOrderAdmin extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [ 
                   Text("Date:",style: GoogleFonts.roboto(fontSize: 18,color:Colors.grey),),
-                  Text(order.createdAt.toString(),style: GoogleFonts.roboto(fontSize: 18),)
+                  Text(DateFormat('dd/MM/yyyy').format(order.createdAt),style: GoogleFonts.roboto(fontSize: 18),)
                 ],
               ),
               Row( 
@@ -59,13 +60,14 @@ class CardOrderAdmin extends StatelessWidget {
                   Text(order.address,style: GoogleFonts.roboto(fontSize: 18),)
                 ],
               ),
+               
                Row( 
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [ 
                   Text("Order:",style: GoogleFonts.roboto(fontSize: 18,color:Colors.grey),),
                   Text(order.statusOfDelibery,style: GoogleFonts.roboto(fontSize: 18),)
                 ],
-              ),
+              )
             ],
           ),
         ),

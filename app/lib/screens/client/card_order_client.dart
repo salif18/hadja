@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/models/orders_model.dart';
-import 'package:hadja_grish/screens/command/detail/single_order_client.dart';
+import 'package:hadja_grish/screens/client/single_order_client.dart';
+import 'package:intl/intl.dart';
 
 class CardOrderClient extends StatelessWidget {
   final OrdersModel order;
@@ -42,7 +43,7 @@ class CardOrderClient extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [ 
                   Text("Date:",style: GoogleFonts.roboto(fontSize: 18,color:Colors.grey),),
-                  Text(order.createdAt.toString(),style: GoogleFonts.roboto(fontSize: 18),)
+                  Text(DateFormat('dd/MM/yyyy').format(order.createdAt),style: GoogleFonts.roboto(fontSize: 18),)
                 ],
               ),
               Row( 

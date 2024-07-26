@@ -99,7 +99,7 @@ class _DeliveryListState extends State<DeliveryList> {
          _liberyData.add((body["theLiberys"] as List).map((json) => ModelUser.fromJson(json)).toList());
        }
     }catch(e){
-      print(e);
+      Exception(e);
     }
   }
 

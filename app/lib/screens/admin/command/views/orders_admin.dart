@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hadja_grish/screens/command/views/order_en_cours_page.dart';
-import 'package:hadja_grish/screens/command/views/order_livrer_page.dart';
+import 'package:hadja_grish/screens/admin/command/views/order_en_cours_page.dart';
+import 'package:hadja_grish/screens/admin/command/views/order_livrer_page.dart';
 
 class AdminOders extends StatefulWidget {
   const AdminOders({super.key});
@@ -36,7 +36,7 @@ class _AdminOdersState extends State<AdminOders> {
                 labelPadding: const EdgeInsets.only(left: 50, right: 50),
                 tabs: [
                   Tab(
-                    child: Text("En cours",
+                    child: Text("En attente",
                         style: GoogleFonts.roboto(
                             fontSize: 20, fontWeight: FontWeight.w400)),
                   ),

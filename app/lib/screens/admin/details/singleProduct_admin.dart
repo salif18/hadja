@@ -165,7 +165,7 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
             actions: [
             IconButton(
             onPressed: () {
-              _removeArticles();
+             showRemoveArticle();
             },
             icon: const Icon(Icons.delete, size: 28)),
             ],
@@ -492,5 +492,28 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
         ),
       ),
     );
+  }
+
+  showRemoveArticle(){
+    showDialog(
+      context: context, 
+      builder: (BuildContext context){
+         return AlertDialog(
+          title: Text("Voulez-vous continuer l'action ?", style: GoogleFonts.roboto(fontSize:18),),
+          elevation: 1.2,
+          content: 
+             Row( 
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [ 
+                TextButton(onPressed: (){
+                   _removeArticles();
+                }, child: Text("Comfirmer",style: GoogleFonts.roboto(fontSize:16),)),
+                 TextButton(onPressed: (){
+                  Navigator.pop(context); 
+                 }, child: Text("Annuler",style: GoogleFonts.roboto(fontSize:16),))
+              ],
+             )
+         );
+      });
   }
 }

@@ -8,7 +8,7 @@ const String domaineApi = "http://10.0.2.2:8000/api";
 class ServicesApiOrders{
 
   Dio dio = Dio();
-  //obtenir depenses par user jour
+  //AJOUTER DES COMMANDES
   postOrders(data)async{
     var uri = "$domaineApi/orders";
     return await http.post(Uri.parse(uri),
@@ -21,7 +21,7 @@ class ServicesApiOrders{
     );
   }
 
-  //obtenir depenses par user jour
+  //OBTENIR COMMANDES PAR USER
   getUserOrders(userId)async{
     var uri = "$domaineApi/orders/$userId";
     return await http.get(Uri.parse(uri),
@@ -33,7 +33,19 @@ class ServicesApiOrders{
     );
   }
 
-   //obtenir depenses par user jour
+   //OBTENIR COMMANDES LIVRER PAR LIVREUR
+  getDeliveryOrdersLivery(userId)async{
+    var uri = "$domaineApi/orders/livrer/$userId";
+    return await http.get(Uri.parse(uri),
+     headers: {
+            "Content-Type": "application/json; charset=UTF-8",
+            "Accept":"*/*",
+            "Accept-Encoding":"gzip, deflate, br",
+          },
+    );
+  }
+
+   //OBTENIR COMMANDES EN ATTENTE
   getAllOrdersEnCours()async{
     var uri = "$domaineApi/orders/status/En attente";
     return await http.get(Uri.parse(uri),
@@ -45,7 +57,7 @@ class ServicesApiOrders{
     );
   }
 
-   //obtenir depenses par user jour
+   //OBTENIR COMMANDES LIVRER
   getAllOrdersLivrer()async{
     var uri = "$domaineApi/orders/status/Livrer";
     return await http.get(Uri.parse(uri),

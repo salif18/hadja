@@ -32,12 +32,37 @@ Dio dio = Dio();
     ));
   }
 
+  //modifier la categorie pour formulaire
+ updateCategories(data, id)async{
+    var uri = "$urlServer/categories/update/$id";
+    return await dio.put(uri,
+    data:data,
+     options:Options(headers: {
+            "Content-Type": "application/json; charset=UTF-8",
+            "Accept":"*/*",
+            "Accept-Encoding":"gzip, deflate, br",
+          },
+    ));
+  }
+
+   //supprimer categorie 
+  deleteCategories(id)async{
+    var uri = "$urlServer/categories/delete/$id";
+    return await dio.delete(uri,
+     options:Options(headers: {
+            "Content-Type": "application/json; charset=UTF-8",
+            "Accept":"*/*",
+            "Accept-Encoding":"gzip, deflate, br",
+          },
+    ));
+  }
+
   //messade d'affichage de reponse de la requette recus
   void showSnackBarSuccessPersonalized(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(message,
           style: GoogleFonts.roboto(fontSize: 20, fontWeight: FontWeight.w500)),
-      backgroundColor: const Color(0xFF292D4E),
+      backgroundColor: Colors.blue,
       duration: const Duration(seconds: 5),
       action: SnackBarAction(
           label: "",
