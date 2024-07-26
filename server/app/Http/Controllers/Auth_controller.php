@@ -235,6 +235,62 @@ public function getLibery(){
     }
 }
 
+// FONCTION DE MODIFICATION
+public function updateLibery(Request $request, $userId)
+{
+    try {
+        // Trouver l'utilisateur dans la base de données
+        $user = User::findOrFail($userId);
+        error_log(print_r($user), true);
+        // Mettre à jour les informations de l'utilisateur
+        $user->update([
+            "name" => $request->name,
+            "phone_number" => $request->phone_number,
+            "email" => $request->email,
+            "user_statut" => $request->user_statut,
+        ]);
+
+        // Retourner les informations sur l'utilisateur
+        return response()->json([
+            "status" => true,
+            "message" => "Compte mis à jour avec succès !!",
+            "profil" => $user,
+        ], 200); // Code de statut 200 pour une mise à jour réussie
+
+    } catch (\Exception $error) {
+        return response()->json([
+            "status" => false,
+            "message" => $error->getMessage()
+        ], 500); // Code de statut 500 pour les erreurs serveur
+    }
+}
+
+// FONCTION DE SUPPRESSION
+public function deleteLibery($userId)
+{
+    try {
+        // Trouver l'utilisateur dans la base de données
+        $user = User::findOrFail($userId);
+
+        // Supprimer l'utilisateur
+        $user->delete();
+
+        // Retourner une réponse de succès
+        return response()->json([
+            "status" => true,
+            "message" => "Compte supprimé avec succès !!",
+        ], 200); // Code de statut 200 pour une suppression réussie
+
+    } catch (\Exception $error) {
+        return response()->json([
+            "status" => false,
+            "message" => $error->getMessage()
+        ], 500); // Code de statut 500 pour les erreurs serveur
+    }
+}
+
+
+
     // Fonction de connexion de l'utilisateur
     // public function login(Request $req){
     //      try{

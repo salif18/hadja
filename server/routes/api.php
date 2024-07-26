@@ -21,6 +21,8 @@ Route::post("/delete",[Auth_controller::class,"delete"]);
 
 //RECURER LES LIVREURS
 Route::get("/livreurs",[Auth_controller::class,"getLibery"]);
+Route::get("/livreurs/update/{userId}",[Auth_controller::class,"updateLibery"]);
+Route::get("/livreurs/delete/{userId}",[Auth_controller::class,"deleteLibery"]);
 
 //REQUETTES CATEGORIES
 Route::post("/categories",[Categorie_Controller::class,"createCategorys"]);

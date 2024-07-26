@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import "package:http/http.dart" as http;
@@ -19,9 +21,22 @@ class ServicesApiDelibery{
 
 
   //delete
-  deleteDelibery(data)async{
-     var uri = "$urlServer/livreurs/{}";
+  deleteDelibery(id)async{
+     var uri = "$urlServer/livreurs/delete/$id";
      return await http.delete(Uri.parse(uri),
+     headers: {
+            "Content-Type": "application/json; charset=UTF-8",
+            "Accept":"*/*",
+            "Accept-Encoding":"gzip, deflate, br",
+          },
+     );
+  }
+
+  //delete
+  updateDelibery(data,id)async{
+     var uri = "$urlServer/livreurs/update/$id";
+     return await http.put(Uri.parse(uri),
+     body:jsonEncode(data),
      headers: {
             "Content-Type": "application/json; charset=UTF-8",
             "Accept":"*/*",
