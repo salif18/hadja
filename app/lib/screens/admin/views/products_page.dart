@@ -284,7 +284,7 @@ class _ProductPageState extends State<ProductPage> {
                                         style:
                                             GoogleFonts.roboto(fontSize: 18)),
                                     const SizedBox(width: 10),
-                                    Text(article.stock.toString()),
+                                    Text( article.stock > 0 ? article.stock.toString() : "finis"),
                                   ],
                                 ),
                               )

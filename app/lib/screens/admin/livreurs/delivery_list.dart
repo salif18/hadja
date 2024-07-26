@@ -32,7 +32,7 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
   final _password = TextEditingController();
   bool isVisibility = false;
 
-  final List<String> _statutList = ["isAdmin", "isLibery", "isClient"];
+  final List<String> _statutList = ["admin", "delivery", "client"];
 
   @override
   void initState() {
@@ -146,7 +146,6 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
         final body = jsonDecode(res.body);
         // ignore: use_build_context_synchronously
         Navigator.pop(context); // Fermer le dialog
-
         if (res.statusCode == 201) {
           // ignore: use_build_context_synchronously
           api.showSnackBarSuccessPersonalized(context, body["message"]);

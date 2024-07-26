@@ -71,7 +71,7 @@ class Orders_controller extends Controller
                 } else {
                     return response()->json([
                         'status' => false,
-                        'message' => 'Stock insuffisant pour le produit ' . $item['name'],
+                        'message' => "Stock insuffisant pour le produit {$item['name']} restant {$article->stock}",
                     ], 400);
                 }
             }
@@ -79,7 +79,7 @@ class Orders_controller extends Controller
 
             return response()->json([
                 "status" => true,
-                "message" => "nouvel order"
+                "message" => "Votre commande a été reçu !!"
             ], 201);
         } catch (Exception $err) {
             return response()->json([

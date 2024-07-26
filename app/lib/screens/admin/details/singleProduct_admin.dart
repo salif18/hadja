@@ -222,7 +222,7 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
                         const SizedBox(
                           width: 20,
                         ),
-                        Text(widget.article.stock.toString(),
+                        Text(widget.article.stock > 0 ? widget.article.stock.toString() : "finis",
                             style: GoogleFonts.roboto(
                                 fontSize: 16, color: Colors.grey)),
                       ],

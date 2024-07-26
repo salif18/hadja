@@ -141,10 +141,10 @@ class _AddressLivraisonState extends State<AddressLivraison> {
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
-                hintText: "Ville/quartier",
+                hintText: "Quartier",
                 hintStyle: GoogleFonts.aBeeZee(
                     fontSize: 18, fontWeight: FontWeight.w400),
-                prefixIcon: const Icon(Icons.home, size: 33),
+                prefixIcon: const Icon(Icons.villa_outlined, size: 33),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
                   borderSide: BorderSide.none,
@@ -163,7 +163,7 @@ class _AddressLivraisonState extends State<AddressLivraison> {
                 hintText: "Numero",
                 hintStyle: GoogleFonts.aBeeZee(
                     fontSize: 18, fontWeight: FontWeight.w400),
-                prefixIcon: const Icon(Icons.home, size: 33),
+                prefixIcon: const Icon(Icons.phone_android_outlined, size: 33),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
                   borderSide: BorderSide.none,
