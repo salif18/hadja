@@ -4,7 +4,7 @@ class ModelUser {
   final String? photo;
   final String? number;
   final String? email;
-  final String statut;
+  final String? statut;
 
   ModelUser({
     required this.userId, 
@@ -18,10 +18,10 @@ class ModelUser {
   return ModelUser(
     userId: json["id"].toString(), 
     name: json["name"] ?? "", 
-    photo: json["photo"], 
+    photo: json["photo"] , 
     number: json["phone_number"] ?? "",
     email: json["email"] ?? "",
-    statut:json["user_statut"].toString()
+    statut:json["user_statut"] ?? ""
   );
 }
 Map<String, dynamic> toJson() {

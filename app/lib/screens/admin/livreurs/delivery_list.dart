@@ -98,10 +98,10 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
 //MODIFICATION DELIBERY API
   Future<void> _sendUpdateLiberyToserver(BuildContext context, ModelUser livreur) async {
      final data = {
-  "name": _nom.text.isNotEmpty ? _nom.text : livreur.name,
-  "phone_number": _numero.text.isNotEmpty ? _numero.text : livreur.number,
-  "email": _email.text.isNotEmpty ? _email.text : livreur.email,
-  "user_statut": _statutUser ?? livreur.statut,
+  "name": _nom.text,
+  "phone_number": _numero.text,
+  "email": _email.text,
+  "user_statut": _statutUser 
 };
 
       try {
@@ -112,23 +112,25 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
                 child: CircularProgressIndicator(),
               );
             });
-        final res = await apiDelibery.updateDelibery(data, livreur.userId);
-        final body = jsonDecode(res.body);
+        final response = await apiDelibery.updateDelibery(data, livreur.userId);
+        final body = json.decode(response.body);
         // ignore: use_build_context_synchronously
         Navigator.pop(context); // Fermer le dialog
 
-        if (res.statusCode == 201) {
+        if (response.statusCode == 201) {
           // ignore: use_build_context_synchronously
           api.showSnackBarSuccessPersonalized(context, body["message"]);
         } else {
           // ignore: use_build_context_synchronously
           api.showSnackBarErrorPersonalized(context, body["message"]);
+          print(body["message"]);
         }
       } catch (e) {
         // ignore: use_build_context_synchronously
         Navigator.pop(context); // Fermer le dialog
         // ignore: use_build_context_synchronously
         api.showSnackBarErrorPersonalized(context, e.toString());
+        print(e);
       }
   }
 

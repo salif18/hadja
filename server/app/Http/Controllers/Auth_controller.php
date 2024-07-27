@@ -222,7 +222,7 @@ class Auth_Controller extends Controller
 public function getLibery(){
     try{
 
-        $liberys = User::where("user_statut","isLibery")->get();
+        $liberys = User::where("user_statut","delivery")->get();
         return response()->json([
             "status" => true,
             "theLiberys" => $liberys
@@ -236,25 +236,32 @@ public function getLibery(){
 }
 
 // FONCTION DE MODIFICATION
-public function updateLibery(Request $request, $userId)
+public function updateLibery(Request $request, $id)
 {
     try {
         // Trouver l'utilisateur dans la base de données
-        $user = User::findOrFail($userId);
-        error_log(print_r($user), true);
+        $user = User::find($id);
+        error_log(print_r($user,true));
         // Mettre à jour les informations de l'utilisateur
+
+        if (!$user) {
+            return response()->json([
+                "status" => false,
+                "message" => "Utilisateur non trouvé"
+            ], 404);
+        }
         $user->update([
-            "name" => $request->name,
-            "phone_number" => $request->phone_number,
-            "email" => $request->email,
-            "user_statut" => $request->user_statut,
+            "name" => $request->name ?? $user->name,
+            "phone_number" => $request->phone_number ?? $user->phone,
+            "email" => $request->email ?? $user->email,
+            "user_statut" => $request->user_statut ?? $user->user_statut,
         ]);
 
         // Retourner les informations sur l'utilisateur
         return response()->json([
             "status" => true,
             "message" => "Compte mis à jour avec succès !!",
-            "profil" => $user,
+
         ], 200); // Code de statut 200 pour une mise à jour réussie
 
     } catch (\Exception $error) {
@@ -266,11 +273,18 @@ public function updateLibery(Request $request, $userId)
 }
 
 // FONCTION DE SUPPRESSION
-public function deleteLibery($userId)
+public function deleteLibery($id)
 {
     try {
         // Trouver l'utilisateur dans la base de données
-        $user = User::findOrFail($userId);
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json([
+                "status" => false,
+                "message" => "Utilisateur non trouvé"
+            ], 404);
+        }
 
         // Supprimer l'utilisateur
         $user->delete();

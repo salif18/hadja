@@ -46,7 +46,7 @@ class _RegistrePageState extends State<RegistrePage> {
       "name": _nom.text,
       "phone_number": _numero.text,
       "email": _email.text,
-      "user_statut":"isClient",
+      "user_statut":"client",
       "password": _password.text
     };
     final provider = Provider.of<AuthProvider>(context, listen: false);

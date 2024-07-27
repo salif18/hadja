@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('orders_items', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('order_id');
+            // $table->unsignedBigInteger('order_id');
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->string("productId");
             $table->string("name");

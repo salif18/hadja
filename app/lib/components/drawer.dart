@@ -91,7 +91,7 @@ class _DrawerWindowState extends State<DrawerWindow> {
                               padding: const EdgeInsets.all(5),
                               child: Column(
                                 children: [
-                                  Text(profil.name ?? "User"),
+                                  Text(profil.statut ?? "user"),
                                   Text(profil.email ?? "user@gmail.com"),
                                 ],
                               ),
@@ -187,7 +187,7 @@ class _DrawerWindowState extends State<DrawerWindow> {
                         ),
                       ),
                     ),
-                    if (profil.statut.contains("admin")) ...[
+                    if (profil.statut !=("admin")) ...[
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                         child: Container(
@@ -305,7 +305,7 @@ class _DrawerWindowState extends State<DrawerWindow> {
                           ),
                         ),
                       ),
-                    ] else if (profil.statut.contains("delivery")) ...[
+                    ] else if (profil.statut!.contains("delivery")) ...[
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                         child: Container(
@@ -377,7 +377,7 @@ class _DrawerWindowState extends State<DrawerWindow> {
                           ),
                         ),
                       ),
-                    ] else if (profil.statut.contains("client")) ...[
+                    ] else if (profil.statut!.contains("client")) ...[
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                         child: Container(
