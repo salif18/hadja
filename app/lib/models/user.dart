@@ -1,37 +1,39 @@
-class ModelUser {
-  final String? userId;
+class ProfilModel {
+  final int? userId;
   final String? name;
-  final String? photo;
+  final String? photo; // Notez l'utilisation de ? pour indiquer que ce champ peut être null
   final String? number;
   final String? email;
-  final String? statut;
+  final String? userStatut;
 
-  ModelUser({
-    required this.userId, 
-    required this.name, 
-    required this.photo, 
+  ProfilModel({
+    required this.userId,
+    required this.name,
+    this.photo, // photo peut être null
     required this.number,
-    required this.email, 
-    required this.statut});
+    required this.email,
+    required this.userStatut,
+  });
 
- factory ModelUser.fromJson(Map<String, dynamic> json) {
-  return ModelUser(
-    userId: json["id"].toString(), 
-    name: json["name"] ?? "", 
-    photo: json["photo"] , 
-    number: json["phone_number"] ?? "",
-    email: json["email"] ?? "",
-    statut:json["user_statut"] ?? ""
-  );
-}
-Map<String, dynamic> toJson() {
+  factory ProfilModel.fromJson(Map<String, dynamic> json) {
+    return ProfilModel(
+      userId: json['id'], // Utilisez 'id' au lieu de 'userId'
+      name: json['name'],
+      photo: json['photo'],
+      number: json['phone_number'], // Utilisez 'phone_number' au lieu de 'number'
+      email: json['email'],
+      userStatut: json['user_statut'], // Utilisez 'user_statut' au lieu de 'userStatut'
+    );
+  }
+
+  Map<String, dynamic> toJson() {
     return {
-      "userId":userId,
-      "name": name,
-      "photo": photo,
-      "number": number,
-      "email": email,
-      "statut":statut
+      'id': userId, // Utilisez 'id' au lieu de 'userId'
+      'name': name,
+      'photo': photo,
+      'phone_number': number, // Utilisez 'phone_number' au lieu de 'number'
+      'email': email,
+      'user_statut': userStatut, // Utilisez 'user_statut' au lieu de 'userStatut'
     };
   }
 }

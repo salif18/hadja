@@ -88,10 +88,10 @@ class _ProductPageState extends State<ProductPage> {
     try {
       final res = await api.getAllProducts();
       final body = jsonDecode(res.body);
-      if(res.statusCode == 200){
-      _articlesData.add(
-        (body["articles"] as List).map((json)=> ArticlesModel.fromJson(json)).toList()
-      );
+      if (res.statusCode == 200) {
+        _articlesData.add((body["articles"] as List)
+            .map((json) => ArticlesModel.fromJson(json))
+            .toList());
       }
     } catch (e) {
       _articlesData.addError("");
@@ -135,8 +135,8 @@ class _ProductPageState extends State<ProductPage> {
 // recuperation des chemins de chaque images ajouter dans gallerieImages
       List<MultipartFile> imageFilesPaths = [];
       for (var image in gallerieImages!) {
-        imageFilesPaths.add(
-            await MultipartFile.fromFile(image.path, filename: image.path.split("/").last));
+        imageFilesPaths.add(await MultipartFile.fromFile(image.path,
+            filename: image.path.split("/").last));
       }
 
       FormData formData = FormData.fromMap({
@@ -169,7 +169,7 @@ class _ProductPageState extends State<ProductPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],
-       resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         toolbarHeight: 80,
         centerTitle: true,
@@ -226,8 +226,8 @@ class _ProductPageState extends State<ProductPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => SingleProductAdmin(
-                                      article: article)));
+                                  builder: (context) =>
+                                      SingleProductAdmin(article: article)));
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -266,8 +266,7 @@ class _ProductPageState extends State<ProductPage> {
                                             style: GoogleFonts.roboto(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.w500)),
-                                        Text(
-                                            "${article.price.toString()} fcfa",
+                                        Text("${article.price.toString()} fcfa",
                                             style: GoogleFonts.roboto(
                                                 fontSize: 18,
                                                 color: Colors.grey[500]))
@@ -284,7 +283,9 @@ class _ProductPageState extends State<ProductPage> {
                                         style:
                                             GoogleFonts.roboto(fontSize: 18)),
                                     const SizedBox(width: 10),
-                                    Text( article.stock > 0 ? article.stock.toString() : "finis"),
+                                    Text(article.stock > 0
+                                        ? article.stock.toString()
+                                        : "finis"),
                                   ],
                                 ),
                               )
@@ -307,23 +308,23 @@ class _ProductPageState extends State<ProductPage> {
         return Container(
           padding: const EdgeInsets.all(15),
           height: MediaQuery.of(context).size.height,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 80,
-                    child: Center(
-                      child: Text(
-                        "Ajouter produits",
-                        style: GoogleFonts.roboto(
-                            fontSize: 20, fontWeight: FontWeight.w400),
-                      ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 80,
+                  child: Center(
+                    child: Text(
+                      "Ajouter produits",
+                      style: GoogleFonts.roboto(
+                          fontSize: 20, fontWeight: FontWeight.w400),
                     ),
                   ),
-                  _formulaires(context),
-                ],
-              ),
+                ),
+                _formulaires(context),
+              ],
             ),
+          ),
         );
       },
     );
@@ -331,204 +332,212 @@ class _ProductPageState extends State<ProductPage> {
 
   Widget _formulaires(BuildContext context) {
     return Form(
-        key: _globalKey,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: InkWell(
-                  onTap: _getImageToGalleriePhone,
-                  child: InputDecorator(
-                    decoration: InputDecoration(
-                      hintText: "Photo",
-                      hintStyle:
-                          GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
-                      prefixIcon: const Icon(Icons.image, size: 20),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                    child: _articleImage == null
-                        ? Text("Aucune image sélectionnée",
-                            style: GoogleFonts.roboto(
-                                fontSize: 18, color: Colors.grey))
-                        : Image.file(File(_articleImage!.path), height: 50),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  controller: _nameController,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Veuillez entrer le nom';
-                    }
-                    return null;
-                  },
+      key: _globalKey,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: InkWell(
+                onTap: _getImageToGalleriePhone,
+                child: InputDecorator(
                   decoration: InputDecoration(
-                    hintText: "Nom du produit",
-                    hintStyle: GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
-                    prefixIcon: const Icon(Icons.pix_rounded, size: 20),
+                    hintText: "Photo",
+                    hintStyle:
+                        GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
+                    prefixIcon: const Icon(Icons.image, size: 20),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
+                  child: _articleImage == null
+                      ? Text("Aucune image sélectionnée",
+                          style: GoogleFonts.roboto(
+                              fontSize: 18, color: Colors.grey))
+                      : Image.file(File(_articleImage!.path), height: 50),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: DropdownButtonFormField<String?>(
-                  hint: Text(
-                    "Choisir une catégorie",
-                    style: GoogleFonts.roboto(
-                        fontSize: 20, fontWeight: FontWeight.w500),
-                  ),
-                  value: _categoryController,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Veuillez choisir une catégorie';
-                    }
-                    return null;
-                  },
-                  onChanged: (value) {
-                    setState(() {
-                      _categoryController = value;
-                    });
-                  },
-                  decoration: InputDecoration(
-                    fillColor: Colors.grey[100],
-                    filled: true,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    prefixIcon: const Icon(Icons.category_outlined, size: 28),
-                  ),
-                  items: _listCategories.map((categorie) {
-                    return DropdownMenuItem<String?>(
-                      value: categorie.nameCategorie,
-                      child: Text(
-                        categorie.nameCategorie,
-                        style:
-                            GoogleFonts.roboto(fontSize: 20, color: Colors.black),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: InkWell(
-                  onTap: _selectMultiImageGallery,
-                  child: InputDecorator(
-                    decoration: InputDecoration(
-                      hintText: "Autres images",
-                      hintStyle:
-                          GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
-                      prefixIcon: const Icon(Icons.add, size: 30),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                    // ignore: unnecessary_null_comparison
-                    child: gallerieImages == null
-                        ? Text("Aucune image sélectionnée",
-                            style: GoogleFonts.roboto(
-                                fontSize: 18, color: Colors.grey))
-                        : Wrap(
-                            spacing: 8.0,
-                            runSpacing: 8.0,
-                            children: gallerieImages!.map((asset) {
-                              return SizedBox(
-                                width: 50,
-                                height: 50,
-                                child: Image.file(File(asset.path)),
-                              );
-                            }).toList(),
-                          ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(
+                controller: _nameController,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Veuillez entrer le nom';
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                  hintText: "Nom du produit",
+                  hintStyle:
+                      GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
+                  prefixIcon: const Icon(Icons.pix_rounded, size: 20),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  controller: _descController,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Veuillez entrer la description';
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                    hintText: "Description",
-                    hintStyle: GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
-                    prefixIcon: const Icon(Icons.list, size: 20),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  controller: _priceController,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Veuillez entrer le prix';
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                    hintText: "Prix",
-                    hintStyle: GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
-                    prefixIcon: const Icon(Icons.monetization_on_rounded, size: 20),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  controller: _stockController,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Veuillez entrer un nombre de stock';
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                    hintText: "Stock",
-                    hintStyle: GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
-                    prefixIcon:
-                        const Icon(Icons.store_mall_directory_sharp, size: 20),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 15),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF1D1A30),
-                  minimumSize: const Size(400, 50),
-                ),
-                onPressed: _sendToServer,
-                child: Text(
-                  "Enregistrer",
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: DropdownButtonFormField<String?>(
+                hint: Text(
+                  "Choisir une catégorie",
                   style: GoogleFonts.roboto(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.white),
+                      fontSize: 20, fontWeight: FontWeight.w500),
+                ),
+                value: _categoryController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Veuillez choisir une catégorie';
+                  }
+                  return null;
+                },
+                onChanged: (value) {
+                  setState(() {
+                    _categoryController = value;
+                  });
+                },
+                decoration: InputDecoration(
+                  fillColor: Colors.grey[100],
+                  filled: true,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  prefixIcon: const Icon(Icons.category_outlined, size: 28),
+                ),
+                items: _listCategories.map((categorie) {
+                  return DropdownMenuItem<String?>(
+                    value: categorie.nameCategorie,
+                    child: Text(
+                      categorie.nameCategorie,
+                      style:
+                          GoogleFonts.roboto(fontSize: 20, color: Colors.black),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: InkWell(
+                onTap: _selectMultiImageGallery,
+                child: InputDecorator(
+                  decoration: InputDecoration(
+                    hintText: "Autres images",
+                    hintStyle:
+                        GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
+                    prefixIcon: const Icon(Icons.add, size: 30),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  // ignore: unnecessary_null_comparison
+                  child: gallerieImages == null
+                      ? Text("Aucune image sélectionnée",
+                          style: GoogleFonts.roboto(
+                              fontSize: 18, color: Colors.grey))
+                      : Wrap(
+                          spacing: 8.0,
+                          runSpacing: 8.0,
+                          children: gallerieImages!.map((asset) {
+                            return SizedBox(
+                              width: 50,
+                              height: 50,
+                              child: Image.file(File(asset.path)),
+                            );
+                          }).toList(),
+                        ),
                 ),
               ),
-            ],
-          ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(
+                controller: _descController,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Veuillez entrer la description';
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                  hintText: "Description",
+                  hintStyle:
+                      GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
+                  prefixIcon: const Icon(Icons.list, size: 20),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(
+                controller: _priceController,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Veuillez entrer le prix';
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                  hintText: "Prix",
+                  hintStyle:
+                      GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
+                  prefixIcon:
+                      const Icon(Icons.monetization_on_rounded, size: 20),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(
+                controller: _stockController,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Veuillez entrer un nombre de stock';
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                  hintText: "Stock",
+                  hintStyle:
+                      GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
+                  prefixIcon:
+                      const Icon(Icons.store_mall_directory_sharp, size: 20),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 15),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF1D1A30),
+                minimumSize: const Size(400, 50),
+              ),
+              onPressed: () {
+                _sendToServer();
+                Navigator.pop(context);
+              },
+              child: Text(
+                "Enregistrer",
+                style: GoogleFonts.roboto(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.white),
+              ),
+            ),
+          ],
         ),
+      ),
     );
   }
 }

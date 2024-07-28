@@ -232,6 +232,7 @@ class _AddressLivraisonState extends State<AddressLivraison> {
               ),
               onPressed: () {
                 sendOrders();
+                 Navigator.pop(context);
               },
               child: Text("Passer commande",
                   style: GoogleFonts.roboto(fontSize: 20, color: Colors.white)),

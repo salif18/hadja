@@ -20,7 +20,7 @@ class _MyHeaderState extends State<MyHeaderWidget> {
           return FutureBuilder(
               future: provider.loadProfilFromLocalStorage(),
               builder: (context, snaptshot) {
-                ModelUser? profil = snaptshot.data;
+                 ProfilModel? profil = snaptshot.data;
                 return Container(
                   height: 100,
                   padding: const EdgeInsets.all(15),

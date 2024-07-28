@@ -33,11 +33,11 @@ class _MyRecomadationWidgetState extends State<MyRecomadationWidget> {
     super.dispose();
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _getProducts();
-  }
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   _getProducts();
+  // }
 
   // fonction fetch data articles depuis server
   Future<void> _getProducts() async {

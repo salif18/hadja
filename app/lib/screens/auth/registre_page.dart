@@ -68,7 +68,7 @@ class _RegistrePageState extends State<RegistrePage> {
       if (res.statusCode == 201) {
         // ignore: use_build_context_synchronously
         provider.loginButton(body['token'], body["userId"].toString());
-        ModelUser user = ModelUser.fromJson(body['profil']);
+         ProfilModel user =  ProfilModel.fromJson(body['profil']);
          providerProfil.saveToLocalStorage(user);
            // ignore: use_build_context_synchronously
            Navigator.pushReplacement(context,

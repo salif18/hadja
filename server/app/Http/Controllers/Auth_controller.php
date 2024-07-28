@@ -23,7 +23,7 @@ class Auth_Controller extends Controller
                 "name" => "required|string",
                 "phone_number" => "required|string|unique:users|min:8|max:15",
                 "email" => "required|email|unique:users",
-                "user_statut"=>"required|string",
+                "user_statut" => "required|string",
                 "password" => "required|min:6"
             ]);
 
@@ -40,7 +40,7 @@ class Auth_Controller extends Controller
                 "name" => $request->name,
                 "phone_number" => $request->phone_number,
                 "email" => $request->email,
-                "user_statut"=>$request->user_statut,
+                "user_statut" => $request->user_statut,
                 "password" => bcrypt($request->password),
             ]);
 
@@ -56,7 +56,6 @@ class Auth_Controller extends Controller
                 "userId" => $user->id,
                 "token" => $token,
             ], 201);
-
         } catch (\Exception $error) {
             return response()->json([
                 "status" => false,
@@ -117,7 +116,6 @@ class Auth_Controller extends Controller
                 'token' => $token,
                 "profil" => $user,
             ], 200);
-
         } catch (\Exception $error) {
             return response()->json([
                 "status" => false,
@@ -176,7 +174,6 @@ class Auth_Controller extends Controller
                 "status" => true,
                 "message" => "Mot de passe modifié avec succès"
             ], 200);
-
         } catch (\Exception $error) {
             return response()->json([
                 "status" => false,
@@ -186,7 +183,7 @@ class Auth_Controller extends Controller
     }
 
 
-   
+
 
     //DECONNEXION
     public function logout(Request $req)
@@ -206,10 +203,29 @@ class Auth_Controller extends Controller
     }
 
     //SUPPRESSION DE COMPTE
-    public function delete()
+    public function delete($id)
     {
         try {
+            // Trouver l'utilisateur par ID
+            $user = User::findOrFail($id);
 
+            if (!$user) {
+                return response()->json([
+                    "status" => false,
+                    "message" => "Utilisateur non trouvé"
+                ], 404);
+            }
+
+            // Supprimer le jeton d'accès de l'utilisateur
+            $user->currentAccessToken()->delete();
+
+            // Supprimer l'utilisateur de la base de données
+            $user->delete();
+
+            return response()->json([
+                "status" => true,
+                "message" => "User account deleted successfully."
+            ], 200);
         } catch (\Exception $error) {
             return response()->json([
                 "status" => false,
@@ -218,130 +234,90 @@ class Auth_Controller extends Controller
         }
     }
 
-// recuperer les libery
-public function getLibery(){
-    try{
 
-        $liberys = User::where("user_statut","delivery")->get();
-        return response()->json([
-            "status" => true,
-            "theLiberys" => $liberys
-        ], 200);
-    }catch(Exception $err){
-        return response()->json([
-            "status" => false,
-            "error" => $err->getMessage()
-        ],500);
-    }
-}
+    // recuperer les libery
+    public function getLibery()
+    {
+        try {
 
-// FONCTION DE MODIFICATION
-public function updateLibery(Request $request, $id)
-{
-    try {
-        // Trouver l'utilisateur dans la base de données
-        $user = User::find($id);
-        error_log(print_r($user,true));
-        // Mettre à jour les informations de l'utilisateur
-
-        if (!$user) {
+            $liberys = User::where("user_statut", "delivery")->get();
+            return response()->json([
+                "status" => true,
+                "theLiberys" => $liberys
+            ], 200);
+        } catch (Exception $err) {
             return response()->json([
                 "status" => false,
-                "message" => "Utilisateur non trouvé"
-            ], 404);
+                "error" => $err->getMessage()
+            ], 500);
         }
-        $user->update([
-            "name" => $request->name ?? $user->name,
-            "phone_number" => $request->phone_number ?? $user->phone,
-            "email" => $request->email ?? $user->email,
-            "user_statut" => $request->user_statut ?? $user->user_statut,
-        ]);
-
-        // Retourner les informations sur l'utilisateur
-        return response()->json([
-            "status" => true,
-            "message" => "Compte mis à jour avec succès !!",
-
-        ], 200); // Code de statut 200 pour une mise à jour réussie
-
-    } catch (\Exception $error) {
-        return response()->json([
-            "status" => false,
-            "message" => $error->getMessage()
-        ], 500); // Code de statut 500 pour les erreurs serveur
     }
-}
 
-// FONCTION DE SUPPRESSION
-public function deleteLibery($id)
-{
-    try {
-        // Trouver l'utilisateur dans la base de données
-        $user = User::find($id);
+    // FONCTION DE MODIFICATION
+    public function updateLibery(Request $request, $id)
+    {
+        try {
+            // Trouver l'utilisateur dans la base de données
+            $user = User::find($id);
+            error_log(print_r($user, true));
+            // Mettre à jour les informations de l'utilisateur
 
-        if (!$user) {
+            if (!$user) {
+                return response()->json([
+                    "status" => false,
+                    "message" => "Utilisateur non trouvé"
+                ], 404);
+            }
+            $user->update([
+                "name" => $request->name ?? $user->name,
+                "phone_number" => $request->phone_number ?? $user->phone,
+                "email" => $request->email ?? $user->email,
+                "user_statut" => $request->user_statut ?? $user->user_statut,
+            ]);
+
+            // Retourner les informations sur l'utilisateur
+            return response()->json([
+                "status" => true,
+                "message" => "Compte mis à jour avec succès !!",
+
+            ], 200); // Code de statut 200 pour une mise à jour réussie
+
+        } catch (\Exception $error) {
             return response()->json([
                 "status" => false,
-                "message" => "Utilisateur non trouvé"
-            ], 404);
+                "message" => $error->getMessage()
+            ], 500); // Code de statut 500 pour les erreurs serveur
         }
-
-        // Supprimer l'utilisateur
-        $user->delete();
-
-        // Retourner une réponse de succès
-        return response()->json([
-            "status" => true,
-            "message" => "Compte supprimé avec succès !!",
-        ], 200); // Code de statut 200 pour une suppression réussie
-
-    } catch (\Exception $error) {
-        return response()->json([
-            "status" => false,
-            "message" => $error->getMessage()
-        ], 500); // Code de statut 500 pour les erreurs serveur
     }
-}
 
+    // FONCTION DE SUPPRESSION
+    public function deleteLibery($id)
+    {
+        try {
+            // Trouver l'utilisateur dans la base de données
+            $user = User::find($id);
 
+            if (!$user) {
+                return response()->json([
+                    "status" => false,
+                    "message" => "Utilisateur non trouvé"
+                ], 404);
+            }
 
-    // Fonction de connexion de l'utilisateur
-    // public function login(Request $req){
-    //      try{
-    //         $data = $req->all();
-    //         $valid = Validator::make($data,[
-    //           "email"=>"required",
-    //           "password"=>"required"
-    //         ]);
+            // Supprimer l'utilisateur
+            $user->delete();
 
-    //         if($valid->fails()){
-    //             return response()->json([
-    //                 "status" => false,
-    //                 "message" => $valid->errors()
-    //             ], 401);
-    //         }
+            // Retourner une réponse de succès
+            return response()->json([
+                "status" => true,
+                "message" => "Compte supprimé avec succès !!",
+            ], 200); // Code de statut 200 pour une suppression réussie
 
-    //         if(!Auth::attempt(["email"=>request("email"), "password"=>request("password") ])){
-    //             return response()->json([
-    //                 "status" => false,
-    //                 "message" => "email ou mot de passe incorrect"
-    //             ], 401);
-    //         }
-    //         $user = User::where("email", request("email"))->first();
-    //         $token = $user->createToken("user_token")->plainTextToken;
-
-    //         return response()->json([
-    //             "status" => true,
-    //             "userId" => $user->id,
-    //             "userInfos"=>$user,
-    //             "token"=>$token
-    //         ], 200);
-
-    //      }catch(\Exception $error){
-    //         return response()->json([
-    //             "status" => false,
-    //             "error" => $error->getMessage()
-    //         ], 500);
-    //      }
-    // }
+        } catch (\Exception $error) {
+            return response()->json([
+                "status" => false,
+                "message" => $error->getMessage()
+            ], 500); // Code de statut 500 pour les erreurs serveur
+        }
+    }
 }

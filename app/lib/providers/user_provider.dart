@@ -5,26 +5,28 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class UserInfosProvider extends ChangeNotifier {
 
-  
-  
   //sauvegarder dans localstorage
-  Future<void> saveToLocalStorage(ModelUser data) async {
+  Future<void> saveToLocalStorage(ProfilModel data) async {
     final SharedPreferences storage = await SharedPreferences.getInstance(); 
     await storage.setString("profil", jsonEncode(data));
     notifyListeners();
   }
 
 //load to localStorage
-  Future<ModelUser?> loadProfilFromLocalStorage() async {
+  Future<ProfilModel?> loadProfilFromLocalStorage() async {
   final SharedPreferences storage = await SharedPreferences.getInstance(); 
   final jsonData = storage.getString("profil");
   if (jsonData != null) {
     final decodedData = jsonDecode(jsonData);
-    return ModelUser.fromJson(decodedData);
+    final profil = ProfilModel.fromJson(decodedData);
+    print(decodedData);
+    print(profil.number);
+    return profil;
   } else {
     return null;
   }
  }
 
- 
+ @override
+  notifyListeners();
 }

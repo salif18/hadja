@@ -17,7 +17,7 @@ Route::middleware("auth:sanctum")->post("/logout",[Auth_controller::class,"logou
 Route::post("/registre",[Auth_controller::class,"registre"]);
 Route::post("/login",[Auth_controller::class,"login"]);
 Route::post("/update_password/{userId}",[Auth_controller::class,"updatePassword"]);
-Route::post("/delete",[Auth_controller::class,"delete"]);
+Route::delete("/user/{id}",[Auth_controller::class,"delete"]);
 
 //RECURER LES LIVREURS
 Route::get("/livreurs",[Auth_controller::class,"getLibery"]);

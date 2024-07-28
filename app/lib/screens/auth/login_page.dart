@@ -60,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
       Navigator.pop(context); // Fermer le dialog
 
       if (response.statusCode == 200) {
-        ModelUser user = ModelUser.fromJson(body['profil']);
+         ProfilModel user =  ProfilModel.fromJson(body['profil']);
          providerAuth.loginButton(body['token'], body["userId"].toString());
          providerProfil.saveToLocalStorage(user);
            Navigator.pushReplacement(context,

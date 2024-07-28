@@ -263,6 +263,7 @@ class _MyCategoriListState extends State<MyCategoriList> {
                     ElevatedButton(
                       onPressed: () {
                         _sendToserver(context);
+                        Navigator.pop(context);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF1D1A30),

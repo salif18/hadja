@@ -16,8 +16,8 @@ class DeliveryList extends StatefulWidget {
 }
 
 class _DeliveryListState extends State<DeliveryList> {
-  final StreamController<List<ModelUser>> _liberyData =
-      StreamController<List<ModelUser>>();
+  final StreamController<List< ProfilModel>> _liberyData =
+      StreamController<List< ProfilModel>>();
 
   final GlobalKey<FormState> _formKeyAdd = GlobalKey<FormState>();
 final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
@@ -96,7 +96,7 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
   }
 
 //MODIFICATION DELIBERY API
-  Future<void> _sendUpdateLiberyToserver(BuildContext context, ModelUser livreur) async {
+  Future<void> _sendUpdateLiberyToserver(BuildContext context,  ProfilModel livreur) async {
      final data = {
   "name": _nom.text,
   "phone_number": _numero.text,
@@ -170,7 +170,7 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
     if (res.statusCode == 200) {
       final body = json.decode(res.body);
       _liberyData.add((body["theLiberys"] as List)
-          .map((json) => ModelUser.fromJson(json))
+          .map((json) =>  ProfilModel.fromJson(json))
           .toList());
     } else {
       // Gérer les codes d'erreur ici si nécessaire
@@ -210,7 +210,7 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
       ),
       body: Container(
         padding: const EdgeInsets.all(20),
-        child: StreamBuilder<List<ModelUser>>(
+        child: StreamBuilder<List< ProfilModel>>(
             stream: _liberyData.stream,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -227,7 +227,7 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
                 return ListView.builder(
                     itemCount: snapshot.data!.length,
                     itemBuilder: (BuildContext context, int index) {
-                      ModelUser livreur = snapshot.data![index];
+                      ProfilModel livreur = snapshot.data![index];
                       return Container(
                         height: 100,
                         padding: const EdgeInsets.all(15),
@@ -510,6 +510,7 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
                     minimumSize: const Size(400, 50)),
                 onPressed: () {
                   _sendToserver(context);
+                   Navigator.pop(context);
                 },
                 child: Text("Enregistrer",
                     style: GoogleFonts.roboto(
@@ -521,12 +522,12 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
   }
 
 // FORMULAIRE DE MODIFICATION DE LIVREUR
-  _updateFormulaires(BuildContext context,ModelUser livreur) {
+  _updateFormulaires(BuildContext context,ProfilModel livreur) {
   // Initialisation des contrôleurs avec les valeurs du livreur
   _nom.text = livreur.name ?? ''; 
   _numero.text = livreur.number.toString(); 
   _email.text = livreur.email ?? ''; 
-  _statutUser = livreur.statut ;
+  _statutUser = livreur.userStatut ;
     return Form(
         key: _formKeyUpdate,
         child: Column(
@@ -614,6 +615,7 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
                     minimumSize: const Size(400, 50)),
                 onPressed: () {
                   _sendUpdateLiberyToserver(context, livreur);
+                   Navigator.pop(context);
                 },
                 child: Text("Modifier",
                     style: GoogleFonts.roboto(
@@ -643,6 +645,7 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
             TextButton(
               onPressed: () {
                 _deleteDeliberyToserver(context, id);
+                 Navigator.pop(context);
               },
               child: Text("Supprimer", style: GoogleFonts.roboto(fontSize: 18)),
             ),

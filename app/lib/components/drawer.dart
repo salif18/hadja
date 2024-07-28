@@ -40,30 +40,57 @@ class _DrawerWindowState extends State<DrawerWindow> {
   }
 
   Future<void> logoutUserClearTokenTosServer(BuildContext context) async {
-    final provider = Provider.of<AuthProvider>(context, listen: false);
-    var token = await provider.token();
-    provider.logoutButton();
-    try {
-      final res = await api.postLogoutTokenUser(token);
-      if (res.statusCode == 200) {
+  final provider = Provider.of<AuthProvider>(context, listen: false);
+  var token = await provider.token();
+  provider.logoutButton();
+  try {
+    final res = await api.postLogoutTokenUser(token);
+    if (res.statusCode == 200) {
+      provider.logoutButton();
+      if (mounted) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const LoginPage()),
         );
       }
-    } catch (error) {
+    }
+  } catch (error) {
+    if (mounted) {
       api.showSnackBarErrorPersonalized(
         context,
         "Erreur lors de la déconnexion. $error",
       );
     }
   }
+}
+
+Future<void> deleteCompteUser(BuildContext context) async {
+  final provider = Provider.of<AuthProvider>(context, listen: false);
+  var userId = await provider.userId();
+  provider.logoutButton();
+  try {
+    final res = await api.deleteCompte(userId);
+    if (res.statusCode == 200) {
+      provider.logoutButton();
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginPage()),
+        );
+    }
+  } catch (error) {
+    
+      api.showSnackBarErrorPersonalized(
+        context,
+        "Erreur lors de la déconnexion. $error",
+      );
+    }
+}
 
   @override
   Widget build(BuildContext context) {
     return Consumer<UserInfosProvider>(
       builder: (context, provider, child) {
-        return FutureBuilder<ModelUser?>(
+        return FutureBuilder<ProfilModel?>(
           future: provider.loadProfilFromLocalStorage(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -71,7 +98,7 @@ class _DrawerWindowState extends State<DrawerWindow> {
             } else if (snapshot.hasError) {
               return Center(child: Text('Error: ${snapshot.error}'));
             } else if (snapshot.hasData) {
-              ModelUser profil = snapshot.data!;
+              ProfilModel profil = snapshot.data!;
               return Drawer(
                 child: ListView(
                   children: [
@@ -91,8 +118,14 @@ class _DrawerWindowState extends State<DrawerWindow> {
                               padding: const EdgeInsets.all(5),
                               child: Column(
                                 children: [
-                                  Text(profil.statut ?? "user"),
-                                  Text(profil.email ?? "user@gmail.com"),
+                                  Padding(
+                                    padding: const EdgeInsets.all(2.0),
+                                    child: Text(profil.name ?? "user", style:GoogleFonts.aBeeZee(fontSize: 16)),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(2.0),
+                                    child: Text(profil.email ?? "user@gmail.com",style:GoogleFonts.aBeeZee(fontSize: 16)),
+                                  ),
                                 ],
                               ),
                             ),
@@ -187,7 +220,7 @@ class _DrawerWindowState extends State<DrawerWindow> {
                         ),
                       ),
                     ),
-                    if (profil.statut !=("admin")) ...[
+                    if (profil.userStatut == "admin") ...[
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                         child: Container(
@@ -201,7 +234,7 @@ class _DrawerWindowState extends State<DrawerWindow> {
                               Container(
                                 padding: const EdgeInsets.only(left: 20, top: 15),
                                 child: Text(
-                                  "Administration",
+                                  "Administrateur",
                                   style: GoogleFonts.roboto(
                                     fontSize: 22,
                                     fontWeight: FontWeight.w400,
@@ -305,7 +338,7 @@ class _DrawerWindowState extends State<DrawerWindow> {
                           ),
                         ),
                       ),
-                    ] else if (profil.statut!.contains("delivery")) ...[
+                    ] else if (profil.userStatut == "delivery") ...[
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                         child: Container(
@@ -377,7 +410,7 @@ class _DrawerWindowState extends State<DrawerWindow> {
                           ),
                         ),
                       ),
-                    ] else if (profil.statut!.contains("client")) ...[
+                    ] else if (profil.userStatut == "client") ...[
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                         child: Container(
@@ -550,10 +583,9 @@ class _DrawerWindowState extends State<DrawerWindow> {
       },
     );
   }
-}
 
-void _showConfirmDelete(BuildContext context) {
-  showDialog(
+Future<bool>_showConfirmDelete(BuildContext context) async{
+ return await showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
@@ -565,7 +597,7 @@ void _showConfirmDelete(BuildContext context) {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                "Êtes-vous sûr de vouloir supprimer votre compte? Cette action est irréversible.",
+                "Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.",
                 style: GoogleFonts.roboto(fontSize: 16, color: Colors.grey),
               ),
             ),
@@ -585,7 +617,7 @@ void _showConfirmDelete(BuildContext context) {
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF4caf50)),
                     onPressed: () {
-                      // Ajoutez ici la logique de suppression du compte
+                     deleteCompteUser(context);
                     },
                     child: const Text("Oui", style: TextStyle(color: Colors.white)),
                   ),
@@ -598,3 +630,7 @@ void _showConfirmDelete(BuildContext context) {
     },
   );
 }
+
+
+}
+
