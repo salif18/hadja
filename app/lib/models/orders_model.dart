@@ -57,6 +57,8 @@ class OrdersModel {
   final String address;
   final double latitude;
   final double longitude;
+  final double? deliveryLat;
+  final double? deliveryLong;
   final String telephone;
   final int total;
   final String statusOfDelibery;
@@ -71,6 +73,8 @@ class OrdersModel {
     required this.address,
     required this.latitude,
     required this.longitude,
+    required this.deliveryLat,
+    required this.deliveryLong,
     required this.telephone,
     required this.total,
     required this.statusOfDelibery,
@@ -87,6 +91,8 @@ class OrdersModel {
       address: json['address'],
       latitude: json['latitude'],
       longitude: json['longitude'],
+      deliveryLat: json['deliveryLat'],
+      deliveryLong: json['deliveryLong'],
       telephone: json['telephone'],
       total: json['total'],
       statusOfDelibery: json['statut_of_delibery'],
@@ -106,6 +112,8 @@ class OrdersModel {
       "address": address,
       "latitude": latitude,
       "longitude": longitude,
+      "deliveryLat": deliveryLat,
+      "deliveryLong": deliveryLong,
       "telephone": telephone,
       "total": total,
       "statut_of_delibery": statusOfDelibery,

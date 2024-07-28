@@ -21,8 +21,8 @@ class Auth_Controller extends Controller
             // Validation des champs de la requête
             $validator = Validator::make($body, [
                 "name" => "required|string",
-                "phone_number" => "required|string|unique:users|min:8|max:15",
-                "email" => "required|email|unique:users",
+                "phone_number" => "required|string|min:8|max:15",
+                "email" => "required|email",
                 "user_statut" => "required|string",
                 "password" => "required|min:6"
             ]);
@@ -32,6 +32,18 @@ class Auth_Controller extends Controller
                 return response()->json([
                     "status" => false,
                     "message" => $validator->errors()
+                ], 401);
+            }
+
+            // Vérifier si le compte existe déjà
+            $userExists = User::where("phone_number", $request->phone_number)
+                ->orWhere("email", $request->email)
+                ->exists();
+
+            if ($userExists) {
+                return response()->json([
+                    "status" => false,
+                    "message" => "Ce numero ou email existe déjà"
                 ], 401);
             }
 

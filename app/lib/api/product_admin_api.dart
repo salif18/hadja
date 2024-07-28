@@ -78,8 +78,8 @@ class ServicesAPiProducts {
   void showSnackBarSuccessPersonalized(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(message,
-          style: GoogleFonts.roboto(fontSize: 20, fontWeight: FontWeight.w500)),
-      backgroundColor: const Color(0xFF292D4E),
+          style: GoogleFonts.roboto(fontSize: 18)),
+      backgroundColor:const Color.fromARGB(255, 101, 255, 122),
       duration: const Duration(seconds: 5),
       action: SnackBarAction(
           label: "",
@@ -93,7 +93,7 @@ class ServicesAPiProducts {
   void showSnackBarErrorPersonalized(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(message,
-          style: GoogleFonts.roboto(fontSize: 20, fontWeight: FontWeight.w500)),
+          style: GoogleFonts.roboto(fontSize: 18)),
       backgroundColor: const Color.fromARGB(255, 255, 35, 19),
       duration: const Duration(seconds: 5),
       action: SnackBarAction(

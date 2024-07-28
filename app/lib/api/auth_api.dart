@@ -23,14 +23,13 @@ class ServicesApiAuth{
 // fonction de creation de compte
   postRegistreUser(data)async{
      var url = "$domaineApi/registre";
-      return await dio.post(url, 
-    data:data, 
-    options:Options(
+      return await http.post(Uri.parse(url), 
+    body:jsonEncode(data), 
       headers: {
         "Content-Type": "application/json; charset=UTF-8",
         "Accept": "*/*",
         "Accept-Encoding": "gzip, deflate, br",
-    }));
+    });
   
   }
 
@@ -116,8 +115,8 @@ class ServicesApiAuth{
   void showSnackBarSuccessPersonalized(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(message,
-          style: GoogleFonts.roboto(fontSize: 20, fontWeight: FontWeight.w500)),
-      backgroundColor: Colors.green,
+          style: GoogleFonts.roboto(fontSize: 18,)),
+      backgroundColor: const Color.fromARGB(255, 109, 204, 112),
       duration: const Duration(seconds: 5),
       action: SnackBarAction(
         label: "",
@@ -132,7 +131,7 @@ class ServicesApiAuth{
   void showSnackBarErrorPersonalized(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(message,
-          style: GoogleFonts.roboto(fontSize: 20, fontWeight: FontWeight.w500)),
+          style: GoogleFonts.roboto(fontSize: 18)),
       backgroundColor: const Color.fromARGB(255, 255, 35, 19),
       duration: const Duration(seconds: 5),
       action: SnackBarAction(

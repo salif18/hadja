@@ -117,7 +117,7 @@ class _SingleOrderClientState extends State<SingleOrderClient> {
                 Navigator.push(
                     context,
                     (MaterialPageRoute(
-                        builder: (context) => const ClientTrackingDelivery())));
+                        builder: (context) => ClientTrackingDelivery(order:widget.order))));
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(400,50),

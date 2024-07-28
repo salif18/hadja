@@ -1,19 +1,27 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 // import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hadja_grish/api/orders_api.dart';
+import 'package:hadja_grish/models/orders_model.dart';
+import 'package:permission_handler/permission_handler.dart';
 // import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DeliveryTrackingClient extends StatefulWidget {
-  const DeliveryTrackingClient({super.key});
+ final OrdersModel order ;
+  const DeliveryTrackingClient({super.key, required this.order});
 
   @override
   State<DeliveryTrackingClient> createState() => _DeliveryTrackingClientState();
 }
 
 class _DeliveryTrackingClientState extends State<DeliveryTrackingClient> {
-  double clientLat = 12.594039180191167;
-  double clientLong = -7.940852680927939;
+  ServicesApiOrders api = ServicesApiOrders();
+  late double clientLat ;
+  late double clientLong ;
 
   double deliveryLat = 12.583019129844349;
   double deliveryLong = -7.92946144932868;
@@ -40,11 +48,11 @@ class _DeliveryTrackingClientState extends State<DeliveryTrackingClient> {
   // Demander la permission d'activer la localisation
   Future<void> _requestLocationPermission() async {
     try {
-      // LocationPermission permission = await Geolocator.requestPermission();
-      // if (permission == LocationPermission.denied ||
-      //     permission == LocationPermission.deniedForever) {
-      //   openAppSettings();
-      // } 
+      LocationPermission permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied ||
+          permission == LocationPermission.deniedForever) {
+        openAppSettings();
+      } 
         _startTracking();
       
     } catch (e) {
@@ -54,34 +62,50 @@ class _DeliveryTrackingClientState extends State<DeliveryTrackingClient> {
 
   // Actualiser les positions
   void _startTracking() async {
-    // await getPositionClient();
-    // Position position = await Geolocator.getCurrentPosition();
-    // await sendPosition(position.altitude,position.longitude);
+    await fetchPositionDeliveryAndClient();
+    Position position = await Geolocator.getCurrentPosition();
+    await sendPosition(position.altitude,position.longitude);
     while (true) {
-    // await getPositionClient();
-    // Position position = await Geolocator.getCurrentPosition();
-    // await sendPosition(position.altitude,position.longitude);
+    await fetchPositionDeliveryAndClient();
+    Position position = await Geolocator.getCurrentPosition();
+    setState(() {
+      deliveryLat = position.altitude;
+      deliveryLong = position.longitude;
+    });
+    await sendPosition(position.altitude,position.longitude);
       await Future.delayed(const Duration(seconds: 5));
     }
   }
 
    // Récupérer les positions du client depuis le serveur
-  // Future<void> getPositionClient() async {
-  //   try {
- 
-  //   } catch (e) {
-  //     print("Error fetching position: $e");
-  //   }
-  // }
+  Future<void> fetchPositionDeliveryAndClient() async {
+    try {
+      final res = await api.getOneOrderPositions(widget.order.id);
+      final body = jsonDecode(res.body);
+      if(res.statusCode == 200){
+        print(body);
+        setState(() {
+          clientLat = body["clientLat"];
+          clientLong = body["clientLong"];
+        });
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
   // envoyer les positions du livreur depuis le serveur
-  // Future<void> sendPosition() async {
-  //   try {
- 
-  //   } catch (e) {
-  //     print("Error fetching position: $e");
-  //   }
-  // }
+  Future<void> sendPosition(lat,long) async {
+    var data = {"deliveryNewLat":lat, "deliveryNewLong":long};
+    try {
+      final res = await api.updateOrderPositions(data, widget.order.id);
+      if(res.statusCode == 200){
+           print("ok");
+      }
+    } catch (e) {
+      print("Error fetching position: $e");
+    }
+  }
 
 
   @override

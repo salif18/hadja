@@ -61,7 +61,7 @@ Dio dio = Dio();
   void showSnackBarSuccessPersonalized(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(message,
-          style: GoogleFonts.roboto(fontSize: 20, fontWeight: FontWeight.w500)),
+          style: GoogleFonts.roboto(fontSize: 18)),
       backgroundColor: Colors.blue,
       duration: const Duration(seconds: 5),
       action: SnackBarAction(
@@ -76,7 +76,7 @@ Dio dio = Dio();
   void showSnackBarErrorPersonalized(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(message,
-          style: GoogleFonts.roboto(fontSize: 20, fontWeight: FontWeight.w500)),
+          style: GoogleFonts.roboto(fontSize: 18)),
       backgroundColor: const Color.fromARGB(255, 255, 35, 19),
       duration: const Duration(seconds: 5),
       action: SnackBarAction(

@@ -33,6 +33,31 @@ class ServicesApiOrders{
     );
   }
 
+//OBTENIR COMMANDES PAR USER
+  getOneOrderPositions(id)async{
+    var uri = "$domaineApi/orders/positions/$id";
+    return await http.get(Uri.parse(uri),
+     headers: {
+            "Content-Type": "application/json; charset=UTF-8",
+            "Accept":"*/*",
+            "Accept-Encoding":"gzip, deflate, br",
+          },
+    );
+  }
+
+  //OBTENIR COMMANDES PAR USER
+  updateOrderPositions(data,id)async{
+    var uri = "$domaineApi/orders/positions/$id";
+    return await http.put(Uri.parse(uri),
+    body:jsonEncode(data),
+     headers: {
+            "Content-Type": "application/json; charset=UTF-8",
+            "Accept":"*/*",
+            "Accept-Encoding":"gzip, deflate, br",
+          },
+    );
+  }
+
    //OBTENIR COMMANDES LIVRER PAR LIVREUR
   getDeliveryOrdersLivery(userId)async{
     var uri = "$domaineApi/orders/livrer/$userId";
@@ -74,7 +99,7 @@ class ServicesApiOrders{
   void showSnackBarSuccessPersonalized(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(message,
-          style: GoogleFonts.roboto(fontSize: 20, fontWeight: FontWeight.w500)),
+          style: GoogleFonts.roboto(fontSize: 18)),
       backgroundColor: Colors.green,
       duration: const Duration(seconds: 5),
       action: SnackBarAction(
@@ -90,7 +115,7 @@ class ServicesApiOrders{
   void showSnackBarErrorPersonalized(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(message,
-          style: GoogleFonts.roboto(fontSize: 20, fontWeight: FontWeight.w500)),
+          style: GoogleFonts.roboto(fontSize: 18)),
       backgroundColor: const Color.fromARGB(255, 255, 35, 19),
       duration: const Duration(seconds: 5),
       action: SnackBarAction(

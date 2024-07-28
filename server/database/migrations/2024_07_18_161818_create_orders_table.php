@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string("address");
             $table->double("latitude");
             $table->double("longitude");
+            $table->double("deliveryLat")->nullable();
+            $table->double("deliveryLong")->nullable();
             $table->string("telephone");
             $table->integer("total");
             $table->string("statut_of_delibery")->default("En attente");

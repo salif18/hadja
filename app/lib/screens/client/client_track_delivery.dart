@@ -1,25 +1,33 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hadja_grish/api/orders_api.dart';
+import 'package:hadja_grish/models/orders_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ClientTrackingDelivery extends StatefulWidget {
-  const ClientTrackingDelivery({super.key});
+  final OrdersModel order ;
+  const ClientTrackingDelivery({super.key, required this.order});
 
   @override
   State<ClientTrackingDelivery> createState() => _ClientTrackingDeliveryState();
 }
 
 class _ClientTrackingDeliveryState extends State<ClientTrackingDelivery> {
-  double clientLat = 12.594039180191167;
-  double clientLong = -7.940852680927939;
+  ServicesApiOrders api = ServicesApiOrders();
+
+ late double clientLat ;
+ late double clientLong ;
 
   double deliveryLat = 12.583019129844349;
   double deliveryLong = -7.92946144932868;
 
+ 
   @override
   void initState() {
     super.initState();
-    _requestLocationPermission();
+    _startTracking();
   }
 
   // Partager vers le Google Maps
@@ -34,56 +42,34 @@ class _ClientTrackingDeliveryState extends State<ClientTrackingDelivery> {
     }
   }
 
-  // Demander la permission d'activer la localisation
-  Future<void> _requestLocationPermission() async {
-    try {
-      // LocationPermission permission = await Geolocator.requestPermission();
-      // if (permission == LocationPermission.denied ||
-      //     permission == LocationPermission.deniedForever) {
-      //   openAppSettings();
-      // } else if (permission == LocationPermission.whileInUse ||
-      //     permission == LocationPermission.always) {
-        _startTracking();
-      
-    } catch (e) {
-      print("Error requesting permission: $e");
-    }
-  }
-
   // Actualiser les positions
   void _startTracking() async {
-    // await getPositionDelivery();
-    // Position position = await Geolocator.getCurrentPosition();
-    // await sendPosition(position.altitude,position.longitude);
+    fetchPositionDeliveryAndClient();
     while (true) {
-      // await getPositionDelivery();
-      // Position position = await Geolocator.getCurrentPosition();
-      // await sendPosition(position.altitude,position.longitude);
-      setState(() {
-        deliveryLat += 0.0001;
-        deliveryLong += 0.0001;
-      });
+     fetchPositionDeliveryAndClient(); // await getPositionDelivery();
       await Future.delayed(const Duration(seconds: 5));
     }
   }
 
   // Récupérer les positions du livreur depuis le serveur
-  // Future<void> getPositionDelivery() async {
-  //   try {
+   Future<void> fetchPositionDeliveryAndClient() async {
+    try {
+      final res = await api.getOneOrderPositions(widget.order.id);
+      final body = jsonDecode(res.body);
+      if(res.statusCode == 200){
+        print(body);
+        setState(() {
+          clientLat = body["clientLat"];
+          clientLong = body["clientLong"];
+          deliveryLat = body["deliveryLat"];
+          deliveryLong = body["deliveryLong"];
+        });
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
-  //   } catch (e) {
-  //     print("Error fetching position: $e");
-  //   }
-  // }
-
-// envoyer les positions du client depuis le serveur
-  // Future<void> sendPosition() async {
-  //   try {
- 
-  //   } catch (e) {
-  //     print("Error fetching position: $e");
-  //   }
-  // }
   
   @override
   Widget build(BuildContext context) {

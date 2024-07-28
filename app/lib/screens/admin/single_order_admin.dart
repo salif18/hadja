@@ -121,7 +121,7 @@ class _SingleOderState extends State<SingleOder> {
                 Navigator.push(
                     context,
                     (MaterialPageRoute(
-                        builder: (context) => const AdminTrackingDelivery())));
+                        builder: (context) => AdminTrackingDelivery(order: widget.order,))));
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(400,50),

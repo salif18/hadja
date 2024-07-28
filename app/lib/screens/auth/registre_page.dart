@@ -1,4 +1,6 @@
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/api/auth_api.dart';
@@ -60,12 +62,12 @@ class _RegistrePageState extends State<RegistrePage> {
               child: CircularProgressIndicator(),
             );
           });
-      final res = await api.postRegistreUser(data);
-      final body = res.data;
+      final response = await api.postRegistreUser(data);
+      final body = json.decode(response.body);
       // ignore: use_build_context_synchronously
       Navigator.pop(context); // Fermer le dialog
 
-      if (res.statusCode == 201) {
+      if (response.statusCode == 201) {
         // ignore: use_build_context_synchronously
         provider.loginButton(body['token'], body["userId"].toString());
          ProfilModel user =  ProfilModel.fromJson(body['profil']);
@@ -79,10 +81,9 @@ class _RegistrePageState extends State<RegistrePage> {
       }
     } catch (e) {
       // ignore: use_build_context_synchronously
-      Navigator.pop(context); // Fermer le dialog
+      Navigator.pop(context); // Fermer le dialogue
       // ignore: use_build_context_synchronously
-      api.showSnackBarErrorPersonalized(context, e.toString());
-    
+      api.showSnackBarErrorPersonalized(context, "Erreur: ${e.toString()}");
     }
   }
 }

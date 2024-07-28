@@ -131,6 +131,57 @@ class Orders_controller extends Controller
         }
     }
 
+     //obtenir les orders par user
+     public function getOneOrderPositons($id)
+     {
+         try {
+ 
+             $orders = Order::find($id);
+            // error_log(print_r($orders,true));
+             return response()->json([
+                 "status" => true,
+                 "clientLat" => $orders->latitude,
+                 "clientLong" => $orders->longitude,
+                 "deliveryLat" => $orders->deliveryLat,
+                 "deliveryLong" => $orders->deliveryLong,
+             ], 200);
+
+         } catch (Exception $err) {
+             return response()->json([
+                 "status" => false,
+                 "message" => $err->getMessage()
+             ], 500);
+         }
+     }
+
+      //obtenir les orders par user
+      public function updateOrderPositons(Request $req,$id)
+      {
+          try {
+  
+              $orders = Order::findOrFail($id);
+             // error_log(print_r($orders,true));
+
+             $orders->update([
+                "deliveryLat" => $req->deliveryNewLat,
+                "deliveryLong" => $req->deliveryNewLong,
+             ]);
+
+              return response()->json([
+                  "status" => true,
+                  "clientLat" => $orders->latitude,
+                  "clientLong" => $orders->longitude,
+                  "deliveryLat" => $orders->deliveryLat,
+                  "deliveryLong" => $orders->deliveryLong,
+              ], 200);
+              
+          } catch (Exception $err) {
+              return response()->json([
+                  "status" => false,
+                  "message" => $err->getMessage()
+              ], 500);
+          }
+      }
 
     // Obtenir les commandes par statut de livraison
     public function getOrdersByStatut($statut)

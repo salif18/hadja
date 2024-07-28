@@ -1,18 +1,23 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hadja_grish/api/orders_api.dart';
+import 'package:hadja_grish/models/orders_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AdminTrackingDelivery extends StatefulWidget {
-  const AdminTrackingDelivery({super.key});
+  final OrdersModel order ;
+  const AdminTrackingDelivery({super.key,required this.order});
 
   @override
   State<AdminTrackingDelivery> createState() => _AdminTrackingDeliveryState();
 }
 
 class _AdminTrackingDeliveryState extends State<AdminTrackingDelivery> {
-  double clientLat = 12.594039180191167;
-  double clientLong = -7.940852680927939;
-
+  ServicesApiOrders api = ServicesApiOrders();
+  late double clientLat ;
+  late double clientLong ;
   double deliveryLat = 12.583019129844349;
   double deliveryLong = -7.92946144932868;
 
@@ -26,7 +31,7 @@ class _AdminTrackingDeliveryState extends State<AdminTrackingDelivery> {
   void _openMap() async {
     
       final shareUrl =
-          "https://www.google.com/maps/dir/?api=1&origin=$deliveryLat,$deliveryLong&destination=$clientLat,$clientLong";
+          "https://www.google.com/maps/dir/?api=1&origin=$deliveryLat,$deliveryLong,&destination=$clientLat,$clientLong";
       // ignore: deprecated_member_use
       if (await canLaunch(shareUrl)) {
         // ignore: deprecated_member_use
@@ -39,16 +44,28 @@ class _AdminTrackingDeliveryState extends State<AdminTrackingDelivery> {
 
 //actualisation des donnees apres 5 secondes
   void _startTracking() async {
-    // fetchPositionDeliveryAndClient();
+    fetchPositionDeliveryAndClient();
     while (true) {
-      // await fetchPositionDeliveryAndClient();
+      await fetchPositionDeliveryAndClient();
       await Future.delayed(const Duration(seconds: 5));
     }
   }
 
   //recuperer les posittion des deux personnes livreur et client
   Future<void> fetchPositionDeliveryAndClient() async {
-    try {} catch (e) {
+    try {
+      final res = await api.getOneOrderPositions(widget.order.id);
+      final body = jsonDecode(res.body);
+      if(res.statusCode == 200){
+        print(body);
+        setState(() {
+          clientLat = body["clientLat"];
+          clientLong = body["clientLong"];
+          deliveryLat = body["deliveryLat"];
+          deliveryLong = body["deliveryLong"];
+        });
+      }
+    } catch (e) {
       print(e);
     }
   }

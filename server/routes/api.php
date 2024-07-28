@@ -34,10 +34,11 @@ Route::delete("/categories/delete/{id}",[Categorie_controller::class,"removeCate
 Route::post("/orders",[Orders_controller::class,"createOrders"]);
 Route::get("/orders",[Orders_controller::class,"getAllOrders"]);
 Route::get("/orders/{userId}",[Orders_controller::class,"getOrdersByUser"]);
+Route::get("/orders/positions/{id}",[Orders_controller::class,"getOneOrderPositons"]);
 Route::get("/orders/status/{statut}", [Orders_Controller::class, "getOrdersByStatut"]);
 Route::get("/orders/livrer/{userId}", [Orders_Controller::class, "getOrdersByDeliberyStatut"]);
 Route::put("/orders/{id}",[Orders_controller::class,"updateOrdersStatut"]);
-
+Route::put("/orders/positions/{id}",[Orders_controller::class,"updateOrderPositons"]);
 // MY ROUTE ARTICLES
 Route::post('/articles', [Articles_Controller::class, 'createArticle']);
 Route::get('/get_article_with_galeries', [Articles_Controller::class, 'getArticleWithGaleries']);
