@@ -67,6 +67,7 @@ class _AddressLivraisonState extends State<AddressLivraison> {
       final response = await api.postOrders(order);
       final body = jsonDecode(response.body);
       if (response.statusCode == 201) {
+        cartprovider.clearCart();
         api.showSnackBarSuccessPersonalized(context, body["message"]);
       }else{
       api.showSnackBarErrorPersonalized(context, body["message"]);

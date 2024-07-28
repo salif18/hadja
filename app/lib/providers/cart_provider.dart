@@ -112,4 +112,12 @@ class CartProvider extends ChangeNotifier {
           .toList();
     }
   }
+
+  
+  // fonction pour vider le panier
+  void clearCart() {
+    _cart.clear();
+    saveCartToLocalStorage();
+    notifyListeners();
+  }
 }

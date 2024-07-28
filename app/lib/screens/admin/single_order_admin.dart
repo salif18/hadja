@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/models/orders_model.dart';
-import 'package:hadja_grish/screens/admin/views/admin_track_move.dart';
+import 'package:hadja_grish/screens/admin/admin_track_move.dart';
 import 'package:intl/intl.dart';
 
 

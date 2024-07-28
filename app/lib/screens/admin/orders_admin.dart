@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hadja_grish/screens/admin/command/views/order_en_cours_page.dart';
-import 'package:hadja_grish/screens/admin/command/views/order_livrer_page.dart';
+import 'package:hadja_grish/screens/admin/order_en_cours_page.dart';
+import 'package:hadja_grish/screens/admin/order_livrer_page.dart';
 
 class AdminOders extends StatefulWidget {
   const AdminOders({super.key});

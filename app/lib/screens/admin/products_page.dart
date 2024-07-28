@@ -10,7 +10,7 @@ import 'package:hadja_grish/api/product_admin_api.dart';
 import 'package:hadja_grish/models/articles_model.dart';
 import 'package:hadja_grish/models/categorie_model.dart';
 import 'dart:io';
-import 'package:hadja_grish/screens/admin/details/singleProduct_admin.dart';
+import 'package:hadja_grish/screens/admin/singleProduct_admin.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProductPage extends StatefulWidget {

@@ -25,7 +25,7 @@ class ProfilModel {
       userStatut: json['user_statut'], // Utilisez 'user_statut' au lieu de 'userStatut'
     );
   }
-
+// SEREALISATION INVERSE DES CHAMPS
   Map<String, dynamic> toJson() {
     return {
       'id': userId, // Utilisez 'id' au lieu de 'userId'

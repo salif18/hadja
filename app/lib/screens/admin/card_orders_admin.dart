@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/models/orders_model.dart';
-import 'package:hadja_grish/screens/admin/command/detail/single_order_admin.dart';
+import 'package:hadja_grish/screens/admin/single_order_admin.dart';
 import 'package:intl/intl.dart';
 
 class CardOrderAdmin extends StatelessWidget {
@@ -64,7 +64,7 @@ class CardOrderAdmin extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [ 
                   Text("Order:",style: GoogleFonts.roboto(fontSize: 18,color:Colors.grey),),
-                  Text(order.statusOfDelibery,style: GoogleFonts.roboto(fontSize: 18),)
+                  Text(order.statusOfDelibery,style: GoogleFonts.roboto(fontSize: 18 , fontWeight: FontWeight.bold, color: order.statusOfDelibery == "En attente" ? Colors.blue : Colors.green),)
                 ],
               ),
             ],

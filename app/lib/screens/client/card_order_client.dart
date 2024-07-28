@@ -58,7 +58,7 @@ class CardOrderClient extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [ 
                   Text("Livrer:",style: GoogleFonts.roboto(fontSize: 18,color:Colors.grey),),
-                  Text(order.statusOfDelibery,style: GoogleFonts.roboto(fontSize: 18),)
+                  Text(order.statusOfDelibery,style: GoogleFonts.roboto(fontSize: 18 , fontWeight: FontWeight.bold, color: order.statusOfDelibery == "En attente" ? Colors.blue : Colors.green),)
                 ],
               )
             ],

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/api/orders_api.dart';
 import 'package:hadja_grish/models/orders_model.dart';
-import 'package:hadja_grish/screens/admin/command/widgets/card_orders_admin.dart';
+import 'package:hadja_grish/screens/admin/card_orders_admin.dart';
 
 class OrderLivrer extends StatefulWidget {
   const OrderLivrer({super.key});
