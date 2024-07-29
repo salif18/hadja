@@ -19,8 +19,6 @@ class UserInfosProvider extends ChangeNotifier {
   if (jsonData != null) {
     final decodedData = jsonDecode(jsonData);
     final profil = ProfilModel.fromJson(decodedData);
-    print(decodedData);
-    print(profil.number);
     return profil;
   } else {
     return null;

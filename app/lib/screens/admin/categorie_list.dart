@@ -39,9 +39,11 @@ class _MyCategoriListState extends State<MyCategoriList> {
       final res = await api.getCategories();
       final body = res.data;
       if (res.statusCode == 200) {
-        _listCategories.add((body["categories"] as List)
+        List<CategoriesModel> converDataToModelCategorie = (body["categories"] as List)
             .map((json) => CategoriesModel.fromJson(json))
-            .toList());
+            .toList();
+            converDataToModelCategorie.sort((a, b) => a.nameCategorie.compareTo(b.nameCategorie));
+        _listCategories.add(converDataToModelCategorie);
       }
     } catch (e) {
       Exception(e); // Ajout d'une impression pour le debug

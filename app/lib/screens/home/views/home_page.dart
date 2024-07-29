@@ -55,9 +55,12 @@ class _HomePageState extends State<HomePage> {
       final res = await api.getCategories();
       final body = res.data;
       if (res.statusCode == 200) {
-        _listCategories.add((body["categories"] as List)
+
+        List<CategoriesModel> converDataToModelCategorie = (body["categories"] as List)
             .map((json) => CategoriesModel.fromJson(json))
-            .toList());
+            .toList();
+            converDataToModelCategorie.sort((a, b) => a.nameCategorie.compareTo(b.nameCategorie));
+        _listCategories.add(converDataToModelCategorie);
       }
     } catch (e) {
       Exception(e);
@@ -178,10 +181,10 @@ class _HomePageState extends State<HomePage> {
               ),
               child: Column(
                 children: [
-                  MyCarouselWidget(),
+                  const MyCarouselWidget(),
                   MyChooseCategoryWidget(listCategories: _listCategories),
-                  MyRecomadationWidget(),
-                  MyProductListWidget(),
+                  const MyRecomadationWidget(),
+                  const MyProductListWidget(),
                 ],
               ),
             ),

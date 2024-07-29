@@ -75,7 +75,7 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
               );
             });
         final res = await api.postRegistreUser(data);
-        final body = res.data;
+        final body = jsonDecode(res.body);
         // ignore: use_build_context_synchronously
         Navigator.pop(context); // Fermer le dialog
 

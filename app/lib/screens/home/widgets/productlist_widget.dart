@@ -74,7 +74,7 @@ class _MyProductListWidgetState extends State<MyProductListWidget> {
                 Text(
                   "Nos produits",
                   style: GoogleFonts.roboto(
-                      fontSize: 24, fontWeight: FontWeight.w400),
+                      fontSize: 22, fontWeight: FontWeight.w400),
                 ),
                 TextButton(
                   onPressed: () {

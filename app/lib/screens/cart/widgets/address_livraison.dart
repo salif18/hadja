@@ -23,8 +23,8 @@ class _AddressLivraisonState extends State<AddressLivraison> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController address = TextEditingController();
   final TextEditingController telephone = TextEditingController();
-  double lat = 12.652250;
-  double long = -7.981700;
+  double lat = 12.585116;//12.652250;
+  double long = -7.931593;//-7.981700;
 
   @override
   void initState() {

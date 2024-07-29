@@ -73,7 +73,7 @@ class _MyRecomadationWidgetState extends State<MyRecomadationWidget> {
                 Text(
                   "Recommandations",
                   style: GoogleFonts.roboto(
-                      fontSize: 24, fontWeight: FontWeight.w400),
+                      fontSize: 22, fontWeight: FontWeight.w400),
                 ),
                 const Icon(Icons.arrow_forward_ios_rounded, size: 22)
               ],
