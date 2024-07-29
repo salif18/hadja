@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string("userId");
             $table->string("deliberyId")->nullable();
             $table->string("address");
-            $table->double("latitude");
-            $table->double("longitude");
+            $table->double("clientLat");
+            $table->double("clientLong");
             $table->double("deliveryLat")->nullable();
             $table->double("deliveryLong")->nullable();
             $table->string("telephone");

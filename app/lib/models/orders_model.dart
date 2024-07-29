@@ -55,8 +55,8 @@ class OrdersModel {
   final String userId;
   final String? deliveryId;
   final String address;
-  final double latitude;
-  final double longitude;
+  final double clientLat;
+  final double clientLong;
   final double? deliveryLat;
   final double? deliveryLong;
   final String telephone;
@@ -71,8 +71,8 @@ class OrdersModel {
     required this.userId,
     required this.deliveryId,
     required this.address,
-    required this.latitude,
-    required this.longitude,
+    required this.clientLat,
+    required this.clientLong,
     required this.deliveryLat,
     required this.deliveryLong,
     required this.telephone,
@@ -89,8 +89,8 @@ class OrdersModel {
       userId: json['userId'],
       deliveryId: json['deliberyId'],
       address: json['address'],
-      latitude: json['latitude'],
-      longitude: json['longitude'],
+      clientLat: json['clientLat'],
+      clientLong: json['clientLong'],
       deliveryLat: json['deliveryLat'],
       deliveryLong: json['deliveryLong'],
       telephone: json['telephone'],
@@ -110,8 +110,8 @@ class OrdersModel {
       "userId": userId,
       "deliveryId": deliveryId,
       "address": address,
-      "latitude": latitude,
-      "longitude": longitude,
+      "clientLat": clientLat,
+      "clientLong": clientLong,
       "deliveryLat": deliveryLat,
       "deliveryLong": deliveryLong,
       "telephone": telephone,

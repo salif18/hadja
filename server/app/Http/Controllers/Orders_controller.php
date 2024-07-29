@@ -44,8 +44,10 @@ class Orders_controller extends Controller
                 "userId" => $req->userId,
                 "deliberyId" => $req->deliberyId ,
                 "address" => $req->address,
-                "latitude" => $req->latitude,
-                "longitude" => $req->longitude,
+                "clientLat" => $req->clientLat,
+                "clientLong" => $req->clientLong,
+                "deliveryLat" => $req->deliveryLat,
+                "deliveryLong" => $req->deliveryLong,
                 "telephone" => $req->telephone,
                 "total" => $req->total,
                 "statut_of_delibery" => $req->statut_of_delibery,
@@ -140,8 +142,8 @@ class Orders_controller extends Controller
             // error_log(print_r($orders,true));
              return response()->json([
                  "status" => true,
-                 "clientLat" => $orders->latitude,
-                 "clientLong" => $orders->longitude,
+                 "clientLat" => $orders->clientLat,
+                 "clientLong" => $orders->clientLong,
                  "deliveryLat" => $orders->deliveryLat,
                  "deliveryLong" => $orders->deliveryLong,
              ], 200);
@@ -169,8 +171,8 @@ class Orders_controller extends Controller
 
               return response()->json([
                   "status" => true,
-                  "clientLat" => $orders->latitude,
-                  "clientLong" => $orders->longitude,
+                  "clientLat" => $orders->clientLat,
+                  "clientLong" => $orders->clientLong,
                   "deliveryLat" => $orders->deliveryLat,
                   "deliveryLong" => $orders->deliveryLong,
               ], 200);
