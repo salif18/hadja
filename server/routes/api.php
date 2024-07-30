@@ -39,6 +39,7 @@ Route::get("/orders/status/{statut}", [Orders_Controller::class, "getOrdersBySta
 Route::get("/orders/livrer/{userId}", [Orders_Controller::class, "getOrdersByDeliberyStatut"]);
 Route::put("/orders/{id}",[Orders_controller::class,"updateOrdersStatut"]);
 Route::put("/orders/positions/{id}",[Orders_controller::class,"updateOrderPositons"]);
+Route::put("/orders/livreurId/{id}",[Orders_controller::class,"updateOrderDeliveryId"]);
 // MY ROUTE ARTICLES
 Route::post('/articles', [Articles_Controller::class, 'createArticle']);
 Route::get('/get_article_with_galeries', [Articles_Controller::class, 'getArticleWithGaleries']);

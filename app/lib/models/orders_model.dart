@@ -87,7 +87,7 @@ class OrdersModel {
     return OrdersModel(
       id: json['id'],
       userId: json['userId'],
-      deliveryId: json['deliberyId'],
+      deliveryId: json['deliveryId'],
       address: json['address'],
       clientLat: json['clientLat'],
       clientLong: json['clientLong'],

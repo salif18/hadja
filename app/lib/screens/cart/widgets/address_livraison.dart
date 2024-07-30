@@ -23,9 +23,12 @@ class _AddressLivraisonState extends State<AddressLivraison> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController address = TextEditingController();
   final TextEditingController telephone = TextEditingController();
-  double lat = 12.585116;//12.652250;
-  double long = -7.931593;//-7.981700;
-
+  // double lat = 12.652250;
+  // double long = -7.981700;//ville
+     double lat = 12.592990;
+     double long = -8.065061;//sebenicoro
+    //  double lat =12.585116;
+    //  double long = -7.931593;//attb
   @override
   void initState() {
     super.initState();
@@ -55,7 +58,7 @@ class _AddressLivraisonState extends State<AddressLivraison> {
     try {
       Map<String, dynamic> order = {
         "userId": userId,
-        "deliberyId": null,
+        "deliveryId": null,
         "address": address.text,
         "clientLat": lat,
         "clientLong": long,

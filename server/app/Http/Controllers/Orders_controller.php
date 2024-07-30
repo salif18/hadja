@@ -42,7 +42,7 @@ class Orders_controller extends Controller
             // Créer la commande
             $orders = Order::create([
                 "userId" => $req->userId,
-                "deliberyId" => $req->deliberyId ,
+                "deliveryId" => $req->deliveryId ,
                 "address" => $req->address,
                 "clientLat" => $req->clientLat,
                 "clientLong" => $req->clientLong,
@@ -116,7 +116,7 @@ class Orders_controller extends Controller
         try {
 
             $orders = Order::where('userId', $userId)
-                ->orwhere('deliberyId', $userId)
+                ->orwhere('deliveryId', $userId)
                 ->with('orderItems')->get();
 
                 // error_log(print_r($orders,true));
@@ -185,6 +185,32 @@ class Orders_controller extends Controller
           }
       }
 
+      //AJOUTER ID DE LIVREUR
+      public function updateOrderDeliveryId(Request $req, $id)
+{
+    try {
+        $order = Order::findOrFail($id);
+        error_log(print_r($req->all(), true)); // Impression des données reçues
+
+        $order->update([
+            "deliveryId" => $req->deliveryId,
+        ]);
+
+        return response()->json([
+            "status" => true,
+            "orders" => $order,
+            "message" => "Livreur ajouté à la commande"
+        ], 200);
+        
+    } catch (Exception $err) {
+        return response()->json([
+            "status" => false,
+            "message" => $err->getMessage()
+        ], 500);
+    }
+}
+
+
     // Obtenir les commandes par statut de livraison
     public function getOrdersByStatut($statut)
     {
@@ -211,7 +237,7 @@ class Orders_controller extends Controller
     {
         try {
             $orders = Order::where('statut_of_delibery', 'Livrer')
-            ->orwhere("deliberyId",$userId)
+            ->orwhere("deliveryId",$userId)
                 ->with('orderItems')
                 ->get();
 

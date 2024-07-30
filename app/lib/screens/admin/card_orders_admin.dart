@@ -12,7 +12,7 @@ class CardOrderAdmin extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>SingleOder(order:order)));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>SingleOrder(order:order)));
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),

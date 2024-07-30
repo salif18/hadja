@@ -45,6 +45,19 @@ class ServicesApiOrders{
     );
   }
 
+//AJOUTER UN LIVREUR AU COMMANDES
+  postLiveryIdToOrders(data,id)async{
+    var uri = "$domaineApi/orders/livreurId/$id";
+    return await http.put(Uri.parse(uri),
+    body: jsonEncode(data),
+     headers: {
+            "Content-Type": "application/json; charset=UTF-8",
+            "Accept":"*/*",
+            "Accept-Encoding":"gzip, deflate, br",
+          },
+    );
+  }
+
   //OBTENIR COMMANDES PAR USER
   updateOrderPositions(data,id)async{
     var uri = "$domaineApi/orders/positions/$id";
