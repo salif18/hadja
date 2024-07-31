@@ -58,6 +58,20 @@ class ServicesApiAuth{
     );
   }
 
+   //fontion de mis a jour du profil
+  postUpdateUserProfil(data, id) async {
+    var uri = "$domaineApi/profil/update/$id";
+    return await http.post(
+      Uri.parse(uri),
+      body: jsonEncode(data),
+      headers: {
+        "Content-Type": "application/json; charset=UTF-8",
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+      },
+    );
+  }
+
   //fontion de modification de passeword
   postUpdatePassword(data, userId) async {
     var uri = "$domaineApi/update_password/$userId";

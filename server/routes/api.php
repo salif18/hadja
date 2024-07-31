@@ -4,6 +4,7 @@ use App\Http\Controllers\Articles_Controller;
 use App\Http\Controllers\Auth_controller;
 use App\Http\Controllers\Categorie_Controller;
 use App\Http\Controllers\Orders_controller;
+use App\Http\Controllers\Profil_controller;
 use App\Http\Controllers\User_recuperation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,6 +24,9 @@ Route::delete("/user/{id}",[Auth_controller::class,"delete"]);
 //RECUPERATION COMPTE
 Route::post("/reset_password",[User_recuperation::class,"reset"]);
 Route::post("/validate_password",[User_recuperation::class,"validation"]);
+
+//PROFIL
+Route::post("/profil/update/{id}",[Profil_controller::class,"updateProfil"]);
 
 
 //RECURER LES LIVREURS

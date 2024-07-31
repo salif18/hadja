@@ -1,5 +1,14 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hadja_grish/api/auth_api.dart';
+import 'package:hadja_grish/models/user.dart';
+import 'package:hadja_grish/providers/auth_provider.dart';
+import 'package:hadja_grish/providers/user_provider.dart';
+import 'package:provider/provider.dart';
 
 class UpdateProfil extends StatefulWidget {
   const UpdateProfil({super.key});
@@ -9,6 +18,58 @@ class UpdateProfil extends StatefulWidget {
 }
 
 class _UpdateProfilState extends State<UpdateProfil> {
+  ServicesApiAuth api = ServicesApiAuth();
+  // CLE KEY POUR LE FORMULAIRE
+  final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+   
+  final _name = TextEditingController();
+  final _numero = TextEditingController();
+  final _email = TextEditingController();
+  
+
+   @override
+  void dispose() {
+    _name.dispose();
+    _numero.dispose();
+    _email.dispose();
+    super.dispose();
+  }
+
+  Future _sendUpdate() async {
+    final provider = Provider.of<AuthProvider>(context, listen: false);
+    final providerProfil =
+        Provider.of<UserInfosProvider>(context, listen: false);
+    final userId = await provider.userId();
+    var data = {
+      "name": _name.text,
+      "phone_number": _numero.text,
+      "email": _email.text,
+    };
+    try {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          });
+          
+      final res = await api.postUpdateUserProfil(data, userId);
+      final body = json.decode(res.body);
+      Navigator.pop(context);
+      if (res.statusCode == 200) {
+        ProfilModel user = ProfilModel.fromJson(body['profil']);
+        providerProfil.saveToLocalStorage(user);
+        api.showSnackBarSuccessPersonalized(context, body['message']);
+        Navigator.pop(context);
+      } else {
+        api.showSnackBarErrorPersonalized(context, body["message"]);
+      }
+    } catch (err) {
+      api.showSnackBarErrorPersonalized(context,
+          "Erreur lors de l'envoi des données , veuillez réessayer. $err");
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,17 +93,20 @@ class _UpdateProfilState extends State<UpdateProfil> {
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(20)),
-            child: Column(
-              children: [
-                _text(context),
-                _textFieldName(
-                  context,
-                ),
-                _textFieldNumber(context),
-                _textFieldMail(context),
-                const SizedBox(height: 100),
-                _buttonSend(context),
-              ],
+            child: Form(
+              key: _globalKey,
+              child: Column(
+                children: [
+                  _text(context),
+                  _textFieldName(
+                    context,
+                  ),
+                  _textFieldNumber(context),
+                  _textFieldMail(context),
+                  const SizedBox(height: 100),
+                  _buttonSend(context),
+                ],
+              ),
             ),
           ),
         ),
@@ -81,6 +145,7 @@ class _UpdateProfilState extends State<UpdateProfil> {
     return Padding(
       padding: const EdgeInsets.all(8),
       child: TextFormField(
+         controller: _name,
         keyboardType: TextInputType.name,
         decoration: InputDecoration(
           filled: true,
@@ -101,6 +166,7 @@ class _UpdateProfilState extends State<UpdateProfil> {
     return Padding(
       padding: const EdgeInsets.all(8),
       child: TextFormField(
+         controller: _numero,
         keyboardType: TextInputType.phone,
         decoration: InputDecoration(
           filled: true,
@@ -121,6 +187,7 @@ class _UpdateProfilState extends State<UpdateProfil> {
     return Padding(
       padding: const EdgeInsets.all(8),
       child: TextFormField(
+         controller: _email,
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
           filled: true,
@@ -141,7 +208,9 @@ class _UpdateProfilState extends State<UpdateProfil> {
     return Padding(
       padding: const EdgeInsets.all(20),
       child: ElevatedButton.icon(
-          onPressed: () {},
+          onPressed: () {
+            _sendUpdate();
+          },
           style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFF1D1A30),
               elevation: 5,

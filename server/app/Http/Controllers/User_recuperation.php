@@ -42,7 +42,9 @@ class User_recuperation extends Controller
  
              // Génération d'un nombre aleatoire d'authentification
              $token = str_pad(rand(0, 9999), 4, "0", STR_PAD_LEFT);
-             $user->update(['remember_token' => $token]);
+             $user->remember_token = $token;
+             $user->save();
+            //  $user->update(['remember_token' => $token]);
  
              //Envoi vers un email
              Mail::send([], [], function (Message $message) use ($user, $token) {
@@ -108,11 +110,15 @@ class User_recuperation extends Controller
                      "message" => "Les mots de passe ne correspondent pas"
                  ], 400);
              }
+
+             $user->password = bcrypt($req->new_password);
+             $user->remember_token = null;
+             $user->save();
  
-             $user->update([
-                 'password' => bcrypt($req->new_password),
-                 'remember_token' => null
-             ]);
+            //  $user->update([
+            //      'password' => bcrypt($req->new_password),
+            //      'remember_token' => null
+            //  ]);
  
              return response()->json([
                  "status" => true,

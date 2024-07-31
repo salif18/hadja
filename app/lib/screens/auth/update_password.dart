@@ -1,6 +1,13 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hadja_grish/api/auth_api.dart';
+import 'package:hadja_grish/providers/auth_provider.dart';
 import 'package:hadja_grish/screens/auth/reset_password.dart';
+import 'package:provider/provider.dart';
 
 class UpdatePassword extends StatefulWidget {
   const UpdatePassword({super.key});
@@ -10,6 +17,57 @@ class UpdatePassword extends StatefulWidget {
 }
 
 class _UpdatePasswordState extends State<UpdatePassword> {
+    ServicesApiAuth api = ServicesApiAuth();
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  final TextEditingController _currentPassword = TextEditingController();
+  final TextEditingController _newPassword = TextEditingController();
+  final TextEditingController _passwordConfirmation = TextEditingController();
+
+  @override
+  void dispose() {
+    _currentPassword.dispose();
+    _newPassword.dispose();
+    _passwordConfirmation.dispose();
+    super.dispose();
+  }
+
+  Future _sendUpdate() async {
+    if (_formKey.currentState!.validate()) {
+      final provider = Provider.of<AuthProvider>(context, listen: false);
+      final userId = await provider.userId();
+      var data = {
+        "current_password": _currentPassword.text,
+        "new_password": _newPassword.text,
+        "confirm_password": _passwordConfirmation.text
+      };
+      try {
+        showDialog(
+            context: context,
+            builder: (context) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            });
+        final res = await api.postUpdatePassword(data, userId);
+        final decodedData = json.decode(res.body);
+          Navigator.pop(context); // Fermer le dialog
+
+        if (res.statusCode == 200) {
+          api.showSnackBarSuccessPersonalized(
+              context, decodedData['message'].toString());
+         Navigator.pop(context);
+        } else {
+          api.showSnackBarErrorPersonalized(
+              context, decodedData["message"].toString());
+        }
+      } catch (err) {
+        api.showSnackBarErrorPersonalized(context,
+            "Erreur lors de l'envoi des données , veuillez réessayer. $err");
+      }
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,6 +86,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
               borderRadius: BorderRadius.circular(20),
             ),
             child: Form(
+              key: _formKey,
               child: Column(
                 children: [_formulaires(context)],
               ),
@@ -67,6 +126,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
         Padding(
           padding: const EdgeInsets.only(top: 10),
           child: TextFormField(
+             controller: _currentPassword,
             validator: (value) {
               if (value!.isEmpty) {
                 return 'Veuillez entrer un mot de passe actuel';
@@ -92,6 +152,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
         Padding(
           padding: const EdgeInsets.only(top: 10),
           child: TextFormField(
+            controller: _newPassword,
             validator: (value) {
               if (value!.isEmpty) {
                 return 'Veuillez rentrer un nouveau mot de passe';
@@ -117,6 +178,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
         Padding(
           padding: const EdgeInsets.only(top: 10),
           child: TextFormField(
+             controller: _passwordConfirmation,
             validator: (value) {
               if (value!.isEmpty) {
                 return 'Veuillez retaper le meme mot de passe';
@@ -161,7 +223,9 @@ class _UpdatePasswordState extends State<UpdatePassword> {
               elevation: 5,
               fixedSize: const Size(400, 50),
             ),
-            onPressed: () {},
+            onPressed: () {
+              _sendUpdate();
+            },
             child: Text(
               "Changer le mot de passe",
               style: GoogleFonts.roboto(
