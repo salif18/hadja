@@ -33,7 +33,72 @@ class ServicesApiOrders{
     );
   }
 
-//OBTENIR COMMANDES PAR USER
+  //OBTENIR TOUS LES COMMANDES
+  getAllOrders() async {
+    var uri = "$domaineApi/orders";
+    return await http.get(
+      Uri.parse(uri),
+      headers: {
+        "Content-Type": "application/json; charset=UTF-8",
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+      },
+    );
+  }
+
+   //OBTENIR TOUS LES COMMANDES LIVRER
+  getAllOrdersyDelivery() async {
+    var uri = "$domaineApi/orders/delibery";
+    return await http.get(
+      Uri.parse(uri),
+      headers: {
+        "Content-Type": "application/json; charset=UTF-8",
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+      },
+    );
+  }
+
+//OBTENIR UN SEUL ARTICLE
+  getOneProduct(data) async {
+    var uri = "$domaineApi/orders/{}";
+    return await http.get(
+      Uri.parse(uri),
+      headers: {
+        "Content-Type": "application/json; charset=UTF-8",
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+      },
+    );
+  }
+
+  //MIS A JOURS DU STATUT DE LIVRAISON
+  updateStatutOrders(data) async {
+    var uri = "$domaineApi/orders/statut/{}";
+    return await http.put(
+      Uri.parse(uri),
+      headers: {
+        "Content-Type": "application/json; charset=UTF-8",
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+      },
+    );
+  }
+
+  //SUPPRIMER UNE COMMANDE
+  deleteOrder(data) async {
+    var uri = "$domaineApi/orders/{}";
+    return await http.delete(
+      Uri.parse(uri),
+      headers: {
+        "Content-Type": "application/json; charset=UTF-8",
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+      },
+    );
+  }
+
+//OBTENIR LES COORDONNEES DE LOCALISATION DUNE COMMANDE
   getOneOrderPositions(id)async{
     var uri = "$domaineApi/orders/positions/$id";
     return await http.get(Uri.parse(uri),
@@ -72,7 +137,7 @@ class ServicesApiOrders{
   }
 
    //OBTENIR COMMANDES LIVRER PAR LIVREUR
-  getDeliveryOrdersLivery(userId)async{
+  getDeliveryOrdersLivrer(userId)async{
     var uri = "$domaineApi/orders/livrer/$userId";
     return await http.get(Uri.parse(uri),
      headers: {

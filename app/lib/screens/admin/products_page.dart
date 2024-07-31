@@ -28,8 +28,7 @@ class _ProductPageState extends State<ProductPage> {
   ServicesApiCategory apiCatego = ServicesApiCategory();
   // declarations des Variables list categories et list des articles
   List<CategoriesModel> _listCategories = [];
-  final StreamController<List<ArticlesModel>> _articlesData =
-      StreamController();
+  final StreamController<List<ArticlesModel>> _articlesData = StreamController();
 
 // configuration de selection image depuis gallerie
   final ImagePicker _picker = ImagePicker();
@@ -100,8 +99,7 @@ class _ProductPageState extends State<ProductPage> {
 
 // obtenir l"image depuis gallerie du telephone
   Future<void> _getImageToGalleriePhone() async {
-    final XFile? imagePicked =
-        await _picker.pickImage(source: ImageSource.gallery);
+    final XFile? imagePicked = await _picker.pickImage(source: ImageSource.gallery);
     setState(() {
       if (imagePicked != null) {
         _articleImage = imagePicked;
@@ -127,22 +125,19 @@ class _ProductPageState extends State<ProductPage> {
   Future<void> _sendToServer() async {
     if (_globalKey.currentState!.validate()) {
       if (_articleImage == null || _categoryController == null) {
-        api.showSnackBarErrorPersonalized(
-            context, "Veuillez sélectionner une image et une catégorie.");
+        api.showSnackBarErrorPersonalized(context, "Veuillez sélectionner une image et une catégorie.");
         return;
       }
 
-// recuperation des chemins de chaque images ajouter dans gallerieImages
+      // recuperation des chemins de chaque images ajouter dans gallerieImages
       List<MultipartFile> imageFilesPaths = [];
       for (var image in gallerieImages!) {
-        imageFilesPaths.add(await MultipartFile.fromFile(image.path,
-            filename: image.path.split("/").last));
+        imageFilesPaths.add(await MultipartFile.fromFile(image.path, filename: image.path.split("/").last));
       }
 
       FormData formData = FormData.fromMap({
         "name": _nameController.text,
-        "img": await MultipartFile.fromFile(_articleImage!.path,
-            filename: _articleImage!.path.split("/").last),
+        "img": await MultipartFile.fromFile(_articleImage!.path, filename: _articleImage!.path.split("/").last),
         "galleries[]": imageFilesPaths,
         "categorie": _categoryController,
         "desc": _descController.text,
@@ -204,15 +199,11 @@ class _ProductPageState extends State<ProductPage> {
                 return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
                 return Center(
-                  child: Text("Erreur",
-                      style: GoogleFonts.roboto(
-                          fontSize: 20, fontWeight: FontWeight.w600)),
+                  child: Text("Erreur", style: GoogleFonts.roboto(fontSize: 20, fontWeight: FontWeight.w600)),
                 );
               } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                 return Center(
-                  child: Text("Aucune donnée disponible",
-                      style: GoogleFonts.roboto(
-                          fontSize: 20, fontWeight: FontWeight.w600)),
+                  child: Text("Aucune donnée disponible", style: GoogleFonts.roboto(fontSize: 20, fontWeight: FontWeight.w600)),
                 );
               } else {
                 return ListView.builder(
@@ -226,17 +217,13 @@ class _ProductPageState extends State<ProductPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      SingleProductAdmin(article: article)));
+                                  builder: (context) => SingleProductAdmin(article: article)));
                         },
                         child: Container(
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: Colors.white,
-                              border: const Border(
-                                  bottom: BorderSide(
-                                      color:
-                                          Color.fromARGB(255, 235, 235, 235)))),
+                              border: const Border(bottom: BorderSide(color: Color.fromARGB(255, 235, 235, 235)))),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -248,8 +235,7 @@ class _ProductPageState extends State<ProductPage> {
                                       width: 50,
                                       height: 50,
                                       decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(20)),
+                                          borderRadius: BorderRadius.circular(20)),
                                       child: Image.network(
                                         article.img,
                                         fit: BoxFit.contain,
@@ -259,17 +245,10 @@ class _ProductPageState extends State<ProductPage> {
                                   Padding(
                                     padding: const EdgeInsets.only(left: 15),
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text(article.name,
-                                            style: GoogleFonts.roboto(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w500)),
-                                        Text("${article.price.toString()} fcfa",
-                                            style: GoogleFonts.roboto(
-                                                fontSize: 18,
-                                                color: Colors.grey[500]))
+                                        Text(article.name, style: GoogleFonts.roboto(fontSize: 18, fontWeight: FontWeight.w500)),
+                                        Text("${article.price.toString()} fcfa", style: GoogleFonts.roboto(fontSize: 18, color: Colors.grey[500]))
                                       ],
                                     ),
                                   ),
@@ -279,13 +258,9 @@ class _ProductPageState extends State<ProductPage> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(
                                   children: [
-                                    Text("stocks:",
-                                        style:
-                                            GoogleFonts.roboto(fontSize: 18)),
+                                    Text("stocks:", style: GoogleFonts.roboto(fontSize: 18)),
                                     const SizedBox(width: 10),
-                                    Text(article.stock > 0
-                                        ? article.stock.toString()
-                                        : "finis"),
+                                    Text(article.stock > 0 ? article.stock.toString() : "finis"),
                                   ],
                                 ),
                               )
@@ -307,237 +282,146 @@ class _ProductPageState extends State<ProductPage> {
       builder: (BuildContext context) {
         return Container(
           padding: const EdgeInsets.all(15),
-          height: MediaQuery.of(context).size.height,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 80,
-                  child: Center(
-                    child: Text(
-                      "Ajouter produits",
-                      style: GoogleFonts.roboto(
-                          fontSize: 20, fontWeight: FontWeight.w400),
-                    ),
+          height: MediaQuery.of(context).size.height * 0.95,
+          child: Form(
+            key: _globalKey,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Text("Ajout de Produit", style: GoogleFonts.roboto(fontSize: 18, fontWeight: FontWeight.w500)),
+                  const SizedBox(height: 20),
+                  TextFormField(
+                    controller: _nameController,
+                    decoration: const InputDecoration(labelText: "Nom du produit", border: OutlineInputBorder()),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Le nom du produit est requis";
+                      }
+                      return null;
+                    },
                   ),
-                ),
-                _formulaires(context),
-              ],
+                  const SizedBox(height: 20),
+                  TextFormField(
+                    controller: _descController,
+                    decoration: const InputDecoration(labelText: "Description du produit", border: OutlineInputBorder()),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "La description est requise";
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  TextFormField(
+                    controller: _priceController,
+                    decoration: const InputDecoration(labelText: "Prix du produit", border: OutlineInputBorder()),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Le prix est requis";
+                      } else if (double.tryParse(value) == null) {
+                        return "Veuillez entrer un prix valide";
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  TextFormField(
+                    controller: _stockController,
+                    decoration: const InputDecoration(labelText: "Stock du produit", border: OutlineInputBorder()),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Le stock est requis";
+                      } else if (int.tryParse(value) == null) {
+                        return "Veuillez entrer un stock valide";
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  DropdownButtonFormField<String>(
+                    value: _categoryController,
+                    decoration: const InputDecoration(labelText: "Catégorie du produit", border: OutlineInputBorder()),
+                    items: _listCategories.map((category) {
+                      return DropdownMenuItem<String>(
+                        value: category.nameCategorie,
+                        child: Text(category.nameCategorie),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        _categoryController = value!;
+                      });
+                    },
+                    validator: (value) {
+                      if (value == null) {
+                        return "La catégorie est requise";
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Column(
+                        children: [
+                          Text("Image du produit",style: GoogleFonts.roboto(fontSize: 18)),
+                          IconButton(
+                            icon:  const Icon(Icons.photo_camera_back_outlined, size: 38),
+                            onPressed: () {
+                              _getImageToGalleriePhone();
+                            },
+                          ),
+                        ],
+                      ),
+                      if (_articleImage != null)
+                        Image.file(File(_articleImage!.path), width: 100, height: 100),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  Column(
+                    children: [
+                      Text("Ajouter des images à la galerie",style: GoogleFonts.roboto(fontSize: 18)),
+                      IconButton(
+                        icon:const Icon(Icons.photo_library_outlined, size: 38),
+                        onPressed: () {
+                          _selectMultiImageGallery();
+                        },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  if (gallerieImages != null)
+                    SizedBox(
+                      height: 100,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: gallerieImages?.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Image.file(File(gallerieImages![index].path), width: 100, height: 100),
+                          );
+                        },
+                      ),
+                    ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                     style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF1D1A30),
+                minimumSize: const Size(400, 50)),
+                    onPressed: () {
+                      _sendToServer();
+                      Navigator.pop(context);
+                    },
+                    child:Text("Ajouter" ,style: GoogleFonts.roboto(fontSize: 18, color: Colors.white)),
+                  ),
+                ],
+              ),
             ),
           ),
         );
       },
-    );
-  }
-
-  Widget _formulaires(BuildContext context) {
-    return Form(
-      key: _globalKey,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: InkWell(
-                onTap: _getImageToGalleriePhone,
-                child: InputDecorator(
-                  decoration: InputDecoration(
-                    hintText: "Photo",
-                    hintStyle:
-                        GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
-                    prefixIcon: const Icon(Icons.image, size: 20),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                  child: _articleImage == null
-                      ? Text("Aucune image sélectionnée",
-                          style: GoogleFonts.roboto(
-                              fontSize: 18, color: Colors.grey))
-                      : Image.file(File(_articleImage!.path), height: 50),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextFormField(
-                controller: _nameController,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Veuillez entrer le nom';
-                  }
-                  return null;
-                },
-                decoration: InputDecoration(
-                  hintText: "Nom du produit",
-                  hintStyle:
-                      GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
-                  prefixIcon: const Icon(Icons.pix_rounded, size: 20),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: DropdownButtonFormField<String?>(
-                hint: Text(
-                  "Choisir une catégorie",
-                  style: GoogleFonts.roboto(
-                      fontSize: 20, fontWeight: FontWeight.w500),
-                ),
-                value: _categoryController,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Veuillez choisir une catégorie';
-                  }
-                  return null;
-                },
-                onChanged: (value) {
-                  setState(() {
-                    _categoryController = value;
-                  });
-                },
-                decoration: InputDecoration(
-                  fillColor: Colors.grey[100],
-                  filled: true,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  prefixIcon: const Icon(Icons.category_outlined, size: 28),
-                ),
-                items: _listCategories.map((categorie) {
-                  return DropdownMenuItem<String?>(
-                    value: categorie.nameCategorie,
-                    child: Text(
-                      categorie.nameCategorie,
-                      style:
-                          GoogleFonts.roboto(fontSize: 20, color: Colors.black),
-                    ),
-                  );
-                }).toList(),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: InkWell(
-                onTap: _selectMultiImageGallery,
-                child: InputDecorator(
-                  decoration: InputDecoration(
-                    hintText: "Autres images",
-                    hintStyle:
-                        GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
-                    prefixIcon: const Icon(Icons.add, size: 30),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                  // ignore: unnecessary_null_comparison
-                  child: gallerieImages == null
-                      ? Text("Aucune image sélectionnée",
-                          style: GoogleFonts.roboto(
-                              fontSize: 18, color: Colors.grey))
-                      : Wrap(
-                          spacing: 8.0,
-                          runSpacing: 8.0,
-                          children: gallerieImages!.map((asset) {
-                            return SizedBox(
-                              width: 50,
-                              height: 50,
-                              child: Image.file(File(asset.path)),
-                            );
-                          }).toList(),
-                        ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextFormField(
-                controller: _descController,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Veuillez entrer la description';
-                  }
-                  return null;
-                },
-                decoration: InputDecoration(
-                  hintText: "Description",
-                  hintStyle:
-                      GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
-                  prefixIcon: const Icon(Icons.list, size: 20),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextFormField(
-                controller: _priceController,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Veuillez entrer le prix';
-                  }
-                  return null;
-                },
-                decoration: InputDecoration(
-                  hintText: "Prix",
-                  hintStyle:
-                      GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
-                  prefixIcon:
-                      const Icon(Icons.monetization_on_rounded, size: 20),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextFormField(
-                controller: _stockController,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Veuillez entrer un nombre de stock';
-                  }
-                  return null;
-                },
-                decoration: InputDecoration(
-                  hintText: "Stock",
-                  hintStyle:
-                      GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
-                  prefixIcon:
-                      const Icon(Icons.store_mall_directory_sharp, size: 20),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 15),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF1D1A30),
-                minimumSize: const Size(400, 50),
-              ),
-              onPressed: () {
-                _sendToServer();
-                Navigator.pop(context);
-              },
-              child: Text(
-                "Enregistrer",
-                style: GoogleFonts.roboto(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.white),
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

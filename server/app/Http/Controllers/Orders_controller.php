@@ -236,8 +236,7 @@ class Orders_controller extends Controller
     public function getOrdersByDeliberyStatut($userId)
     {
         try {
-            $orders = Order::where('statut_of_delibery', 'Livrer')
-            ->orwhere("deliveryId",$userId)
+            $orders = Order::where("deliveryId",$userId)->where('statut_of_delibery', 'Livrer')
                 ->with('orderItems')
                 ->get();
 

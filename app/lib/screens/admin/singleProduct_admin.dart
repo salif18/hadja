@@ -21,20 +21,15 @@ class SingleProductAdmin extends StatefulWidget {
 }
 
 class _SingleProductAdminState extends State<SingleProductAdmin> {
-  // Clé Key du formulaire
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
-  // api denvoie vers le server
-  ServicesAPiProducts api = ServicesAPiProducts();
-  ServicesApiCategory apiCatego = ServicesApiCategory();
-  // declarations des Variables list categories et list des articles
+  final ServicesAPiProducts api = ServicesAPiProducts();
+  final ServicesApiCategory apiCatego = ServicesApiCategory();
   List<CategoriesModel> _listCategories = [];
-  
-// configuration de selection image depuis gallerie
+
   final ImagePicker _picker = ImagePicker();
   XFile? _articleImage;
   List<XFile>? gallerieImages = [];
 
-// configuration des champs de formulaires pour le controller
   final _nameController = TextEditingController();
   String? _categoryController;
   final _descController = TextEditingController();
@@ -56,8 +51,6 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
     super.dispose();
   }
 
- 
-// fonction de recuperation des categories list depuis server
   Future<void> _getCategories() async {
     try {
       final res = await apiCatego.getCategories();
@@ -70,39 +63,32 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
         });
       }
     } catch (e) {
-      Exception(e);
+      print(e);
     }
   }
 
   Future<void> _removeArticles() async {
     try {
       final res = await api.deleteProduct(widget.article.id);
-      final body = res.data;
       if (res.statusCode == 200) {
-        setState(() {
-          _listCategories = (body["categories"] as List)
-              .map((json) => CategoriesModel.fromJson(json))
-              .toList();
-        });
+        Navigator.pop(context);
+      } else {
+        api.showSnackBarErrorPersonalized(context, res.data["message"]);
       }
     } catch (e) {
-      Exception(e);
+      api.showSnackBarErrorPersonalized(context, e.toString());
     }
   }
 
-
-// obtenir l"image depuis gallerie du telephone
   Future<void> _getImageToGalleriePhone() async {
-    final XFile? imagePicked =
-        await _picker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      if (imagePicked != null) {
+    final XFile? imagePicked = await _picker.pickImage(source: ImageSource.gallery);
+    if (imagePicked != null) {
+      setState(() {
         _articleImage = imagePicked;
-      }
-    });
+      });
+    }
   }
 
-// selectionner plusieur images depuis gallerie du telephone
   Future<void> _selectMultiImageGallery() async {
     try {
       final List<XFile> pickedFiles = await _picker.pickMultiImage();
@@ -111,44 +97,42 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
           gallerieImages?.addAll(pickedFiles);
         });
       }
-    } on Exception catch (e) {
-      Exception(e.toString());
-    }
-  }
-
-// Envoie des donnees vers le server
-  Future<void> _sendToServer() async {
-// recuperation des chemins de chaque images ajouter dans gallerieImages
-    List<MultipartFile> imageFilesPaths = [];
-    for (var image in gallerieImages!) {
-      imageFilesPaths.add(await MultipartFile.fromFile(image.path,
-          filename: image.path.split("/").last));
-    }
-
-    FormData formData = FormData.fromMap({
-      "name": _nameController.text,
-      "img": await MultipartFile.fromFile(_articleImage!.path,
-          filename: _articleImage!.path.split("/").last),
-      "galleries[]": imageFilesPaths,
-      "categorie": _categoryController,
-      "desc": _descController.text,
-      "stock": _stockController.text,
-      "price": _priceController.text,
-      "likes": 0,
-      "disLikes": 0
-    });
-
-    try {
-      final res = await api.updateProduct(formData,widget.article.id);
-      if (res.statusCode == 201) {
-        api.showSnackBarSuccessPersonalized(context, res.data["message"]);
-      } else {
-        api.showSnackBarErrorPersonalized(context, res.data["message"]);
-      }
     } catch (e) {
-      api.showSnackBarErrorPersonalized(context, e.toString());
+      print(e.toString());
     }
   }
+
+  Future<void> _sendToServer() async {
+  List<MultipartFile> imageFilesPaths = [];
+  for (var image in gallerieImages!) {
+    imageFilesPaths.add(await MultipartFile.fromFile(image.path, filename: image.path.split("/").last));
+  }
+
+  FormData formData = FormData.fromMap({
+    "name": _nameController.text,
+    "img": await MultipartFile.fromFile(_articleImage!.path, filename: _articleImage!.path.split("/").last),
+    "galleries": imageFilesPaths,
+    "categorie": _categoryController,
+    "desc": _descController.text,
+    "stock": _stockController.text,
+    "price": _priceController.text,
+    "likes": 0,
+    "disLikes": 0
+  });
+
+  try {
+    final res = await api.updateProduct(formData, widget.article.id);
+    if (res.statusCode == 201) {
+      api.showSnackBarSuccessPersonalized(context, res.data["message"]);
+      Navigator.pop(context);
+    } else {
+      api.showSnackBarErrorPersonalized(context, res.data["message"]);
+    }
+  } catch (e) {
+    api.showSnackBarErrorPersonalized(context, e.toString());
+  }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -158,17 +142,19 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
         title: Text(widget.article.name),
         centerTitle: true,
         leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(Icons.arrow_back_ios_rounded, size: 28),
+        ),
+        actions: [
+          IconButton(
             onPressed: () {
-              Navigator.pop(context);
+              showRemoveArticle();
             },
-            icon: const Icon(Icons.arrow_back_ios_rounded, size: 28)),
-            actions: [
-            IconButton(
-            onPressed: () {
-             showRemoveArticle();
-            },
-            icon: const Icon(Icons.delete, size: 28)),
-            ],
+            icon: const Icon(Icons.delete, size: 28),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -176,12 +162,13 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
             Row(
               children: [
                 Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Image.network(
-                      widget.article.img,
-                      width: 200,
-                      height: 200,
-                    )),
+                  padding: const EdgeInsets.all(15),
+                  child: Image.network(
+                    widget.article.img,
+                    width: 200,
+                    height: 200,
+                  ),
+                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -191,12 +178,8 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
                           "Nom",
                           style: GoogleFonts.roboto(fontSize: 20),
                         ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        Text(widget.article.name,
-                            style: GoogleFonts.roboto(
-                                fontSize: 16, color: Colors.grey)),
+                        const SizedBox(width: 20),
+                        Text(widget.article.name, style: GoogleFonts.roboto(fontSize: 16, color: Colors.grey)),
                       ],
                     ),
                     Row(
@@ -205,12 +188,8 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
                           "Prix",
                           style: GoogleFonts.roboto(fontSize: 20),
                         ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        Text(widget.article.price.toString(),
-                            style: GoogleFonts.roboto(
-                                fontSize: 16, color: Colors.grey)),
+                        const SizedBox(width: 20),
+                        Text(widget.article.price.toString(), style: GoogleFonts.roboto(fontSize: 16, color: Colors.grey)),
                       ],
                     ),
                     Row(
@@ -219,12 +198,8 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
                           "Stocks",
                           style: GoogleFonts.roboto(fontSize: 20),
                         ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        Text(widget.article.stock > 0 ? widget.article.stock.toString() : "finis",
-                            style: GoogleFonts.roboto(
-                                fontSize: 16, color: Colors.grey)),
+                        const SizedBox(width: 20),
+                        Text(widget.article.stock > 0 ? widget.article.stock.toString() : "finis", style: GoogleFonts.roboto(fontSize: 16, color: Colors.grey)),
                       ],
                     ),
                     Row(
@@ -233,67 +208,63 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
                           "Categories",
                           style: GoogleFonts.roboto(fontSize: 20),
                         ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        Text(widget.article.categorie,
-                            style: GoogleFonts.roboto(
-                                fontSize: 16, color: Colors.grey)),
+                        const SizedBox(width: 20),
+                        Text(widget.article.categorie, style: GoogleFonts.roboto(fontSize: 16, color: Colors.grey)),
                       ],
-                    )
+                    ),
                   ],
-                )
+                ),
               ],
             ),
             Column(
               children: [
                 Padding(
                   padding: const EdgeInsets.all(15),
-                  child:
-                      Text("Gallerie", style: GoogleFonts.roboto(fontSize: 20)),
+                  child: Text("Gallerie", style: GoogleFonts.roboto(fontSize: 20)),
                 ),
                 Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: widget.article.galleries.map((image) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SizedBox(
-                            width: 120,
-                            height: 120,
-                            child: Image.network(image.imgPath)),
-                      );
-                    }).toList()),
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: widget.article.galleries.map((image) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        width: 120,
+                        height: 120,
+                        child: Image.network(image.imgPath),
+                      ),
+                    );
+                  }).toList(),
+                ),
               ],
             ),
             Padding(
-                padding: const EdgeInsets.only(top: 55),
-                child: ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      minimumSize: const Size(350, 50)),
-                  onPressed: () {
-                    _updatedProducts(context);
-                  },
-                  icon: const Icon(Icons.edit_note,
-                      size: 28, color: Colors.white),
-                  label: Text("modifier",
-                      style: GoogleFonts.roboto(
-                          fontSize: 20, color: Colors.white)),
-                ))
+              padding: const EdgeInsets.only(top: 55),
+              child: ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  minimumSize: const Size(350, 50),
+                ),
+                onPressed: () {
+                  _updatedProducts(context, widget.article);
+                },
+                icon: const Icon(Icons.edit_note, size: 28, color: Colors.white),
+                label: Text("Modifier", style: GoogleFonts.roboto(fontSize: 20, color: Colors.white)),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  void _updatedProducts(BuildContext context) {
+  void _updatedProducts(BuildContext context, ArticlesModel article) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) {
         return Container(
           padding: const EdgeInsets.all(15),
-          height: MediaQuery.of(context).size.height,
+          height: MediaQuery.of(context).size.height * 0.95,
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -301,13 +272,12 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
                   height: 80,
                   child: Center(
                     child: Text(
-                      "Ajouter produits",
-                      style: GoogleFonts.roboto(
-                          fontSize: 20, fontWeight: FontWeight.w400),
+                      "Modifier produits",
+                      style: GoogleFonts.roboto(fontSize: 20, fontWeight: FontWeight.w400),
                     ),
                   ),
                 ),
-                _formulaires(context),
+                _formulaires(context, article),
               ],
             ),
           ),
@@ -316,177 +286,144 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
     );
   }
 
-  Widget _formulaires(BuildContext context) {
+  Widget _formulaires(BuildContext context, ArticlesModel article) {
+    _nameController.text = article.name ;
+    _categoryController = article.categorie;
+    _descController.text = article.desc;
+    _stockController.text = article.stock.toString();
+    _priceController.text = article.price.toString();
+
     return Form(
       key: _globalKey,
       child: SingleChildScrollView(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: InkWell(
-                onTap: _getImageToGalleriePhone,
-                child: InputDecorator(
-                  decoration: InputDecoration(
-                    hintText: "Photo",
-                    hintStyle:
-                        GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
-                    prefixIcon: const Icon(Icons.image, size: 20),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
+            TextFormField(
+              controller: _nameController,
+              decoration: const InputDecoration(labelText: "Nom du produit", border: OutlineInputBorder()),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Le nom du produit est requis";
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 20),
+            TextFormField(
+              controller: _descController,
+              decoration: const InputDecoration(labelText: "Description du produit", border: OutlineInputBorder()),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "La description est requise";
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 20),
+            TextFormField(
+              controller: _priceController,
+              decoration: const InputDecoration(labelText: "Prix du produit", border: OutlineInputBorder()),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Le prix est requis";
+                } else if (double.tryParse(value) == null) {
+                  return "Veuillez entrer un prix valide";
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 20),
+            TextFormField(
+              controller: _stockController,
+              decoration: const InputDecoration(labelText: "Stock du produit", border: OutlineInputBorder()),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Le stock est requis";
+                } else if (int.tryParse(value) == null) {
+                  return "Veuillez entrer un stock valide";
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 20),
+            DropdownButtonFormField<String>(
+              value: _categoryController,
+              decoration: const InputDecoration(labelText: "Catégorie du produit", border: OutlineInputBorder()),
+              items: _listCategories.map((category) {
+                return DropdownMenuItem<String>(
+                  value: category.nameCategorie,
+                  child: Text(category.nameCategorie),
+                );
+              }).toList(),
+              onChanged: (value) {
+                setState(() {
+                  _categoryController = value!;
+                });
+              },
+              validator: (value) {
+                if (value == null) {
+                  return "La catégorie est requise";
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Column(
+                  children: [
+                    Text("Image du produit", style: GoogleFonts.roboto(fontSize: 18)),
+                    IconButton(
+                      icon: const Icon(Icons.photo_camera_back_outlined, size: 38),
+                      onPressed: () {
+                        _getImageToGalleriePhone();
+                      },
                     ),
-                  ),
-                  child: _articleImage == null
-                      ? Text("Aucune image sélectionnée",
-                          style: GoogleFonts.roboto(
-                              fontSize: 18, color: Colors.grey))
-                      : Image.file(File(_articleImage!.path), height: 50),
+                  ],
+                ),
+                if (_articleImage != null)
+                  Image.file(File(_articleImage!.path), width: 100, height: 100),
+              ],
+            ),
+            const SizedBox(height: 20),
+            Column(
+              children: [
+                Text("Ajouter des images à la galerie", style: GoogleFonts.roboto(fontSize: 18)),
+                IconButton(
+                  icon: const Icon(Icons.photo_library_outlined, size: 38),
+                  onPressed: () {
+                    _selectMultiImageGallery();
+                  },
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            if (gallerieImages != null && gallerieImages!.isNotEmpty)
+              SizedBox(
+                height: 100,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: gallerieImages?.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Image.file(File(gallerieImages![index].path), width: 100, height: 100),
+                    );
+                  },
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextFormField(
-                controller: _nameController,
-                decoration: InputDecoration(
-                  hintText: "Nom du produit",
-                  hintStyle:
-                      GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
-                  prefixIcon: const Icon(Icons.pix_rounded, size: 20),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: DropdownButtonFormField<String?>(
-                hint: Text(
-                  "Choisir une catégorie",
-                  style: GoogleFonts.roboto(
-                      fontSize: 20, fontWeight: FontWeight.w500),
-                ),
-                value: _categoryController,
-                onChanged: (value) {
-                  setState(() {
-                    _categoryController = value;
-                  });
-                },
-                decoration: InputDecoration(
-                  fillColor: Colors.grey[100],
-                  filled: true,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  prefixIcon: const Icon(Icons.category_outlined, size: 28),
-                ),
-                items: _listCategories.map((categorie) {
-                  return DropdownMenuItem<String?>(
-                    value: categorie.nameCategorie,
-                    child: Text(
-                      categorie.nameCategorie,
-                      style:
-                          GoogleFonts.roboto(fontSize: 20, color: Colors.black),
-                    ),
-                  );
-                }).toList(),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: InkWell(
-                onTap: _selectMultiImageGallery,
-                child: InputDecorator(
-                  decoration: InputDecoration(
-                    hintText: "Autres images",
-                    hintStyle:
-                        GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
-                    prefixIcon: const Icon(Icons.add, size: 30),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                  // ignore: unnecessary_null_comparison
-                  child: gallerieImages == null
-                      ? Text("Aucune image sélectionnée",
-                          style: GoogleFonts.roboto(
-                              fontSize: 18, color: Colors.grey))
-                      : Wrap(
-                          spacing: 8.0,
-                          runSpacing: 8.0,
-                          children: gallerieImages!.map((asset) {
-                            return SizedBox(
-                              width: 50,
-                              height: 50,
-                              child: Image.file(File(asset.path)),
-                            );
-                          }).toList(),
-                        ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextFormField(
-                controller: _descController,
-                decoration: InputDecoration(
-                  hintText: "Description",
-                  hintStyle:
-                      GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
-                  prefixIcon: const Icon(Icons.list, size: 20),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextFormField(
-                controller: _priceController,
-                decoration: InputDecoration(
-                  hintText: "Prix",
-                  hintStyle:
-                      GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
-                  prefixIcon:
-                      const Icon(Icons.monetization_on_rounded, size: 20),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextFormField(
-                controller: _stockController,
-                decoration: InputDecoration(
-                  hintText: "Stock",
-                  hintStyle:
-                      GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
-                  prefixIcon:
-                      const Icon(Icons.store_mall_directory_sharp, size: 20),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 15),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF1D1A30),
                 minimumSize: const Size(400, 50),
               ),
-              onPressed: _sendToServer,
-              child: Text(
-                "Enregistrer",
-                style: GoogleFonts.roboto(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.white),
-              ),
+              onPressed: () {
+                if (_globalKey.currentState?.validate() == true) {
+                  _sendToServer();
+                }
+              },
+              child: Text("Ajouter", style: GoogleFonts.roboto(fontSize: 18, color: Colors.white)),
             ),
           ],
         ),
@@ -494,26 +431,51 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
     );
   }
 
-  showRemoveArticle(){
-    showDialog(
-      context: context, 
-      builder: (BuildContext context){
-         return AlertDialog(
-          title: Text("Voulez-vous continuer l'action ?", style: GoogleFonts.roboto(fontSize:18),),
-          elevation: 1.2,
-          content: 
-             Row( 
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [ 
-                TextButton(onPressed: (){
-                   _removeArticles();
-                }, child: Text("Comfirmer",style: GoogleFonts.roboto(fontSize:16),)),
-                 TextButton(onPressed: (){
-                  Navigator.pop(context); 
-                 }, child: Text("Annuler",style: GoogleFonts.roboto(fontSize:16),))
+  void showRemoveArticle() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => Container(
+        height: MediaQuery.of(context).size.height / 5,
+        padding: const EdgeInsets.all(15),
+        child: Column(
+          children: [
+            ListTile(
+              leading: const Icon(Icons.delete),
+              title: Text(
+                "Supprimer cet article ?",
+                style: GoogleFonts.roboto(fontSize: 18),
+              ),
+              subtitle: Text(
+                "Attention! Cette action est irréversible",
+                style: GoogleFonts.roboto(fontSize: 14, color: Colors.red),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    _removeArticles();
+                  },
+                  child: Text(
+                    "Supprimer",
+                    style: GoogleFonts.roboto(fontSize: 18, color: Colors.red),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    "Annuler",
+                    style: GoogleFonts.roboto(fontSize: 18, color: Colors.blue),
+                  ),
+                ),
               ],
-             )
-         );
-      });
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

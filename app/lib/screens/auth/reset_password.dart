@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hadja_grish/api/auth_api.dart';
 import 'package:hadja_grish/screens/auth/validation.dart';
 
 class ResetToken extends StatefulWidget {
@@ -10,6 +13,60 @@ class ResetToken extends StatefulWidget {
 }
 
 class _ResetTokenState extends State<ResetToken> {
+  ServicesApiAuth api = ServicesApiAuth();
+
+final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+final _numero = TextEditingController();
+final _email = TextEditingController();
+
+@override 
+void dispose(){
+  _numero.dispose();
+  _email.dispose();
+  super.dispose();
+}
+
+
+// ENVOIE DES DONNEE VERS API SERVER
+  Future<void> _sendToserver(BuildContext context) async {
+  if (_globalKey.currentState!.validate()) {
+    final data = {
+      "numero": _numero.text,
+      "email": _email.text,
+    };
+  
+    try {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          });
+      final response = await api.postResetPassword(data);
+      final body = json.decode(response.body);
+      // ignore: use_build_context_synchronously
+      Navigator.pop(context); // Fermer le dialog
+
+      if (response.statusCode == 200) {
+          // ignore: use_build_context_synchronously
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const ValidationReset()));
+
+      } else {
+        // ignore: use_build_context_synchronously
+        api.showSnackBarErrorPersonalized(context, body["message"]);
+        print(body["message"]);
+      }
+    } catch (e) {
+      // ignore: use_build_context_synchronously
+      Navigator.pop(context); // Fermer le dialogue
+      // ignore: use_build_context_synchronously
+      api.showSnackBarErrorPersonalized(context, "Erreur: ${e.toString()}");
+    }
+  }
+}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,6 +84,7 @@ class _ResetTokenState extends State<ResetToken> {
           child: Container(
             padding: const EdgeInsets.all(10),
             child: Form(
+              key: _globalKey,
               child: Column(
                 children: [
                   _text(context),
@@ -70,6 +128,7 @@ class _ResetTokenState extends State<ResetToken> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
+        controller: _numero,
         validator: (value) {
           if (value!.isEmpty) {
             return 'Veuillez entrer votre numero ';
@@ -94,6 +153,7 @@ class _ResetTokenState extends State<ResetToken> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
+        controller: _email,
         validator: (value) {
           if (value!.isEmpty) {
             return 'Veuillez entrer votre email';
@@ -120,8 +180,7 @@ class _ResetTokenState extends State<ResetToken> {
             backgroundColor:const Color(0xFF1D1A30),
             minimumSize: const Size(350, 50)),
         onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const ValidationReset()));
+          _sendToserver(context);
         },
         child: Text("Envoyer",
             style: GoogleFonts.aBeeZee(

@@ -39,7 +39,7 @@ class _ListOrderLivrerState extends State<ListOrderLivrer> {
       final provider = Provider.of<AuthProvider>(context, listen: false);
     final userId = await provider.userId();
     try {
-      final response = await api.getDeliveryOrdersLivery(userId);
+      final response = await api.getDeliveryOrdersLivrer(userId);
       final body = jsonDecode(response.body);
       if (response.statusCode == 200) {
         _ordersDataLivrer.add(

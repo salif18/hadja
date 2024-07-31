@@ -10,6 +10,7 @@ import 'package:hadja_grish/providers/auth_provider.dart';
 import 'package:hadja_grish/providers/user_provider.dart';
 import 'package:hadja_grish/routes/roots.dart';
 import 'package:hadja_grish/screens/auth/registre_page.dart';
+import 'package:hadja_grish/screens/auth/reset_password.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
@@ -175,7 +176,9 @@ class _LoginPageState extends State<LoginPage> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => const ResetToken()));
+                              },
                               child: Text(
                                 "Mot de passe oublié ?",
                                 style: GoogleFonts.roboto(
