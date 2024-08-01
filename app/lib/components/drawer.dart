@@ -166,7 +166,7 @@ class _DrawerWindowState extends State<DrawerWindow> {
                                   Text(
                                     "Modifier profil",
                                     style: GoogleFonts.roboto(
-                                      fontSize: 20,
+                                      fontSize: 18,
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
@@ -189,23 +189,7 @@ class _DrawerWindowState extends State<DrawerWindow> {
                                   Text(
                                     "Changer password",
                                     style: GoogleFonts.roboto(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            ListTile(
-                              onTap: () {},
-                              title: Row(
-                                children: [
-                                  const Icon(Icons.dark_mode_rounded, size: 33),
-                                  const SizedBox(width: 10),
-                                  Text(
-                                    "Theme",
-                                    style: GoogleFonts.roboto(
-                                      fontSize: 20,
+                                      fontSize: 18,
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
@@ -254,7 +238,7 @@ class _DrawerWindowState extends State<DrawerWindow> {
                                     Text(
                                       "Categories",
                                       style: GoogleFonts.roboto(
-                                        fontSize: 20,
+                                        fontSize: 18,
                                         fontWeight: FontWeight.w400,
                                       ),
                                     ),
@@ -277,7 +261,7 @@ class _DrawerWindowState extends State<DrawerWindow> {
                                     Text(
                                       "Produits",
                                       style: GoogleFonts.roboto(
-                                        fontSize: 20,
+                                        fontSize: 18,
                                         fontWeight: FontWeight.w400,
                                       ),
                                     ),
@@ -300,7 +284,7 @@ class _DrawerWindowState extends State<DrawerWindow> {
                                     Text(
                                       "Livreurs",
                                       style: GoogleFonts.roboto(
-                                        fontSize: 20,
+                                        fontSize: 18,
                                         fontWeight: FontWeight.w400,
                                       ),
                                     ),
@@ -323,7 +307,7 @@ class _DrawerWindowState extends State<DrawerWindow> {
                                     Text(
                                       "Commandes",
                                       style: GoogleFonts.roboto(
-                                        fontSize: 20,
+                                        fontSize: 18,
                                         fontWeight: FontWeight.w400,
                                       ),
                                     ),
@@ -372,7 +356,7 @@ class _DrawerWindowState extends State<DrawerWindow> {
                                     Text(
                                       "Commandes",
                                       style: GoogleFonts.roboto(
-                                        fontSize: 20,
+                                        fontSize: 18,
                                         fontWeight: FontWeight.w400,
                                       ),
                                     ),
@@ -395,7 +379,7 @@ class _DrawerWindowState extends State<DrawerWindow> {
                                     Text(
                                       "Livrés",
                                       style: GoogleFonts.roboto(
-                                        fontSize: 20,
+                                        fontSize: 18,
                                         fontWeight: FontWeight.w400,
                                       ),
                                     ),
@@ -469,7 +453,7 @@ class _DrawerWindowState extends State<DrawerWindow> {
                                     Text(
                                       "Addresse",
                                       style: GoogleFonts.roboto(
-                                        fontSize: 20,
+                                        fontSize: 18,
                                         fontWeight: FontWeight.w400,
                                       ),
                                     ),
@@ -492,7 +476,7 @@ class _DrawerWindowState extends State<DrawerWindow> {
                                     Text(
                                       "Commandes",
                                       style: GoogleFonts.roboto(
-                                        fontSize: 20,
+                                        fontSize: 18,
                                         fontWeight: FontWeight.w400,
                                       ),
                                     ),
@@ -539,7 +523,7 @@ class _DrawerWindowState extends State<DrawerWindow> {
                                   Text(
                                     "Se déconnecter",
                                     style: GoogleFonts.roboto(
-                                      fontSize: 20,
+                                      fontSize: 18,
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
@@ -557,7 +541,7 @@ class _DrawerWindowState extends State<DrawerWindow> {
                                   Text(
                                     "Supprimer compte",
                                     style: GoogleFonts.roboto(
-                                      fontSize: 20,
+                                      fontSize: 18,
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
