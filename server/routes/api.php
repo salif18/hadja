@@ -16,10 +16,11 @@ Route::get('/user', function (Request $request) {
 
 //AUTHENTIFICATIONS
 Route::middleware("auth:sanctum")->post("/logout",[Auth_controller::class,"logout"]);
+Route::middleware('auth:sanctum')->post("/delete",[Auth_controller::class,"delete"]);
 Route::post("/registre",[Auth_controller::class,"registre"]);
 Route::post("/login",[Auth_controller::class,"login"]);
 Route::post("/update_password/{userId}",[Auth_controller::class,"updatePassword"]);
-Route::delete("/user/{id}",[Auth_controller::class,"delete"]);
+
 
 //RECUPERATION COMPTE
 Route::post("/reset_password",[User_recuperation::class,"reset"]);

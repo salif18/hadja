@@ -214,29 +214,18 @@ class Auth_Controller extends Controller
         }
     }
 
+   
+
     //SUPPRESSION DE COMPTE
-    public function delete($id)
+    public function delete(Request $req)
     {
         try {
-            // Trouver l'utilisateur par ID
-            $user = User::findOrFail($id);
-
-            if (!$user) {
-                return response()->json([
-                    "status" => false,
-                    "message" => "Utilisateur non trouvé"
-                ], 404);
-            }
-
-            // Supprimer le jeton d'accès de l'utilisateur
-            $user->currentAccessToken()->delete();
-
-            // Supprimer l'utilisateur de la base de données
-            $user->delete();
+            $req->user()->currentAccessToken()->delete();
+            $req->user()->delete();
 
             return response()->json([
                 "status" => true,
-                "message" => "User account deleted successfully."
+                "message" => "Compte supprimer avec succès !!"
             ], 200);
         } catch (\Exception $error) {
             return response()->json([
@@ -245,6 +234,7 @@ class Auth_Controller extends Controller
             ], 500);
         }
     }
+
 
 
     // recuperer les libery

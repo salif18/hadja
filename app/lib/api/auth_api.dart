@@ -114,16 +114,18 @@ class ServicesApiAuth{
     );
   }
 
-  //suppression de votre compte
-  deleteCompte(id) async {
-    var uri = "$domaineApi/user/$id";
-    return await http.delete(Uri.parse(uri), headers: {
+
+   //suppression compte
+  deleteUserTokenUserId(token) async {
+    var uri = "$domaineApi/delete";
+    return await http.post(Uri.parse(uri), headers: {
       "Content-Type": "application/json; charset=UTF-8",
       "Accept": "*/*",
       "Accept-Encoding": "gzip, deflate, br",
-      
+      "Authorization": "Bearer $token"
     });
   }
+
 
   //message en cas de succès!
   void showSnackBarSuccessPersonalized(BuildContext context, String message) {

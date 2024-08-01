@@ -64,27 +64,23 @@ class _DrawerWindowState extends State<DrawerWindow> {
   }
 }
 
-Future<void> deleteCompteUser(BuildContext context) async {
-  final provider = Provider.of<AuthProvider>(context, listen: false);
-  var userId = await provider.userId();
-  provider.logoutButton();
-  try {
-    final res = await api.deleteCompte(userId);
-    if (res.statusCode == 200) {
-      provider.logoutButton();
+ //action supprimer compte
+   Future<void> _deleteUserClearTokenTosServer(BuildContext context) async {
+    final provider = Provider.of<AuthProvider>(context, listen: false);
+    var token = await provider.token();
+    try {
+      final res = await api.deleteUserTokenUserId(token);
+      if (res.statusCode == 200) {
+        provider.logoutButton();
         Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const LoginPage()),
-        );
-    }
-  } catch (error) {
-    
+            context, MaterialPageRoute(builder: (context) => const LoginPage()));
+      }
+    } catch (error) {
       api.showSnackBarErrorPersonalized(
-        context,
-        "Erreur lors de la déconnexion. $error",
-      );
+          context, "Erreur lors de la deconnexion. $error");
     }
-}
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -584,7 +580,7 @@ Future<void> deleteCompteUser(BuildContext context) async {
     );
   }
 
-Future<bool>_showConfirmDelete(BuildContext context) async{
+_showConfirmDelete(BuildContext context) async{
  return await showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -615,9 +611,9 @@ Future<bool>_showConfirmDelete(BuildContext context) async{
                   ),
                   const SizedBox(width: 10),
                   ElevatedButton(
-                    style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF4caf50)),
+                    style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF292D4E)),
                     onPressed: () {
-                     deleteCompteUser(context);
+                     _deleteUserClearTokenTosServer(context);
                     },
                     child: const Text("Oui", style: TextStyle(color: Colors.white)),
                   ),
