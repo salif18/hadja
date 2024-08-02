@@ -98,7 +98,7 @@ class Auth_Controller extends Controller
             }
 
             // Recherche de l'utilisateur dans la base de données
-            $user = User::where('phone_number', $request->contacts)
+            $user = User::with("profil")->where('phone_number', $request->contacts)
                 ->orwhere("email", $request->contacts)->first();
 
             // Si l'utilisateur n'existe pas, retourner un message d'erreur
@@ -119,14 +119,22 @@ class Auth_Controller extends Controller
 
             // Authentification réussie, génération d'un jeton JWT
             $token = $user->createToken("user_token")->plainTextToken;
+            $profilPhoto = $user->profil ? $user->profil->photo : null;
 
+            $profil = [
+                "name" => $user->name,
+                "phone_number" => $user->phone_number,
+                "email" => $user->email,
+                "user_statut" => $user->user_statut,
+                "photo"=>$profilPhoto
+            ];
             // Retour des informations sur l'utilisateur et du jeton JWT
             return response()->json([
                 "status" => true,
                 "message" => "Connecté avec succès  !!",
                 'userId' => $user->id,
                 'token' => $token,
-                "profil" => $user,
+                "profil" => $profil,
             ], 200);
         } catch (\Exception $error) {
             return response()->json([

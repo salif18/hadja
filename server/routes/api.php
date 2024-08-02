@@ -28,7 +28,8 @@ Route::post("/validate_password",[User_recuperation::class,"validation"]);
 
 //PROFIL
 Route::post("/profil/update/{id}",[Profil_controller::class,"updateProfil"]);
-
+Route::post("/profil/photo",[Profil_controller::class,"postPhotoProfil"]);
+Route::put("/profil/update/photo",[Profil_controller::class,"updatePhotoProfil"]);
 
 //RECURER LES LIVREURS
 Route::get("/livreurs",[Auth_controller::class,"getLibery"]);

@@ -45,15 +45,12 @@ class _MyHeaderState extends State<MyHeaderWidget> {
                         ],
                       ),
                       CircleAvatar(
-                        radius: 40,
-                        child: Image(
-                          image: AssetImage(
-                              profil?.photo ?? "assets/images/profil.jpeg"),
-                          height: 40,
-                          width: 40,
-                          fit: BoxFit.cover,
-                        ),
-                      )
+                      radius: 30,
+                      backgroundImage: profil?.photo != null
+                          ? NetworkImage(profil!.photo!)
+                          : AssetImage("assets/images/profil.jpeg") as ImageProvider,
+                      backgroundColor: Colors.transparent, // Couleur de fond pour éviter le noir
+                    ),
                     ],
                   ),
                 );

@@ -19,7 +19,7 @@ class ProfilModel {
     return ProfilModel(
       userId: json['id'], // Utilisez 'id' au lieu de 'userId'
       name: json['name'],
-      photo: json['photo'],
+      photo: json['photo'] != null ? completeImageUrl(json['photo']) : null,
       number: json['phone_number'], // Utilisez 'phone_number' au lieu de 'number'
       email: json['email'],
       userStatut: json['user_statut'], // Utilisez 'user_statut' au lieu de 'userStatut'
@@ -35,5 +35,10 @@ class ProfilModel {
       'email': email,
       'user_statut': userStatut, // Utilisez 'user_statut' au lieu de 'userStatut'
     };
+  }
+  static String completeImageUrl(String imgPath) {
+    const String baseUrl =
+        "http://10.0.2.2:8000"; // Remplacez par l'URL de base de votre serveur
+    return imgPath.startsWith("http") ? imgPath : baseUrl + imgPath;
   }
 }

@@ -25,10 +25,10 @@ class _AddressLivraisonState extends State<AddressLivraison> {
   final TextEditingController telephone = TextEditingController();
   // double lat = 12.652250;
   // double long = -7.981700;//ville
-    //  double lat = 12.592990;
-    //  double long = -8.065061;//sebenicoro
-     double lat =12.585116;
-     double long = -7.931593;//attb
+     double lat = 12.592990;
+     double long = -8.065061;//sebenicoro
+    //  double lat =12.585116;
+    //  double long = -7.931593;//attb
   @override
   void initState() {
     super.initState();

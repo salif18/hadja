@@ -58,6 +58,7 @@ class _LoginPageState extends State<LoginPage> {
           });
       final response = await api.postLoginUser(data);
       final body = jsonDecode(response.body);
+      print(body);
       Navigator.pop(context); // Fermer le dialog
 
       if (response.statusCode == 200) {

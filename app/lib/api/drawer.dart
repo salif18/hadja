@@ -83,7 +83,7 @@ class _DrawerWindowState extends State<DrawerWindow> {
         final res = apiProfil.postPhotoProfil(formData);
         final data = res.data;
         if(res.statusCode == 201){
-          print(data["photo"]);
+          print(data["message"]);
         }
     }catch(e){
       print(e);
