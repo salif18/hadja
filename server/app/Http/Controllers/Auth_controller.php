@@ -119,15 +119,20 @@ class Auth_Controller extends Controller
 
             // Authentification réussie, génération d'un jeton JWT
             $token = $user->createToken("user_token")->plainTextToken;
+
+            //VERIFIER SI LE PROFIL EXISTE 
             $profilPhoto = $user->profil ? $user->profil->photo : null;
+            $profilPhotoId = $user->profil ? $user->profil->id : null;
 
             $profil = [
                 "name" => $user->name,
                 "phone_number" => $user->phone_number,
                 "email" => $user->email,
                 "user_statut" => $user->user_statut,
-                "photo"=>$profilPhoto
+                "photo"=>$profilPhoto,
+                "photoId"=>$profilPhotoId
             ];
+            
             // Retour des informations sur l'utilisateur et du jeton JWT
             return response()->json([
                 "status" => true,

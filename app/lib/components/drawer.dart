@@ -35,6 +35,7 @@ class _DrawerWindowState extends State<DrawerWindow> {
   ServicesApiProfil apiProfil = ServicesApiProfil();
   ImagePicker picker = ImagePicker();
   XFile? imageProfil ;
+  XFile? newImageProfil ;
   
 
   late double lat;
@@ -58,18 +59,6 @@ class _DrawerWindowState extends State<DrawerWindow> {
   }
  }
 
-
-//SELECTION DE NOUVELLE IMAGE MODIFICATION
- Future<void> _loadNewImageFromGallery()async{
-    XFile? imagePicked = await picker.pickImage(source:ImageSource.gallery);
-    if(imagePicked != null){
-   setState(() {
-     imageProfil = imagePicked;
-   });
-   sendUpdateImageProfil();
-  }
- }
-
 // ENVOIE DE LIMAGE DANS LE SERVER
   Future<void> sendImageProfil()async{
         final provider = Provider.of<AuthProvider>(context, listen: false);
@@ -78,7 +67,6 @@ class _DrawerWindowState extends State<DrawerWindow> {
       "user_id":userId,
       "photo":await MultipartFile.fromFile(imageProfil!.path, filename: imageProfil!.path.split("/").last)
      });
-     print(formData);
     try{
         final res = apiProfil.postPhotoProfil(formData);
         final data = res.data;
@@ -90,27 +78,68 @@ class _DrawerWindowState extends State<DrawerWindow> {
     }
   }
 
-//MIS A JOURS DU PHOTO
-  Future<void> sendUpdateImageProfil()async{
-        final provider = Provider.of<AuthProvider>(context, listen: false);
+
+//SELECTION DE NOUVELLE IMAGE MODIFICATION
+ Future<void> _loadNewImageFromGallery()async{
+    XFile? newImagePicked = await picker.pickImage(source:ImageSource.gallery);
+    if(newImagePicked != null){
+   setState(() {
+     newImageProfil = newImagePicked;
+     print(newImagePicked);
+   });
+   sendUpdateImageProfil();
+  }
+ }
+
+
+// MIS A JOURS DU PHOTO
+Future<void> sendUpdateImageProfil() async {
+  final provider = Provider.of<AuthProvider>(context, listen: false);
+  final userId = await provider.userId();
+  final imgPath = await MultipartFile.fromFile(newImageProfil!.path, filename: newImageProfil!.path.split("/").last);
+  FormData formData = FormData.fromMap({
+    "user_id": userId,
+    "photo": imgPath
+  });
+  try {
+    final res = await apiProfil.updatePhotoProfil(formData);
+    if (res.statusCode == 200) {
+      final data = res.data;
+      print(data["message"]);
+    } else {
+      print('Erreur: ${res.statusCode} - ${res.statusMessage}');
+    }
+  } catch (e) {
+     if (e is DioException) {
+      // Gestion des erreurs Dio
+      print('Erreur Dio: ${e.message}');
+      print('Données de la requête: ${e.requestOptions.data}');
+      print('Données de la réponse: ${e.response?.data}');
+    } else {
+      // Autres erreurs
+      print('Exception: $e');
+    }
+  }
+}
+ 
+ // SUPPRIMER LA PHOTO
+  Future<void> sendDeleteProfil()async{
+    final provider = Provider.of<AuthProvider>(context, listen: false);
     final userId = await provider.userId();
-     FormData  formData = FormData.fromMap({
-      "user_id":userId,
-      "photo":await MultipartFile.fromFile(imageProfil!.path, filename: imageProfil!.path.split("/").last)
-     });
-     print(formData);
+    var _data = {
+          'user_id': userId,
+        };
     try{
-        final res = apiProfil.postPhotoProfil(formData);
+        final res = await apiProfil.deletePhotoProfil(_data);
         final data = res.data;
-        if(res.statusCode == 201){
+        if(res.statusCode == 200){
           print(data["message"]);
         }
     }catch(e){
       print(e);
     }
   }
- 
- 
+
 // DECONNECTION API
   Future<void> logoutUserClearTokenTosServer(BuildContext context) async {
   final provider = Provider.of<AuthProvider>(context, listen: false);
@@ -700,8 +729,8 @@ _showConfirmDelete(BuildContext context) async{
   );
 }
 
-_showUpdatePhoto(){
- showDialog(
+_showUpdatePhoto()async{
+await showDialog(
   context: context,
    builder: (BuildContext context){
      return AlertDialog(
@@ -716,7 +745,7 @@ _showUpdatePhoto(){
            ),
            Divider(height: 2,color:Colors.grey[200]),
            TextButton.icon(onPressed: (){
-
+              sendDeleteProfil();
            }, 
            label: Text("Supprimer photo",style: GoogleFonts.roboto(fontSize: 18)),
            icon: Icon(Icons.remove_circle_outline_sharp),)

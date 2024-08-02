@@ -16,14 +16,27 @@ class ServicesApiProfil{
   }
 
   // fonction de connection
-  putPhotoProfil(data)async{
-    var url = "$domaineApi/profil/update/photo";
-    return await dio.put(url, 
+  updatePhotoProfil(data)async{
+    var url = "$domaineApi/profil/photo/update";
+    return await dio.post(url, 
     data:data, 
      options: Options(headers: {
-        "Content-Type": "application/json; charset=UTF-8",
         "Accept": "*/*",
         "Accept-Encoding": "gzip, deflate, br",
-    }));
+    })
+    );
   }
+
+   // fonction de delete
+  deletePhotoProfil(data)async{
+    var url = "$domaineApi/profil/photo/delete";
+    return await dio.delete(url, 
+    data:data, 
+     options: Options(headers: {
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+    })
+    );
+  }
+
 }

@@ -63,6 +63,7 @@ class _LoginPageState extends State<LoginPage> {
 
       if (response.statusCode == 200) {
          ProfilModel user =  ProfilModel.fromJson(body['profil']);
+         print(user);
          providerAuth.loginButton(body['token'], body["userId"].toString());
          providerProfil.saveToLocalStorage(user);
            Navigator.pushReplacement(context,
