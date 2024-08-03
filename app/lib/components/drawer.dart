@@ -213,13 +213,11 @@ Future<void> sendUpdateImageProfil() async {
                                 },
                                 child: CircleAvatar(
                                     radius: 50,
-                                    backgroundImage:  Image.network(
+                                    backgroundImage:  NetworkImage(
                                       profil.photo!,
-                                      height: 50,
-                                      width: 50,
-                                      fit: BoxFit.fill,
                                     ) as ImageProvider,
-                                     backgroundColor: Colors.transparent
+                                     backgroundColor: Colors.transparent,
+                                     
                                   ),
                               )
                               : GestureDetector(
