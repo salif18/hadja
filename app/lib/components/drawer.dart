@@ -213,20 +213,23 @@ Future<void> sendUpdateImageProfil() async {
                                 },
                                 child: CircleAvatar(
                                     radius: 50,
-                                    child:  Image.network(
+                                    backgroundImage:  Image.network(
                                       profil.photo!,
                                       height: 50,
                                       width: 50,
                                       fit: BoxFit.fill,
-                                    ),
+                                    ) as ImageProvider,
+                                     backgroundColor: Colors.transparent
                                   ),
                               )
                               : GestureDetector(
                                 onTap: (){
                                       _loadImageFromGallery();
                                     },
-                                child: ClipRect(
-                                  child: Icon(Icons.add_photo_alternate_outlined,size:40)),
+                                child: CircleAvatar(
+                                  radius: 50,
+                                   backgroundColor: Colors.transparent,
+                                  backgroundImage: AssetImage("assets/images/add profil.png") as ImageProvider),
                                 ),
                               Padding(
                                 padding: const EdgeInsets.all(5),

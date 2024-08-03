@@ -15,7 +15,7 @@ class ServicesApiProfil{
     }));
   }
 
-  // fonction de connection
+  // fonction de modification
   updatePhotoProfil(data)async{
     var url = "$domaineApi/profil/photo/update";
     return await dio.post(url, 

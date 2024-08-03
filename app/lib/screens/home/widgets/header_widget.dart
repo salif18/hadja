@@ -48,7 +48,7 @@ class _MyHeaderState extends State<MyHeaderWidget> {
                       radius: 30,
                       backgroundImage: profil?.photo != null
                           ? NetworkImage(profil!.photo!)
-                          : AssetImage("assets/images/profil.jpeg") as ImageProvider,
+                          : AssetImage("assets/images/profil1.jpg") as ImageProvider,
                       backgroundColor: Colors.transparent, // Couleur de fond pour éviter le noir
                     ),
                     ],
