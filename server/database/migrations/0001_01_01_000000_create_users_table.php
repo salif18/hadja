@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB; // Import de DB
 
 return new class extends Migration
 {
@@ -19,6 +20,8 @@ return new class extends Migration
             $table->string('user_statut')->default("client");
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->integer('tentatives')->default(0);
+            $table->timestamp('tentatives_expires')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->rememberToken();
             $table->timestamps();
         });

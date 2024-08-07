@@ -25,7 +25,7 @@ class ServicesAPiProducts {
   //ajouter depense
   updateProduct(data, id) async {
     var uri = "$urlServer/articles/update/$id";
-    return await dio.put(
+    return await dio.post(
       uri,
       data: data,
       options: Options(headers: {

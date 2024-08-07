@@ -7,10 +7,15 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Mail\Message;
+use Illuminate\Support\Carbon;
 use Twilio\Rest\Client;
 
 class User_recuperation extends Controller
 {
+     // Durée de blocage en secondes (1 heure)
+     const BLOCK_DURATION = 5 * 60 * 1000; 
+     // Nombre maximal de tentatives
+     const TENTATIVES_MAX = 3;
      // RECUPERATION DE COMPTE OUBLIE RESET PASSWORD
      public function reset(Request $req)
      {
@@ -39,12 +44,30 @@ class User_recuperation extends Controller
                      "message" => "Cet utilisateur n'existe pas"
                  ], 404);
              }
+
+               // Vérifier si l'utilisateur est bloqué (a atteint le nombre maximal de tentatives)
+            if ($user->tentatives >= self::TENTATIVES_MAX && $user->tentatives_expires > Carbon::now()) {
+                // Convertir 'tentatives_expires' en chaîne de caractères pour l'afficher
+                $tempsDattente = Carbon::parse($user->tentatives_expires)->toDateTimeString();
+                error_log("Temps d'attente: " . $tempsDattente);
+                return response()->json([
+                    'message' => "Nombre maximal de tentatives atteint. Veuillez réessayer après {$tempsDattente}."
+                ], 429);
+            }
  
              // Génération d'un nombre aleatoire d'authentification
              $token = str_pad(rand(0, 9999), 4, "0", STR_PAD_LEFT);
              $user->remember_token = $token;
+
+             $user->tentatives += 1;
+
+             // Si le nombre maximal de tentatives est atteint, définir la date d'expiration du blocage
+             if ($user->tentatives >= self::TENTATIVES_MAX) {
+                 $user->tentatives_expires = Carbon::now()->addMilliseconds(self::BLOCK_DURATION);
+             }
+ 
              $user->save();
-            //  $user->update(['remember_token' => $token]);
+        
  
              //Envoi vers un email
              Mail::send([], [], function (Message $message) use ($user, $token) {
@@ -113,12 +136,9 @@ class User_recuperation extends Controller
 
              $user->password = bcrypt($req->new_password);
              $user->remember_token = null;
+             $user->tentatives = 0; // Réinitialiser les tentatives après la modification du mot de passe
+             $user->tentatives_expires = Carbon::now(); // Réinitialiser la date d'expiration
              $user->save();
- 
-            //  $user->update([
-            //      'password' => bcrypt($req->new_password),
-            //      'remember_token' => null
-            //  ]);
  
              return response()->json([
                  "status" => true,

@@ -126,7 +126,7 @@ class Articles_Controller extends Controller
     {
         try {
             DB::beginTransaction();
-
+            error_log(print_r($request->all(),true));
             $article = Article::with("galleries")->findOrFail($id);
 
             // Traitement de l'image reçue de l'article
@@ -138,7 +138,7 @@ class Articles_Controller extends Controller
 
                 $image = $request->file('img');
                 $imagePath = $image->store('pictures', 'public');
-                $article->img = $imagePath; // Stocker uniquement le chemin relatif
+                $article->img = Storage::url($imagePath); // Stocker uniquement le chemin relatif
             }
 
             // Mise à jour de l'article
