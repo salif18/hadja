@@ -247,8 +247,8 @@ class _ProductPageState extends State<ProductPage> {
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text(article.name, style: GoogleFonts.roboto(fontSize: 18, fontWeight: FontWeight.w500)),
-                                        Text("${article.price.toString()} fcfa", style: GoogleFonts.roboto(fontSize: 18, color: Colors.grey[500]))
+                                        Text(article.name, style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.w500)),
+                                        Text("${article.price.toString()} fcfa", style: GoogleFonts.roboto(fontSize: 14, color: Colors.grey[500]))
                                       ],
                                     ),
                                   ),
@@ -258,7 +258,7 @@ class _ProductPageState extends State<ProductPage> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(
                                   children: [
-                                    Text("stocks:", style: GoogleFonts.roboto(fontSize: 18)),
+                                    Text("stocks:", style: GoogleFonts.roboto(fontSize: 14)),
                                     const SizedBox(width: 10),
                                     Text(article.stock > 0 ? article.stock.toString() : "finis"),
                                   ],

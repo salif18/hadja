@@ -47,12 +47,12 @@ class _MyCardState extends State<MyCard> {
                         widget.item.name,
                         style: GoogleFonts.roboto(
                           fontWeight: FontWeight.bold,
-                            fontSize: 20, 
+                            fontSize: 16,
                             color: const Color(0xff121212)),
                       ),
                       Text(widget.item.prix.toString(),
                           style: GoogleFonts.roboto(
-                              fontSize: 18, 
+                              fontSize: 14,
                               color:const Color(0xff121212)))
                     ],
                   ),

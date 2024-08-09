@@ -49,9 +49,9 @@ class User_recuperation extends Controller
             if ($user->tentatives >= self::TENTATIVES_MAX && $user->tentatives_expires > Carbon::now()) {
                 // Convertir 'tentatives_expires' en chaîne de caractères pour l'afficher
                 $tempsDattente = Carbon::parse($user->tentatives_expires)->toDateTimeString();
-                error_log("Temps d'attente: " . $tempsDattente);
+                $time = explode(" ",$tempsDattente)[1];
                 return response()->json([
-                    'message' => "Nombre maximal de tentatives atteint. Veuillez réessayer après {$tempsDattente}."
+                    'message' => "Nombre maximal de tentatives atteint. Veuillez réessayer après {$time}."
                 ], 429);
             }
  

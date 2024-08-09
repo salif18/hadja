@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
-const String domaineApi = "http://10.0.2.2:8000/api";
+import 'package:hadja_grish/http/domaine.dart';
+String domaineApi = Domaine().domaine();
 
 class ServicesApiProfil{
   Dio dio = Dio();

@@ -70,13 +70,14 @@ class _MyRootsState extends State<MyRoots> {
                     const Icon(Icons.shopping_cart_outlined),
                     if (provider.myCart.isNotEmpty)
                       Positioned(
-                        left: 15,
-                        bottom: 15,
+                        left: 12,
+                        bottom: 10,
                         child: Badge.count(
                           count: provider.myCart.length,
+                          largeSize: 40 / 2,
                           backgroundColor: Colors.red,
                           textStyle: GoogleFonts.roboto(
-                            fontSize: 14,
+                            fontSize: 13,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                           ),

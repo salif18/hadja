@@ -39,11 +39,12 @@ class _FavoritesPageState extends State<FavoritesPage>
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         toolbarHeight: 80,
         centerTitle: true,
         title: Text(
           "Favoris",
-          style: GoogleFonts.roboto(fontSize: 24, fontWeight: FontWeight.w400),
+          style: GoogleFonts.roboto(fontSize: 20, fontWeight: FontWeight.w600),
         ),
       ),
       body: Consumer<FavoriteProvider>(
@@ -62,7 +63,7 @@ class _FavoritesPageState extends State<FavoritesPage>
                         Text(
                           "Mes produits",
                           style: GoogleFonts.roboto(
-                              fontSize: 24, fontWeight: FontWeight.w400),
+                              fontSize: 18, fontWeight: FontWeight.w600),
                         ),
                       ],
                     ),

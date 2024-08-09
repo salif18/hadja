@@ -124,15 +124,15 @@ class _SingleOrderState extends State<SingleOrder> {
                           children: [
                             Text(item.name,
                                 style: GoogleFonts.roboto(
-                                    fontSize: 20, fontWeight: FontWeight.w400)),
+                                    fontSize: 14, fontWeight: FontWeight.w400)),
                             Text("Quantité ${item.qty}",
                                 style: GoogleFonts.roboto(
-                                    fontSize: 20, color: Colors.grey[500])),
+                                    fontSize: 14, color: Colors.grey[500])),
                           ],
                         ),
                         Text("prix ${item.prix}",
                             style: GoogleFonts.roboto(
-                                fontSize: 20, fontWeight: FontWeight.w400)),
+                                fontSize: 14, fontWeight: FontWeight.w400)),
                       ],
                     ),
                   ),
@@ -156,7 +156,7 @@ class _SingleOrderState extends State<SingleOrder> {
                             hint: Text(
                               "Choisir un livreur",
                               style: GoogleFonts.roboto(
-                                  fontSize: 20, fontWeight: FontWeight.w500),
+                                  fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             value: deliveryId,
                             onChanged: (value) {
@@ -177,7 +177,7 @@ class _SingleOrderState extends State<SingleOrder> {
                                 child: Text(
                                   delivery.name!,
                                   style: GoogleFonts.roboto(
-                                      fontSize: 20, color: Colors.black),
+                                      fontSize: 14, color: Colors.black),
                                 ),
                               );
                             }).toList(),
@@ -194,7 +194,7 @@ class _SingleOrderState extends State<SingleOrder> {
                         child: Text(
                           "Confirmer",
                           style: GoogleFonts.roboto(
-                              fontSize: 18, color: Colors.white),
+                              fontSize: 14, color: Colors.white),
                         ))
                   ],
                 ),
@@ -221,7 +221,7 @@ class _SingleOrderState extends State<SingleOrder> {
               ),
               child: Text("Suivi du courrier",
                   style: GoogleFonts.roboto(
-                      fontSize: 20,
+                      fontSize: 14,
                       fontWeight: FontWeight.w400,
                       color: Colors.white)),
             ),
@@ -239,11 +239,11 @@ class _SingleOrderState extends State<SingleOrder> {
         children: [
           Text(title,
               style: GoogleFonts.roboto(
-                  fontSize: 20, fontWeight: FontWeight.w400)),
+                  fontSize: 14, fontWeight: FontWeight.w400)),
           const SizedBox(width: 15),
           Text(value,
               style: GoogleFonts.roboto(
-                  fontSize: 20, fontWeight: FontWeight.w400)),
+                  fontSize: 14, fontWeight: FontWeight.w400)),
         ],
       ),
     );

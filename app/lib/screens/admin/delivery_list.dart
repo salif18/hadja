@@ -229,7 +229,7 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
                     itemBuilder: (BuildContext context, int index) {
                       ProfilModel livreur = snapshot.data![index];
                       return Container(
-                        height: 100,
+                        height: 110,
                         padding: const EdgeInsets.all(15),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
@@ -270,11 +270,11 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
                                       children: [
                                         Text(livreur.name!,
                                             style: GoogleFonts.roboto(
-                                                fontSize: 18,
+                                                fontSize: 16,
                                                 fontWeight: FontWeight.w500)),
                                         Text(livreur.number.toString(),
                                             style: GoogleFonts.roboto(
-                                                fontSize: 18,
+                                                fontSize: 14,
                                                 color: Colors.grey[500]))
                                       ],
                                     ),
@@ -632,7 +632,7 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Confirmer"),
+          title:  Text("Confirmer",style: GoogleFonts.roboto(fontSize: 16)),
           content:
               const Text("Êtes-vous sûr de vouloir supprimer ce livreur ?"),
           actions: [
@@ -640,14 +640,14 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text("Annuler", style: GoogleFonts.roboto(fontSize: 18)),
+              child: Text("Annuler", style: GoogleFonts.roboto(fontSize: 16)),
             ),
             TextButton(
               onPressed: () {
                 _deleteDeliberyToserver(context, id);
                  Navigator.pop(context);
               },
-              child: Text("Supprimer", style: GoogleFonts.roboto(fontSize: 18)),
+              child: Text("Supprimer", style: GoogleFonts.roboto(fontSize: 16)),
             ),
           ],
         );

@@ -98,7 +98,7 @@ class _RegistrePageState extends State<RegistrePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 0.0),
+              padding: const EdgeInsets.only(top: 20.0),
               child: Image.asset(
                 "assets/logos/logo4.jpg",
                 width: 200,
@@ -109,7 +109,7 @@ class _RegistrePageState extends State<RegistrePage> {
               padding: const EdgeInsets.only(left: 8.0),
               child: Text("Aw bissimilah",
                   style: GoogleFonts.aclonica(
-                      fontSize: 30,
+                      fontSize: 25,
                       fontWeight: FontWeight.bold,
                       color: Colors.white)),
             ),
@@ -141,7 +141,7 @@ class _RegistrePageState extends State<RegistrePage> {
                         keyboardType: TextInputType.name,
                         decoration: InputDecoration(
                             hintText: "Nom",
-                            hintStyle: GoogleFonts.roboto(fontSize: 20),
+                            hintStyle: GoogleFonts.roboto(fontSize: 18),
                             filled: true,
                             fillColor: const Color(0xfff0fcf3),
                             prefixIcon:
@@ -164,7 +164,7 @@ class _RegistrePageState extends State<RegistrePage> {
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                             hintText: "Numero",
-                            hintStyle: GoogleFonts.roboto(fontSize: 20),
+                            hintStyle: GoogleFonts.roboto(fontSize: 18),
                             filled: true,
                             fillColor: const Color(0xfff0fcf3),
                             prefixIcon: const Icon(Icons.phone_android_outlined,
@@ -187,7 +187,7 @@ class _RegistrePageState extends State<RegistrePage> {
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                             hintText: "Email",
-                            hintStyle: GoogleFonts.roboto(fontSize: 20),
+                            hintStyle: GoogleFonts.roboto(fontSize: 18),
                             filled: true,
                             fillColor: const Color(0xfff0fcf3),
                             prefixIcon:
@@ -212,7 +212,7 @@ class _RegistrePageState extends State<RegistrePage> {
                         obscureText: isVisibility,
                         decoration: InputDecoration(
                             hintText: "Mot de passe",
-                            hintStyle: GoogleFonts.roboto(fontSize: 20),
+                            hintStyle: GoogleFonts.roboto(fontSize: 18),
                             filled: true,
                             fillColor: const Color(0xfff0fcf3),
                             prefixIcon:
@@ -241,12 +241,12 @@ class _RegistrePageState extends State<RegistrePage> {
                           onPressed: () {
                             _sendToserver(context);
                           },
-                          child: Text("Creer compte",
+                          child: Text("Créer compte",
                               style: GoogleFonts.roboto(
-                                  fontSize: 20, color: Colors.white))),
+                                  fontSize: 18, color: Colors.white))),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.all(15.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -263,9 +263,9 @@ class _RegistrePageState extends State<RegistrePage> {
                                             const LoginPage()));
                               },
                               child: Text(
-                                "Se connecter",
+                                "Login",
                                 style: GoogleFonts.roboto(
-                                  fontSize: 18,
+                                  fontSize: 14,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.blue[400],
                                 ),

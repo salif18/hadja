@@ -61,11 +61,11 @@ class _SingleOrderClientState extends State<SingleOrderClient> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(item.name,style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400)),
-                        Text("Quantité ${item.qty.toString()}",style:GoogleFonts.roboto(fontSize: 20,color:Colors.grey[500]))
+                        Text(item.name,style:GoogleFonts.roboto(fontSize: 14,fontWeight:FontWeight.w400)),
+                        Text("Quantité ${item.qty.toString()}",style:GoogleFonts.roboto(fontSize: 14,color:Colors.grey[500]))
                       ],
                     ), 
-                    Text("prix ${item.prix}",style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400))]),
+                    Text("prix ${item.prix}",style:GoogleFonts.roboto(fontSize: 14,fontWeight:FontWeight.w400))]),
             ),
           );
           }
@@ -75,9 +75,9 @@ class _SingleOrderClientState extends State<SingleOrderClient> {
         child:Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Total",style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400)),
+            Text("Total",style:GoogleFonts.roboto(fontSize: 14,fontWeight:FontWeight.w400)),
             const SizedBox(width: 15),
-            Text("${widget.order.total} FCFA",style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400))
+            Text("${widget.order.total} FCFA",style:GoogleFonts.roboto(fontSize: 14,fontWeight:FontWeight.w400))
           ],
         ),
         ),
@@ -86,27 +86,27 @@ class _SingleOrderClientState extends State<SingleOrderClient> {
         child:Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Livreur",style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400)),
+            Text("Livreur",style:GoogleFonts.roboto(fontSize: 14,fontWeight:FontWeight.w400)),
             const SizedBox(width: 15),
-            Text(widget.order.deliveryId.toString(),style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400))
+            Text(widget.order.deliveryId.toString(),style:GoogleFonts.roboto(fontSize: 14,fontWeight:FontWeight.w400))
           ],
         )),
          Padding(padding: const EdgeInsets.all(15), 
         child:Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Date",style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400)),
+            Text("Date",style:GoogleFonts.roboto(fontSize: 14,fontWeight:FontWeight.w400)),
             const SizedBox(width: 15),
-            Text(DateFormat('dd/MM/yyyy').format(widget.order.createdAt),style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400))
+            Text(DateFormat('dd/MM/yyyy').format(widget.order.createdAt),style:GoogleFonts.roboto(fontSize: 14,fontWeight:FontWeight.w400))
           ],
         )),
          Padding(padding: const EdgeInsets.all(15), 
         child:Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Livrer",style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400)),
+            Text("Livrer",style:GoogleFonts.roboto(fontSize: 14,fontWeight:FontWeight.w400)),
             const SizedBox(width: 15),
-            Text(widget.order.statusOfDelibery,style:GoogleFonts.roboto(fontSize: 20,fontWeight:FontWeight.w400))
+            Text(widget.order.statusOfDelibery,style:GoogleFonts.roboto(fontSize: 14,fontWeight:FontWeight.w400))
           ],
         )),
         
@@ -124,7 +124,7 @@ class _SingleOrderClientState extends State<SingleOrderClient> {
                 backgroundColor: const Color(0xFF1D1A30),),
               child: Text("Suis le livreur",
                   style: GoogleFonts.roboto(
-                      fontSize: 20,
+                      fontSize: 14,
                       fontWeight: FontWeight.w400,
                       color: Colors.white))),
         )

@@ -16,7 +16,7 @@ class EmptyCart extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Text(
               "Panier vide",
-              style: GoogleFonts.roboto(fontSize: 20, color: Colors.grey),
+              style: GoogleFonts.roboto(fontSize: 16, color: Colors.grey),
             ),
           ),
           const Padding(
@@ -27,13 +27,13 @@ class EmptyCart extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Text("Ajouter des articles dans votre panier",
                 style: GoogleFonts.roboto(
-                    fontSize: 20, color: const Color(0xFF1D1A30))),
+                    fontSize: 14, color: const Color(0xFF1D1A30))),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 8.0),
             child: Text(
                 "Regrouper ici les articles qui vous interressent et envoyer-les a l'entreprise",
-                style: GoogleFonts.roboto(fontSize: 20, color: Colors.grey)),
+                style: GoogleFonts.roboto(fontSize:14, color: Colors.grey)),
           ),
           Padding(
             padding: const EdgeInsets.all(25),
@@ -49,7 +49,7 @@ class EmptyCart extends StatelessWidget {
                     minimumSize: const Size(400, 50)),
                 child: Text("Voir les articles",
                     style:
-                        GoogleFonts.roboto(fontSize: 20, color: Colors.white))),
+                        GoogleFonts.roboto(fontSize: 14, color: Colors.white))),
           )
         ],
       ),

@@ -191,7 +191,7 @@ class _MyCategoriListState extends State<MyCategoriList> {
                               bottom: BorderSide(
                                   color: Color.fromARGB(255, 245, 245, 245)))),
                       child: ListTile(
-                        title: Text(categorie.nameCategorie),
+                        title: Text(categorie.nameCategorie,style: GoogleFonts.roboto(fontSize:16),),
                         trailing: IconButton(
                             onPressed: () {
                               _updateCateShow(context, categorie.id);

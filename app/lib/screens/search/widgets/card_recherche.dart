@@ -55,12 +55,12 @@ class ResultSearch extends StatelessWidget {
                             item.name,
                             style: GoogleFonts.roboto(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 20,
+                                fontSize: 16,
                                 color: const Color(0xff121212)),
                           ),
                           Text("${item.price} cfa",
                               style: GoogleFonts.roboto(
-                                  fontSize: 18, color: const Color(0xff121212)))
+                                  fontSize: 14, color: const Color(0xff121212)))
                         ],
                       ),
                     ),

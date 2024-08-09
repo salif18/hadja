@@ -125,9 +125,9 @@ class _HomePageState extends State<HomePage> {
                             child: Badge.count(
                               count: provider.myCart.length,
                               backgroundColor: Colors.amber,
-                              largeSize: 45 / 2,
+                              largeSize: 40 / 2,
                               textStyle: GoogleFonts.roboto(
-                                fontSize: 18,
+                                fontSize: 13,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                               ),

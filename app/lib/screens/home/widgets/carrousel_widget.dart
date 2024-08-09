@@ -72,7 +72,7 @@ class _MyCarouselState extends State<MyCarouselWidget> {
                   child: Text(
                     "Nouveaux arrivages",
                     style: GoogleFonts.roboto(
-                        fontSize: 24, fontWeight: FontWeight.w400),
+                        fontSize: 18, fontWeight: FontWeight.w600),
                   )),
             ),
             StreamBuilder<List<ArticlesModel>>(

@@ -48,12 +48,12 @@ class MyCardFavorites extends StatelessWidget {
                           item.name,
                           style: GoogleFonts.roboto(
                               fontWeight: FontWeight.bold,
-                              fontSize: 20,
+                              fontSize: 16,
                               color: const Color(0xFF1D1A30)),
                         ),
                         Text(item.price.toString(),
                             style: GoogleFonts.roboto(
-                                fontSize: 18, color: const Color(0xFF1D1A30)))
+                                fontSize: 14, color: const Color(0xFF1D1A30)))
                       ],
                     ),
                   ),

@@ -74,7 +74,7 @@ class _MyProductListWidgetState extends State<MyProductListWidget> {
                 Text(
                   "Nos produits",
                   style: GoogleFonts.roboto(
-                      fontSize: 22, fontWeight: FontWeight.w400),
+                      fontSize: 18, fontWeight: FontWeight.w600),
                 ),
                 TextButton(
                   onPressed: () {
@@ -86,8 +86,8 @@ class _MyProductListWidgetState extends State<MyProductListWidget> {
                   child: Text(
                     "Explorer tous",
                     style: GoogleFonts.roboto(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
                         color: Colors.blue[400]),
                   ),
                 )
@@ -136,7 +136,7 @@ class _MyProductListWidgetState extends State<MyProductListWidget> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(
                                   width: MediaQuery.of(context).size.width,
-                                  height: 150,
+                                  height: 110,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(20),
                                   ),
@@ -156,12 +156,12 @@ class _MyProductListWidgetState extends State<MyProductListWidget> {
                                       children: [
                                         Text(articles[index].name,
                                             style: GoogleFonts.roboto(
-                                                fontSize: 20,
+                                                fontSize: 16,
                                                 fontWeight: FontWeight.w600)),
                                         Text(
                                             "${articles[index].price.toString()} fcfa",
                                             style: GoogleFonts.roboto(
-                                                fontSize: 18,
+                                                fontSize: 14,
                                                 color: Colors.grey[500])),
                                       ],
                                     ),

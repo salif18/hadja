@@ -17,7 +17,7 @@ class CardOrderClient extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
-          height: 180, 
+          height: 190,
           width: MediaQuery.of(context).size.width,
           padding: const EdgeInsets.all(15),
           decoration: BoxDecoration(
@@ -31,7 +31,7 @@ class CardOrderClient extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                  Text("ORDER N°:${order.id.toString()}",style:GoogleFonts.roboto(fontSize:18,fontWeight: FontWeight.bold)),
+                  Text("ORDER N°:${order.id.toString()}",style:GoogleFonts.roboto(fontSize:16,fontWeight: FontWeight.bold)),
                   ],
                 ),
               ),
@@ -42,23 +42,23 @@ class CardOrderClient extends StatelessWidget {
                Row( 
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [ 
-                  Text("Date:",style: GoogleFonts.roboto(fontSize: 18,color:Colors.grey),),
-                  Text(DateFormat('dd/MM/yyyy').format(order.createdAt),style: GoogleFonts.roboto(fontSize: 18),)
+                  Text("Date:",style: GoogleFonts.roboto(fontSize: 14,color:Colors.grey),),
+                  Text(DateFormat('dd/MM/yyyy').format(order.createdAt),style: GoogleFonts.roboto(fontSize: 14),)
                 ],
               ),
               Row( 
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [ 
-                  Text("Montant:",style: GoogleFonts.roboto(fontSize: 18,color:Colors.grey),),
-                  Text(order.total.toString(),style: GoogleFonts.roboto(fontSize: 18),)
+                  Text("Montant:",style: GoogleFonts.roboto(fontSize: 14,color:Colors.grey),),
+                  Text(order.total.toString(),style: GoogleFonts.roboto(fontSize: 14),)
                 ],
               ),
               
                Row( 
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [ 
-                  Text("Livrer:",style: GoogleFonts.roboto(fontSize: 18,color:Colors.grey),),
-                  Text(order.statusOfDelibery,style: GoogleFonts.roboto(fontSize: 18 , fontWeight: FontWeight.bold, color: order.statusOfDelibery == "En attente" ? Colors.blue : Colors.green),)
+                  Text("Livrer:",style: GoogleFonts.roboto(fontSize: 14,color:Colors.grey),),
+                  Text(order.statusOfDelibery,style: GoogleFonts.roboto(fontSize: 14 , fontWeight: FontWeight.bold, color: order.statusOfDelibery == "En attente" ? Colors.blue : Colors.green),)
                 ],
               )
             ],

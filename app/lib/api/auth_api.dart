@@ -2,9 +2,12 @@ import "dart:convert";
 
 import "package:flutter/material.dart";
 import "package:google_fonts/google_fonts.dart";
+import "package:hadja_grish/http/domaine.dart";
 import "package:http/http.dart" as http;
 import 'package:dio/dio.dart';
-const String domaineApi = "http://10.0.2.2:8000/api";
+
+
+String domaineApi = Domaine().domaine();
 
 class ServicesApiAuth{
   Dio dio = Dio();
@@ -131,7 +134,7 @@ class ServicesApiAuth{
   void showSnackBarSuccessPersonalized(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(message,
-          style: GoogleFonts.roboto(fontSize: 18,)),
+          style: GoogleFonts.roboto(fontSize: 16,fontWeight: FontWeight.w400)),
       backgroundColor: const Color.fromARGB(255, 109, 204, 112),
       duration: const Duration(seconds: 5),
       action: SnackBarAction(
@@ -147,8 +150,8 @@ class ServicesApiAuth{
   void showSnackBarErrorPersonalized(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(message,
-          style: GoogleFonts.roboto(fontSize: 18)),
-      backgroundColor: const Color.fromARGB(255, 255, 35, 19),
+          style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.w400)),
+      backgroundColor: Color.fromARGB(255, 32, 19, 54),
       duration: const Duration(seconds: 5),
       action: SnackBarAction(
         label: "",

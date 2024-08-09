@@ -73,7 +73,7 @@ class _MyRecomadationWidgetState extends State<MyRecomadationWidget> {
                 Text(
                   "Recommandations",
                   style: GoogleFonts.roboto(
-                      fontSize: 22, fontWeight: FontWeight.w400),
+                      fontSize: 18, fontWeight: FontWeight.w600),
                 ),
                 const Icon(Icons.arrow_forward_ios_rounded, size: 22)
               ],
@@ -118,7 +118,7 @@ class _MyRecomadationWidgetState extends State<MyRecomadationWidget> {
                                     padding: const EdgeInsets.all(8.0),
                                     child: Container(
                                       width: MediaQuery.of(context).size.width,
-                                      height: 150,
+                                      height: 120,
                                       decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(20)),

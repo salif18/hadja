@@ -114,6 +114,7 @@ Future<void> _getProducts() async {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
         toolbarHeight: 95,
         title: Form(

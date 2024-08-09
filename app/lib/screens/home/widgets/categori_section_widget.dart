@@ -35,7 +35,7 @@ class _MyChooseCategoryState extends State<MyChooseCategoryWidget> {
                 children: [
                   Text("Categories",
                       style: GoogleFonts.roboto(
-                          fontSize: 22, fontWeight: FontWeight.w400)),
+                          fontSize: 18, fontWeight: FontWeight.w600)),
                   const Icon(Icons.arrow_forward_ios_rounded, size: 22)
                 ],
               ),
@@ -106,7 +106,7 @@ class _MyChooseCategoryState extends State<MyChooseCategoryWidget> {
                                           marque.nameCategorie,
                                           style: GoogleFonts.roboto(
                                               fontWeight: FontWeight.w400,
-                                              fontSize: 20,
+                                              fontSize: 14,
                                               color: Colors.white),
                                         )
                                       ],

@@ -65,6 +65,7 @@ class _MyArticlePageState extends State<MyArticlePage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         toolbarHeight: 80,
         centerTitle: true,
         title: Text("Articles",
@@ -84,7 +85,7 @@ class _MyArticlePageState extends State<MyArticlePage> {
                   Text(
                     "Nos produits",
                     style: GoogleFonts.roboto(
-                        fontSize: 24, fontWeight: FontWeight.w400),
+                        fontSize: 20, fontWeight: FontWeight.w400),
                   ),
                   Text(
                     "Tous",
@@ -139,7 +140,7 @@ class _MyArticlePageState extends State<MyArticlePage> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(
                                   width: MediaQuery.of(context).size.width,
-                                  height: 150,
+                                  height: 110,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(20),
                                   ),
@@ -159,12 +160,12 @@ class _MyArticlePageState extends State<MyArticlePage> {
                                       children: [
                                         Text(article[index].name,
                                             style: GoogleFonts.roboto(
-                                                fontSize: 20,
+                                                fontSize: 16,
                                                 fontWeight: FontWeight.w600)),
                                         Text(
                                             "${article[index].price.toString()} fcfa",
                                             style: GoogleFonts.roboto(
-                                                fontSize: 18,
+                                                fontSize: 14,
                                                 color: Colors.grey[500])),
                                       ],
                                     ),

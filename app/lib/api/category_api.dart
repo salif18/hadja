@@ -2,7 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:dio/dio.dart';
-const String urlServer = "http://10.0.2.2:8000/api";
+import 'package:hadja_grish/http/domaine.dart';
+
+    String urlServer = Domaine().domaine();
 
 class ServicesApiCategory{
   
@@ -61,7 +63,7 @@ Dio dio = Dio();
   void showSnackBarSuccessPersonalized(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(message,
-          style: GoogleFonts.roboto(fontSize: 18)),
+          style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.w400)),
       backgroundColor: Colors.blue,
       duration: const Duration(seconds: 5),
       action: SnackBarAction(
@@ -76,7 +78,7 @@ Dio dio = Dio();
   void showSnackBarErrorPersonalized(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(message,
-          style: GoogleFonts.roboto(fontSize: 18)),
+          style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.w400)),
       backgroundColor: const Color.fromARGB(255, 255, 35, 19),
       duration: const Duration(seconds: 5),
       action: SnackBarAction(

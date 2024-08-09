@@ -98,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
               padding: const EdgeInsets.only(left: 8.0, bottom: 20),
               child: Text("Aw bissimilah",
                   style: GoogleFonts.aclonica(
-                      fontSize: 30,
+                      fontSize: 25,
                       fontWeight: FontWeight.bold,
                       color: Colors.white)),
             ),
@@ -130,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                             hintText: "Numero ou e-mail",
-                            hintStyle: GoogleFonts.roboto(fontSize: 20),
+                            hintStyle: GoogleFonts.roboto(fontSize: 18),
                             filled: true,
                             fillColor: const Color(0xfff0fcf3),
                             prefixIcon: const Icon(Icons.person_2_outlined, size: 28),
@@ -155,7 +155,7 @@ class _LoginPageState extends State<LoginPage> {
                         obscureText: isVisibility,
                         decoration: InputDecoration(
                             hintText:"Mot de passe",
-                            hintStyle: GoogleFonts.roboto(fontSize: 20),
+                            hintStyle: GoogleFonts.roboto(fontSize: 18),
                             filled: true,
                             fillColor: const Color(0xfff0fcf3),
                            suffixIcon: IconButton(
@@ -184,7 +184,7 @@ class _LoginPageState extends State<LoginPage> {
                               child: Text(
                                 "Mot de passe oublié ?",
                                 style: GoogleFonts.roboto(
-                                    fontSize: 18, color: Colors.blue[400],),
+                                    fontSize: 16, color: Colors.blue[400],),
                               ))
                         ],
                       ),
@@ -202,16 +202,16 @@ class _LoginPageState extends State<LoginPage> {
                           },
                           child: Text("Se connecter",
                               style: GoogleFonts.roboto(
-                                  fontSize: 20, color: Colors.white))),
+                                  fontSize: 18, color: Colors.white))),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.all(15.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
                             "Vous n'avez pas de compte ?",
-                            style: GoogleFonts.roboto(fontSize: 18),
+                            style: GoogleFonts.roboto(fontSize: 16),
                           ),
                           TextButton(
                               onPressed: () {
@@ -220,7 +220,7 @@ class _LoginPageState extends State<LoginPage> {
                               child: Text(
                                 "Créer",
                                 style: GoogleFonts.roboto(
-                                    fontSize: 20,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.blue[400],),
                               ))

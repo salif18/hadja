@@ -1,10 +1,11 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:hadja_grish/http/domaine.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-const String domaineApi = "http://10.0.2.2:8000/api";
+String domaineApi = Domaine().domaine();
 class ServicesApiOrders{
 
   Dio dio = Dio();
@@ -177,7 +178,7 @@ class ServicesApiOrders{
   void showSnackBarSuccessPersonalized(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(message,
-          style: GoogleFonts.roboto(fontSize: 18)),
+          style: GoogleFonts.roboto(fontSize: 16,fontWeight: FontWeight.w400)),
       backgroundColor: Colors.green,
       duration: const Duration(seconds: 5),
       action: SnackBarAction(
@@ -193,7 +194,7 @@ class ServicesApiOrders{
   void showSnackBarErrorPersonalized(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(message,
-          style: GoogleFonts.roboto(fontSize: 18)),
+          style: GoogleFonts.roboto(fontSize: 16,fontWeight: FontWeight.w400)),
       backgroundColor: const Color.fromARGB(255, 255, 35, 19),
       duration: const Duration(seconds: 5),
       action: SnackBarAction(

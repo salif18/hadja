@@ -245,11 +245,12 @@ class _SingleProductVerSionSliverState extends State<SingleProductVerSionSliver>
                 ),
                 const SizedBox(width: 15),
                 Padding(
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(1),
                   child: Row(
                     children: [
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(40, 40),
                           backgroundColor: const Color(0xFF1D1A30),
                         ),
                         onPressed: () {
@@ -263,6 +264,7 @@ class _SingleProductVerSionSliverState extends State<SingleProductVerSionSliver>
                       if (qty > 1)
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
+                            minimumSize: const Size(40, 40),
                             backgroundColor: const Color(0xFF1D1A30),
                           ),
                           onPressed: () {
@@ -309,7 +311,7 @@ class _SingleProductVerSionSliverState extends State<SingleProductVerSionSliver>
               label: Text(
                 "Ajouter au panier",
                 style: GoogleFonts.roboto(
-                  fontSize: 20,
+                  fontSize: 16,
                   color: Colors.white,
                 ),
               ),

@@ -1,3 +1,5 @@
+import 'package:hadja_grish/http/domaine.dart';
+
 class Galleries {
   int id;
   int articleId;
@@ -26,8 +28,7 @@ class Galleries {
   }
 
   static String completeImageUrl(String imgPath) {
-    const String baseUrl =
-        "http://10.0.2.2:8000"; // Remplacez par l'URL de base de votre serveur
+    String baseUrl = Domaine().urlImage();
     return imgPath.startsWith("http") ? imgPath : baseUrl + imgPath;
   }
 }
@@ -90,8 +91,7 @@ class ArticlesModel {
   }
 
   static String completeImageUrl(String imgPath) {
-    const String baseUrl =
-        "http://10.0.2.2:8000"; // Remplacez par l'URL de base de votre serveur
+    String baseUrl = Domaine().urlImage();
     return imgPath.startsWith("http") ? imgPath : baseUrl + imgPath;
   }
 }

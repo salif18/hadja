@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth_controller;
 use App\Http\Controllers\Categorie_Controller;
 use App\Http\Controllers\Orders_controller;
 use App\Http\Controllers\Profil_controller;
+use App\Http\Controllers\User_controller;
 use App\Http\Controllers\User_recuperation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,7 +20,7 @@ Route::middleware("auth:sanctum")->post("/logout",[Auth_controller::class,"logou
 Route::middleware('auth:sanctum')->post("/delete",[Auth_controller::class,"delete"]);
 Route::post("/registre",[Auth_controller::class,"registre"]);
 Route::post("/login",[Auth_controller::class,"login"]);
-Route::post("/update_password/{userId}",[Auth_controller::class,"updatePassword"]);
+
 
 
 //RECUPERATION COMPTE
@@ -33,9 +34,10 @@ Route::post("/profil/photo/update",[Profil_controller::class,"updatePhotoProfil"
 Route::delete("/profil/photo/delete",[Profil_controller::class,"deletePhotoProfil"]);
 
 //RECURER LES LIVREURS
-Route::get("/livreurs",[Auth_controller::class,"getLibery"]);
-Route::put("/livreurs/update/{id}",[Auth_controller::class,"updateLibery"]);
-Route::delete("/livreurs/delete/{id}",[Auth_controller::class,"deleteLibery"]);
+Route::get("/livreurs",[User_controller::class,"getLibery"]);
+Route::post("/update_password/{userId}",[User_controller::class,"updatePassword"]);
+Route::put("/livreurs/update/{id}",[User_controller::class,"updateLibery"]);
+Route::delete("/livreurs/delete/{id}",[User_controller::class,"deleteLibery"]);
 
 //REQUETTES CATEGORIES
 Route::post("/categories",[Categorie_Controller::class,"createCategorys"]);

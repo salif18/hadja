@@ -90,7 +90,7 @@ class _ArticleByCategoriesState extends State<ArticleByCategories> {
                   Text(
                     "Nos ${widget.categorie}",
                     style: GoogleFonts.roboto(
-                        fontSize: 24, fontWeight: FontWeight.w400),
+                        fontSize: 20, fontWeight: FontWeight.w400),
                   ),
                 ],
               ),
@@ -114,7 +114,7 @@ class _ArticleByCategoriesState extends State<ArticleByCategories> {
                             child: Text(
                                 "Pas de categories disponibles pour le moment",
                                 style: GoogleFonts.roboto(
-                                    fontSize: 20,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.normal)));
                       } else {
                         return GridView.builder(
@@ -176,13 +176,13 @@ class _ArticleByCategoriesState extends State<ArticleByCategories> {
                                               children: [
                                                 Text(article[index].name,
                                                     style: GoogleFonts.roboto(
-                                                        fontSize: 20,
+                                                        fontSize: 16,
                                                         fontWeight:
                                                             FontWeight.w600)),
                                                 Text(
                                                     "${article[index].price.toString()} fcfa",
                                                     style: GoogleFonts.roboto(
-                                                        fontSize: 18,
+                                                        fontSize: 14,
                                                         color:
                                                             Colors.grey[500])),
                                               ],

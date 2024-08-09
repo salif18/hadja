@@ -165,8 +165,8 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
                   padding: const EdgeInsets.all(15),
                   child: Image.network(
                     widget.article.img,
-                    width: 200,
-                    height: 200,
+                    width: 180,
+                    height: 180,
                   ),
                 ),
                 Column(
@@ -176,40 +176,40 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
                       children: [
                         Text(
                           "Nom",
-                          style: GoogleFonts.roboto(fontSize: 20),
+                          style: GoogleFonts.roboto(fontSize: 16),
                         ),
                         const SizedBox(width: 20),
-                        Text(widget.article.name, style: GoogleFonts.roboto(fontSize: 16, color: Colors.grey)),
+                        Text(widget.article.name, style: GoogleFonts.roboto(fontSize: 14, color: Colors.grey)),
                       ],
                     ),
                     Row(
                       children: [
                         Text(
                           "Prix",
-                          style: GoogleFonts.roboto(fontSize: 20),
+                          style: GoogleFonts.roboto(fontSize: 16),
                         ),
                         const SizedBox(width: 20),
-                        Text(widget.article.price.toString(), style: GoogleFonts.roboto(fontSize: 16, color: Colors.grey)),
+                        Text(widget.article.price.toString(), style: GoogleFonts.roboto(fontSize: 14, color: Colors.grey)),
                       ],
                     ),
                     Row(
                       children: [
                         Text(
                           "Stocks",
-                          style: GoogleFonts.roboto(fontSize: 20),
+                          style: GoogleFonts.roboto(fontSize: 16),
                         ),
                         const SizedBox(width: 20),
-                        Text(widget.article.stock > 0 ? widget.article.stock.toString() : "finis", style: GoogleFonts.roboto(fontSize: 16, color: Colors.grey)),
+                        Text(widget.article.stock > 0 ? widget.article.stock.toString() : "finis", style: GoogleFonts.roboto(fontSize: 14, color: Colors.grey)),
                       ],
                     ),
                     Row(
                       children: [
                         Text(
                           "Categories",
-                          style: GoogleFonts.roboto(fontSize: 20),
+                          style: GoogleFonts.roboto(fontSize: 16),
                         ),
                         const SizedBox(width: 20),
-                        Text(widget.article.categorie, style: GoogleFonts.roboto(fontSize: 16, color: Colors.grey)),
+                        Text(widget.article.categorie, style: GoogleFonts.roboto(fontSize: 14, color: Colors.grey)),
                       ],
                     ),
                   ],
@@ -220,7 +220,7 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(15),
-                  child: Text("Gallerie", style: GoogleFonts.roboto(fontSize: 20)),
+                  child: Text("Gallerie", style: GoogleFonts.roboto(fontSize: 18)),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -228,7 +228,7 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: SizedBox(
-                        width: 120,
+                        width: 115,
                         height: 120,
                         child: Image.network(image.imgPath),
                       ),
@@ -248,7 +248,7 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
                   _updatedProducts(context, widget.article);
                 },
                 icon: const Icon(Icons.edit_note, size: 28, color: Colors.white),
-                label: Text("Modifier", style: GoogleFonts.roboto(fontSize: 20, color: Colors.white)),
+                label: Text("Modifier", style: GoogleFonts.roboto(fontSize: 14, color: Colors.white)),
               ),
             ),
           ],

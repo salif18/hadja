@@ -39,11 +39,12 @@ class _CartPageState extends State<CartPage> with WidgetsBindingObserver {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         toolbarHeight: 80,
         centerTitle: true,
         title: Text(
           "Panier",
-          style: GoogleFonts.roboto(fontSize: 24, fontWeight: FontWeight.w400),
+          style: GoogleFonts.roboto(fontSize: 20, fontWeight: FontWeight.w600),
         ),
         actions: [
           IconButton(
@@ -131,7 +132,7 @@ class _CartPageState extends State<CartPage> with WidgetsBindingObserver {
                             Text(
                               "Nombre d'articles",
                               style: GoogleFonts.roboto(
-                                fontSize: 22,
+                                fontSize: 18,
                                 fontWeight: FontWeight.w400,
                                 color: const Color(0xFF1D1A30),
                               ),
@@ -139,7 +140,7 @@ class _CartPageState extends State<CartPage> with WidgetsBindingObserver {
                             Text(
                               "${cart.length}",
                               style: GoogleFonts.roboto(
-                                fontSize: 22,
+                                fontSize: 18,
                                 fontWeight: FontWeight.bold,
                                 color: const Color(0xFF1D1A30),
                               ),
@@ -155,14 +156,14 @@ class _CartPageState extends State<CartPage> with WidgetsBindingObserver {
                             Text(
                               "Total",
                               style: GoogleFonts.roboto(
-                                fontSize: 22,
+                                fontSize: 16,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             Text(
                               "$total FCFA",
                               style: GoogleFonts.roboto(
-                                fontSize: 22,
+                                fontSize: 16,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -187,7 +188,7 @@ class _CartPageState extends State<CartPage> with WidgetsBindingObserver {
                           label: Text(
                             "Adresse de livraison",
                             style: GoogleFonts.roboto(
-                              fontSize: 22,
+                              fontSize: 16,
                               color: Colors.white,
                             ),
                           ),
@@ -207,7 +208,7 @@ class _CartPageState extends State<CartPage> with WidgetsBindingObserver {
       builder: (BuildContext context) {
         return Container(
           width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height * 0.25,
+          height: MediaQuery.of(context).size.height * 0.3,
           padding: const EdgeInsets.all(20),
           child: Column(
             mainAxisSize: MainAxisSize.min,

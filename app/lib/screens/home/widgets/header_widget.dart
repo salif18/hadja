@@ -22,7 +22,7 @@ class _MyHeaderState extends State<MyHeaderWidget> {
               builder: (context, snaptshot) {
                  ProfilModel? profil = snaptshot.data;
                 return Container(
-                  height: 100,
+                  height: 110,
                   padding: const EdgeInsets.all(15),
                   decoration: const BoxDecoration(),
                   child: Row(
