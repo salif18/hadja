@@ -1,4 +1,4 @@
-import 'dart:async';
+import 'dart:async' show Future, StreamController;
 import 'dart:convert';
 
 import 'package:carousel_slider/carousel_slider.dart';
@@ -31,17 +31,16 @@ class _MyCarouselState extends State<MyCarouselWidget> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _getProducts();
+  }
+
+  @override
   void dispose() {
     _articlesData.close();
     super.dispose();
   }
-
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  //   _getProducts();
-  // }
-
  // fonction fetch data articles depuis server
   Future<void> _getProducts() async {
     try {
@@ -102,7 +101,7 @@ class _MyCarouselState extends State<MyCarouselWidget> {
                             height: 200,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
-                                color: const Color(0xffF0FCF3),
+                                color: AppColor.secondBackgroud,
                                 image: DecorationImage(
                                     image: NetworkImage(item.img),
                                     fit: BoxFit.contain)),

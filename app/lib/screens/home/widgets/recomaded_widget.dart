@@ -20,42 +20,20 @@ class MyRecomadationWidget extends StatefulWidget {
 }
 
 class _MyRecomadationWidgetState extends State<MyRecomadationWidget> {
-  final StreamController<List<ArticlesModel>> _articlesData =
-      StreamController();
   ServicesAPiProducts api = ServicesAPiProducts();
-  @override
-  void initState() {
-    super.initState();
-    _getProducts();
-  }
 
-  @override
-  void dispose() {
-    _articlesData.close();
-    super.dispose();
-  }
-
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  //   _getProducts();
-  // }
-
-  // fonction fetch data articles depuis server
-  Future<void> _getProducts() async {
-    try {
-      final res = await api.getAllProducts();
-      final body = jsonDecode(res.body);
-      if(res.statusCode == 200){
-      _articlesData.add(
-        (body["articles"] as List).map((json)=> ArticlesModel.fromJson(json)).toList()
-      );
-      }
-    } catch (e) {
-      _articlesData.addError("");
+  Future<List<ArticlesModel>> _getProducts() async {
+    final res = await api.getAllProducts();
+    final body = jsonDecode(res.body);
+    if (res.statusCode == 200) {
+      return (body["articles"] as List)
+          .map((json) => ArticlesModel.fromJson(json))
+          .take(5)
+          .toList();
+    } else {
+      throw Exception("Failed to load products");
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +41,7 @@ class _MyRecomadationWidgetState extends State<MyRecomadationWidget> {
       context,
     );
     List<ArticlesModel> favorites = favoriteProvider.getFavorites;
+
     return SizedBox(
       height: 325,
       child: Column(
@@ -75,117 +54,122 @@ class _MyRecomadationWidgetState extends State<MyRecomadationWidget> {
                 Text(
                   "Recommandations",
                   style: GoogleFonts.roboto(
-                      fontSize: AppSizes.fontLarge, color:AppColor.textColor, fontWeight: FontWeight.w600),
+                      fontSize: AppSizes.fontLarge,
+                      color: AppColor.textColor,
+                      fontWeight: FontWeight.w600),
                 ),
-                const Icon(Icons.arrow_forward_ios_rounded, size: AppSizes.iconMedium)
+                const Icon(Icons.arrow_forward_ios_rounded,
+                    size: AppSizes.iconMedium),
               ],
             ),
           ),
           Expanded(
-            child: StreamBuilder<List<ArticlesModel>>(
-                stream: _articlesData.stream,
-                builder: (context, snaptshot) {
-                  if (snaptshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (snaptshot.hasError) {
-                    return const Text("error");
-                  } else if (!snaptshot.hasData || snaptshot.data!.isEmpty) {
-                    return const Text("No data available");
-                  } else {
-                    final articles = snaptshot.data!;
-                    return ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: articles.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          SingleProductVerSionSliver(
-                                              item: articles[index])));
-                            },
-                            child: Container(
-                              margin: const EdgeInsets.all(5),
-                              width: 200,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: AppColor.secondBackgroud
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      height: 120,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(20)),
-                                      child: Image.network(
-                                        articles[index].img,
-                                        fit: BoxFit.contain,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 15,top:15),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(articles[index].name,
-                                                style: GoogleFonts.roboto(
-                                                    fontSize: AppSizes.fontLarge,
-                                                    fontWeight:
-                                                        FontWeight.w600)),
-                                            Text(
-                                                "${articles[index].price.toString()} fcfa",
-                                                style: GoogleFonts.roboto(
-                                                    fontSize: AppSizes.fontMedium,
-                                                    color: AppColor.accentColor))
-                                          ],
-                                        ),
-                                        IconButton(
-                                          onPressed: () {
-                                            favoriteProvider.addMyFavorites(
-                                                articles[index]);
-                                          },
-                                          icon: favorites.firstWhereOrNull(
-                                                    (item) =>
-                                                        item.id ==
-                                                        articles[index]
-                                                            .id,
-                                                  ) ==
-                                                  null
-                                              ? const Icon(
-                                                  Icons.favorite_border,
-                                                  size: 28,
-                                                  color: Color(0xff2c3e50),
-                                                )
-                                              : const Icon(
-                                                  Icons.favorite,
-                                                  size: 28,
-                                                  color: Colors.red,
-                                                ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
+            child: FutureBuilder<List<ArticlesModel>>(
+              future: _getProducts(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return const Text("Erreur lors du chargement des produits.");
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Text("Aucun produit disponible.");
+                } else {
+                  final articles = snapshot.data!;
+                  return ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: articles.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SingleProductVerSionSliver(
+                                item: articles[index],
                               ),
                             ),
                           );
-                        });
-                  }
-                }),
-          )
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.all(5),
+                          width: 200,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: AppColor.secondBackgroud,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 120,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Image.network(
+                                    articles[index].img,
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 15, top: 15),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(articles[index].name,
+                                            style: GoogleFonts.roboto(
+                                                fontSize: AppSizes.fontLarge,
+                                                fontWeight: FontWeight.w600)),
+                                        Text(
+                                            "${articles[index].price.toString()} fcfa",
+                                            style: GoogleFonts.roboto(
+                                                fontSize: AppSizes.fontMedium,
+                                                color: AppColor.accentColor)),
+                                      ],
+                                    ),
+                                    IconButton(
+                                      onPressed: () {
+                                        favoriteProvider.addMyFavorites(
+                                            articles[index]);
+                                      },
+                                      icon: favorites.firstWhereOrNull(
+                                                  (item) =>
+                                                      item.id ==
+                                                      articles[index].id) ==
+                                              null
+                                          ? const Icon(
+                                              Icons.favorite_border,
+                                              size: 28,
+                                              color: Color(0xff2c3e50),
+                                            )
+                                          : const Icon(
+                                              Icons.favorite,
+                                              size: 28,
+                                              color: Colors.red,
+                                            ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                }
+              },
+            ),
+          ),
         ],
       ),
     );

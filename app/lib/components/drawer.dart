@@ -21,6 +21,7 @@ import 'package:hadja_grish/screens/admin/categorie_list.dart';
 import 'package:hadja_grish/screens/admin/products_page.dart';
 import 'package:hadja_grish/screens/livreur/list_delivery.dart';
 import 'package:hadja_grish/screens/profil/update_profil.dart';
+import 'package:hadja_grish/screens/statistics/statistics.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -427,6 +428,29 @@ Future<void> sendUpdateImageProfil() async {
                                     const SizedBox(width: 10),
                                     Text(
                                       "Commandes",
+                                      style: GoogleFonts.roboto(
+                                        fontSize: AppSizes.fontMedium,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              ListTile(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const Stats(),
+                                    ),
+                                  );
+                                },
+                                title: Row(
+                                  children: [
+                                    Icon(Icons.line_axis_rounded, size: AppSizes.iconLarge, color: Color.fromARGB(255, 12, 117, 26)),
+                                    const SizedBox(width: 10),
+                                    Text(
+                                      "Statistiques",
                                       style: GoogleFonts.roboto(
                                         fontSize: AppSizes.fontMedium,
                                         fontWeight: FontWeight.w400,

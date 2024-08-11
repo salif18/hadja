@@ -35,13 +35,13 @@ class _MyHeaderState extends State<MyHeaderWidget> {
                           Text("Salut! ${profil?.name ?? "votre nom"}",
                               style: GoogleFonts.aBeeZee(
                                   fontWeight: FontWeight.w500,
-                                  fontSize: AppSizes.fontLarge,
+                                  fontSize: AppSizes.fontMedium,
                                   color: Colors.white)),
                           const SizedBox(height: 5),
                           Text("Quel produit veux tu ?",
                               style: GoogleFonts.roboto(
                                   fontWeight: FontWeight.normal,
-                                  fontSize: AppSizes.fontLarge,
+                                  fontSize: AppSizes.fontMedium,
                                   color: Colors.grey[100]))
                         ],
                       ),

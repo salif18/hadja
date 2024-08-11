@@ -117,7 +117,7 @@ Future<void> _getProducts() async {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
-        toolbarHeight: 95,
+        toolbarHeight: 90,
         title: Form(
           key: _formKey,
           child: TextFormField(
@@ -125,9 +125,9 @@ Future<void> _getProducts() async {
             decoration: InputDecoration(
               filled: true,
               fillColor: Colors.grey[100],
-              prefixIcon: const Icon(Icons.search, size: AppSizes.iconMedium),
+              prefixIcon: const Icon(Icons.search, size: AppSizes.iconLarge),
               hintText: "Rechercher",
-              hintStyle: GoogleFonts.roboto(fontSize: AppSizes.fontLarge),
+              hintStyle: GoogleFonts.roboto(fontSize: AppSizes.fontSmall),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20),
                 borderSide: BorderSide.none,
@@ -148,7 +148,7 @@ Future<void> _getProducts() async {
                     title: Row(
                       children: [const Icon(Icons.history,size:AppSizes.iconLarge),
                       const SizedBox(width: 10),
-                        Text(search,style:GoogleFonts.roboto(fontSize:AppSizes.fontLarge,fontWeight: FontWeight.normal)),
+                        Text(search,style:GoogleFonts.roboto(fontSize:AppSizes.fontMedium,fontWeight: FontWeight.normal)),
                       ],
                     ),
                     onTap: () {

@@ -56,7 +56,7 @@ class ResultSearch extends StatelessWidget {
                             item.name,
                             style: GoogleFonts.roboto(
                                 fontWeight: FontWeight.bold,
-                                fontSize: AppSizes.fontLarge,
+                                fontSize: AppSizes.fontMedium,
                                 color: const Color(0xff121212)),
                           ),
                           Text("${item.price} cfa",
