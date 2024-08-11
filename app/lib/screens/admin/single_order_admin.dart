@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/api/livreurs_api.dart';
 import 'package:hadja_grish/api/orders_api.dart';
+import 'package:hadja_grish/constants/app_size.dart';
 import 'package:hadja_grish/models/orders_model.dart';
 import 'package:hadja_grish/models/user.dart';
 import 'package:hadja_grish/screens/admin/admin_track_move.dart';
@@ -124,15 +125,15 @@ class _SingleOrderState extends State<SingleOrder> {
                           children: [
                             Text(item.name,
                                 style: GoogleFonts.roboto(
-                                    fontSize: 14, fontWeight: FontWeight.w400)),
+                                    fontSize: AppSizes.fontSmall, fontWeight: FontWeight.w400)),
                             Text("Quantité ${item.qty}",
                                 style: GoogleFonts.roboto(
-                                    fontSize: 14, color: Colors.grey[500])),
+                                    fontSize: AppSizes.fontSmall, color: Colors.grey[500])),
                           ],
                         ),
                         Text("prix ${item.prix}",
                             style: GoogleFonts.roboto(
-                                fontSize: 14, fontWeight: FontWeight.w400)),
+                                fontSize: AppSizes.fontSmall, fontWeight: FontWeight.w400)),
                       ],
                     ),
                   ),
@@ -156,7 +157,7 @@ class _SingleOrderState extends State<SingleOrder> {
                             hint: Text(
                               "Choisir un livreur",
                               style: GoogleFonts.roboto(
-                                  fontSize: 16, fontWeight: FontWeight.w500),
+                                  fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w500),
                             ),
                             value: deliveryId,
                             onChanged: (value) {
@@ -177,7 +178,7 @@ class _SingleOrderState extends State<SingleOrder> {
                                 child: Text(
                                   delivery.name!,
                                   style: GoogleFonts.roboto(
-                                      fontSize: 14, color: Colors.black),
+                                      fontSize: AppSizes.fontSmall, color: Colors.black),
                                 ),
                               );
                             }).toList(),
@@ -194,7 +195,7 @@ class _SingleOrderState extends State<SingleOrder> {
                         child: Text(
                           "Confirmer",
                           style: GoogleFonts.roboto(
-                              fontSize: 14, color: Colors.white),
+                              fontSize: AppSizes.fontSmall, color: Colors.white),
                         ))
                   ],
                 ),
@@ -221,7 +222,7 @@ class _SingleOrderState extends State<SingleOrder> {
               ),
               child: Text("Suivi du courrier",
                   style: GoogleFonts.roboto(
-                      fontSize: 14,
+                      fontSize: AppSizes.fontSmall,
                       fontWeight: FontWeight.w400,
                       color: Colors.white)),
             ),
@@ -239,11 +240,11 @@ class _SingleOrderState extends State<SingleOrder> {
         children: [
           Text(title,
               style: GoogleFonts.roboto(
-                  fontSize: 14, fontWeight: FontWeight.w400)),
+                  fontSize: AppSizes.fontSmall, fontWeight: FontWeight.w400)),
           const SizedBox(width: 15),
           Text(value,
               style: GoogleFonts.roboto(
-                  fontSize: 14, fontWeight: FontWeight.w400)),
+                  fontSize: AppSizes.fontSmall, fontWeight: FontWeight.w400)),
         ],
       ),
     );

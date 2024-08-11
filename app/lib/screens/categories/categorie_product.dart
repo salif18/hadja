@@ -5,6 +5,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/api/product_admin_api.dart';
+import 'package:hadja_grish/constants/app_size.dart';
 import 'package:hadja_grish/models/articles_model.dart';
 import 'package:hadja_grish/providers/favorite_provider.dart';
 import 'package:hadja_grish/screens/home/details/single_product_sliver.dart';
@@ -69,13 +70,13 @@ class _ArticleByCategoriesState extends State<ArticleByCategories> {
         toolbarHeight: 80,
         title: Text(widget.categorie,
             style: GoogleFonts.roboto(
-                fontSize: 20, fontWeight: FontWeight.normal)),
+                fontSize: AppSizes.fontLarge, fontWeight: FontWeight.normal)),
         centerTitle: true,
         leading: IconButton(
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: const Icon(Icons.arrow_back_ios_new_outlined, size: 22)),
+            icon: const Icon(Icons.arrow_back_ios_new_outlined, size: AppSizes.iconMedium)),
       ),
       body: SingleChildScrollView(
           child: Padding(
@@ -90,7 +91,7 @@ class _ArticleByCategoriesState extends State<ArticleByCategories> {
                   Text(
                     "Nos ${widget.categorie}",
                     style: GoogleFonts.roboto(
-                        fontSize: 20, fontWeight: FontWeight.w400),
+                        fontSize: AppSizes.fontLarge, fontWeight: FontWeight.w400),
                   ),
                 ],
               ),
@@ -114,7 +115,7 @@ class _ArticleByCategoriesState extends State<ArticleByCategories> {
                             child: Text(
                                 "Pas de categories disponibles pour le moment",
                                 style: GoogleFonts.roboto(
-                                    fontSize: 16,
+                                    fontSize: AppSizes.fontSmall,
                                     fontWeight: FontWeight.normal)));
                       } else {
                         return GridView.builder(
@@ -176,13 +177,13 @@ class _ArticleByCategoriesState extends State<ArticleByCategories> {
                                               children: [
                                                 Text(article[index].name,
                                                     style: GoogleFonts.roboto(
-                                                        fontSize: 16,
+                                                        fontSize: AppSizes.fontMedium,
                                                         fontWeight:
                                                             FontWeight.w600)),
                                                 Text(
                                                     "${article[index].price.toString()} fcfa",
                                                     style: GoogleFonts.roboto(
-                                                        fontSize: 14,
+                                                        fontSize: AppSizes.fontSmall,
                                                         color:
                                                             Colors.grey[500])),
                                               ],
@@ -201,12 +202,12 @@ class _ArticleByCategoriesState extends State<ArticleByCategories> {
                                                         null
                                                     ? const Icon(
                                                         Icons.favorite_border,
-                                                        size: 28,
+                                                        size: AppSizes.iconLarge,
                                                         color:
                                                             Color(0xff2c3e50),
                                                       )
                                                     : const Icon(Icons.favorite,
-                                                        size: 28,
+                                                        size: AppSizes.iconLarge,
                                                         color: Colors.red)),
                                           ],
                                         ),

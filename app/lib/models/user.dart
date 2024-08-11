@@ -48,7 +48,7 @@ class ProfilModel {
   }
 
   static String completeImageUrl(String imgPath) {
-    String baseUrl = Domaine().urlImage();
+    String baseUrl = AppDomaine.urlImage;
     return imgPath.startsWith("http") ? imgPath : baseUrl + imgPath;
   }
 }

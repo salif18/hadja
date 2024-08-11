@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/api/orders_api.dart';
+import 'package:hadja_grish/constants/app_size.dart';
 import 'package:hadja_grish/models/orders_model.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -115,7 +116,7 @@ class _DeliveryTrackingClientState extends State<DeliveryTrackingClient> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: const Icon(Icons.arrow_back_ios_rounded, size: 24),
+          icon: const Icon(Icons.arrow_back_ios_rounded, size:AppSizes.iconLarge),
         ),
       ),
       body: SizedBox(
@@ -134,12 +135,12 @@ class _DeliveryTrackingClientState extends State<DeliveryTrackingClient> {
                         Text(
                           "Suis la trajectoire jusqu'au client !",
                           style: GoogleFonts.abel(
-                              fontSize: 40, fontWeight: FontWeight.bold),
+                              fontSize: 35, fontWeight: FontWeight.bold),
                         ),
                         Text(
                           "En temps réel",
                           style: GoogleFonts.abel(
-                              fontSize: 20, fontWeight: FontWeight.bold),
+                              fontSize: AppSizes.fontLarge, fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
@@ -166,7 +167,7 @@ class _DeliveryTrackingClientState extends State<DeliveryTrackingClient> {
                   onPressed: _openMap,
                   child: Text("Démarrer...",
                       style: GoogleFonts.roboto(
-                          fontSize: 20,
+                          fontSize: AppSizes.fontSmall,
                           fontWeight: FontWeight.w400,
                           color: Colors.white)),
                 ),

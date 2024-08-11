@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/api/auth_api.dart';
+import 'package:hadja_grish/constants/app_size.dart';
 import 'package:hadja_grish/screens/auth/validation.dart';
 
 class ResetToken extends StatefulWidget {
@@ -76,7 +77,7 @@ void dispose(){
         backgroundColor: Colors.grey[200],
         leading: IconButton(
             onPressed: () => Navigator.pop(context),
-            icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 24)),
+            icon: const Icon(Icons.arrow_back_ios_new_rounded, size: AppSizes.iconLarge)),
       ),
       body: Container(
         padding: const EdgeInsets.all(10),
@@ -110,14 +111,14 @@ void dispose(){
             padding: const EdgeInsets.all(8.0),
             child: Text("Réinitialiser le mot de passe",
                 style: GoogleFonts.roboto(
-                    fontSize: 23, fontWeight: FontWeight.w600)),
+                    fontSize: AppSizes.fontLarge, fontWeight: FontWeight.w600)),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
                 "Veuillez entrer les bonnes informations pour pouvoir nous aider à réinitialiser votre mot de passe",
                 style: GoogleFonts.roboto(
-                    fontSize: 16, fontWeight: FontWeight.w300)),
+                    fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w300)),
           ),
         ],
       ),
@@ -137,12 +138,12 @@ void dispose(){
         },
         keyboardType: TextInputType.phone,
         decoration: InputDecoration(
-          prefixIcon: const Icon(Icons.phone_android_rounded, size: 24),
+          prefixIcon: const Icon(Icons.phone_android_rounded, size: AppSizes.iconLarge),
           filled: true,
           fillColor: Colors.grey[100],
           hintText: "Numéro",
           hintStyle:
-              GoogleFonts.aBeeZee(fontSize: 16, fontWeight: FontWeight.w500),
+              GoogleFonts.aBeeZee(fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w500),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
         ),
       ),
@@ -162,12 +163,12 @@ void dispose(){
         },
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
-          prefixIcon: const Icon(Icons.mail_outline, size: 24),
+          prefixIcon: const Icon(Icons.mail_outline, size: AppSizes.iconLarge),
           filled: true,
           fillColor: Colors.grey[100],
           hintText: "Email",
           hintStyle:
-              GoogleFonts.aBeeZee(fontSize: 16, fontWeight: FontWeight.w500),
+              GoogleFonts.aBeeZee(fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w500),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
         ),
       ),
@@ -184,7 +185,7 @@ void dispose(){
         },
         child: Text("Envoyer",
             style: GoogleFonts.aBeeZee(
-                fontSize: 20,
+                fontSize: AppSizes.fontSmall,
                 fontWeight: FontWeight.w500,
                 color: Colors.white)));
   }

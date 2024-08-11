@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/api/auth_api.dart';
+import 'package:hadja_grish/constants/app_size.dart';
 import 'package:hadja_grish/models/user.dart';
 import 'package:hadja_grish/providers/auth_provider.dart';
 import 'package:hadja_grish/providers/user_provider.dart';
@@ -130,10 +131,10 @@ class _LoginPageState extends State<LoginPage> {
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                             hintText: "Numero ou e-mail",
-                            hintStyle: GoogleFonts.roboto(fontSize: 18),
+                            hintStyle: GoogleFonts.roboto(fontSize: AppSizes.fontMedium),
                             filled: true,
                             fillColor: const Color(0xfff0fcf3),
-                            prefixIcon: const Icon(Icons.person_2_outlined, size: 28),
+                            prefixIcon: const Icon(Icons.person_2_outlined, size: AppSizes.iconLarge),
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20),
                                 borderSide: BorderSide.none)),
@@ -155,7 +156,7 @@ class _LoginPageState extends State<LoginPage> {
                         obscureText: isVisibility,
                         decoration: InputDecoration(
                             hintText:"Mot de passe",
-                            hintStyle: GoogleFonts.roboto(fontSize: 18),
+                            hintStyle: GoogleFonts.roboto(fontSize: AppSizes.fontMedium),
                             filled: true,
                             fillColor: const Color(0xfff0fcf3),
                            suffixIcon: IconButton(
@@ -184,7 +185,7 @@ class _LoginPageState extends State<LoginPage> {
                               child: Text(
                                 "Mot de passe oublié ?",
                                 style: GoogleFonts.roboto(
-                                    fontSize: 16, color: Colors.blue[400],),
+                                    fontSize: AppSizes.fontMedium, color: Colors.blue[400],),
                               ))
                         ],
                       ),
@@ -202,7 +203,7 @@ class _LoginPageState extends State<LoginPage> {
                           },
                           child: Text("Se connecter",
                               style: GoogleFonts.roboto(
-                                  fontSize: 18, color: Colors.white))),
+                                  fontSize: AppSizes.fontSmall, color: Colors.white))),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(15.0),
@@ -211,7 +212,7 @@ class _LoginPageState extends State<LoginPage> {
                         children: [
                           Text(
                             "Vous n'avez pas de compte ?",
-                            style: GoogleFonts.roboto(fontSize: 16),
+                            style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium),
                           ),
                           TextButton(
                               onPressed: () {
@@ -220,7 +221,7 @@ class _LoginPageState extends State<LoginPage> {
                               child: Text(
                                 "Créer",
                                 style: GoogleFonts.roboto(
-                                    fontSize: 16,
+                                    fontSize: AppSizes.fontMedium,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.blue[400],),
                               ))

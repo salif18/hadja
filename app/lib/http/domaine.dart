@@ -1,9 +1,4 @@
-class Domaine {
-  String domaine() {
-    return "https://10.0.2.2:8000/api";
-  }
-
-  String urlImage() {
-    return "https://10.0.2.2:8000";
-  }
+class AppDomaine {
+  static const String domaine = "https://73fc-154-118-143-150.ngrok-free.app/api";
+  static const String urlImage = "https://73fc-154-118-143-150.ngrok-free.app";
 }

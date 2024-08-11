@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/api/auth_api.dart';
+import 'package:hadja_grish/constants/app_size.dart';
 import 'package:hadja_grish/models/user.dart';
 import 'package:hadja_grish/providers/auth_provider.dart';
 import 'package:hadja_grish/providers/user_provider.dart';
@@ -77,11 +78,11 @@ class _UpdateProfilState extends State<UpdateProfil> {
       appBar: AppBar(
         leading: IconButton(
             onPressed: () => Navigator.pop(context),
-            icon:const Icon(Icons.arrow_back_ios_new_rounded, size: 24)),
+            icon:const Icon(Icons.arrow_back_ios_new_rounded, size: AppSizes.iconLarge)),
         title: Text(
           "Modification de compte",
           style: GoogleFonts.roboto(
-            fontSize: 20,
+            fontSize: AppSizes.fontLarge,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -125,7 +126,7 @@ class _UpdateProfilState extends State<UpdateProfil> {
             child: Text(
               "Changer le profil ",
               style:
-                  GoogleFonts.roboto(fontSize: 23, fontWeight: FontWeight.w600),
+                  GoogleFonts.roboto(fontSize: AppSizes.fontLarge, fontWeight: FontWeight.w600),
             ),
           ),
           Padding(
@@ -133,7 +134,7 @@ class _UpdateProfilState extends State<UpdateProfil> {
             child: Text(
               "Vous pouvez apporter des modifications à votre profil",
               style:
-                  GoogleFonts.roboto(fontSize: 18, fontWeight: FontWeight.w400),
+                  GoogleFonts.roboto(fontSize: AppSizes.fontSmall, fontWeight: FontWeight.w400),
             ),
           )
         ],
@@ -152,8 +153,8 @@ class _UpdateProfilState extends State<UpdateProfil> {
           fillColor: Colors.grey[100],
           hintText: "Name",
           hintStyle:
-              GoogleFonts.aBeeZee(fontSize: 18, fontWeight: FontWeight.w400),
-          prefixIcon: const Icon(Icons.person_2_outlined, size: 33),
+              GoogleFonts.aBeeZee(fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w400),
+          prefixIcon: const Icon(Icons.person_2_outlined, size: AppSizes.iconLarge),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20),
               borderSide: BorderSide.none),
@@ -173,8 +174,8 @@ class _UpdateProfilState extends State<UpdateProfil> {
           fillColor: Colors.grey[100],
           hintText: "Numero",
           hintStyle:
-              GoogleFonts.aBeeZee(fontSize: 18, fontWeight: FontWeight.w400),
-          prefixIcon: const Icon(Icons.phone_android, size: 33),
+              GoogleFonts.aBeeZee(fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w400),
+          prefixIcon: const Icon(Icons.phone_android, size: AppSizes.iconLarge),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20),
               borderSide: BorderSide.none),
@@ -194,8 +195,8 @@ class _UpdateProfilState extends State<UpdateProfil> {
           fillColor: Colors.grey[100],
           hintText: "Email",
           hintStyle:
-              GoogleFonts.aBeeZee(fontSize: 18, fontWeight: FontWeight.w400),
-          prefixIcon: const Icon(Icons.mail_outline, size: 33),
+              GoogleFonts.aBeeZee(fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w400),
+          prefixIcon: const Icon(Icons.mail_outline, size: AppSizes.iconLarge),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20),
               borderSide: BorderSide.none),
@@ -215,10 +216,10 @@ class _UpdateProfilState extends State<UpdateProfil> {
               backgroundColor: const Color(0xFF1D1A30),
               elevation: 5,
               fixedSize: const Size(320, 50)),
-          icon: Icon(Icons.edit, size: 30, color: Colors.grey[100]),
+          icon: Icon(Icons.edit, size: AppSizes.iconLarge, color: Colors.grey[100]),
           label: Text("Modifier le profil",
               style: GoogleFonts.roboto(
-                  fontSize: 20,
+                  fontSize: AppSizes.fontSmall,
                   fontWeight: FontWeight.w500,
                   color: Colors.grey[100]))),
     );

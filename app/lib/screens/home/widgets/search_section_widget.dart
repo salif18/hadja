@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hadja_grish/constants/app_color.dart';
+import 'package:hadja_grish/constants/app_size.dart';
 import 'package:hadja_grish/screens/search/views/search_page.dart';
 
 class MySearchSectionWidget extends StatefulWidget {
@@ -23,9 +25,9 @@ class _MySearchSectionState extends State<MySearchSectionWidget> {
               fillColor: Colors.grey[100],
               hintText: "Rechercher...",
               hintStyle: GoogleFonts.roboto(
-                  fontSize: 20,
+                  fontSize: AppSizes.fontLarge,
                   fontWeight: FontWeight.normal,
-                  color: Colors.black),
+                  color: AppColor.textColor),
               prefixIcon: IconButton(
                 onPressed: () {
                   Navigator.push(
@@ -33,7 +35,7 @@ class _MySearchSectionState extends State<MySearchSectionWidget> {
                       MaterialPageRoute(
                           builder: (context) => const SearchPage()));
                 },
-                icon: const Icon(Icons.search_rounded, size: 35),
+                icon: const Icon(Icons.search_rounded, size:AppSizes.iconLarge),
               ),
               border: OutlineInputBorder(
                   borderSide: BorderSide.none,

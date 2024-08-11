@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hadja_grish/constants/app_size.dart';
 import 'package:hadja_grish/providers/cart_provider.dart';
 import 'package:hadja_grish/screens/articles/articles.dart';
 import 'package:hadja_grish/screens/cart/views/cart_page.dart';
@@ -51,7 +52,7 @@ class _MyRootsState extends State<MyRoots> {
         elevation: 20,
         selectedItemColor: const Color(0xFF1D1A30),
         unselectedItemColor: const Color.fromARGB(255, 168, 168, 168),
-        iconSize: 30,
+        iconSize: AppSizes.iconLarge,
         items: [
           const BottomNavigationBarItem(
               icon: Icon(Icons.home_outlined), label: "Accueil"),
@@ -70,14 +71,14 @@ class _MyRootsState extends State<MyRoots> {
                     const Icon(Icons.shopping_cart_outlined),
                     if (provider.myCart.isNotEmpty)
                       Positioned(
-                        left: 12,
-                        bottom: 10,
+                        left: 8,
+                        bottom: 6,
                         child: Badge.count(
                           count: provider.myCart.length,
-                          largeSize: 40 / 2,
+                          largeSize: 35 / 2,
                           backgroundColor: Colors.red,
                           textStyle: GoogleFonts.roboto(
-                            fontSize: 13,
+                            fontSize: 12,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                           ),

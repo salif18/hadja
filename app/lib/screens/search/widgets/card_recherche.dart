@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hadja_grish/constants/app_size.dart';
 import 'package:hadja_grish/models/articles_model.dart';
 import 'package:hadja_grish/screens/home/details/single_product_sliver.dart';
 
@@ -55,12 +56,12 @@ class ResultSearch extends StatelessWidget {
                             item.name,
                             style: GoogleFonts.roboto(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 16,
+                                fontSize: AppSizes.fontLarge,
                                 color: const Color(0xff121212)),
                           ),
                           Text("${item.price} cfa",
                               style: GoogleFonts.roboto(
-                                  fontSize: 14, color: const Color(0xff121212)))
+                                  fontSize: AppSizes.fontSmall, color: const Color(0xff121212)))
                         ],
                       ),
                     ),

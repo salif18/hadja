@@ -5,6 +5,8 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/api/product_admin_api.dart';
+import 'package:hadja_grish/constants/app_color.dart';
+import 'package:hadja_grish/constants/app_size.dart';
 import 'package:hadja_grish/models/articles_model.dart';
 import 'package:hadja_grish/providers/favorite_provider.dart';
 import 'package:hadja_grish/screens/home/details/single_product_sliver.dart';
@@ -73,9 +75,9 @@ class _MyRecomadationWidgetState extends State<MyRecomadationWidget> {
                 Text(
                   "Recommandations",
                   style: GoogleFonts.roboto(
-                      fontSize: 18, fontWeight: FontWeight.w600),
+                      fontSize: AppSizes.fontLarge, color:AppColor.textColor, fontWeight: FontWeight.w600),
                 ),
-                const Icon(Icons.arrow_forward_ios_rounded, size: 22)
+                const Icon(Icons.arrow_forward_ios_rounded, size: AppSizes.iconMedium)
               ],
             ),
           ),
@@ -109,7 +111,7 @@ class _MyRecomadationWidgetState extends State<MyRecomadationWidget> {
                               width: 200,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: const Color(0xFFf0fcf3),
+                                color: AppColor.secondBackgroud
                               ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,7 +131,7 @@ class _MyRecomadationWidgetState extends State<MyRecomadationWidget> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(left: 15),
+                                    padding: const EdgeInsets.only(left: 15,top:15),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -140,14 +142,14 @@ class _MyRecomadationWidgetState extends State<MyRecomadationWidget> {
                                           children: [
                                             Text(articles[index].name,
                                                 style: GoogleFonts.roboto(
-                                                    fontSize: 20,
+                                                    fontSize: AppSizes.fontLarge,
                                                     fontWeight:
                                                         FontWeight.w600)),
                                             Text(
                                                 "${articles[index].price.toString()} fcfa",
                                                 style: GoogleFonts.roboto(
-                                                    fontSize: 18,
-                                                    color: Colors.grey[500]))
+                                                    fontSize: AppSizes.fontMedium,
+                                                    color: AppColor.accentColor))
                                           ],
                                         ),
                                         IconButton(

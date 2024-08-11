@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hadja_grish/constants/app_size.dart';
 import 'package:hadja_grish/models/user.dart';
 import 'package:hadja_grish/providers/user_provider.dart';
 import 'package:provider/provider.dart';
@@ -34,13 +35,13 @@ class _MyHeaderState extends State<MyHeaderWidget> {
                           Text("Salut! ${profil?.name ?? "votre nom"}",
                               style: GoogleFonts.aBeeZee(
                                   fontWeight: FontWeight.w500,
-                                  fontSize: 20,
+                                  fontSize: AppSizes.fontLarge,
                                   color: Colors.white)),
                           const SizedBox(height: 5),
                           Text("Quel produit veux tu ?",
                               style: GoogleFonts.roboto(
                                   fontWeight: FontWeight.normal,
-                                  fontSize: 20,
+                                  fontSize: AppSizes.fontLarge,
                                   color: Colors.grey[100]))
                         ],
                       ),

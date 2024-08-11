@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/api/orders_api.dart';
+import 'package:hadja_grish/constants/app_size.dart';
 import 'package:hadja_grish/models/orders_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -77,7 +78,7 @@ class _ClientTrackingDeliveryState extends State<ClientTrackingDelivery> {
       appBar: AppBar(
          leading: IconButton(onPressed: (){
           Navigator.pop(context);
-        }, icon: const Icon(Icons.arrow_back_ios_rounded, size:24)),
+        }, icon: const Icon(Icons.arrow_back_ios_rounded, size:AppSizes.iconLarge)),
          
       ),
       body: SizedBox(
@@ -93,8 +94,8 @@ class _ClientTrackingDeliveryState extends State<ClientTrackingDelivery> {
                     child: Column(
                       crossAxisAlignment:CrossAxisAlignment.start,
                       children: [
-                        Text("Suis le courier jusqu'a chez vous !",style: GoogleFonts.abel(fontSize: 40,fontWeight: FontWeight.bold),),
-                        Text("En temps reel",style: GoogleFonts.abel(fontSize: 20,fontWeight: FontWeight.bold),),
+                        Text("Suis le courier jusqu'a chez vous !",style: GoogleFonts.abel(fontSize: 35,fontWeight: FontWeight.bold),),
+                        Text("En temps reel",style: GoogleFonts.abel(fontSize: AppSizes.fontLarge,fontWeight: FontWeight.bold),),
                       ],
                     ),
                   ),
@@ -125,7 +126,7 @@ class _ClientTrackingDeliveryState extends State<ClientTrackingDelivery> {
                     },
                     child: Text("Suivre le trajet...",
                         style: GoogleFonts.roboto(
-                            fontSize: 20,
+                            fontSize: AppSizes.fontSmall,
                             fontWeight: FontWeight.w400,
                             color: Colors.white))),
               ),

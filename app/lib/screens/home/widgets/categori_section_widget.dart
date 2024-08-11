@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hadja_grish/constants/app_color.dart';
+import 'package:hadja_grish/constants/app_size.dart';
 import 'package:hadja_grish/models/categorie_model.dart';
 import 'package:hadja_grish/models/user.dart';
 import 'package:hadja_grish/providers/user_provider.dart';
@@ -35,8 +37,8 @@ class _MyChooseCategoryState extends State<MyChooseCategoryWidget> {
                 children: [
                   Text("Categories",
                       style: GoogleFonts.roboto(
-                          fontSize: 18, fontWeight: FontWeight.w600)),
-                  const Icon(Icons.arrow_forward_ios_rounded, size: 22)
+                          fontSize: AppSizes.fontLarge,color:AppColor.textColor ,fontWeight: FontWeight.w600)),
+                  const Icon(Icons.arrow_forward_ios_rounded, size: AppSizes.iconMedium)
                 ],
               ),
             ),
@@ -106,7 +108,7 @@ class _MyChooseCategoryState extends State<MyChooseCategoryWidget> {
                                           marque.nameCategorie,
                                           style: GoogleFonts.roboto(
                                               fontWeight: FontWeight.w400,
-                                              fontSize: 14,
+                                              fontSize: AppSizes.fontSmall,
                                               color: Colors.white),
                                         )
                                       ],

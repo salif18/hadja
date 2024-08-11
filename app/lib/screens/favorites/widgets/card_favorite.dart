@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hadja_grish/constants/app_size.dart';
 import 'package:hadja_grish/models/articles_model.dart';
 import 'package:hadja_grish/providers/favorite_provider.dart';
 import 'package:provider/provider.dart';
@@ -48,12 +49,12 @@ class MyCardFavorites extends StatelessWidget {
                           item.name,
                           style: GoogleFonts.roboto(
                               fontWeight: FontWeight.bold,
-                              fontSize: 16,
+                              fontSize: AppSizes.fontMedium,
                               color: const Color(0xFF1D1A30)),
                         ),
                         Text(item.price.toString(),
                             style: GoogleFonts.roboto(
-                                fontSize: 14, color: const Color(0xFF1D1A30)))
+                                fontSize: AppSizes.fontSmall, color: const Color(0xFF1D1A30)))
                       ],
                     ),
                   ),
@@ -61,7 +62,7 @@ class MyCardFavorites extends StatelessWidget {
                       onPressed: () {
                          Provider.of<FavoriteProvider>(context,listen:false).removeToFavorite(item);
                       },
-                      icon: const Icon(Icons.favorite_rounded,color: Colors.red, size: 30))
+                      icon: const Icon(Icons.favorite_rounded,color: Colors.red, size: AppSizes.iconLarge))
                 ],
               ))
             ],

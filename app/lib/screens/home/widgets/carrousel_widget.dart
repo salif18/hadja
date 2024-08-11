@@ -6,6 +6,8 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/api/product_admin_api.dart';
+import 'package:hadja_grish/constants/app_color.dart';
+import 'package:hadja_grish/constants/app_size.dart';
 import 'package:hadja_grish/models/articles_model.dart';
 import 'package:hadja_grish/screens/home/details/single_product_sliver.dart';
 
@@ -72,7 +74,7 @@ class _MyCarouselState extends State<MyCarouselWidget> {
                   child: Text(
                     "Nouveaux arrivages",
                     style: GoogleFonts.roboto(
-                        fontSize: 18, fontWeight: FontWeight.w600),
+                        fontSize: AppSizes.fontLarge, color:AppColor.textColor, fontWeight: FontWeight.w600),
                   )),
             ),
             StreamBuilder<List<ArticlesModel>>(
@@ -133,7 +135,7 @@ class _MyCarouselState extends State<MyCarouselWidget> {
                   size: const Size(12.0, 12.0),
                   activeSize: const Size(40.0, 12.0),
                   color: Colors.grey[400]!,
-                  activeColor: const Color(0xFF1D1A30),
+                  activeColor: AppColor.colorBackground,
                   //const Color.fromARGB(255, 5, 191, 100),
                   spacing: const EdgeInsets.all(3.0),
                   activeShape: RoundedRectangleBorder(

@@ -5,13 +5,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/http/domaine.dart';
 import "package:http/http.dart" as http;
 
-String urlServer = Domaine().domaine();
+const String domaineName = AppDomaine.domaine;
 
 class ServicesApiDelibery{
   
    //obtenir categorie pour formulaire
   getAllDelibery()async{
-    var uri = "$urlServer/livreurs";
+    var uri = "$domaineName/livreurs";
     return await http.get(Uri.parse(uri),
      headers: {
             "Content-Type": "application/json; charset=UTF-8",
@@ -24,7 +24,7 @@ class ServicesApiDelibery{
 
   //delete
   deleteDelibery(id)async{
-     var uri = "$urlServer/livreurs/delete/$id";
+     var uri = "$domaineName/livreurs/delete/$id";
      return await http.delete(Uri.parse(uri),
      headers: {
             "Content-Type": "application/json; charset=UTF-8",
@@ -36,7 +36,7 @@ class ServicesApiDelibery{
 
   //delete
   updateDelibery(data,id)async{
-     var uri = "$urlServer/livreurs/update/$id";
+     var uri = "$domaineName/livreurs/update/$id";
      return await http.put(Uri.parse(uri),
      body:jsonEncode(data),
      headers: {

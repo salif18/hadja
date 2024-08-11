@@ -5,6 +5,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/api/product_admin_api.dart';
+import 'package:hadja_grish/constants/app_size.dart';
 import 'package:hadja_grish/models/articles_model.dart';
 import 'package:hadja_grish/providers/favorite_provider.dart';
 import 'package:hadja_grish/screens/home/details/single_product_sliver.dart';
@@ -70,7 +71,7 @@ class _MyArticlePageState extends State<MyArticlePage> {
         centerTitle: true,
         title: Text("Articles",
             style:
-                GoogleFonts.roboto(fontSize: 20, fontWeight: FontWeight.w400)),
+                GoogleFonts.roboto(fontSize: AppSizes.fontLarge, fontWeight: FontWeight.w400)),
       ),
       body: SingleChildScrollView(
           child: Padding(
@@ -85,12 +86,12 @@ class _MyArticlePageState extends State<MyArticlePage> {
                   Text(
                     "Nos produits",
                     style: GoogleFonts.roboto(
-                        fontSize: 20, fontWeight: FontWeight.w400),
+                        fontSize: AppSizes.fontLarge, fontWeight: FontWeight.w400),
                   ),
                   Text(
                     "Tous",
                     style: GoogleFonts.roboto(
-                        fontSize: 20,
+                        fontSize: AppSizes.fontLarge,
                         fontWeight: FontWeight.w500,
                         color: const Color(0xFF55AB60)),
                   ),
@@ -151,7 +152,7 @@ class _MyArticlePageState extends State<MyArticlePage> {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(left: 15),
+                                padding: const EdgeInsets.only(left: 15, top:15),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
@@ -160,12 +161,12 @@ class _MyArticlePageState extends State<MyArticlePage> {
                                       children: [
                                         Text(article[index].name,
                                             style: GoogleFonts.roboto(
-                                                fontSize: 16,
+                                                fontSize: AppSizes.fontMedium,
                                                 fontWeight: FontWeight.w600)),
                                         Text(
                                             "${article[index].price.toString()} fcfa",
                                             style: GoogleFonts.roboto(
-                                                fontSize: 14,
+                                                fontSize: AppSizes.fontSmall,
                                                 color: Colors.grey[500])),
                                       ],
                                     ),
@@ -182,12 +183,12 @@ class _MyArticlePageState extends State<MyArticlePage> {
                                                   null
                                               ? const Icon(
                                                   Icons.favorite_border,
-                                                  size: 28,
+                                                  size: AppSizes.iconLarge,
                                                   color: Color(0xff2c3e50),
                                                 )
                                               : const Icon(
                                                   Icons.favorite,
-                                                  size: 28,
+                                                  size: AppSizes.iconLarge,
                                                   color: Colors.red)
                                         ),
                                   ],

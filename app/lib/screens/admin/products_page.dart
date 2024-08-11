@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/api/category_api.dart';
 import 'package:hadja_grish/api/product_admin_api.dart';
+import 'package:hadja_grish/constants/app_size.dart';
 import 'package:hadja_grish/models/articles_model.dart';
 import 'package:hadja_grish/models/categorie_model.dart';
 import 'dart:io';
@@ -173,18 +174,18 @@ class _ProductPageState extends State<ProductPage> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: const Icon(Icons.arrow_back_ios_rounded, size: 28),
+          icon: const Icon(Icons.arrow_back_ios_rounded, size: AppSizes.iconLarge),
         ),
         title: Text(
           "Produits",
-          style: GoogleFonts.roboto(fontSize: 24, fontWeight: FontWeight.w400),
+          style: GoogleFonts.roboto(fontSize: AppSizes.fontLarge, fontWeight: FontWeight.w400),
         ),
         actions: [
           IconButton(
             onPressed: () {
               _addProducts(context);
             },
-            icon: const Icon(Icons.add, size: 28),
+            icon: const Icon(Icons.add, size: AppSizes.iconLarge),
           ),
           const SizedBox(width: 20),
         ],
@@ -247,8 +248,8 @@ class _ProductPageState extends State<ProductPage> {
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text(article.name, style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.w500)),
-                                        Text("${article.price.toString()} fcfa", style: GoogleFonts.roboto(fontSize: 14, color: Colors.grey[500]))
+                                        Text(article.name, style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w500)),
+                                        Text("${article.price.toString()} fcfa", style: GoogleFonts.roboto(fontSize: AppSizes.fontSmall, color: Colors.grey[500]))
                                       ],
                                     ),
                                   ),
@@ -258,7 +259,7 @@ class _ProductPageState extends State<ProductPage> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(
                                   children: [
-                                    Text("stocks:", style: GoogleFonts.roboto(fontSize: 14)),
+                                    Text("stocks:", style: GoogleFonts.roboto(fontSize: AppSizes.fontSmall)),
                                     const SizedBox(width: 10),
                                     Text(article.stock > 0 ? article.stock.toString() : "finis"),
                                   ],
@@ -288,7 +289,7 @@ class _ProductPageState extends State<ProductPage> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Text("Ajout de Produit", style: GoogleFonts.roboto(fontSize: 18, fontWeight: FontWeight.w500)),
+                  Text("Ajout de Produit", style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w500)),
                   const SizedBox(height: 20),
                   TextFormField(
                     controller: _nameController,
@@ -365,7 +366,7 @@ class _ProductPageState extends State<ProductPage> {
                     children: [
                       Column(
                         children: [
-                          Text("Image du produit",style: GoogleFonts.roboto(fontSize: 18)),
+                          Text("Image du produit",style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium)),
                           IconButton(
                             icon:  const Icon(Icons.photo_camera_back_outlined, size: 38),
                             onPressed: () {
@@ -381,7 +382,7 @@ class _ProductPageState extends State<ProductPage> {
                   const SizedBox(height: 20),
                   Column(
                     children: [
-                      Text("Ajouter des images à la galerie",style: GoogleFonts.roboto(fontSize: 18)),
+                      Text("Ajouter des images à la galerie",style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium)),
                       IconButton(
                         icon:const Icon(Icons.photo_library_outlined, size: 38),
                         onPressed: () {
@@ -414,7 +415,7 @@ class _ProductPageState extends State<ProductPage> {
                       _sendToServer();
                       Navigator.pop(context);
                     },
-                    child:Text("Ajouter" ,style: GoogleFonts.roboto(fontSize: 18, color: Colors.white)),
+                    child:Text("Ajouter" ,style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium, color: Colors.white)),
                   ),
                 ],
               ),

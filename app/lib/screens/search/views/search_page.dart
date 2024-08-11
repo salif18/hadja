@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/api/product_admin_api.dart';
+import 'package:hadja_grish/constants/app_size.dart';
 import 'package:hadja_grish/models/articles_model.dart';
 import 'package:hadja_grish/screens/search/widgets/card_recherche.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -124,9 +125,9 @@ Future<void> _getProducts() async {
             decoration: InputDecoration(
               filled: true,
               fillColor: Colors.grey[100],
-              prefixIcon: const Icon(Icons.search, size: 28),
+              prefixIcon: const Icon(Icons.search, size: AppSizes.iconMedium),
               hintText: "Rechercher",
-              hintStyle: GoogleFonts.roboto(fontSize: 18),
+              hintStyle: GoogleFonts.roboto(fontSize: AppSizes.fontLarge),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20),
                 borderSide: BorderSide.none,
@@ -143,11 +144,11 @@ Future<void> _getProducts() async {
                   return ListTile(
                     trailing: IconButton(onPressed: (){
                       _removeRecenteSearch(search);
-                    }, icon: Icon(Icons.highlight_remove_rounded, size:24, color:Colors.grey[400])),
+                    }, icon: Icon(Icons.highlight_remove_rounded, size:AppSizes.iconLarge, color:Colors.grey[400])),
                     title: Row(
-                      children: [const Icon(Icons.history,size:24),
+                      children: [const Icon(Icons.history,size:AppSizes.iconLarge),
                       const SizedBox(width: 10),
-                        Text(search,style:GoogleFonts.roboto(fontSize:22,fontWeight: FontWeight.normal)),
+                        Text(search,style:GoogleFonts.roboto(fontSize:AppSizes.fontLarge,fontWeight: FontWeight.normal)),
                       ],
                     ),
                     onTap: () {
@@ -162,7 +163,7 @@ Future<void> _getProducts() async {
               : resultOfSearch.isEmpty
                   ? [Padding(
                     padding: const EdgeInsets.all(15),
-                    child: Text('Aucun résultat trouvé',style:GoogleFonts.roboto(fontSize:20,)),
+                    child: Text('Aucun résultat trouvé',style:GoogleFonts.roboto(fontSize:AppSizes.fontLarge,)),
                   )]
                   : resultOfSearch.map((item) {
                       return ResultSearch(item: item);

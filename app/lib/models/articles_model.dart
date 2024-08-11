@@ -28,7 +28,7 @@ class Galleries {
   }
 
   static String completeImageUrl(String imgPath) {
-    String baseUrl = Domaine().urlImage();
+    String baseUrl = AppDomaine.urlImage;
     return imgPath.startsWith("http") ? imgPath : baseUrl + imgPath;
   }
 }
@@ -91,7 +91,7 @@ class ArticlesModel {
   }
 
   static String completeImageUrl(String imgPath) {
-    String baseUrl = Domaine().urlImage();
+    String baseUrl = AppDomaine.urlImage;
     return imgPath.startsWith("http") ? imgPath : baseUrl + imgPath;
   }
 }

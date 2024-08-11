@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/api/category_api.dart';
+import 'package:hadja_grish/constants/app_size.dart';
 import 'package:hadja_grish/models/categorie_model.dart';
 
 class MyCategoriList extends StatefulWidget {
@@ -138,12 +139,12 @@ class _MyCategoriListState extends State<MyCategoriList> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 28),
+          icon: const Icon(Icons.arrow_back_ios_new_rounded, size: AppSizes.iconLarge),
         ),
         title: Text(
           "Categories",
           style: GoogleFonts.roboto(
-            fontSize: 20,
+            fontSize: AppSizes.fontLarge,
             fontWeight: FontWeight.w500,
             color: Colors.black,
           ),
@@ -180,7 +181,7 @@ class _MyCategoriListState extends State<MyCategoriList> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Icon(Icons.delete_outline,
-                              color: Colors.white, size: 28),
+                              color: Colors.white, size: AppSizes.iconLarge),
                           SizedBox(width: 50),
                         ],
                       ),
@@ -191,13 +192,13 @@ class _MyCategoriListState extends State<MyCategoriList> {
                               bottom: BorderSide(
                                   color: Color.fromARGB(255, 245, 245, 245)))),
                       child: ListTile(
-                        title: Text(categorie.nameCategorie,style: GoogleFonts.roboto(fontSize:16),),
+                        title: Text(categorie.nameCategorie,style: GoogleFonts.roboto(fontSize:AppSizes.fontMedium),),
                         trailing: IconButton(
                             onPressed: () {
                               _updateCateShow(context, categorie.id);
                             },
                             icon: const Icon(Icons.edit,
-                                size: 20, color: Colors.blue)),
+                                size: AppSizes.iconLarge, color: Colors.blue)),
                       ),
                     ),
                   );
@@ -214,7 +215,7 @@ class _MyCategoriListState extends State<MyCategoriList> {
         },
         child: const Icon(
           Icons.add,
-          size: 28,
+          size: AppSizes.iconLarge,
           color: Colors.white,
         ),
       ),
@@ -231,7 +232,7 @@ class _MyCategoriListState extends State<MyCategoriList> {
             child: Text(
               "Ajouter categories",
               style: GoogleFonts.roboto(
-                fontSize: 20,
+                fontSize: AppSizes.fontLarge,
                 fontWeight: FontWeight.w400,
               ),
             ),
@@ -253,10 +254,10 @@ class _MyCategoriListState extends State<MyCategoriList> {
                       },
                       decoration: InputDecoration(
                         hintText: "Nom de la categorie",
-                        hintStyle: GoogleFonts.roboto(fontSize: 18),
+                        hintStyle: GoogleFonts.roboto(fontSize: AppSizes.fontMedium),
                         prefixIcon: const Icon(
                           Icons.category_rounded,
-                          size: 20,
+                          size: AppSizes.iconMedium,
                           color: Colors.purpleAccent,
                         ),
                       ),
@@ -274,7 +275,7 @@ class _MyCategoriListState extends State<MyCategoriList> {
                       child: Text(
                         "Enregistrer",
                         style: GoogleFonts.roboto(
-                          fontSize: 20,
+                          fontSize: AppSizes.fontSmall,
                           fontWeight: FontWeight.w400,
                           color: Colors.white,
                         ),
@@ -300,7 +301,7 @@ class _MyCategoriListState extends State<MyCategoriList> {
             child: Text(
               "Modifier categories",
               style: GoogleFonts.roboto(
-                fontSize: 20,
+                fontSize: AppSizes.fontLarge,
                 fontWeight: FontWeight.w400,
               ),
             ),
@@ -322,10 +323,10 @@ class _MyCategoriListState extends State<MyCategoriList> {
                       },
                       decoration: InputDecoration(
                         hintText: "Nom de la categorie",
-                        hintStyle: GoogleFonts.roboto(fontSize: 18),
+                        hintStyle: GoogleFonts.roboto(fontSize: AppSizes.fontMedium),
                         prefixIcon: const Icon(
                           Icons.category_rounded,
-                          size: 20,
+                          size: AppSizes.iconMedium,
                           color: Colors.purpleAccent,
                         ),
                       ),
@@ -342,7 +343,7 @@ class _MyCategoriListState extends State<MyCategoriList> {
                       child: Text(
                         "Mettre à jour",
                         style: GoogleFonts.roboto(
-                          fontSize: 20,
+                          fontSize: AppSizes.fontSmall,
                           fontWeight: FontWeight.w400,
                           color: Colors.white,
                         ),
@@ -372,13 +373,13 @@ Future<bool> showRemoveCategorie(BuildContext context) async {
             onPressed: () {
               Navigator.of(context).pop(false);
             },
-            child: Text("Annuler",style: GoogleFonts.roboto(fontSize:18)),
+            child: Text("Annuler",style: GoogleFonts.roboto(fontSize:AppSizes.fontMedium)),
           ),
           TextButton(
             onPressed: () {
               Navigator.of(context).pop(true);
             },
-            child: Text("Supprimer",style: GoogleFonts.roboto(fontSize:18)),
+            child: Text("Supprimer",style: GoogleFonts.roboto(fontSize:AppSizes.fontMedium)),
           ),
         ],
       );

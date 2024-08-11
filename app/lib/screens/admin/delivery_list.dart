@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/api/auth_api.dart';
 import 'package:hadja_grish/api/livreurs_api.dart';
+import 'package:hadja_grish/constants/app_size.dart';
 
 import 'package:hadja_grish/models/user.dart';
 
@@ -194,19 +195,19 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
               onPressed: () {
                 _addLivreurs(context);
               },
-              icon: const Icon(Icons.add, size: 28)),
+              icon: const Icon(Icons.add, size: AppSizes.iconLarge)),
           const SizedBox(
             width: 20,
           )
         ],
         title: Text("Livreurs",
             style:
-                GoogleFonts.roboto(fontSize: 20, fontWeight: FontWeight.w500)),
+                GoogleFonts.roboto(fontSize: AppSizes.fontLarge, fontWeight: FontWeight.w500)),
         leading: IconButton(
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: const Icon(Icons.arrow_back_ios_rounded, size: 24)),
+            icon: const Icon(Icons.arrow_back_ios_rounded, size: AppSizes.iconLarge)),
       ),
       body: Container(
         padding: const EdgeInsets.all(20),
@@ -218,11 +219,11 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
               } else if (snapshot.hasError) {
                 return Text("err",
                     style: GoogleFonts.roboto(
-                        fontSize: 20, fontWeight: FontWeight.w600));
+                        fontSize: AppSizes.fontLarge, fontWeight: FontWeight.w600));
               } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                 return Text("No data available",
                     style: GoogleFonts.roboto(
-                        fontSize: 20, fontWeight: FontWeight.w600));
+                        fontSize: AppSizes.fontLarge, fontWeight: FontWeight.w600));
               } else {
                 return ListView.builder(
                     itemCount: snapshot.data!.length,
@@ -270,11 +271,11 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
                                       children: [
                                         Text(livreur.name!,
                                             style: GoogleFonts.roboto(
-                                                fontSize: 16,
+                                                fontSize: AppSizes.fontMedium,
                                                 fontWeight: FontWeight.w500)),
                                         Text(livreur.number.toString(),
                                             style: GoogleFonts.roboto(
-                                                fontSize: 14,
+                                                fontSize: AppSizes.fontSmall,
                                                 color: Colors.grey[500]))
                                       ],
                                     ),
@@ -291,14 +292,14 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
                                         _updateDelibey(context, livreur);
                                       },
                                       icon: const Icon(Icons.edit,
-                                          size: 24, color: Colors.blue)),
+                                          size: AppSizes.iconLarge, color: Colors.blue)),
                                   IconButton(
                                       onPressed: () {
                                         showRemoveLibery(context, livreur.userId);
                                       },
                                       icon: const Icon(
                                           Icons.group_remove_outlined,
-                                          size: 24,
+                                          size: AppSizes.iconLarge,
                                           color: Colors.red))
                                 ],
                               ),
@@ -330,7 +331,7 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
                   child: Center(
                     child: Text("Ajouter livreurs",
                         style: GoogleFonts.roboto(
-                            fontSize: 20, fontWeight: FontWeight.w400)),
+                            fontSize: AppSizes.fontLarge, fontWeight: FontWeight.w400)),
                   ),
                 ),
                 _formulaires(context),
@@ -357,7 +358,7 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
                   child: Center(
                     child: Text("Modifier livreur",
                         style: GoogleFonts.roboto(
-                            fontSize: 20, fontWeight: FontWeight.w400)),
+                            fontSize: AppSizes.fontLarge, fontWeight: FontWeight.w400)),
                   ),
                 ),
                 _updateFormulaires(context, livreur),
@@ -387,8 +388,8 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
                 decoration: InputDecoration(
                     hintText: "Nom ",
                     hintStyle:
-                        GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
-                    prefixIcon: const Icon(Icons.person_add, size: 20),
+                        GoogleFonts.roboto(fontSize: AppSizes.fontMedium, color: Colors.grey),
+                    prefixIcon: const Icon(Icons.person_add, size: AppSizes.iconMedium),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20))),
               ),
@@ -407,8 +408,8 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
                 decoration: InputDecoration(
                     hintText: "Numero",
                     hintStyle:
-                        GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
-                    prefixIcon: const Icon(Icons.phone, size: 20),
+                        GoogleFonts.roboto(fontSize: AppSizes.fontMedium, color: Colors.grey),
+                    prefixIcon: const Icon(Icons.phone, size: AppSizes.iconMedium),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20))),
               ),
@@ -427,8 +428,8 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
                 decoration: InputDecoration(
                     hintText: "Email",
                     hintStyle:
-                        GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
-                    prefixIcon: const Icon(Icons.mail_rounded, size: 20),
+                        GoogleFonts.roboto(fontSize: AppSizes.fontMedium, color: Colors.grey),
+                    prefixIcon: const Icon(Icons.mail_rounded, size: AppSizes.iconMedium),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20))),
               ),
@@ -439,7 +440,7 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
                 hint: Text(
                   "Definir statut user",
                   style: GoogleFonts.roboto(
-                      fontSize: 20, fontWeight: FontWeight.w500),
+                      fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w500),
                 ),
                 value: _statutUser,
                 validator: (value) {
@@ -459,7 +460,7 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  prefixIcon: const Icon(Icons.category_outlined, size: 28),
+                  prefixIcon: const Icon(Icons.category_outlined, size: AppSizes.iconMedium),
                 ),
                 items: _statutList.map((statut) {
                   return DropdownMenuItem<String?>(
@@ -467,7 +468,7 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
                     child: Text(
                       statut,
                       style:
-                          GoogleFonts.roboto(fontSize: 20, color: Colors.black),
+                          GoogleFonts.roboto(fontSize: AppSizes.fontMedium, color: Colors.black),
                     ),
                   );
                 }).toList(),
@@ -488,8 +489,8 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
                 decoration: InputDecoration(
                     hintText: "Password",
                     hintStyle:
-                        GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
-                    prefixIcon: const Icon(Icons.key, size: 20),
+                        GoogleFonts.roboto(fontSize: AppSizes.fontMedium, color: Colors.grey),
+                    prefixIcon: const Icon(Icons.key, size: AppSizes.iconMedium),
                     suffixIcon: IconButton(
                         onPressed: () {
                           setState(() {
@@ -514,7 +515,7 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
                 },
                 child: Text("Enregistrer",
                     style: GoogleFonts.roboto(
-                        fontSize: 20,
+                        fontSize: AppSizes.fontSmall,
                         fontWeight: FontWeight.w400,
                         color: Colors.white)))
           ],
@@ -540,8 +541,8 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
                 decoration: InputDecoration(
                     hintText: "Nom ",
                     hintStyle:
-                        GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
-                    prefixIcon: const Icon(Icons.person_add, size: 20),
+                        GoogleFonts.roboto(fontSize: AppSizes.fontMedium, color: Colors.grey),
+                    prefixIcon: const Icon(Icons.person_add, size: AppSizes.iconMedium),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20))),
               ),
@@ -554,8 +555,8 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
                 decoration: InputDecoration(
                     hintText: "Numero",
                     hintStyle:
-                        GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
-                    prefixIcon: const Icon(Icons.phone, size: 20),
+                        GoogleFonts.roboto(fontSize: AppSizes.fontMedium, color: Colors.grey),
+                    prefixIcon: const Icon(Icons.phone, size: AppSizes.iconMedium),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20))),
               ),
@@ -568,8 +569,8 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
                 decoration: InputDecoration(
                     hintText: "Email",
                     hintStyle:
-                        GoogleFonts.roboto(fontSize: 18, color: Colors.grey),
-                    prefixIcon: const Icon(Icons.mail_rounded, size: 20),
+                        GoogleFonts.roboto(fontSize: AppSizes.fontMedium, color: Colors.grey),
+                    prefixIcon: const Icon(Icons.mail_rounded, size: AppSizes.iconMedium),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20))),
               ),
@@ -580,7 +581,7 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
                 hint: Text(
                   "Definir statut user",
                   style: GoogleFonts.roboto(
-                      fontSize: 20, fontWeight: FontWeight.w500),
+                      fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w500),
                 ),
                 value: _statutUser,
                 onChanged: (value) {
@@ -594,7 +595,7 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  prefixIcon: const Icon(Icons.category_outlined, size: 28),
+                  prefixIcon: const Icon(Icons.category_outlined, size: AppSizes.iconMedium),
                 ),
                 items: _statutList.map((statut) {
                   return DropdownMenuItem<String?>(
@@ -602,7 +603,7 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
                     child: Text(
                       statut,
                       style:
-                          GoogleFonts.roboto(fontSize: 20, color: Colors.black),
+                          GoogleFonts.roboto(fontSize: AppSizes.fontMedium, color: Colors.black),
                     ),
                   );
                 }).toList(),
@@ -619,7 +620,7 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
                 },
                 child: Text("Modifier",
                     style: GoogleFonts.roboto(
-                        fontSize: 20,
+                        fontSize: AppSizes.fontSmall,
                         fontWeight: FontWeight.w400,
                         color: Colors.white)))
           ],
@@ -632,7 +633,7 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title:  Text("Confirmer",style: GoogleFonts.roboto(fontSize: 16)),
+          title:  Text("Confirmer",style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium)),
           content:
               const Text("Êtes-vous sûr de vouloir supprimer ce livreur ?"),
           actions: [
@@ -640,14 +641,14 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text("Annuler", style: GoogleFonts.roboto(fontSize: 16)),
+              child: Text("Annuler", style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium)),
             ),
             TextButton(
               onPressed: () {
                 _deleteDeliberyToserver(context, id);
                  Navigator.pop(context);
               },
-              child: Text("Supprimer", style: GoogleFonts.roboto(fontSize: 16)),
+              child: Text("Supprimer", style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium)),
             ),
           ],
         );

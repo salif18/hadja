@@ -5,13 +5,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/http/domaine.dart';
 import 'package:http/http.dart' as http;
 
-    String urlServer = Domaine().domaine();
+   const String domaineName = AppDomaine.domaine;
 
 class ServicesAPiProducts {
   Dio dio = Dio();
   //ajouter depense
   postNewProduct(data) async {
-    var uri = "$urlServer/articles";
+    var uri = "$domaineName/articles";
     return await dio.post(
       uri,
       data: data,
@@ -25,7 +25,7 @@ class ServicesAPiProducts {
 
   //ajouter depense
   updateProduct(data, id) async {
-    var uri = "$urlServer/articles/update/$id";
+    var uri = "$domaineName/articles/update/$id";
     return await dio.post(
       uri,
       data: data,
@@ -39,7 +39,7 @@ class ServicesAPiProducts {
 
   //obtenir depenses
   getAllProducts() async {
-    var uri = "$urlServer/get_article_with_galeries";
+    var uri = "$domaineName/get_article_with_galeries";
     return await http.get(
       Uri.parse(uri),
      headers: {
@@ -51,7 +51,7 @@ class ServicesAPiProducts {
 
    //obtenir depenses
   getProductByCategorie(String data) async {
-    var uri = "$urlServer/articles_by_categories/$data";
+    var uri = "$domaineName/articles_by_categories/$data";
     return await http.get(
       Uri.parse(uri),
      headers: {
@@ -64,7 +64,7 @@ class ServicesAPiProducts {
 
   //delete
   deleteProduct(id) async {
-    var uri = "$urlServer/articles/delete/$id";
+    var uri = "$domaineName/articles/delete/$id";
     return await http.delete(
       Uri.parse(uri),
       headers: {

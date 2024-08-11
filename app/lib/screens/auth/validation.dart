@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/api/auth_api.dart';
+import 'package:hadja_grish/constants/app_size.dart';
 import 'package:hadja_grish/screens/auth/login_page.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
@@ -83,7 +84,7 @@ final _newPassword = TextEditingController();
         backgroundColor: Colors.grey[200],
         leading: IconButton(
             onPressed: () => Navigator.pop(context),
-            icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 24)),
+            icon: const Icon(Icons.arrow_back_ios_new_rounded, size: AppSizes.iconLarge)),
       ),
       body: Container(
         padding: const EdgeInsets.all(10),
@@ -117,14 +118,14 @@ final _newPassword = TextEditingController();
             padding: const EdgeInsets.all(8.0),
             child: Text("Validation le mot de passe",
                 style: GoogleFonts.roboto(
-                    fontSize: 23, fontWeight: FontWeight.w600)),
+                    fontSize: AppSizes.fontLarge, fontWeight: FontWeight.w600)),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
                 "Veuillez entrer les bonnes informations pour pouvoir valider le nouveau mot de passe",
                 style: GoogleFonts.roboto(
-                    fontSize: 16, fontWeight: FontWeight.w300)),
+                    fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w300)),
           ),
         ],
       ),
@@ -144,12 +145,12 @@ final _newPassword = TextEditingController();
         },
         keyboardType: TextInputType.visiblePassword,
         decoration: InputDecoration(
-          prefixIcon: const Icon(Icons.key_rounded, size: 24),
+          prefixIcon: const Icon(Icons.key_rounded, size: AppSizes.fontLarge),
           filled: true,
           fillColor: Colors.grey[100],
           labelText: "Nouveau mot de passe",
           labelStyle:
-              GoogleFonts.aBeeZee(fontSize: 18, fontWeight: FontWeight.w500),
+              GoogleFonts.aBeeZee(fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w500),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
         ),
       ),
@@ -169,12 +170,12 @@ final _newPassword = TextEditingController();
         },
         keyboardType: TextInputType.visiblePassword,
         decoration: InputDecoration(
-          prefixIcon: const Icon(Icons.lock_outline, size: 24),
+          prefixIcon: const Icon(Icons.lock_outline, size: AppSizes.iconLarge),
           filled: true,
           fillColor: Colors.grey[100],
           labelText: "Confirmer",
           labelStyle:
-              GoogleFonts.aBeeZee(fontSize: 18, fontWeight: FontWeight.w500),
+              GoogleFonts.aBeeZee(fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w500),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
         ),
       ),
@@ -188,7 +189,7 @@ final _newPassword = TextEditingController();
             padding: const EdgeInsets.all(8.0),
             child: Text("Entrez les 4 chiffres envoyés sur votre e-mail",
                 style: GoogleFonts.roboto(
-                    fontSize: 18, fontWeight: FontWeight.w400))));
+                    fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w400))));
   }
 
   Widget _codes4Champs(BuildContext context) {
@@ -231,7 +232,7 @@ final _newPassword = TextEditingController();
         },
         child: Text("Envoyer",
             style: GoogleFonts.aBeeZee(
-                fontSize: 20,
+                fontSize: AppSizes.fontSmall,
                 fontWeight: FontWeight.w500,
                 color: Colors.white)));
   }

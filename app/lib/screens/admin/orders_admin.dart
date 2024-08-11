@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hadja_grish/constants/app_size.dart';
 import 'package:hadja_grish/screens/admin/order_en_cours_page.dart';
 import 'package:hadja_grish/screens/admin/order_livrer_page.dart';
 
@@ -21,14 +22,14 @@ class _AdminOdersState extends State<AdminOders> {
           appBar: AppBar(
             title: Text("Commandes",
                 style: GoogleFonts.roboto(
-                    fontSize: 20, fontWeight: FontWeight.w400)),
+                    fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w400)),
             centerTitle: true,
             toolbarHeight: 80,
             leading: IconButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 24)),
+                icon: const Icon(Icons.arrow_back_ios_new_rounded, size: AppSizes.iconLarge)),
             bottom: TabBar(
                 isScrollable: true,
                 indicatorColor: const Color.fromARGB(255, 5, 191, 100),
@@ -38,12 +39,12 @@ class _AdminOdersState extends State<AdminOders> {
                   Tab(
                     child: Text("En attente",
                         style: GoogleFonts.roboto(
-                            fontSize: 20, fontWeight: FontWeight.w400)),
+                            fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w400)),
                   ),
                   Tab(
                     child: Text("Livré",
                         style: GoogleFonts.roboto(
-                            fontSize: 20, fontWeight: FontWeight.w400)),
+                            fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w400)),
                   ),
                 ]),
           ),

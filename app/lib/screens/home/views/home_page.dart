@@ -5,6 +5,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/api/category_api.dart';
 import 'package:hadja_grish/components/drawer.dart';
+import 'package:hadja_grish/constants/app_color.dart';
+import 'package:hadja_grish/constants/app_size.dart';
 import 'package:hadja_grish/models/categorie_model.dart';
 import 'package:hadja_grish/providers/cart_provider.dart';
 import 'package:hadja_grish/screens/cart/views/cart_page.dart';
@@ -83,14 +85,14 @@ class _HomePageState extends State<HomePage> {
           },
           icon: const Icon(
             Icons.sort,
-            size: 28,
+            size: AppSizes.iconLarge,
             color: Colors.white,
           ),
         ),
         title: Text(
-          "La Hadja",
+          "LaHadja",
           style: GoogleFonts.allison(
-            fontSize: 45,
+            fontSize: AppSizes.fontHyperLarge,
             fontWeight: FontWeight.bold,
             color: Colors.white,
           ),
@@ -109,7 +111,7 @@ class _HomePageState extends State<HomePage> {
                 },
                 icon: const Icon(
                   FontAwesomeIcons.cartShopping,
-                  size: 28,
+                  size: AppSizes.iconLarge,
                   color: Colors.white,
                 ),
               ),
@@ -152,7 +154,7 @@ class _HomePageState extends State<HomePage> {
             },
             icon: const Icon(
               FontAwesomeIcons.heart,
-              size: 28,
+              size: AppSizes.iconLarge,
               color: Colors.white,
             ),
           ),
@@ -161,7 +163,7 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
-      backgroundColor: const Color(0xFF1D1A30),
+      backgroundColor: AppColor.colorBackground,
       body: SingleChildScrollView(
         child: Column(
           children: [

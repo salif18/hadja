@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:dio/dio.dart';
 import 'package:hadja_grish/http/domaine.dart';
 
-    String urlServer = Domaine().domaine();
+  const String domaineName = AppDomaine.domaine;
 
 class ServicesApiCategory{
   
@@ -12,7 +12,7 @@ Dio dio = Dio();
    //ajouter de categorie pour formulaire
  postCategories(data)async{
   
-    var uri = "$urlServer/categories";
+    var uri = "$domaineName/categories";
     return await dio.post(uri,
     data:data,
      options:Options(headers: {
@@ -24,7 +24,7 @@ Dio dio = Dio();
   }
    //obtenir categorie pour formulaire
   getCategories()async{
-    var uri = "$urlServer/categories";
+    var uri = "$domaineName/categories";
     return await dio.get(uri,
      options:Options(headers: {
             "Content-Type": "application/json; charset=UTF-8",
@@ -36,7 +36,7 @@ Dio dio = Dio();
 
   //modifier la categorie pour formulaire
  updateCategories(data, id)async{
-    var uri = "$urlServer/categories/update/$id";
+    var uri = "$domaineName/categories/update/$id";
     return await dio.put(uri,
     data:data,
      options:Options(headers: {
@@ -49,7 +49,7 @@ Dio dio = Dio();
 
    //supprimer categorie 
   deleteCategories(id)async{
-    var uri = "$urlServer/categories/delete/$id";
+    var uri = "$domaineName/categories/delete/$id";
     return await dio.delete(uri,
      options:Options(headers: {
             "Content-Type": "application/json; charset=UTF-8",

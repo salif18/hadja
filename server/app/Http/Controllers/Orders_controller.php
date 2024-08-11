@@ -96,7 +96,7 @@ class Orders_controller extends Controller
     {
         try {
 
-            $orders = Order::with('orderItems')->get();
+            $orders = Order::with('orderItems')->orderByDesc("created_at")->get();
 
             return response()->json([
                 "status" => true,
@@ -117,6 +117,7 @@ class Orders_controller extends Controller
 
             $orders = Order::where('userId', $userId)
                 ->orwhere('deliveryId', $userId)
+                ->orderByDesc("created_at")
                 ->with('orderItems')->get();
 
                 // error_log(print_r($orders,true));
@@ -217,6 +218,7 @@ class Orders_controller extends Controller
         try {
             $orders = Order::where('statut_of_delibery', $statut)
                 ->with('orderItems')
+                ->orderByDesc("created_at")
                 ->get();
 
             return response()->json([
@@ -238,6 +240,7 @@ class Orders_controller extends Controller
         try {
             $orders = Order::where("deliveryId",$userId)->where('statut_of_delibery', 'Livrer')
                 ->with('orderItems')
+                ->orderByDesc("created_at")
                 ->get();
 
             return response()->json([

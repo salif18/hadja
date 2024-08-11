@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hadja_grish/constants/app_size.dart';
 import 'package:hadja_grish/models/articles_model.dart';
 import 'package:hadja_grish/providers/favorite_provider.dart';
 import 'package:hadja_grish/screens/favorites/widgets/card_favorite.dart';
@@ -44,7 +45,7 @@ class _FavoritesPageState extends State<FavoritesPage>
         centerTitle: true,
         title: Text(
           "Favoris",
-          style: GoogleFonts.roboto(fontSize: 20, fontWeight: FontWeight.w600),
+          style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w600),
         ),
       ),
       body: Consumer<FavoriteProvider>(
@@ -63,7 +64,7 @@ class _FavoritesPageState extends State<FavoritesPage>
                         Text(
                           "Mes produits",
                           style: GoogleFonts.roboto(
-                              fontSize: 18, fontWeight: FontWeight.w600),
+                              fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w600),
                         ),
                       ],
                     ),

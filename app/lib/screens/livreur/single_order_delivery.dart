@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hadja_grish/constants/app_size.dart';
 import 'package:hadja_grish/models/orders_model.dart';
 import 'package:hadja_grish/screens/livreur/delivery_track_client.dart';
 import 'package:intl/intl.dart';
@@ -21,7 +22,7 @@ class _SingleOrderDeliveryState extends State<SingleOrderDelivery> {
         centerTitle: true,
         title: Text("Details",
             style:
-                GoogleFonts.roboto(fontSize: 24, fontWeight: FontWeight.w400)),
+                GoogleFonts.roboto(fontSize: AppSizes.fontLarge, fontWeight: FontWeight.w400)),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -57,11 +58,11 @@ class _SingleOrderDeliveryState extends State<SingleOrderDelivery> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(item.name,style:GoogleFonts.roboto(fontSize: 14,fontWeight:FontWeight.w400)),
-                        Text("Quantité ${item.qty.toString()}",style:GoogleFonts.roboto(fontSize: 14,color:Colors.grey[500]))
+                        Text(item.name,style:GoogleFonts.roboto(fontSize: AppSizes.fontSmall,fontWeight:FontWeight.w400)),
+                        Text("Quantité ${item.qty.toString()}",style:GoogleFonts.roboto(fontSize: AppSizes.fontSmall,color:Colors.grey[500]))
                       ],
                     ), 
-                    Text("prix ${item.prix}",style:GoogleFonts.roboto(fontSize: 14,fontWeight:FontWeight.w400))]),
+                    Text("prix ${item.prix}",style:GoogleFonts.roboto(fontSize: AppSizes.fontSmall,fontWeight:FontWeight.w400))]),
             ),
           );
           }
@@ -71,9 +72,9 @@ class _SingleOrderDeliveryState extends State<SingleOrderDelivery> {
         child:Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Total",style:GoogleFonts.roboto(fontSize: 14,fontWeight:FontWeight.w400)),
+            Text("Total",style:GoogleFonts.roboto(fontSize: AppSizes.fontSmall,fontWeight:FontWeight.w400)),
             const SizedBox(width: 15),
-            Text("${widget.order.total} FCFA",style:GoogleFonts.roboto(fontSize: 14,fontWeight:FontWeight.w400))
+            Text("${widget.order.total} FCFA",style:GoogleFonts.roboto(fontSize: AppSizes.fontSmall,fontWeight:FontWeight.w400))
           ],
         ),
         ),
@@ -81,36 +82,36 @@ class _SingleOrderDeliveryState extends State<SingleOrderDelivery> {
         child:Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Order",style:GoogleFonts.roboto(fontSize: 14,fontWeight:FontWeight.w400)),
+            Text("Order",style:GoogleFonts.roboto(fontSize: AppSizes.fontSmall,fontWeight:FontWeight.w400)),
             const SizedBox(width: 15),
-            Text(widget.order.statusOfDelibery ,style:GoogleFonts.roboto(fontSize: 14,fontWeight:FontWeight.w400))
+            Text(widget.order.statusOfDelibery ,style:GoogleFonts.roboto(fontSize: AppSizes.fontSmall,fontWeight:FontWeight.w400))
           ],
         )),
         Padding(padding: const EdgeInsets.all(15), 
         child:Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Client",style:GoogleFonts.roboto(fontSize: 14,fontWeight:FontWeight.w400)),
+            Text("Client",style:GoogleFonts.roboto(fontSize: AppSizes.fontSmall,fontWeight:FontWeight.w400)),
             const SizedBox(width: 15),
-            Text(widget.order.telephone,style:GoogleFonts.roboto(fontSize: 14,fontWeight:FontWeight.w400))
+            Text(widget.order.telephone,style:GoogleFonts.roboto(fontSize: AppSizes.fontSmall,fontWeight:FontWeight.w400))
           ],
         )),
          Padding(padding: const EdgeInsets.all(15), 
         child:Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Date",style:GoogleFonts.roboto(fontSize: 14,fontWeight:FontWeight.w400)),
+            Text("Date",style:GoogleFonts.roboto(fontSize: AppSizes.fontSmall,fontWeight:FontWeight.w400)),
             const SizedBox(width: 15),
-            Text(DateFormat('dd/MM/yyyy').format(widget.order.createdAt),style:GoogleFonts.roboto(fontSize: 14,fontWeight:FontWeight.w400))
+            Text(DateFormat('dd/MM/yyyy').format(widget.order.createdAt),style:GoogleFonts.roboto(fontSize: AppSizes.fontSmall,fontWeight:FontWeight.w400))
           ],
         )),
          Padding(padding: const EdgeInsets.all(15), 
         child:Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Addresse",style:GoogleFonts.roboto(fontSize: 14,fontWeight:FontWeight.w400)),
+            Text("Addresse",style:GoogleFonts.roboto(fontSize: AppSizes.fontSmall,fontWeight:FontWeight.w400)),
             const SizedBox(width: 15),
-            Text(widget.order.address,style:GoogleFonts.roboto(fontSize: 14,fontWeight:FontWeight.w400))
+            Text(widget.order.address,style:GoogleFonts.roboto(fontSize: AppSizes.fontSmall,fontWeight:FontWeight.w400))
           ],
         )),
         Padding(
@@ -127,7 +128,7 @@ class _SingleOrderDeliveryState extends State<SingleOrderDelivery> {
                 backgroundColor: const Color(0xFF1D1A30),),
               child: Text("Suivis du courier",
                   style: GoogleFonts.roboto(
-                      fontSize: 14,
+                      fontSize: AppSizes.fontSmall,
                       fontWeight: FontWeight.w400,
                       color: Colors.white))),
         )

@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/api/orders_api.dart';
+import 'package:hadja_grish/constants/app_size.dart';
 import 'package:hadja_grish/models/orders_model.dart';
 import 'package:hadja_grish/providers/auth_provider.dart';
 import 'package:hadja_grish/screens/livreur/card_order_delivery.dart';
@@ -60,14 +61,14 @@ class _OrdersLivreursState extends State<OrdersLivreurs> {
       appBar: AppBar(
         title: Text("Commandes",
             style:
-                GoogleFonts.roboto(fontSize: 20, fontWeight: FontWeight.w400)),
+                GoogleFonts.roboto(fontSize: AppSizes.fontLarge, fontWeight: FontWeight.w400)),
         centerTitle: true,
         toolbarHeight: 80,
         leading: IconButton(
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 24)),
+            icon: const Icon(Icons.arrow_back_ios_new_rounded, size: AppSizes.iconLarge)),
       ),
       body: StreamBuilder<List<OrdersModel>>(
           stream: _ordersData.stream,

@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/api/auth_api.dart';
+import 'package:hadja_grish/constants/app_size.dart';
 import 'package:hadja_grish/providers/auth_provider.dart';
 import 'package:hadja_grish/screens/auth/reset_password.dart';
 import 'package:provider/provider.dart';
@@ -74,7 +75,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
       appBar: AppBar(
         leading: IconButton(
             onPressed: () => Navigator.pop(context),
-            icon: const Icon(Icons.arrow_back_ios_rounded, size: 20)),
+            icon: const Icon(Icons.arrow_back_ios_rounded, size: AppSizes.iconMedium)),
       ),
       body: Container(
         padding: const EdgeInsets.all(20),
@@ -109,7 +110,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                 child: Text(
                   "Changer de mot de passe",
                   style: GoogleFonts.roboto(
-                      fontSize: 23, fontWeight: FontWeight.w600),
+                      fontSize: AppSizes.fontLarge, fontWeight: FontWeight.w600),
                 ),
               ),
               Padding(
@@ -117,7 +118,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                 child: Text(
                   "Votre mot de passe doit contenir au moins 6 caractères",
                   style: GoogleFonts.roboto(
-                      fontSize: 16, fontWeight: FontWeight.w400),
+                      fontSize: AppSizes.fontSmall, fontWeight: FontWeight.w400),
                 ),
               )
             ],
@@ -140,7 +141,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
               fillColor: Colors.grey[100],
               hintText: "Mot de passe actuel",
               hintStyle: GoogleFonts.aBeeZee(
-                  fontSize: 18, fontWeight: FontWeight.w400),
+                  fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w400),
               // prefixIcon: const Icon(Icons.lock_outline_rounded, size: 33),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20),
@@ -166,7 +167,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
               fillColor: Colors.grey[100],
               hintText: "Nouveau mot de passe",
               hintStyle: GoogleFonts.aBeeZee(
-                  fontSize: 18, fontWeight: FontWeight.w400),
+                  fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w400),
               // prefixIcon: const Icon(Icons.lock_outline_rounded, size: 33),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20),
@@ -192,7 +193,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
               fillColor: Colors.grey[100],
               hintText: "Retapez le nouveau mot de passe",
               hintStyle: GoogleFonts.aBeeZee(
-                  fontSize: 18, fontWeight: FontWeight.w400),
+                  fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w400),
               // prefixIcon: const Icon(Icons.lock_outline_rounded, size: 33),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20),
@@ -212,7 +213,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                           builder: (context) => const ResetToken()));
                 },
                 child: Text("Mot de passe oublié ?",
-                    style: GoogleFonts.roboto(fontSize: 16)))
+                    style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium)))
           ]),
         ),
         Padding(
@@ -229,7 +230,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
             child: Text(
               "Changer le mot de passe",
               style: GoogleFonts.roboto(
-                fontSize: 20,
+                fontSize: AppSizes.fontMedium,
                 fontWeight: FontWeight.w500,
                 color: Colors.grey[100],
               ),

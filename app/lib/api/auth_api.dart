@@ -7,13 +7,13 @@ import "package:http/http.dart" as http;
 import 'package:dio/dio.dart';
 
 
-String domaineApi = Domaine().domaine();
+ const String domaineName = AppDomaine.domaine;
 
 class ServicesApiAuth{
   Dio dio = Dio();
   // fonction de connection
   postLoginUser(data)async{
-    var url = "$domaineApi/login";
+    var url = "$domaineName/login";
     return await http.post(Uri.parse(url), 
     body:jsonEncode(data), 
       headers: {
@@ -25,7 +25,7 @@ class ServicesApiAuth{
 
 // fonction de creation de compte
   postRegistreUser(data)async{
-     var url = "$domaineApi/registre";
+     var url = "$domaineName/registre";
       return await http.post(Uri.parse(url), 
     body:jsonEncode(data), 
       headers: {
@@ -38,7 +38,7 @@ class ServicesApiAuth{
 
   //fonction de deconnexion
   postLogoutTokenUser(token) async {
-    var uri = "$domaineApi/logout";
+    var uri = "$domaineName/logout";
     return await http.post(Uri.parse(uri), headers: {
       "Content-Type": "application/json; charset=UTF-8",
       "Accept": "*/*",
@@ -49,7 +49,7 @@ class ServicesApiAuth{
 
   //fontion de mis a jour du profil
   postUpdateUserData(data, userId) async {
-    var uri = "$domaineApi/update/$userId";
+    var uri = "$domaineName/update/$userId";
     return await http.post(
       Uri.parse(uri),
       body: jsonEncode(data),
@@ -63,7 +63,7 @@ class ServicesApiAuth{
 
    //fontion de mis a jour du profil
   postUpdateUserProfil(data, id) async {
-    var uri = "$domaineApi/profil/update/$id";
+    var uri = "$domaineName/profil/update/$id";
     return await http.post(
       Uri.parse(uri),
       body: jsonEncode(data),
@@ -77,7 +77,7 @@ class ServicesApiAuth{
 
   //fontion de modification de passeword
   postUpdatePassword(data, userId) async {
-    var uri = "$domaineApi/update_password/$userId";
+    var uri = "$domaineName/update_password/$userId";
     return await http.post(
       Uri.parse(uri),
       body: jsonEncode(data),
@@ -91,7 +91,7 @@ class ServicesApiAuth{
 
   //fontion de reinitialisation de password
   postResetPassword(data) async {
-    var uri = "$domaineApi/reset_password";
+    var uri = "$domaineName/reset_password";
     return await http.post(
       Uri.parse(uri),
       body: jsonEncode(data),
@@ -105,7 +105,7 @@ class ServicesApiAuth{
 
   //fontion de validation de mot de password reinitialiser
   postValidatePassword(data) async {
-    var uri = "$domaineApi/validate_password";
+    var uri = "$domaineName/validate_password";
     return await http.post(
       Uri.parse(uri),
       body: jsonEncode(data),
@@ -120,7 +120,7 @@ class ServicesApiAuth{
 
    //suppression compte
   deleteUserTokenUserId(token) async {
-    var uri = "$domaineApi/delete";
+    var uri = "$domaineName/delete";
     return await http.post(Uri.parse(uri), headers: {
       "Content-Type": "application/json; charset=UTF-8",
       "Accept": "*/*",

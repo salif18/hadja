@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/api/auth_api.dart';
+import 'package:hadja_grish/constants/app_size.dart';
 import 'package:hadja_grish/models/user.dart';
 import 'package:hadja_grish/providers/auth_provider.dart';
 import 'package:hadja_grish/providers/user_provider.dart';
@@ -141,11 +142,11 @@ class _RegistrePageState extends State<RegistrePage> {
                         keyboardType: TextInputType.name,
                         decoration: InputDecoration(
                             hintText: "Nom",
-                            hintStyle: GoogleFonts.roboto(fontSize: 18),
+                            hintStyle: GoogleFonts.roboto(fontSize: AppSizes.fontMedium),
                             filled: true,
                             fillColor: const Color(0xfff0fcf3),
                             prefixIcon:
-                                const Icon(Icons.person_3_outlined, size: 28),
+                                const Icon(Icons.person_3_outlined, size: AppSizes.iconLarge),
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20),
                                 borderSide: BorderSide.none)),
@@ -164,11 +165,11 @@ class _RegistrePageState extends State<RegistrePage> {
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                             hintText: "Numero",
-                            hintStyle: GoogleFonts.roboto(fontSize: 18),
+                            hintStyle: GoogleFonts.roboto(fontSize: AppSizes.fontMedium),
                             filled: true,
                             fillColor: const Color(0xfff0fcf3),
                             prefixIcon: const Icon(Icons.phone_android_outlined,
-                                size: 28),
+                                size: AppSizes.iconLarge),
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20),
                                 borderSide: BorderSide.none)),
@@ -187,11 +188,11 @@ class _RegistrePageState extends State<RegistrePage> {
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                             hintText: "Email",
-                            hintStyle: GoogleFonts.roboto(fontSize: 18),
+                            hintStyle: GoogleFonts.roboto(fontSize: AppSizes.fontMedium),
                             filled: true,
                             fillColor: const Color(0xfff0fcf3),
                             prefixIcon:
-                                const Icon(Icons.mail_outline, size: 28),
+                                const Icon(Icons.mail_outline, size: AppSizes.iconLarge),
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20),
                                 borderSide: BorderSide.none)),
@@ -212,11 +213,11 @@ class _RegistrePageState extends State<RegistrePage> {
                         obscureText: isVisibility,
                         decoration: InputDecoration(
                             hintText: "Mot de passe",
-                            hintStyle: GoogleFonts.roboto(fontSize: 18),
+                            hintStyle: GoogleFonts.roboto(fontSize: AppSizes.fontMedium),
                             filled: true,
                             fillColor: const Color(0xfff0fcf3),
                             prefixIcon:
-                                const Icon(Icons.lock_outline, size: 28),
+                                const Icon(Icons.lock_outline, size: AppSizes.iconLarge),
                                suffixIcon: IconButton(
                       onPressed: (){
                            setState(() {
@@ -243,7 +244,7 @@ class _RegistrePageState extends State<RegistrePage> {
                           },
                           child: Text("Créer compte",
                               style: GoogleFonts.roboto(
-                                  fontSize: 18, color: Colors.white))),
+                                  fontSize: AppSizes.fontMedium, color: Colors.white))),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(15.0),
@@ -252,7 +253,7 @@ class _RegistrePageState extends State<RegistrePage> {
                         children: [
                           Text(
                             "Vous avez déjà un compte ?",
-                            style: GoogleFonts.roboto(fontSize: 16),
+                            style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium),
                           ),
                           TextButton(
                               onPressed: () {
@@ -265,7 +266,7 @@ class _RegistrePageState extends State<RegistrePage> {
                               child: Text(
                                 "Login",
                                 style: GoogleFonts.roboto(
-                                  fontSize: 14,
+                                  fontSize: AppSizes.fontSmall,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.blue[400],
                                 ),

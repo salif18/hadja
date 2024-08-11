@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hadja_grish/api/orders_api.dart';
+import 'package:hadja_grish/constants/app_size.dart';
 import 'package:hadja_grish/providers/auth_provider.dart';
 import 'package:hadja_grish/providers/cart_provider.dart';
 import 'package:hadja_grish/screens/cart/widgets/maps.dart';
@@ -25,10 +26,10 @@ class _AddressLivraisonState extends State<AddressLivraison> {
   final TextEditingController telephone = TextEditingController();
   // double lat = 12.652250;
   // double long = -7.981700;//ville
-     double lat = 12.592990;
-     double long = -8.065061;//sebenicoro
-    //  double lat =12.585116;
-    //  double long = -7.931593;//attb
+    //  double lat = 12.592990;
+    //  double long = -8.065061;//sebenicoro
+     double lat =12.585116;
+     double long = -7.931593;//attbougou
   @override
   void initState() {
     super.initState();
@@ -119,11 +120,11 @@ class _AddressLivraisonState extends State<AddressLivraison> {
                 Text(
                   "Faites-vous livrer chez vous !",
                   style: GoogleFonts.abel(
-                      fontSize: 40, fontWeight: FontWeight.bold),
+                      fontSize: 35, fontWeight: FontWeight.bold),
                 ),
                 Text(
                   "Remplissez bien les renseignements",
-                  style: GoogleFonts.abel(fontSize: 20),
+                  style: GoogleFonts.abel(fontSize: AppSizes.fontLarge),
                 ),
               ],
             ),
@@ -149,8 +150,8 @@ class _AddressLivraisonState extends State<AddressLivraison> {
                 fillColor: Colors.white,
                 hintText: "Quartier",
                 hintStyle: GoogleFonts.aBeeZee(
-                    fontSize: 18, fontWeight: FontWeight.w400),
-                prefixIcon: const Icon(Icons.villa_outlined, size: 33),
+                    fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w400),
+                prefixIcon: const Icon(Icons.villa_outlined, size: AppSizes.iconLarge),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
                   borderSide: BorderSide.none,
@@ -168,8 +169,8 @@ class _AddressLivraisonState extends State<AddressLivraison> {
                 fillColor: Colors.white,
                 hintText: "Numero",
                 hintStyle: GoogleFonts.aBeeZee(
-                    fontSize: 18, fontWeight: FontWeight.w400),
-                prefixIcon: const Icon(Icons.phone_android_outlined, size: 33),
+                    fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w400),
+                prefixIcon: const Icon(Icons.phone_android_outlined, size: AppSizes.iconLarge),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
                   borderSide: BorderSide.none,
@@ -200,7 +201,7 @@ class _AddressLivraisonState extends State<AddressLivraison> {
                             ),
                             child: Text("Valider",
                                 style: GoogleFonts.roboto(
-                                    fontSize: 20, color: Colors.white)),
+                                    fontSize: AppSizes.fontSmall, color: Colors.white)),
                           ),
                         ],
                       ),
@@ -220,10 +221,10 @@ class _AddressLivraisonState extends State<AddressLivraison> {
                   children: [
                     Text("Coordonnées géographiques",
                         style: GoogleFonts.roboto(
-                            fontSize: 18, color: Colors.white)),
+                            fontSize: AppSizes.fontMedium, color: Colors.white)),
                     const SizedBox(width: 10),
                     const Icon(Icons.location_searching,
-                        size: 28, color: Colors.white),
+                        size: AppSizes.iconLarge, color: Colors.white),
                   ],
                 ),
               ),
@@ -241,7 +242,7 @@ class _AddressLivraisonState extends State<AddressLivraison> {
                  Navigator.pop(context);
               },
               child: Text("Passer commande",
-                  style: GoogleFonts.roboto(fontSize: 20, color: Colors.white)),
+                  style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium, color: Colors.white)),
             ),
           ),
         ],

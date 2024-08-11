@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/api/auth_api.dart';
 import 'package:hadja_grish/api/profilImage_api.dart';
+import 'package:hadja_grish/constants/app_color.dart';
+import 'package:hadja_grish/constants/app_size.dart';
 import 'package:hadja_grish/models/user.dart';
 import 'package:hadja_grish/providers/auth_provider.dart';
 import 'package:hadja_grish/providers/user_provider.dart';
@@ -235,11 +237,11 @@ Future<void> sendUpdateImageProfil() async {
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.all(2.0),
-                                      child: Text(profil.name ?? "user", style:GoogleFonts.aBeeZee(fontSize: 16)),
+                                      child: Text(profil.name ?? "user", style:GoogleFonts.aBeeZee(fontSize: AppSizes.fontMedium, color:AppColor.textColor)),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.all(2.0),
-                                      child: Text(profil.email ?? "user@gmail.com",style:GoogleFonts.aBeeZee(fontSize: 14)),
+                                      child: Text(profil.email ?? "user@gmail.com",style:GoogleFonts.aBeeZee(fontSize: AppSizes.fontSmall,color:AppColor.textColor )),
                                     ),
                                   ],
                                 ),
@@ -263,7 +265,7 @@ Future<void> sendUpdateImageProfil() async {
                               child: Text(
                                 "Mon compte",
                                 style: GoogleFonts.roboto(
-                                  fontSize: 20,
+                                  fontSize: AppSizes.fontMedium,
                                   fontWeight: FontWeight.w400,
                                   color: Colors.grey[400],
                                 ),
@@ -280,12 +282,12 @@ Future<void> sendUpdateImageProfil() async {
                               },
                               title: Row(
                                 children: [
-                                  const Icon(Icons.person, size: 30, color: Colors.green),
+                                  const Icon(Icons.person, size: AppSizes.iconLarge, color: Colors.green),
                                   const SizedBox(width: 10),
                                   Text(
                                     "Modifier profil",
                                     style: GoogleFonts.roboto(
-                                      fontSize: 16,
+                                      fontSize: AppSizes.fontMedium,
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
@@ -303,12 +305,12 @@ Future<void> sendUpdateImageProfil() async {
                               },
                               title: Row(
                                 children: [
-                                  const Icon(Icons.lock, size: 30, color: Colors.blue),
+                                  const Icon(Icons.lock, size: AppSizes.iconLarge, color: Colors.blue),
                                   const SizedBox(width: 10),
                                   Text(
                                     "Changer password",
                                     style: GoogleFonts.roboto(
-                                      fontSize: 16,
+                                      fontSize: AppSizes.fontMedium,
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
@@ -335,7 +337,7 @@ Future<void> sendUpdateImageProfil() async {
                                 child: Text(
                                   "Administrateur",
                                   style: GoogleFonts.roboto(
-                                    fontSize: 20,
+                                    fontSize: AppSizes.fontMedium,
                                     fontWeight: FontWeight.w400,
                                     color: Colors.grey[400],
                                   ),
@@ -352,12 +354,12 @@ Future<void> sendUpdateImageProfil() async {
                                 },
                                 title: Row(
                                   children: [
-                                    Icon(Icons.category, size: 30, color: Colors.purple[400]),
+                                    Icon(Icons.category, size: AppSizes.iconLarge, color: Colors.purple[400]),
                                     const SizedBox(width: 10),
                                     Text(
                                       "Categories",
                                       style: GoogleFonts.roboto(
-                                        fontSize: 16,
+                                        fontSize: AppSizes.fontMedium,
                                         fontWeight: FontWeight.w400,
                                       ),
                                     ),
@@ -375,12 +377,12 @@ Future<void> sendUpdateImageProfil() async {
                                 },
                                 title: Row(
                                   children: [
-                                    Icon(Icons.add, size: 30, color: Colors.grey[800]),
+                                    Icon(Icons.add, size: AppSizes.iconLarge, color: Colors.grey[800]),
                                     const SizedBox(width: 10),
                                     Text(
                                       "Produits",
                                       style: GoogleFonts.roboto(
-                                        fontSize: 16,
+                                        fontSize: AppSizes.fontMedium,
                                         fontWeight: FontWeight.w400,
                                       ),
                                     ),
@@ -398,12 +400,12 @@ Future<void> sendUpdateImageProfil() async {
                                 },
                                 title: Row(
                                   children: [
-                                    const Icon(Icons.delivery_dining, size: 30, color: Color.fromARGB(255, 30, 125, 173)),
+                                    const Icon(Icons.delivery_dining, size: AppSizes.iconLarge, color: Color.fromARGB(255, 30, 125, 173)),
                                     const SizedBox(width: 10),
                                     Text(
                                       "Livreurs",
                                       style: GoogleFonts.roboto(
-                                        fontSize: 16,
+                                        fontSize: AppSizes.fontMedium,
                                         fontWeight: FontWeight.w400,
                                       ),
                                     ),
@@ -421,12 +423,12 @@ Future<void> sendUpdateImageProfil() async {
                                 },
                                 title: Row(
                                   children: [
-                                    const Icon(Icons.filter_list_sharp, size: 30, color: Colors.amber),
+                                    const Icon(Icons.filter_list_sharp, size:AppSizes.iconLarge, color: Colors.amber),
                                     const SizedBox(width: 10),
                                     Text(
                                       "Commandes",
                                       style: GoogleFonts.roboto(
-                                        fontSize: 16,
+                                        fontSize: AppSizes.fontMedium,
                                         fontWeight: FontWeight.w400,
                                       ),
                                     ),
@@ -453,7 +455,7 @@ Future<void> sendUpdateImageProfil() async {
                                 child: Text(
                                   "Livreurs",
                                   style: GoogleFonts.roboto(
-                                    fontSize: 20,
+                                    fontSize: AppSizes.fontMedium,
                                     fontWeight: FontWeight.w400,
                                     color: Colors.grey[400],
                                   ),
@@ -470,12 +472,12 @@ Future<void> sendUpdateImageProfil() async {
                                 },
                                 title: Row(
                                   children: [
-                                    const Icon(Icons.filter_list_sharp, size: 30, color: Colors.lightBlue),
+                                    const Icon(Icons.filter_list_sharp, size: AppSizes.iconLarge, color: Colors.lightBlue),
                                     const SizedBox(width: 10),
                                     Text(
                                       "Commandes",
                                       style: GoogleFonts.roboto(
-                                        fontSize: 16,
+                                        fontSize: AppSizes.fontMedium,
                                         fontWeight: FontWeight.w400,
                                       ),
                                     ),
@@ -493,12 +495,12 @@ Future<void> sendUpdateImageProfil() async {
                                 },
                                 title: Row(
                                   children: [
-                                    const Icon(Icons.check, size: 30, color: Colors.green),
+                                    const Icon(Icons.check, size: AppSizes.iconLarge, color: Colors.green),
                                     const SizedBox(width: 10),
                                     Text(
                                       "Livrés",
                                       style: GoogleFonts.roboto(
-                                        fontSize: 16,
+                                        fontSize: AppSizes.fontMedium,
                                         fontWeight: FontWeight.w400,
                                       ),
                                     ),
@@ -525,7 +527,7 @@ Future<void> sendUpdateImageProfil() async {
                                 child: Text(
                                   "Clients",
                                   style: GoogleFonts.roboto(
-                                    fontSize: 20,
+                                    fontSize: AppSizes.fontMedium,
                                     fontWeight: FontWeight.w400,
                                     color: Colors.grey[400],
                                   ),
@@ -554,7 +556,7 @@ Future<void> sendUpdateImageProfil() async {
                                               child: Text(
                                                 "Valider",
                                                 style: GoogleFonts.roboto(
-                                                  fontSize: 20,
+                                                  fontSize: AppSizes.fontLarge,
                                                   color: Colors.white,
                                                 ),
                                               ),
@@ -567,12 +569,12 @@ Future<void> sendUpdateImageProfil() async {
                                 },
                                 title: Row(
                                   children: [
-                                    const Icon(Icons.location_searching_rounded, size: 30, color: Colors.green),
+                                    const Icon(Icons.location_searching_rounded, size: AppSizes.iconLarge, color: Colors.green),
                                     const SizedBox(width: 10),
                                     Text(
                                       "Addresse",
                                       style: GoogleFonts.roboto(
-                                        fontSize: 16,
+                                        fontSize: AppSizes.fontMedium,
                                         fontWeight: FontWeight.w400,
                                       ),
                                     ),
@@ -590,12 +592,12 @@ Future<void> sendUpdateImageProfil() async {
                                 },
                                 title: Row(
                                   children: [
-                                    const Icon(Icons.filter_list_outlined, size: 30, color: Colors.orange),
+                                    const Icon(Icons.filter_list_outlined, size: AppSizes.iconLarge, color: Colors.orange),
                                     const SizedBox(width: 10),
                                     Text(
                                       "Commandes",
                                       style: GoogleFonts.roboto(
-                                        fontSize: 16,
+                                        fontSize: AppSizes.fontMedium,
                                         fontWeight: FontWeight.w400,
                                       ),
                                     ),
@@ -625,7 +627,7 @@ Future<void> sendUpdateImageProfil() async {
                               child: Text(
                                 "Personel",
                                 style: GoogleFonts.roboto(
-                                  fontSize: 20,
+                                  fontSize: AppSizes.fontMedium,
                                   fontWeight: FontWeight.w400,
                                   color: Colors.grey[400],
                                 ),
@@ -637,12 +639,12 @@ Future<void> sendUpdateImageProfil() async {
                               },
                               title: Row(
                                 children: [
-                                  const Icon(Icons.logout, size: 30),
+                                  const Icon(Icons.logout, size: AppSizes.iconLarge),
                                   const SizedBox(width: 10),
                                   Text(
                                     "Se déconnecter",
                                     style: GoogleFonts.roboto(
-                                      fontSize: 16,
+                                      fontSize: AppSizes.fontMedium,
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
@@ -655,12 +657,12 @@ Future<void> sendUpdateImageProfil() async {
                               },
                               title: Row(
                                 children: [
-                                  const Icon(Icons.person_remove_sharp, size: 30, color: Colors.red),
+                                  const Icon(Icons.person_remove_sharp, size: AppSizes.iconLarge, color: Colors.red),
                                   const SizedBox(width: 10),
                                   Text(
                                     "Supprimer compte",
                                     style: GoogleFonts.roboto(
-                                      fontSize: 16,
+                                      fontSize: AppSizes.fontMedium,
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
@@ -671,6 +673,10 @@ Future<void> sendUpdateImageProfil() async {
                         ),
                       ),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical:15),
+                      child:Center(child: Text("Version 0.0.1", style: GoogleFonts.roboto(fontSize: AppSizes.fontSmall, color:Colors.grey[300]),))
+                    )
                   ],
                 ),
               );
@@ -697,7 +703,7 @@ _showConfirmDelete(BuildContext context) async{
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 "Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.",
-                style: GoogleFonts.roboto(fontSize: 16, color: Colors.grey),
+                style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium, color: Colors.grey),
               ),
             ),
             Padding(
@@ -741,14 +747,14 @@ await showDialog(
            TextButton.icon(onPressed: (){
                 _loadNewImageFromGallery();
            }, 
-           label: Text("Changer photo",style: GoogleFonts.roboto(fontSize: 18)),
+           label: Text("Changer photo",style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium)),
            icon: Icon(Icons.camera_alt_rounded),
            ),
            Divider(height: 2,color:Colors.grey[200]),
            TextButton.icon(onPressed: (){
               sendDeleteProfil();
            }, 
-           label: Text("Supprimer photo",style: GoogleFonts.roboto(fontSize: 18)),
+           label: Text("Supprimer photo",style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium)),
            icon: Icon(Icons.remove_circle_outline_sharp),)
         ]) ,
      );
