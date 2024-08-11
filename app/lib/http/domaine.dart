@@ -1,4 +1,10 @@
+// class AppDomaine {
+//   static const String domaine = "https://73fc-154-118-143-150.ngrok-free.app/api";
+//   static const String urlImage = "https://73fc-154-118-143-150.ngrok-free.app";
+// }
+
 class AppDomaine {
-  static const String domaine = "https://73fc-154-118-143-150.ngrok-free.app/api";
-  static const String urlImage = "https://73fc-154-118-143-150.ngrok-free.app";
+  static const String domaine = "http://10.0.2.2:8000/api";
+  static const String urlImage = "http://10.0.2.2:8000";
 }
+

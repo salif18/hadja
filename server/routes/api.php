@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth_controller;
 use App\Http\Controllers\Categorie_Controller;
 use App\Http\Controllers\Orders_controller;
 use App\Http\Controllers\Profil_controller;
+use App\Http\Controllers\Stats_Controller;
 use App\Http\Controllers\User_controller;
 use App\Http\Controllers\User_recuperation;
 use Illuminate\Http\Request;
@@ -55,9 +56,15 @@ Route::get("/orders/livrer/{userId}", [Orders_Controller::class, "getOrdersByDel
 Route::put("/orders/{id}",[Orders_controller::class,"updateOrdersStatut"]);
 Route::put("/orders/positions/{id}",[Orders_controller::class,"updateOrderPositons"]);
 Route::put("/orders/livreurId/{id}",[Orders_controller::class,"updateOrderDeliveryId"]);
+
 // MY ROUTE ARTICLES
 Route::post('/articles', [Articles_Controller::class, 'createArticle']);
 Route::get('/get_article_with_galeries', [Articles_Controller::class, 'getArticleWithGaleries']);
 Route::get('/articles_by_categories/{catego}',[Articles_Controller::class,'getArticlesByCategorie']);
 Route::post('/articles/update/{id}', [Articles_Controller::class, 'updateArticle']);
 Route::delete('/articles/delete/{id}', [Articles_Controller::class, 'removeArticle']);
+
+// STATISTIQUES
+Route::get("/orders/stats/week",[Stats_Controller::class,"dayStatsByWeek"]);
+Route::get("/orders/stats/month",[Stats_Controller::class,"dayStatsByMonth"]);
+Route::get("/orders/stats/year",[Stats_Controller::class,"yearStatsByMonth"]);

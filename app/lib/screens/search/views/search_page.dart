@@ -117,7 +117,7 @@ Future<void> _getProducts() async {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
-        toolbarHeight: 90,
+        toolbarHeight: 80,
         title: Form(
           key: _formKey,
           child: TextFormField(
