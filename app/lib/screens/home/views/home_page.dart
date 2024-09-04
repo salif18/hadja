@@ -46,11 +46,11 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  //   _getCategories();
-  // }
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _getCategories();
+  }
 
   Future<void> _getCategories() async {
     try {

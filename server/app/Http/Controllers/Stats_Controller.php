@@ -20,7 +20,7 @@ class Stats_Controller extends Controller
             while ($dateActuel <= $finDeSemaine) {
                 $total = Order::whereDate("created_at", $dateActuel)->sum("total");
                 $data[] = [
-                    "date" => $dateActuel->format("d-m-y"),
+                    "date" => $dateActuel->format("y-m-d"),
                     "total" => $total
                 ];
                 $dateActuel->addDay();
