@@ -1,8 +1,8 @@
 class AppSizes{
   //SIZE
-  static const double fontSmall = 14.0;
-  static const double fontMedium = 16;
-  static const double fontLarge = 20;
+  static const double fontSmall = 10.0;
+  static const double fontMedium = 12;
+  static const double fontLarge = 18;
   static const double fontHyperLarge = 28;
 
 // PADDING

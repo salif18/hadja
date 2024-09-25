@@ -6,12 +6,129 @@
   <component name="ChangeListManager">
     <list default="true" id="b2695200-05a9-4cd8-bca7-760580dfc912" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/models/week_stats_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/models/week_stats_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/screens/home/views/home_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/home/views/home_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/screens/statistics/statistics.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/statistics/statistics.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/app/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/app/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/app/Http/Controllers/Stats_Controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/server/app/Http/Controllers/Stats_Controller.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/constants/app_size.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/constants/app_size.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/http/domaine.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/http/domaine.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/screens/home/widgets/recomaded_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/home/widgets/recomaded_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/app/Http/Controllers/Auth_controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/server/app/Http/Controllers/Auth_controller.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/04ZhG8pmlmnaNp06Zf66FFmuoJtn42cYpaNfBsaE.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/0sx1vJ0wWklS47tPkix3QzDtCGfmtW8ex7yFNVXP.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/1bBwrHEOhxdfLeNCDRG3R1NF8Ixt4cDvEMcyHHq2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/1jjPZEAuOJ9CSNKJoyDWOEduEsFsMcxxAujnavLT.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/1qsB9UA6r1DojpOiDrqJbuaNdOxNRp8FRbMPIwyB.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/3MMnLBwM9HxeUiLxhZk1JRRGbtm3xVfhbcPVY6Ms.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/4AHpagONxzUyvsqYbpjInV0UgPFRmo9v27tRTHrK.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/5BWR2RSEu6Lb4PTRya0QzECACgoNxBBWDGIQmSSE.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/5zUrAfn7hJsbuKxFjZSdJJqDzrCTmsj0Y3vt6UOw.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/61lq3bdrk40umBG7sq9g9niITJ2ZVWSshENgOzDA.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/6Fkvd7cVDB5Hfx3Ca94xzPZ2ijKs8wZ1fF4INwZ3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/6nbi0U8REsuLHsmDnoDa7d3kKT2heYMsBZtMsQhG.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/88C1wPazPfruh5EkZOMdOcu6GvNSaWcb4Ajtmdsp.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/AzKj9LpHXeiGYiphEZoLzaBrvQTxPb1OTGP5dnNI.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/BRUvQXdVil0PdmuJkGfxikfUdnX6ObnsK7mL4kZt.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/CbRJA9YkUDRR17HcWlx8KWaK24f24q3KapvyIhUk.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/CmqYcDNgSuBMzzTJMExbxdSLizjvqa0CLDIwwf0L.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/FEnQkVAB0o8cYT3EgmOdko8R9noQscIGEflqtUUv.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/FGk4ynXnIKMe2BVbMLJYkheVkdXds5bpoiRaQllr.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/FX1cft37PNpNRe9pfZ0CdR9eQHk25I7UofnLMUgQ.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/Hh4hEslyEZy6Rqsd7FRIBLEiyTztTAlAd5mvLP6b.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/Ibp3NCwKk3O1NVkokKqRNVWHjjOlTUwOlRQTU9O0.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/Jhl9fTXENzPTNrOozAmD2IxmWick4h3EZD3IMWFm.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/Jr57AWmEkAPF9EhoSNz0lJOtkzNQiDckoZuOgZXU.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/L4yieXuSz19COQLv65fS9MutQ85Hn2oQawuDwT9A.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/M8gt1Ci3hLeyFWfUMPAfUf01JtJyoGCfUmqRyxYs.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/Nn3M3NXY2agqGl5jc4JwA7swRt8GY0C9Upv6pK57.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/PiiDr4rfz9rVfgcG1aI9DkoDbthsfmVxr8DpfJkC.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/Quo0Dur41QcvzBCmF9lresu9Z8PThZ2pU5Vr6B2A.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/RyZLDqySzmKXkvlgFCeT2EmLXZGR1E48cJ2sBlwy.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/TUp8ImM0GDrxvncAqkyX2pscvVHQKCx6kN864EK3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/Tfux58D5O3rqnQe1k5rPO7kbRIUAHBgIk2bgZpTK.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/U8g2qMBbVWQKywoRM1mH31mNx6IkEnKJB9nIt0yw.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/ULUoXvh6Ge9rUz9k1wvpe4kS0qR5tCQLyDgeyMTY.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/UuBltIp25PrGUrLFAC3BInDRwsWwL8Q2XJc4Tq4g.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/VNlVcm42rusiqNWE23La2ZC5Qs4LabHMk0LM4WGS.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/WXHhVOwpUJDDcqcgetKFyS1fdPcv9ejdCBzL45TH.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/WZNpMZHdWkcFV2hBtIw0ROGKz6Ps7UlGWEaJiP58.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/WznKwnUkIb39UyuswTvt7lSNGeOfmFHW8RIoMBhl.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/XBHHW9Eev1pgX4HPgSqEWo0UxdeOSohGlhjPy0ok.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/YYLMmykGGwI21FRF7Q64pS9XOtcPIbJKNEqnSmH2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/ZgWV4wRL97tIp6VsGuglZyPYKDpUvMpceAiyqpcP.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/aE0SVXavwDsKBro1PSLZLuZXc6QOPsEj5sGTTQnU.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/bGNT6gTH26xz5mjB32udZZQgGTcvBK09L4KkYlVP.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/bSJOfbQtpLDNhWUEkyyA69yVaXNZMySpfp8ca69B.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/bbtyuLBVxaeXCj6GJ9Jz29F9NOrdZW5xGX60b8Cz.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/c0ThDO7M74wkkZz13Vs2yxmD7NVaTPGOTT8GUV7B.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/c4GFWP0JF8HwAbAIpePYYGpu1w4OuOnKhlpj5dDN.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/dBpFkvk8FEA5uzFQfJqWu8Dl6U5h930ijPvpJLYq.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/doKaW7tK2N6TxlvwrgdohTSODuh6j3Zd2AS7L1in.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/ds3Ialx2NIzsGiFabu56RMyhLwmJetd5qbhLAwNO.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/eFxc5oUIQzzchqHoeQQxoQTtR7CH5xZvRUIW73Ve.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/emyAWeguE2EHMBBK5N6xk0EkQsu3uxNCQMtRFKai.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/eqVxiP3lMaLpboBzi0Vl7rotOIOODtjHyG4y3kcG.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/f70DYnjCYiSuLQ8k0zsON7Fs4ldW6p6bc3JjFyg5.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/fgrQo3ZEWYS93vAFx6ejMaVoyocv43ZI6KEjzkXG.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/gV0o7K9Hjqhhx0HoI2hQCPpy0Wd4qX9NhD4kKK92.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/hBaiD3oTYt0Q4VwB79yAB1vFLoWvZXdgpdmMs0Bh.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/i1iFmWLgSe8ui7F5ZdswbrjHFUr5bzg4SWy5VeB9.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/i6eN0MIJizmGZVwfd32xpFWvnqJVyYHV8GZKy0Z4.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/igjEzVbN6Jwqi6ItH37RocTRsFUUcQWLRFysYqoy.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/jLLY6xUYxwxx9XsC4BOyXDlvyQYhNzRW2GKrJxrr.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/jO0SopxwkgESjjm5Kvcl8x4HVRQlg1CYFDqDabgT.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/kJqLkbXu90aArFeR16ZvT6Hz9uHRMRjFdozhr9Od.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/khIHsV9e6hub2e9u5J6WibyN7mIhxqMtpUqH3Y7U.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/mtoUd00HJUPPG5dXKqjbhyh2GVUhDWgoOotnLSr7.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/mwhxI6DF3uvwqNVAnOgEvEcVEZH0PlElUzoSlYDp.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/tHjpfHEFG0ZCJKAbKQQ0l2kAEN8PmeXZWKvA0OLD.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/tdSzhCYgOGrbqsqSYg9tgcs1IWpeGa4MHrSr2YU3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/u7BoyCK63dlh67ejbRpKKxnafgvXLeLjR2GiNeQz.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/uOzsV3uC38d3QmF4YVSMrrvZDnUbLOWdHwIlpfYL.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/utLChWJ8mCYfChgEDti4SevaBRtD65wD3kcGgUtT.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/vCNwooPmsmkzMQ3kodZkSTNS4vWUf7PcqnPwCrBd.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/w554vwxqTv2EbQn941oSbjg11dasCP4nfzRzE7uv.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/wBwI0nd6X1Z8ly0hRPY19aHTJdT6zqXP5kJyw9wz.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/xNndb0d9D2UKK79IV2GTCC8ZwbAYMd4DrlWbF96W.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/xWp5T0HuOFrkSZWsZVbtm3etuPgbwG8L2UCx06sQ.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/yAbOvFxV6c8hrosSphxKYKZoTxHRqbkIhYf6nios.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/z0uCO8cI7tvIGQ2warG2EU3Zkun0Nl1uTHlDwBbD.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/galleries/z0zt67EMoLp80AtcepryAwK8Bu0G29tk2qDCaMAd.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/photos/VsnPioRDzE8hjV1JWiMjtZe4R1PHaqr4wx8c9S43.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/photos/dbuclv5LdUvexf7NKQUYAXIrdgMx8XU0yaN2GAlM.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/photos/lAf0jJkXaeWu8JdfxrS8bWsZHgtFwRuYgjOqdHvl.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/photos/oBWEYj5Wgvlz5ebdE4WMg1qcy7uO1cXoYSdyouE3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/photos/sO6e1SS6QxD07V11BHKej9ygjrQxUi5GhAn6znmi.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/pictures/1VIoIJSVZ4cDTs9TmeSdhLgVCho3vgAG0NC7VkcR.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/pictures/3YYuu48zmIB2bR6tFjhbL3nujlVoJ7Stw1l5mvE1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/pictures/3zdfJ1lKpxXAZdnHqGaXKQhVVEXO7BjaRSOfPePn.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/pictures/4iLA5M8D0rKgI6XaZ1WpsDaMjb5dh1I78t07uVZ7.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/pictures/4sbNZ4c9BOGryDPcqeoqtaEqKGsYrGrlHiIFixAl.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/pictures/6jC7MIsddwx56PNwHhAUSNV4mb7jNM6LKUOxCYYi.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/pictures/7tFRJHwNIbImbd2nJSIbZtrYz5O3LNtCzZN9Y8BW.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/pictures/96vfISBezS3aawS3aDk5VsFC5Gt0AZDVN7nLjIRC.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/pictures/AGTal18vajnyLYQJUpfrj3WGz0OG46qK1CNYuuRb.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/pictures/AHydIxL9CKZYnAcmnsjiccjMRb6VdHdRBUKPkPi8.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/pictures/BSBZGtoDyL8f4aE5f1OzTO2v1AMnPOsLhxBBcJnJ.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/pictures/Dj422FTRfipihluxZOuo8Pjl3PBPkmHKEI4cbDag.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/pictures/Ehq4QaLWywTzYI4ncnIBIV7CwoXDLcGJaCIqzTWx.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/pictures/GwNJl66NY47lsWFXEkvcdmqYvsapQ6nlupxbdf8T.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/pictures/Ng81EnFHOpJ5R9ATXrpDS25W0f78fhM8PU5U8MuW.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/pictures/OxS7veWQo1eS2gA7SgCARpqWyKstuFSQX99gQbik.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/pictures/OzdTdkKrrD0rbl6y8QD8cnzcQ4Hfgtlt0UchN6sN.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/pictures/RpfNMVWoTVtjDZoVbFyjlcVkBx9mFkXgQDLgTuJi.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/pictures/S648DiJRe8JFZSLStURqJno3iPdI15IHOztzVIuZ.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/pictures/SoKGapa2Sb1mqbU2pg7ESbDqtvgDL1MrHfI5eCAz.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/pictures/YOZuUnLHrLRCqtpLffgjOIsNrbU75tj4QN3uA6D9.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/pictures/Z9guI61YUCmF1zUGRYqGLfQJq9Z0EN7ZOQR1xaxw.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/pictures/bdhzm5259eBxeDwXgaKRee9OajmA29FFvtb2M1t9.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/pictures/cQQIsKqHUR8xvn5A1EkgXNGB0vcw9mz8R8vGifWI.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/pictures/d9SaiddQrY1o4ITZTxVDI1VCFjmrnHHawI4yH6BD.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/pictures/h6aA8uZZ8jbNmm35i7A54WGNWGFhxWIZNX0dLQrC.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/pictures/hAwmFmezMvXWdOz6cHwBw0xHJTbyTt7Yn6vR5o0H.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/pictures/hbk3UJPSLo2AsG6tWLqcL2UvnAQrK0BwtlUmYCyg.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/pictures/it9279CRaI8gnzEfIapyKZfshl8SXQxw0bCCm7Fp.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/pictures/mwcYzO3SeFONfxwfPA6Kn5e1Cq8W7hwd0QazoAAU.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/pictures/n7KXPBeAg8lX467jieEt4b7TGhkGQvMkBCX8kjGD.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/pictures/wX6o2wfoDd1QKGhkWDsSepWEAFYkfXZCFECaBPLV.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/pictures/wkY0Flay430JMtr0VkTLiUUaXFBZVhWI0nceAnK6.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/storage/app/public/pictures/zN1fjiHiEzPWdm8NQjY3ZiupHx6aDqsPlZKtFXYI.jpg" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

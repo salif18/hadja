@@ -23,16 +23,13 @@ class _MyRootsState extends State<MyRoots> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
-        children: const [
+      body:<Widget>[
           HomePage(),
           SearchPage(),
           MyArticlePage(),
           CartPage(),
           FavoritesPage()
-        ],
-      ),
+        ][_currentIndex],
       bottomNavigationBar: _buildBottomNavigation(),
     );
   }

@@ -18,6 +18,7 @@ class Auth_Controller extends Controller
         try {
             // Récupération des données de la requête
             $body = $request->only("name", "phone_number", "email", "user_statut", "password");
+            error_log(print_r($request->all(), true));
 
             // Validation des champs de la requête
             $validator = Validator::make($body, [
