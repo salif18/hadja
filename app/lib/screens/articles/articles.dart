@@ -142,7 +142,7 @@ class _MyArticlePageState extends State<MyArticlePage> {
                                           Text(
                                             article.name,
                                             style: GoogleFonts.roboto(
-                                                fontSize: AppSizes.fontMedium,
+                                                fontSize: MediaQuery.of(context).size.width*16/600,
                                                 fontWeight: FontWeight.w600),
                                           ),
                                           Text(

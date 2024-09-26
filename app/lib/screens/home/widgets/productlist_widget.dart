@@ -110,6 +110,7 @@ class _MyProductListWidgetState extends State<MyProductListWidget> {
                                           item: articles[index])));
                         },
                         child: Container(
+                          constraints: BoxConstraints(maxWidth:double.infinity ),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             color: AppColor.secondBackgroud,
@@ -143,7 +144,7 @@ class _MyProductListWidgetState extends State<MyProductListWidget> {
                                       children: [
                                         Text(articles[index].name,
                                             style: GoogleFonts.roboto(
-                                                fontSize: AppSizes.fontMedium,
+                                                fontSize: MediaQuery.of(context).size.width*0.03,
                                                 fontWeight: FontWeight.w600)),
                                         Text(
                                             "${articles[index].price.toString()} fcfa",

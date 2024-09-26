@@ -127,7 +127,7 @@ class _MyRecomadationWidgetState extends State<MyRecomadationWidget> {
                                       children: [
                                         Text(articles[index].name,
                                             style: GoogleFonts.roboto(
-                                                fontSize: AppSizes.fontMedium,
+                                                fontSize: MediaQuery.of(context).size.width*0.03,
                                                 fontWeight: FontWeight.w600)),
                                         Text(
                                             "${articles[index].price.toString()} fcfa",
