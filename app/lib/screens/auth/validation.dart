@@ -79,62 +79,66 @@ final _newPassword = TextEditingController();
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
-        toolbarHeight: 80,
+        toolbarHeight: MediaQuery.of(context).size.width * 50/360,
         elevation: 0,
         backgroundColor: Colors.grey[200],
         leading: IconButton(
             onPressed: () => Navigator.pop(context),
-            icon: const Icon(Icons.arrow_back_ios_new_rounded, size: AppSizes.iconLarge)),
+            icon:Icon(Icons.arrow_back_ios_new_rounded, size: MediaQuery.of(context).size.width * 16/360)),
       ),
-      body: Container(
-        padding: const EdgeInsets.all(10),
-        child: SingleChildScrollView(
-          child: Form(
-            key: _globalKey,
-            child: Column(
-              children: [
-                _text(context),
-                _formNewPassword(context),
-                _formConfirmPassword(context),
-                _secondText(context),
-                _codes4Champs(context),
-                const SizedBox(height: 100),
-                _sendButton(context)
-              ],
+      body: LayoutBuilder(
+        builder: (context , constraints){
+          return Container(
+          padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
+          child: SingleChildScrollView(
+            child: Form(
+              key: _globalKey,
+              child: Column(
+                children: [
+                  _text(context, constraints),
+                  _formNewPassword(context , constraints),
+                  _formConfirmPassword(context, constraints),
+                  _secondText(context, constraints),
+                  _codes4Champs(context, constraints),
+                  SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 100)),
+                  _sendButton(context,constraints)
+                ],
+              ),
             ),
           ),
-        ),
+        );
+        },
       ),
     );
   }
 
-  Widget _text(BuildContext context) {
+  Widget _text(BuildContext context,constraints) {
     return Padding(
-      padding: const EdgeInsets.all(8),
+      padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
             child: Text("Validation le mot de passe",
                 style: GoogleFonts.roboto(
-                    fontSize: AppSizes.fontLarge, fontWeight: FontWeight.w600)),
+                    fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 20), fontWeight: FontWeight.w600)),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
             child: Text(
                 "Veuillez entrer les bonnes informations pour pouvoir valider le nouveau mot de passe",
                 style: GoogleFonts.roboto(
-                    fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w300)),
+                    fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 14), fontWeight: FontWeight.w300)),
           ),
         ],
       ),
     );
   }
 
-  Widget _formNewPassword(BuildContext context) {
+  Widget _formNewPassword(BuildContext context, constraints) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
       child: TextFormField(
          controller: _newPassword,
         validator: (value) {
@@ -145,21 +149,21 @@ final _newPassword = TextEditingController();
         },
         keyboardType: TextInputType.visiblePassword,
         decoration: InputDecoration(
-          prefixIcon: const Icon(Icons.key_rounded, size: AppSizes.fontLarge),
+          prefixIcon:Icon(Icons.key_rounded, size: constraints.maxWidth * AppSizes.converValueToadapter(context, 24)),
           filled: true,
           fillColor: Colors.grey[100],
           labelText: "Nouveau mot de passe",
           labelStyle:
-              GoogleFonts.aBeeZee(fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w500),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+              GoogleFonts.aBeeZee(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.w500),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 20))),
         ),
       ),
     );
   }
 
-  Widget _formConfirmPassword(BuildContext context) {
+  Widget _formConfirmPassword(BuildContext context, constraints) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
       child: TextFormField(
          controller: _confirmPassword,
         validator: (value) {
@@ -170,41 +174,41 @@ final _newPassword = TextEditingController();
         },
         keyboardType: TextInputType.visiblePassword,
         decoration: InputDecoration(
-          prefixIcon: const Icon(Icons.lock_outline, size: AppSizes.iconLarge),
+          prefixIcon: Icon(Icons.lock_outline, size: constraints.maxWidth * AppSizes.converValueToadapter(context, 24)),
           filled: true,
           fillColor: Colors.grey[100],
           labelText: "Confirmer",
           labelStyle:
-              GoogleFonts.aBeeZee(fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w500),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+              GoogleFonts.aBeeZee(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 14), fontWeight: FontWeight.w500),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 20))),
         ),
       ),
     );
   }
 
-  Widget _secondText(BuildContext context) {
+  Widget _secondText(BuildContext context,constraints) {
     return Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
         child: Container(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
             child: Text("Entrez les 4 chiffres envoyés sur votre e-mail",
                 style: GoogleFonts.roboto(
-                    fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w400))));
+                    fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.w400))));
   }
 
-  Widget _codes4Champs(BuildContext context) {
+  Widget _codes4Champs(BuildContext context,constraints) {
     return Padding(
-      padding: const EdgeInsets.all(10),
+      padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
       child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding:  EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
           child: PinCodeTextField(
             appContext: context,
             length: 4,
             pinTheme: PinTheme(
                 shape: PinCodeFieldShape.box,
-                borderRadius: BorderRadius.circular(10),
-                fieldHeight: 80,
-                fieldWidth: 75,
+                borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
+                fieldHeight: constraints.maxWidth * AppSizes.converValueToadapter(context, 80),
+                fieldWidth: constraints.maxWidth * AppSizes.converValueToadapter(context, 75),
                 activeColor: Colors.blue,
                 inactiveColor: Colors.grey),
             onCompleted: (value) {
@@ -222,17 +226,17 @@ final _newPassword = TextEditingController();
     );
   }
 
-  Widget _sendButton(BuildContext context) {
+  Widget _sendButton(BuildContext context,constraints) {
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFF1D1A30),
-            minimumSize: const Size(350, 50)),
+            minimumSize: Size(constraints.maxWidth * AppSizes.converValueToadapter(context, 350), constraints.maxWidth * AppSizes.converValueToadapter(context, 40))),
         onPressed: () {
           _sendToserver(context);
         },
         child: Text("Envoyer",
             style: GoogleFonts.aBeeZee(
-                fontSize: AppSizes.fontSmall,
+                fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
                 fontWeight: FontWeight.w500,
                 color: Colors.white)));
   }

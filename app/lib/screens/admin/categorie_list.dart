@@ -133,34 +133,35 @@ class _MyCategoriListState extends State<MyCategoriList> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        toolbarHeight: 80,
+        toolbarHeight: MediaQuery.of(context).size.width * 50/360,
         centerTitle: true,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: const Icon(Icons.arrow_back_ios_new_rounded, size: AppSizes.iconLarge),
+          icon: Icon(Icons.arrow_back_ios_new_rounded, size: MediaQuery.of(context).size.width * 24/360),
         ),
         title: Text(
           "Categories",
           style: GoogleFonts.roboto(
-            fontSize: AppSizes.fontLarge,
+            fontSize: MediaQuery.of(context).size.width * 16/360,
             fontWeight: FontWeight.w500,
             color: Colors.black,
           ),
         ),
       ),
-      body: Container(
-        padding: const EdgeInsets.all(15),
+      body: LayoutBuilder(builder: (context,constraints){
+        return Container(
+        padding:  EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
         child: StreamBuilder<List<CategoriesModel>>(
           stream: _listCategories.stream,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
-              return const Center(child: Text("Error"));
+              return Center(child: Text("Problème de connexion au server",style: TextStyle(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12)),));
             } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return const Center(child: Text("Pas de données disponibles"));
+              return Center(child: Text("Pas de données disponibles",style: TextStyle(fontSize:  constraints.maxWidth * AppSizes.converValueToadapter(context, 12)),));
             } else {
               return ListView.builder(
                 itemCount: snapshot.data!.length,
@@ -173,32 +174,32 @@ class _MyCategoriListState extends State<MyCategoriList> {
                       _removeCategories(categorie.id);
                     },
                     confirmDismiss: (direction) async {
-                      return await showRemoveCategorie(context);
+                      return await showRemoveCategorie(context,constraints);
                     },
                     background: Container(
                       color: Colors.red,
-                      child: const Row(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Icon(Icons.delete_outline,
-                              color: Colors.white, size: AppSizes.iconLarge),
-                          SizedBox(width: 50),
+                              color: Colors.white, size:  constraints.maxWidth * AppSizes.converValueToadapter(context, 22)),
+                          SizedBox(width:  constraints.maxWidth * AppSizes.converValueToadapter(context, 50)),
                         ],
                       ),
                     ),
                     child: Container(
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                           border: Border(
                               bottom: BorderSide(
                                   color: Color.fromARGB(255, 245, 245, 245)))),
                       child: ListTile(
-                        title: Text(categorie.nameCategorie,style: GoogleFonts.roboto(fontSize:AppSizes.fontMedium),),
+                        title: Text(categorie.nameCategorie,style: GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12)),),
                         trailing: IconButton(
                             onPressed: () {
-                              _updateCateShow(context, categorie.id);
+                              _updateCateShow(context, categorie.id,constraints);
                             },
-                            icon: const Icon(Icons.edit,
-                                size: AppSizes.iconLarge, color: Colors.blue)),
+                            icon: Icon(Icons.edit,
+                                size: constraints.maxWidth * AppSizes.converValueToadapter(context, 22), color: Colors.blue)),
                       ),
                     ),
                   );
@@ -207,23 +208,26 @@ class _MyCategoriListState extends State<MyCategoriList> {
             }
           },
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
+      );
+      }),
+      floatingActionButton: LayoutBuilder(builder: (context,constraints){
+        return FloatingActionButton(
         backgroundColor: const Color.fromARGB(255, 5, 191, 100),
         onPressed: () {
-          _addCateShow(context);
+          _addCateShow(context, constraints);
         },
-        child: const Icon(
+        child: Icon(
           Icons.add,
-          size: AppSizes.iconLarge,
+          size:  constraints.maxWidth * AppSizes.converValueToadapter(context, 22),
           color: Colors.white,
         ),
-      ),
+      );
+      })
     );
   }
 
 //FENETRE POUR AJOUTER CATEGORIE
-  void _addCateShow(BuildContext context) {
+  void _addCateShow(BuildContext context,constraints) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -232,7 +236,7 @@ class _MyCategoriListState extends State<MyCategoriList> {
             child: Text(
               "Ajouter categories",
               style: GoogleFonts.roboto(
-                fontSize: AppSizes.fontLarge,
+                fontSize:  constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
                 fontWeight: FontWeight.w400,
               ),
             ),
@@ -254,15 +258,15 @@ class _MyCategoriListState extends State<MyCategoriList> {
                       },
                       decoration: InputDecoration(
                         hintText: "Nom de la categorie",
-                        hintStyle: GoogleFonts.roboto(fontSize: AppSizes.fontMedium),
-                        prefixIcon: const Icon(
+                        hintStyle: GoogleFonts.roboto(fontSize:  constraints.maxWidth * AppSizes.converValueToadapter(context, 12)),
+                        prefixIcon: Icon(
                           Icons.category_rounded,
-                          size: AppSizes.iconMedium,
+                          size:  constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
                           color: Colors.purpleAccent,
                         ),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height:  constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
                     ElevatedButton(
                       onPressed: () {
                         _sendToserver(context);
@@ -270,12 +274,12 @@ class _MyCategoriListState extends State<MyCategoriList> {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF1D1A30),
-                        minimumSize: const Size(400, 50),
+                        minimumSize: Size( constraints.maxWidth * AppSizes.converValueToadapter(context, 400), constraints.maxWidth * AppSizes.converValueToadapter(context, 40)),
                       ),
                       child: Text(
                         "Enregistrer",
                         style: GoogleFonts.roboto(
-                          fontSize: AppSizes.fontSmall,
+                          fontSize:  constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
                           fontWeight: FontWeight.w400,
                           color: Colors.white,
                         ),
@@ -292,7 +296,7 @@ class _MyCategoriListState extends State<MyCategoriList> {
   }
 
 //FENETRE POUR MODIFIER CATEGORIE
-  void _updateCateShow(BuildContext context, int id) {
+  void _updateCateShow(BuildContext context, int id,constraints) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -301,7 +305,7 @@ class _MyCategoriListState extends State<MyCategoriList> {
             child: Text(
               "Modifier categories",
               style: GoogleFonts.roboto(
-                fontSize: AppSizes.fontLarge,
+                fontSize:  constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
                 fontWeight: FontWeight.w400,
               ),
             ),
@@ -323,27 +327,27 @@ class _MyCategoriListState extends State<MyCategoriList> {
                       },
                       decoration: InputDecoration(
                         hintText: "Nom de la categorie",
-                        hintStyle: GoogleFonts.roboto(fontSize: AppSizes.fontMedium),
-                        prefixIcon: const Icon(
+                        hintStyle: GoogleFonts.roboto(fontSize:  constraints.maxWidth * AppSizes.converValueToadapter(context, 12)),
+                        prefixIcon: Icon(
                           Icons.category_rounded,
-                          size: AppSizes.iconMedium,
+                          size:  constraints.maxWidth * AppSizes.converValueToadapter(context, 22),
                           color: Colors.purpleAccent,
                         ),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                  SizedBox(height:  constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
                     ElevatedButton(
                       onPressed: () {
                         _sendNewUpdateToserver(context, id);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF1D1A30),
-                        minimumSize: const Size(400, 50),
+                        minimumSize: Size( constraints.maxWidth * AppSizes.converValueToadapter(context, 400),  constraints.maxWidth * AppSizes.converValueToadapter(context, 40)),
                       ),
                       child: Text(
                         "Mettre à jour",
                         style: GoogleFonts.roboto(
-                          fontSize: AppSizes.fontSmall,
+                          fontSize:  constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
                           fontWeight: FontWeight.w400,
                           color: Colors.white,
                         ),
@@ -361,25 +365,25 @@ class _MyCategoriListState extends State<MyCategoriList> {
 }
 
 // FENTRE DIALOGUE POUR CONFIRMER LA SUPPRESSION
-Future<bool> showRemoveCategorie(BuildContext context) async {
+Future<bool> showRemoveCategorie(BuildContext context,constraints) async {
   return await showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: const Text("Confirmer"),
-        content: const Text("Êtes-vous sûr de vouloir supprimer cette catégorie ?"),
+        title: Text("Confirmer",style: GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 14))),
+        content: Text("Êtes-vous sûr de vouloir supprimer cette catégorie ?",style: GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12))),
         actions: [
           TextButton(
             onPressed: () {
               Navigator.of(context).pop(false);
             },
-            child: Text("Annuler",style: GoogleFonts.roboto(fontSize:AppSizes.fontMedium)),
+            child: Text("Annuler",style: GoogleFonts.roboto(fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context, 12))),
           ),
           TextButton(
             onPressed: () {
               Navigator.of(context).pop(true);
             },
-            child: Text("Supprimer",style: GoogleFonts.roboto(fontSize:AppSizes.fontMedium)),
+            child: Text("Supprimer",style: GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12))),
           ),
         ],
       );

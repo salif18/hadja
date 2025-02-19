@@ -200,49 +200,124 @@ Future<void> sendUpdateImageProfil() async {
               return Center(child: Text('Error: ${snapshot.error}'));
             } else if (snapshot.hasData) {
               ProfilModel profil = snapshot.data!;
-              return Drawer(
-                child: ListView(
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      height: 150,
-                      child:Center(
-                          child: Column(
-                            children: [
-                              profil.photo != null ?
-                              GestureDetector(
-                                onTap: (){
-                                        _showUpdatePhoto();
-                                },
-                                child: CircleAvatar(
-                                    radius: 35,
-                                    backgroundImage:  NetworkImage(
-                                      profil.photo!,
-                                    ) as ImageProvider,
+              return LayoutBuilder(
+                builder: (context,constraints){
+                  return Drawer(
+                  child: ListView(
+                    children: [
+                      Container(
+                        width: constraints.maxWidth ,
+                        height: constraints.maxWidth * AppSizes.converValueToadapter(context, 140),
+                        child:Center(
+                            child: Column(
+                              children: [
+                                profil.photo != null ?
+                                GestureDetector(
+                                  onTap: (){
+                                          _showUpdatePhoto(constraints);
+                                  },
+                                  child: CircleAvatar(
+                                      radius: constraints.maxWidth * AppSizes.converValueToadapter(context, 30),
+                                      backgroundImage:  NetworkImage(
+                                        profil.photo ?? "",
+                                      ) as ImageProvider,
+                                       backgroundColor: Colors.transparent,
+                                       
+                                    ),
+                                )
+                                : GestureDetector(
+                                  onTap: (){
+                                        _loadImageFromGallery();
+                                      },
+                                  child: CircleAvatar(
+                                    radius: constraints.maxWidth * AppSizes.converValueToadapter(context, 30),
                                      backgroundColor: Colors.transparent,
-                                     
+                                    backgroundImage: AssetImage("assets/images/add profil.png") as ImageProvider),
                                   ),
-                              )
-                              : GestureDetector(
-                                onTap: (){
-                                      _loadImageFromGallery();
-                                    },
-                                child: CircleAvatar(
-                                  radius: 35,
-                                   backgroundColor: Colors.transparent,
-                                  backgroundImage: AssetImage("assets/images/add profil.png") as ImageProvider),
+                                Padding(
+                                  padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 2)),
+                                        child: Text(profil.name ?? "user", style:GoogleFonts.aBeeZee(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), color:AppColor.textColor)),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 2)),
+                                        child: Text(profil.email ?? "user@gmail.com",style:GoogleFonts.aBeeZee(fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context, 12),color:AppColor.textColor )),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              Padding(
-                                padding: const EdgeInsets.all(5),
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(2.0),
-                                      child: Text(profil.name ?? "user", style:GoogleFonts.aBeeZee(fontSize: AppSizes.fontMedium, color:AppColor.textColor)),
+                              ],
+                            ),
+                          ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * AppSizes.converValueToadapter(context, 15), vertical: constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                padding: EdgeInsets.only(
+                                  left: constraints.maxWidth * AppSizes.converValueToadapter(context, 20), 
+                                  top: constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
+                                child: Text(
+                                  "Mon compte",
+                                  style: GoogleFonts.roboto(
+                                    fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.grey[400],
+                                  ),
+                                ),
+                              ),
+                              ListTile(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const UpdateProfil(),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(2.0),
-                                      child: Text(profil.email ?? "user@gmail.com",style:GoogleFonts.aBeeZee(fontSize: AppSizes.fontSmall,color:AppColor.textColor )),
+                                  );
+                                },
+                                title: Row(
+                                  children: [
+                                    Icon(Icons.person, size: constraints.maxWidth * AppSizes.converValueToadapter(context, 22), color: Colors.green),
+                                    SizedBox(width: constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
+                                    Text(
+                                      "Modifier profil",
+                                      style: GoogleFonts.roboto(
+                                        fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              ListTile(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const UpdatePassword(),
+                                    ),
+                                  );
+                                },
+                                title: Row(
+                                  children: [
+                                    Icon(Icons.lock, size:constraints.maxWidth * AppSizes.converValueToadapter(context, 22), color: Colors.blue),
+                                    SizedBox(width: constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
+                                    Text(
+                                      "Changer password",
+                                      style: GoogleFonts.roboto(
+                                        fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
+                                        fontWeight: FontWeight.w400,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -250,355 +325,366 @@ Future<void> sendUpdateImageProfil() async {
                             ],
                           ),
                         ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.only(left: 20, top: 15),
-                              child: Text(
-                                "Mon compte",
-                                style: GoogleFonts.roboto(
-                                  fontSize: AppSizes.fontMedium,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.grey[400],
-                                ),
-                              ),
+                      ),
+                      if (profil.userStatut == "admin") ...[
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: constraints.maxWidth * AppSizes.converValueToadapter(context, 15), 
+                            vertical: constraints.maxWidth * AppSizes.converValueToadapter(context, 5)
                             ),
-                            ListTile(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const UpdateProfil(),
-                                  ),
-                                );
-                              },
-                              title: Row(
-                                children: [
-                                  const Icon(Icons.person, size: AppSizes.iconLarge, color: Colors.green),
-                                  const SizedBox(width: 10),
-                                  Text(
-                                    "Modifier profil",
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.only(
+                                    left: constraints.maxWidth * AppSizes.converValueToadapter(context, 20), 
+                                    top: constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
+                                  child: Text(
+                                    "Administrateur",
                                     style: GoogleFonts.roboto(
-                                      fontSize: AppSizes.fontMedium,
+                                      fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
                                       fontWeight: FontWeight.w400,
+                                      color: Colors.grey[400],
                                     ),
                                   ),
-                                ],
-                              ),
-                            ),
-                            ListTile(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const UpdatePassword(),
+                                ),
+                                ListTile(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const MyCategoriList(),
+                                      ),
+                                    );
+                                  },
+                                  title: Row(
+                                    children: [
+                                      Icon(Icons.category, size:constraints.maxWidth * AppSizes.converValueToadapter(context, 22), color: Colors.purple[400]),
+                                      SizedBox(width: constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
+                                      Text(
+                                        "Categories",
+                                        style: GoogleFonts.roboto(
+                                          fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                );
-                              },
-                              title: Row(
-                                children: [
-                                  const Icon(Icons.lock, size: AppSizes.iconLarge, color: Colors.blue),
-                                  const SizedBox(width: 10),
-                                  Text(
-                                    "Changer password",
+                                ),
+                                ListTile(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const ProductPage(),
+                                      ),
+                                    );
+                                  },
+                                  title: Row(
+                                    children: [
+                                      Icon(Icons.add, size: constraints.maxWidth * AppSizes.converValueToadapter(context, 22), color: Colors.grey[800]),
+                                      SizedBox(width: constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
+                                      Text(
+                                        "Produits",
+                                        style: GoogleFonts.roboto(
+                                          fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                ListTile(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const DeliveryList(),
+                                      ),
+                                    );
+                                  },
+                                  title: Row(
+                                    children: [
+                                      Icon(Icons.delivery_dining, size: constraints.maxWidth * AppSizes.converValueToadapter(context, 22), color: Color.fromARGB(255, 30, 125, 173)),
+                                      SizedBox(width: constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
+                                      Text(
+                                        "Livreurs",
+                                        style: GoogleFonts.roboto(
+                                          fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                ListTile(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const AdminOders(),
+                                      ),
+                                    );
+                                  },
+                                  title: Row(
+                                    children: [
+                                      Icon(Icons.filter_list_sharp, size:constraints.maxWidth * AppSizes.converValueToadapter(context, 22), color: Colors.amber),
+                                      SizedBox(width: constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
+                                      Text(
+                                        "Commandes",
+                                        style: GoogleFonts.roboto(
+                                          fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                ListTile(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const Stats(),
+                                      ),
+                                    );
+                                  },
+                                  title: Row(
+                                    children: [
+                                      Icon(Icons.line_axis_rounded, size: constraints.maxWidth * AppSizes.converValueToadapter(context, 22), color: Color.fromARGB(255, 12, 117, 26)),
+                                      SizedBox(width: constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
+                                      Text(
+                                        "Statistiques",
+                                        style: GoogleFonts.roboto(
+                                          fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ] else if (profil.userStatut == "delivery") ...[
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * AppSizes.converValueToadapter(context, 15),
+                           vertical: constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.only(
+                                    left: constraints.maxWidth * AppSizes.converValueToadapter(context, 20), 
+                                    top: constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
+                                  child: Text(
+                                    "Livreurs",
                                     style: GoogleFonts.roboto(
-                                      fontSize: AppSizes.fontMedium,
+                                      fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
                                       fontWeight: FontWeight.w400,
+                                      color: Colors.grey[400],
                                     ),
                                   ),
-                                ],
-                              ),
+                                ),
+                                ListTile(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => OrdersLivreurs(constraints: constraints),
+                                      ),
+                                    );
+                                  },
+                                  title: Row(
+                                    children: [
+                                       Icon(Icons.filter_list_sharp, size: constraints.maxWidth * AppSizes.converValueToadapter(context, 22), color: Colors.lightBlue),
+                                       SizedBox(width: constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
+                                      Text(
+                                        "Commandes",
+                                        style: GoogleFonts.roboto(
+                                          fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                ListTile(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const ListOrderLivrer(),
+                                      ),
+                                    );
+                                  },
+                                  title: Row(
+                                    children: [
+                                       Icon(Icons.check, size: constraints.maxWidth * AppSizes.converValueToadapter(context, 22), color: Colors.green),
+                                       SizedBox(width: constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
+                                      Text(
+                                        "Livrés",
+                                        style: GoogleFonts.roboto(
+                                          fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    if (profil.userStatut == "admin") ...[
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.only(left: 20, top: 15),
-                                child: Text(
-                                  "Administrateur",
-                                  style: GoogleFonts.roboto(
-                                    fontSize: AppSizes.fontMedium,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.grey[400],
-                                  ),
-                                ),
-                              ),
-                              ListTile(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const MyCategoriList(),
-                                    ),
-                                  );
-                                },
-                                title: Row(
-                                  children: [
-                                    Icon(Icons.category, size: AppSizes.iconLarge, color: Colors.purple[400]),
-                                    const SizedBox(width: 10),
-                                    Text(
-                                      "Categories",
-                                      style: GoogleFonts.roboto(
-                                        fontSize: AppSizes.fontMedium,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              ListTile(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const ProductPage(),
-                                    ),
-                                  );
-                                },
-                                title: Row(
-                                  children: [
-                                    Icon(Icons.add, size: AppSizes.iconLarge, color: Colors.grey[800]),
-                                    const SizedBox(width: 10),
-                                    Text(
-                                      "Produits",
-                                      style: GoogleFonts.roboto(
-                                        fontSize: AppSizes.fontMedium,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              ListTile(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const DeliveryList(),
-                                    ),
-                                  );
-                                },
-                                title: Row(
-                                  children: [
-                                    const Icon(Icons.delivery_dining, size: AppSizes.iconLarge, color: Color.fromARGB(255, 30, 125, 173)),
-                                    const SizedBox(width: 10),
-                                    Text(
-                                      "Livreurs",
-                                      style: GoogleFonts.roboto(
-                                        fontSize: AppSizes.fontMedium,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              ListTile(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const AdminOders(),
-                                    ),
-                                  );
-                                },
-                                title: Row(
-                                  children: [
-                                    const Icon(Icons.filter_list_sharp, size:AppSizes.iconLarge, color: Colors.amber),
-                                    const SizedBox(width: 10),
-                                    Text(
-                                      "Commandes",
-                                      style: GoogleFonts.roboto(
-                                        fontSize: AppSizes.fontMedium,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              ListTile(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const Stats(),
-                                    ),
-                                  );
-                                },
-                                title: Row(
-                                  children: [
-                                    Icon(Icons.line_axis_rounded, size: AppSizes.iconLarge, color: Color.fromARGB(255, 12, 117, 26)),
-                                    const SizedBox(width: 10),
-                                    Text(
-                                      "Statistiques",
-                                      style: GoogleFonts.roboto(
-                                        fontSize: AppSizes.fontMedium,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
                           ),
                         ),
-                      ),
-                    ] else if (profil.userStatut == "delivery") ...[
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.only(left: 20, top: 15),
-                                child: Text(
-                                  "Livreurs",
-                                  style: GoogleFonts.roboto(
-                                    fontSize: AppSizes.fontMedium,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.grey[400],
+                      ] else if (profil.userStatut == "client") ...[
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * AppSizes.converValueToadapter(context, 15), vertical: constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.only(
+                                    left: constraints.maxWidth * AppSizes.converValueToadapter(context, 20), 
+                                    top: constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
+                                  child: Text(
+                                    "Clients",
+                                    style: GoogleFonts.roboto(
+                                      fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.grey[400],
+                                    ),
                                   ),
                                 ),
-                              ),
-                              ListTile(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const OrdersLivreurs(),
-                                    ),
-                                  );
-                                },
-                                title: Row(
-                                  children: [
-                                    const Icon(Icons.filter_list_sharp, size: AppSizes.iconLarge, color: Colors.lightBlue),
-                                    const SizedBox(width: 10),
-                                    Text(
-                                      "Commandes",
-                                      style: GoogleFonts.roboto(
-                                        fontSize: AppSizes.fontMedium,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              ListTile(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const ListOrderLivrer(),
-                                    ),
-                                  );
-                                },
-                                title: Row(
-                                  children: [
-                                    const Icon(Icons.check, size: AppSizes.iconLarge, color: Colors.green),
-                                    const SizedBox(width: 10),
-                                    Text(
-                                      "Livrés",
-                                      style: GoogleFonts.roboto(
-                                        fontSize: AppSizes.fontMedium,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ] else if (profil.userStatut == "client") ...[
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.only(left: 20, top: 15),
-                                child: Text(
-                                  "Clients",
-                                  style: GoogleFonts.roboto(
-                                    fontSize: AppSizes.fontMedium,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.grey[400],
-                                  ),
-                                ),
-                              ),
-                              ListTile(
-                                onTap: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        contentPadding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-                                        content: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            MapsPage(
-                                              getLatLng: getLatLng,
-                                            ),
-                                            ElevatedButton(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              style: ElevatedButton.styleFrom(
-                                                backgroundColor: Colors.blue,
+                                ListTile(
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          contentPadding: EdgeInsets.symmetric(vertical: constraints.maxWidth * AppSizes.converValueToadapter(context, 5), horizontal: constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
+                                          content: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              MapsPage(
+                                                getLatLng: getLatLng,
                                               ),
-                                              child: Text(
-                                                "Valider",
-                                                style: GoogleFonts.roboto(
-                                                  fontSize: AppSizes.fontLarge,
-                                                  color: Colors.white,
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor: Colors.blue,
+                                                ),
+                                                child: Text(
+                                                  "Valider",
+                                                  style: GoogleFonts.roboto(
+                                                    fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
+                                                    color: Colors.white,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                  title: Row(
+                                    children: [
+                                      Icon(Icons.location_searching_rounded, size: constraints.maxWidth * AppSizes.converValueToadapter(context, 22), color: Colors.green),
+                                      SizedBox(width: constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
+                                      Text(
+                                        "Addresse",
+                                        style: GoogleFonts.roboto(
+                                          fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
+                                          fontWeight: FontWeight.w400,
                                         ),
-                                      );
-                                    },
-                                  );
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                ListTile(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const OrdersClient(),
+                                      ),
+                                    );
+                                  },
+                                  title: Row(
+                                    children: [
+                                      Icon(Icons.filter_list_outlined, size: constraints.maxWidth * AppSizes.converValueToadapter(context, 22), color: Colors.orange),
+                                      SizedBox(width: constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
+                                      Text(
+                                        "Commandes",
+                                        style: GoogleFonts.roboto(
+                                          fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ] else ...[
+                        // Widget à afficher si aucun des statuts ne correspond
+                        Container(),
+                      ],
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * AppSizes.converValueToadapter(context, 15), vertical: constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                padding: EdgeInsets.only(
+                                  left: constraints.maxWidth * AppSizes.converValueToadapter(context, 20), 
+                                  top: constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
+                                child: Text(
+                                  "Securités",
+                                  style: GoogleFonts.roboto(
+                                    fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.grey[400],
+                                  ),
+                                ),
+                              ),
+                              ListTile(
+                                onTap: () {
+                                  logoutUserClearTokenTosServer(context);
                                 },
                                 title: Row(
                                   children: [
-                                    const Icon(Icons.location_searching_rounded, size: AppSizes.iconLarge, color: Colors.green),
-                                    const SizedBox(width: 10),
+                                    Icon(Icons.logout, size: constraints.maxWidth * AppSizes.converValueToadapter(context, 22)),
+                                    SizedBox(width: constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
                                     Text(
-                                      "Addresse",
+                                      "Se déconnecter",
                                       style: GoogleFonts.roboto(
-                                        fontSize: AppSizes.fontMedium,
+                                        fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
                                         fontWeight: FontWeight.w400,
                                       ),
                                     ),
@@ -607,21 +693,16 @@ Future<void> sendUpdateImageProfil() async {
                               ),
                               ListTile(
                                 onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const OrdersClient(),
-                                    ),
-                                  );
+                                  _showConfirmDelete(context,constraints);
                                 },
                                 title: Row(
                                   children: [
-                                    const Icon(Icons.filter_list_outlined, size: AppSizes.iconLarge, color: Colors.orange),
-                                    const SizedBox(width: 10),
+                                     Icon(Icons.person_remove_sharp, size: constraints.maxWidth * AppSizes.converValueToadapter(context, 22), color: Colors.red),
+                                    SizedBox(width: constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
                                     Text(
-                                      "Commandes",
+                                      "Supprimer compte",
                                       style: GoogleFonts.roboto(
-                                        fontSize: AppSizes.fontMedium,
+                                        fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
                                         fontWeight: FontWeight.w400,
                                       ),
                                     ),
@@ -632,77 +713,14 @@ Future<void> sendUpdateImageProfil() async {
                           ),
                         ),
                       ),
-                    ] else ...[
-                      // Widget à afficher si aucun des statuts ne correspond
-                      Container(),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical:constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
+                        child:Center(child: Text("Version 0.0.1", style: GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), color:Colors.grey[300]),))
+                      )
                     ],
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.only(left: 20, top: 15),
-                              child: Text(
-                                "Personel",
-                                style: GoogleFonts.roboto(
-                                  fontSize: AppSizes.fontMedium,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.grey[400],
-                                ),
-                              ),
-                            ),
-                            ListTile(
-                              onTap: () {
-                                logoutUserClearTokenTosServer(context);
-                              },
-                              title: Row(
-                                children: [
-                                  const Icon(Icons.logout, size: AppSizes.iconLarge),
-                                  const SizedBox(width: 10),
-                                  Text(
-                                    "Se déconnecter",
-                                    style: GoogleFonts.roboto(
-                                      fontSize: AppSizes.fontMedium,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            ListTile(
-                              onTap: () {
-                                _showConfirmDelete(context);
-                              },
-                              title: Row(
-                                children: [
-                                  const Icon(Icons.person_remove_sharp, size: AppSizes.iconLarge, color: Colors.red),
-                                  const SizedBox(width: 10),
-                                  Text(
-                                    "Supprimer compte",
-                                    style: GoogleFonts.roboto(
-                                      fontSize: AppSizes.fontMedium,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical:15),
-                      child:Center(child: Text("Version 0.0.1", style: GoogleFonts.roboto(fontSize: AppSizes.fontSmall, color:Colors.grey[300]),))
-                    )
-                  ],
-                ),
+                  ),
+                );
+                },
               );
             } else {
               return const Center(child: Text("Aucune donnée disponible"));
@@ -713,25 +731,27 @@ Future<void> sendUpdateImageProfil() async {
     );
   }
 
-_showConfirmDelete(BuildContext context) async{
+_showConfirmDelete(BuildContext context, constraints) async{
  return await showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: const Center(child: Text("Avertissement")),
-        contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+        title: Center(child: Text("Avertissement",style: TextStyle(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 16)),)),
+        contentPadding: EdgeInsets.symmetric(
+          vertical: constraints.maxWidth * AppSizes.converValueToadapter(context, 20), 
+          horizontal: constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
               child: Text(
                 "Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.",
-                style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium, color: Colors.grey),
+                style: GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), color: Colors.grey),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -740,15 +760,15 @@ _showConfirmDelete(BuildContext context) async{
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: const Text("Non", style: TextStyle(color: Color(0xFF292D4E))),
+                    child: Text("Non", style: TextStyle(color: Color(0xFF292D4E),fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12))),
                   ),
-                  const SizedBox(width: 10),
+                  SizedBox(width: constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF292D4E)),
                     onPressed: () {
                      _deleteUserClearTokenTosServer(context);
                     },
-                    child: const Text("Oui", style: TextStyle(color: Colors.white)),
+                    child:  Text("Oui", style: TextStyle(color: Colors.white,fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12))),
                   ),
                 ],
               ),
@@ -760,7 +780,7 @@ _showConfirmDelete(BuildContext context) async{
   );
 }
 
-_showUpdatePhoto()async{
+_showUpdatePhoto(constraints)async{
 await showDialog(
   context: context,
    builder: (BuildContext context){
@@ -771,15 +791,15 @@ await showDialog(
            TextButton.icon(onPressed: (){
                 _loadNewImageFromGallery();
            }, 
-           label: Text("Changer photo",style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium)),
-           icon: Icon(Icons.camera_alt_rounded),
+           label: Text("Changer photo",style: GoogleFonts.roboto(fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context, 12))),
+           icon: Icon(Icons.camera_alt_rounded,size: constraints.maxWidth * AppSizes.converValueToadapter(context, 22),),
            ),
            Divider(height: 2,color:Colors.grey[200]),
            TextButton.icon(onPressed: (){
               sendDeleteProfil();
            }, 
-           label: Text("Supprimer photo",style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium)),
-           icon: Icon(Icons.remove_circle_outline_sharp),)
+           label: Text("Supprimer photo",style: GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12))),
+           icon: Icon(Icons.remove_circle_outline_sharp, size: constraints.maxWidth * AppSizes.converValueToadapter(context, 22),),)
         ]) ,
      );
    }

@@ -4,11 +4,13 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/api/orders_api.dart';
+import 'package:hadja_grish/constants/app_size.dart';
 import 'package:hadja_grish/models/orders_model.dart';
 import 'package:hadja_grish/screens/admin/card_orders_admin.dart';
 
 class OrderEnCours extends StatefulWidget {
-  const OrderEnCours({super.key});
+  final constraints;
+  const OrderEnCours({super.key, required this.constraints});
 
   @override
   State<OrderEnCours> createState() => _OrderEnCoursState();
@@ -61,15 +63,15 @@ class _OrderEnCoursState extends State<OrderEnCours> {
               return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
               return Center(
-                child: Text("Erreur",
+                child: Text("Problème de connexion au server...",
                     style: GoogleFonts.roboto(
-                        fontSize: 20, fontWeight: FontWeight.w600)),
+                        fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.w600)),
               );
             } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
               return Center(
                 child: Text("Aucune donnée disponible",
                     style: GoogleFonts.roboto(
-                        fontSize: 20, fontWeight: FontWeight.w600)),
+                        fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.w600)),
               );
             } else {
               return ListView.builder(
@@ -78,7 +80,7 @@ class _OrderEnCoursState extends State<OrderEnCours> {
                   itemBuilder: (BuildContext context, int index) {
                     final data = snapshot.data!;
                     OrdersModel order = data[index];
-                    return CardOrderAdmin(order: order);
+                    return CardOrderAdmin(order: order,constraints:widget.constraints);
                   });
             }
           }),

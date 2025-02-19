@@ -4,40 +4,41 @@ import 'package:hadja_grish/constants/app_size.dart';
 import 'package:hadja_grish/screens/articles/articles.dart';
 
 class EmptyFavorite extends StatelessWidget {
-  const EmptyFavorite({super.key});
+  final constraints;
+  const EmptyFavorite({super.key, required this.constraints});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(15),
+      padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
             child: Text(
               "Aucuns favoris",
-              style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium, color: Colors.grey),
+              style: GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), color: Colors.grey),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.all(15),
-            child: Icon(Icons.favorite_border_sharp, size: 60),
+          Padding(
+            padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
+            child: Icon(Icons.favorite_border_sharp, size: constraints.maxWidth * AppSizes.converValueToadapter(context, 65)),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
             child: Text("Ajouter des articles dans vos favoris",
                 style: GoogleFonts.roboto(
-                    fontSize: AppSizes.fontSmall, color: const Color(0xFF1D1A30))),
+                    fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 14), color: const Color(0xFF1D1A30))),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 8.0),
+            padding: EdgeInsets.only(left: constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
             child: Text(
                 "Regrouper ici les articles qui vous interressent et envoyer-les a l'entreprise",
-                style: GoogleFonts.roboto(fontSize: AppSizes.fontSmall, color: Colors.grey)),
+                style: GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), color: Colors.grey)),
           ),
           Padding(
-            padding: const EdgeInsets.all(25),
+            padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 25)),
             child: ElevatedButton(
                 onPressed: () {
                   Navigator.push(
@@ -47,10 +48,10 @@ class EmptyFavorite extends StatelessWidget {
                 },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF1D1A30),
-                    minimumSize: const Size(400, 50)),
+                    minimumSize: Size(constraints.maxWidth * AppSizes.converValueToadapter(context, 400), constraints.maxWidth * AppSizes.converValueToadapter(context, 40))),
                 child: Text("Voir les articles",
                     style:
-                        GoogleFonts.roboto(fontSize: AppSizes.fontSmall, color: Colors.white))),
+                        GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), color: Colors.white))),
           )
         ],
       ),

@@ -10,7 +10,8 @@ import 'package:url_launcher/url_launcher.dart';
 
 class DeliveryTrackingClient extends StatefulWidget {
   final OrdersModel order;
-  const DeliveryTrackingClient({super.key, required this.order});
+  final constraints;
+  const DeliveryTrackingClient({super.key, required this.order, required this.constraints});
 
   @override
   State<DeliveryTrackingClient> createState() => _DeliveryTrackingClientState();
@@ -116,7 +117,7 @@ class _DeliveryTrackingClientState extends State<DeliveryTrackingClient> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: const Icon(Icons.arrow_back_ios_rounded, size:AppSizes.iconLarge),
+          icon:Icon(Icons.arrow_back_ios_rounded, size:widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 24)),
         ),
       ),
       body: SizedBox(
@@ -124,35 +125,35 @@ class _DeliveryTrackingClientState extends State<DeliveryTrackingClient> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding: const EdgeInsets.all(15),
+              padding:EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(15),
+                    padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           "Suis la trajectoire jusqu'au client !",
                           style: GoogleFonts.abel(
-                              fontSize: 35, fontWeight: FontWeight.bold),
+                              fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 24), fontWeight: FontWeight.bold),
                         ),
                         Text(
                           "En temps réel",
                           style: GoogleFonts.abel(
-                              fontSize: AppSizes.fontLarge, fontWeight: FontWeight.bold),
+                              fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
                   ),
                   Container(
-                    height: 200,
-                    width: 200,
+                    height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 200),
+                    width: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 200),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
                       image: const DecorationImage(
                           image: AssetImage("assets/logos/livraison.jpeg"),
-                          fit: BoxFit.cover),
+                          fit: BoxFit.fill),
                     ),
                   ),
                 ],
@@ -160,14 +161,14 @@ class _DeliveryTrackingClientState extends State<DeliveryTrackingClient> {
             ),
             Center(
               child: Padding(
-                padding: const EdgeInsets.all(15),
+                padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF1D1A30)),
                   onPressed: _openMap,
                   child: Text("Démarrer...",
                       style: GoogleFonts.roboto(
-                          fontSize: AppSizes.fontSmall,
+                          fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
                           fontWeight: FontWeight.w400,
                           color: Colors.white)),
                 ),

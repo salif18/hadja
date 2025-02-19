@@ -117,7 +117,7 @@ Future<void> _getProducts() async {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
-        toolbarHeight: 80,
+        toolbarHeight: MediaQuery.of(context).size.width * 60/360,
         title: Form(
           key: _formKey,
           child: TextFormField(
@@ -125,9 +125,9 @@ Future<void> _getProducts() async {
             decoration: InputDecoration(
               filled: true,
               fillColor: Colors.grey[100],
-              prefixIcon: const Icon(Icons.search, size: AppSizes.iconLarge),
+              prefixIcon: Icon(Icons.search, size:MediaQuery.of(context).size.width * AppSizes.iconLarge/360),
               hintText: "Rechercher",
-              hintStyle: GoogleFonts.roboto(fontSize: AppSizes.fontSmall),
+              hintStyle: GoogleFonts.roboto(fontSize:MediaQuery.of(context).size.width * AppSizes.fontSmall/360),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20),
                 borderSide: BorderSide.none,
@@ -137,38 +137,42 @@ Future<void> _getProducts() async {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: searchValue.text.isEmpty
-              ? recentSearches.reversed.map((search) {
-                  return ListTile(
-                    trailing: IconButton(onPressed: (){
-                      _removeRecenteSearch(search);
-                    }, icon: Icon(Icons.highlight_remove_rounded, size:AppSizes.iconLarge, color:Colors.grey[400])),
-                    title: Row(
-                      children: [const Icon(Icons.history,size:AppSizes.iconLarge),
-                      const SizedBox(width: 10),
-                        Text(search,style:GoogleFonts.roboto(fontSize:AppSizes.fontMedium,fontWeight: FontWeight.normal)),
-                      ],
-                    ),
-                    onTap: () {
-                      searchValue.text = search;
-                      searchValue.selection = TextSelection.fromPosition(
-                        TextPosition(offset: searchValue.text.length),
-                      );
-                      _handleSearch(search);
-                    },
-                  );
-                }).toList()
-              : resultOfSearch.isEmpty
-                  ? [Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Text('Aucun résultat trouvé',style:GoogleFonts.roboto(fontSize:AppSizes.fontLarge,)),
-                  )]
-                  : resultOfSearch.map((item) {
-                      return ResultSearch(item: item);
-                    }).toList(),
-        ),
+      body: LayoutBuilder(
+        builder: (context,constraints){
+          return  SingleChildScrollView(
+          child: Column(
+            children: searchValue.text.isEmpty
+                ? recentSearches.reversed.map((search) {
+                    return ListTile(
+                      trailing: IconButton(onPressed: (){
+                        _removeRecenteSearch(search);
+                      }, icon: Icon(Icons.highlight_remove_rounded, size:constraints.maxWidth * AppSizes.converValueToadapter(context, 20), color:Colors.grey[400])),
+                      title: Row(
+                        children: [Icon(Icons.history,size:constraints.maxWidth * AppSizes.converValueToadapter(context, 14)),
+                        SizedBox(width: constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
+                          Text(search,style:GoogleFonts.roboto(fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context, 12),fontWeight: FontWeight.normal)),
+                        ],
+                      ),
+                      onTap: () {
+                        searchValue.text = search;
+                        searchValue.selection = TextSelection.fromPosition(
+                          TextPosition(offset: searchValue.text.length),
+                        );
+                        _handleSearch(search);
+                      },
+                    );
+                  }).toList()
+                : resultOfSearch.isEmpty
+                    ? [Padding(
+                      padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
+                      child: Text('Aucun résultat trouvé',style:GoogleFonts.roboto(fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context, 14),)),
+                    )]
+                    : resultOfSearch.map((item) {
+                        return ResultSearch(item: item,constraints:constraints);
+                      }).toList(),
+          ),
+        );
+        },
       ),
     );
   }

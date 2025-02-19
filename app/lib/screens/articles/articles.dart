@@ -43,149 +43,154 @@ class _MyArticlePageState extends State<MyArticlePage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        toolbarHeight: 80,
+        toolbarHeight: MediaQuery.of(context).size.width * 50/360,
         centerTitle: true,
         title: Text(
           "Articles",
           style: GoogleFonts.roboto(
-              fontSize: AppSizes.fontLarge, fontWeight: FontWeight.w400),
+              fontSize: MediaQuery.of(context).size.width * 16/360, fontWeight: FontWeight.w400),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(15),
-          child: Column(
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Nos produits",
-                      style: GoogleFonts.roboto(
-                          fontSize: AppSizes.fontLarge,
-                          fontWeight: FontWeight.w400),
-                    ),
-                    Text(
-                      "Tous",
-                      style: GoogleFonts.roboto(
-                          fontSize: AppSizes.fontLarge,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xFF55AB60)),
-                    ),
-                  ],
-                ),
-              ),
-              FutureBuilder<List<ArticlesModel>>(
-                future: _getProducts(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (snapshot.hasError) {
-                    return const Text("Erreur lors du chargement des produits.");
-                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return const Text("Aucun produit disponible.");
-                  } else {
-                    final articles = snapshot.data!;
-                    return GridView.builder(
-                      itemCount: articles.length,
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 10,
-                        childAspectRatio: 0.8,
+      body: LayoutBuilder(
+        builder: (context,constraints){
+          return SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
+            child: Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Nos produits",
+                        style: GoogleFonts.roboto(
+                            fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
+                            fontWeight: FontWeight.w400),
                       ),
-                      shrinkWrap: true,
-                      itemBuilder: (BuildContext context, int index) {
-                        final article = articles[index];
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SingleProductVerSionSliver(item: article),
+                      Text(
+                        "Tous",
+                        style: GoogleFonts.roboto(
+                            fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
+                            fontWeight: FontWeight.w500,
+                            color: const Color(0xFF55AB60)),
+                      ),
+                    ],
+                  ),
+                ),
+                FutureBuilder<List<ArticlesModel>>(
+                  future: _getProducts(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Text("Problème lors du chargement des produits.",style: TextStyle(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12)),);
+                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return Text("Aucun produit disponible.",style: TextStyle(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12)),);
+                    } else {
+                      final articles = snapshot.data!;
+                      return GridView.builder(
+                        itemCount: articles.length,
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 4,
+                          mainAxisSpacing: 4,
+                          childAspectRatio: 0.8,
+                        ),
+                        shrinkWrap: true,
+                        itemBuilder: (BuildContext context, int index) {
+                          final article = articles[index];
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SingleProductVerSionSliver(item: article),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
+                                color: AppColor.secondBackgroud,
                               ),
-                            );
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: AppColor.secondBackgroud,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    height: 110,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    child: Image.network(
-                                      article.img,
-                                      fit: BoxFit.contain,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
+                                    child: Container(
+                                      width: constraints.maxWidth,
+                                      height: constraints.maxWidth * AppSizes.converValueToadapter(context, 110),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
+                                      ),
+                                      child: Image.network(
+                                        article.img,
+                                        fit: BoxFit.fill,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 15, top: 15),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            article.name,
-                                            style: GoogleFonts.roboto(
-                                                fontSize: MediaQuery.of(context).size.width*16/600,
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                          Text(
-                                            "${article.price} fcfa",
-                                            style: GoogleFonts.roboto(
-                                                fontSize: AppSizes.fontSmall,
-                                                color: Colors.grey[500]),
-                                          ),
-                                        ],
-                                      ),
-                                      IconButton(
-                                        onPressed: () {
-                                          favoriteProvider.addMyFavorites(article);
-                                        },
-                                        icon: favorites.firstWhereOrNull(
-                                                  (item) => item.id == article.id) ==
-                                              null
-                                          ? const Icon(
-                                              Icons.favorite_border,
-                                              size: AppSizes.iconLarge,
-                                              color: Color(0xff2c3e50),
-                                            )
-                                          : const Icon(
-                                              Icons.favorite,
-                                              size: AppSizes.iconLarge,
-                                              color: Colors.red,
+                                  Padding(
+                                    padding: EdgeInsets.only(left: constraints.maxWidth * AppSizes.converValueToadapter(context, 15), top: constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              article.name,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: GoogleFonts.roboto(
+                                                  fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
+                                                  fontWeight: FontWeight.w600),
                                             ),
-                                      ),
-                                    ],
+                                            Text(
+                                              "${article.price} fcfa",
+                                              style: GoogleFonts.roboto(
+                                                  fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
+                                                  color: Colors.grey[500]),
+                                            ),
+                                          ],
+                                        ),
+                                        IconButton(
+                                          onPressed: () {
+                                            favoriteProvider.addMyFavorites(article);
+                                          },
+                                          icon: favorites.firstWhereOrNull(
+                                                    (item) => item.id == article.id) ==
+                                                null
+                                            ? Icon(
+                                                Icons.favorite_border,
+                                                size: constraints.maxWidth * AppSizes.converValueToadapter(context, 24),
+                                                color: Color(0xff2c3e50),
+                                              )
+                                            : Icon(
+                                                Icons.favorite,
+                                                size: constraints.maxWidth * AppSizes.converValueToadapter(context, 24),
+                                                color: Colors.red,
+                                              ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                    );
-                  }
-                },
-              ),
-            ],
+                          );
+                        },
+                      );
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
-        ),
+        );
+        },
       ),
     );
   }

@@ -7,18 +7,19 @@ import 'package:provider/provider.dart';
 
 class MyCardFavorites extends StatelessWidget {
   final ArticlesModel item;
-  const MyCardFavorites({super.key, required this.item});
+  final constraints;
+  const MyCardFavorites({super.key, required this.item, required this.constraints});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 0),
       child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: 100,
-          padding: const EdgeInsets.all(15),
+          width: constraints.maxWidth,
+          height: constraints.maxWidth * AppSizes.converValueToadapter(context, 100),
+          padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
               border: const Border(
                   bottom:
                       BorderSide(color: Color.fromARGB(255, 219, 219, 219)))),
@@ -26,14 +27,14 @@ class MyCardFavorites extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.only(right: 15),
+                padding: EdgeInsets.only(right: constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
                 child: Container(
-                  height: 80,
-                  width: 80,
+                  height: constraints.maxWidth * AppSizes.converValueToadapter(context, 80),
+                  width: constraints.maxWidth * AppSizes.converValueToadapter(context, 80),
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
                       image: DecorationImage(
-                          image: NetworkImage(item.img), fit: BoxFit.contain)),
+                          image: NetworkImage(item.img), fit: BoxFit.fill)),
                 ),
               ),
               Expanded(
@@ -49,12 +50,12 @@ class MyCardFavorites extends StatelessWidget {
                           item.name,
                           style: GoogleFonts.roboto(
                               fontWeight: FontWeight.bold,
-                              fontSize: AppSizes.fontMedium,
+                              fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
                               color: const Color(0xFF1D1A30)),
                         ),
                         Text(item.price.toString(),
                             style: GoogleFonts.roboto(
-                                fontSize: AppSizes.fontSmall, color: const Color(0xFF1D1A30)))
+                                fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), color: const Color(0xFF1D1A30)))
                       ],
                     ),
                   ),
@@ -62,7 +63,7 @@ class MyCardFavorites extends StatelessWidget {
                       onPressed: () {
                          Provider.of<FavoriteProvider>(context,listen:false).removeToFavorite(item);
                       },
-                      icon: const Icon(Icons.favorite_rounded,color: Colors.red, size: AppSizes.iconLarge))
+                      icon: Icon(Icons.favorite_rounded,color: Colors.red, size: constraints.maxWidth * AppSizes.converValueToadapter(context, 20)))
                 ],
               ))
             ],

@@ -30,7 +30,7 @@ class _StatsState extends State<Stats> {
             Column(
               children: [ 
                 Padding(padding: const EdgeInsets.all(8), child: Text(""),),
-                BarChartWidget()
+                // BarChartWidget()
               ],
             )
           ],

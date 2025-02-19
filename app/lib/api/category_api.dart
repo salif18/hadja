@@ -66,11 +66,6 @@ Dio dio = Dio();
           style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.w400)),
       backgroundColor: Colors.blue,
       duration: const Duration(seconds: 5),
-      action: SnackBarAction(
-          label: "",
-          onPressed: () {
-            ScaffoldMessenger.of(context).hideCurrentSnackBar();
-          }),
     ));
   }
 
@@ -81,12 +76,6 @@ Dio dio = Dio();
           style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.w400)),
       backgroundColor: const Color.fromARGB(255, 255, 35, 19),
       duration: const Duration(seconds: 5),
-      action: SnackBarAction(
-        label: "",
-        onPressed: () {
-          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        },
-      ),
     ));
   }
 }

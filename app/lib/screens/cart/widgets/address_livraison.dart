@@ -13,7 +13,8 @@ import 'package:hadja_grish/screens/cart/widgets/maps.dart';
 import 'package:provider/provider.dart';
 
 class AddressLivraison extends StatefulWidget {
-  const AddressLivraison({super.key});
+  final constraints;
+  const AddressLivraison({super.key, required this.constraints});
 
   @override
   State<AddressLivraison> createState() => _AddressLivraisonState();
@@ -86,19 +87,19 @@ class _AddressLivraisonState extends State<AddressLivraison> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.9,
-      width: MediaQuery.of(context).size.width,
+      height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 300),
+      width:  widget.constraints.maxWidth ,
       
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular( widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
         color: Colors.white,
       ),
       child: Padding(
-        padding: const EdgeInsets.all(15),
+        padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
         child: Container(
-          padding: const EdgeInsets.all(5),
+          padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
             color: const Color(0xfff0fcf3),
           ),
           child: SingleChildScrollView(child: _formulaires(context)),
@@ -113,35 +114,35 @@ class _AddressLivraisonState extends State<AddressLivraison> {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(15),
+            padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   "Faites-vous livrer chez vous !",
                   style: GoogleFonts.abel(
-                      fontSize: 35, fontWeight: FontWeight.bold),
+                      fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20), fontWeight: FontWeight.bold),
                 ),
                 Text(
                   "Remplissez bien les renseignements",
-                  style: GoogleFonts.abel(fontSize: AppSizes.fontLarge),
+                  style: GoogleFonts.abel(fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 14)),
                 ),
               ],
             ),
           ),
           Container(
-            height: 200,
-            width: 200,
+            height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 150),
+            width: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 150),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(100),
-              image: const DecorationImage(
+              borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 100)),
+              image: DecorationImage(
                 image: AssetImage("assets/logos/delibery.png"),
-                fit: BoxFit.cover,
+                fit: BoxFit.fill,
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
             child: TextFormField(
               controller: address,
               keyboardType: TextInputType.streetAddress,
@@ -150,17 +151,17 @@ class _AddressLivraisonState extends State<AddressLivraison> {
                 fillColor: Colors.white,
                 hintText: "Quartier",
                 hintStyle: GoogleFonts.aBeeZee(
-                    fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w400),
-                prefixIcon: const Icon(Icons.villa_outlined, size: AppSizes.iconLarge),
+                    fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.w400),
+                prefixIcon: Icon(Icons.villa_outlined, size: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
                   borderSide: BorderSide.none,
                 ),
               ),
             ),
           ),
            Padding(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
             child: TextFormField(
               controller: telephone,
               keyboardType: TextInputType.phone,
@@ -169,25 +170,25 @@ class _AddressLivraisonState extends State<AddressLivraison> {
                 fillColor: Colors.white,
                 hintText: "Numero",
                 hintStyle: GoogleFonts.aBeeZee(
-                    fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w400),
-                prefixIcon: const Icon(Icons.phone_android_outlined, size: AppSizes.iconLarge),
+                    fontSize:widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.w400),
+                prefixIcon: Icon(Icons.phone_android_outlined, size: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
                   borderSide: BorderSide.none,
                 ),
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
             child: GestureDetector(
               onTap: () {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 5, horizontal: 5),
+                      contentPadding: EdgeInsets.symmetric(
+                          vertical: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 5), horizontal: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
                       content: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -201,7 +202,7 @@ class _AddressLivraisonState extends State<AddressLivraison> {
                             ),
                             child: Text("Valider",
                                 style: GoogleFonts.roboto(
-                                    fontSize: AppSizes.fontSmall, color: Colors.white)),
+                                    fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12), color: Colors.white)),
                           ),
                         ],
                       ),
@@ -210,10 +211,10 @@ class _AddressLivraisonState extends State<AddressLivraison> {
                 );
               },
               child: Container(
-                height: 50,
+                height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 50),
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
                   color: Colors.blue,
                 ),
                 child: Row(
@@ -221,28 +222,28 @@ class _AddressLivraisonState extends State<AddressLivraison> {
                   children: [
                     Text("Coordonnées géographiques",
                         style: GoogleFonts.roboto(
-                            fontSize: AppSizes.fontMedium, color: Colors.white)),
-                    const SizedBox(width: 10),
-                    const Icon(Icons.location_searching,
-                        size: AppSizes.iconLarge, color: Colors.white),
+                            fontSize:widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12), color: Colors.white)),
+                    SizedBox(width: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
+                    Icon(Icons.location_searching,
+                        size: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20), color: Colors.white),
                   ],
                 ),
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF1D1A30),
-                minimumSize: const Size(400, 50),
+                minimumSize: Size(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 400), widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 40)),
               ),
               onPressed: () {
                 sendOrders();
                  Navigator.pop(context);
               },
               child: Text("Passer commande",
-                  style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium, color: Colors.white)),
+                  style: GoogleFonts.roboto(fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12), color: Colors.white)),
             ),
           ),
         ],

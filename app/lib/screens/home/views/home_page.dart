@@ -77,22 +77,22 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0.1,
-        toolbarHeight: 80,
+        toolbarHeight: MediaQuery.of(context).size.width * 50/360,
         centerTitle: false,
         leading: IconButton(
           onPressed: () {
             drawerKey.currentState!.openDrawer();
           },
-          icon: const Icon(
+          icon: Icon(
             Icons.sort,
-            size: AppSizes.iconLarge,
+            size:  MediaQuery.of(context).size.width * 24/360,
             color: Colors.white,
           ),
         ),
         title: Text(
           "LaHadja",
           style: GoogleFonts.allison(
-            fontSize: AppSizes.fontHyperLarge,
+            fontSize:  MediaQuery.of(context).size.width * 20/360,
             fontWeight: FontWeight.bold,
             color: Colors.white,
           ),
@@ -109,9 +109,9 @@ class _HomePageState extends State<HomePage> {
                     ),
                   );
                 },
-                icon: const Icon(
+                icon: Icon(
                   FontAwesomeIcons.cartShopping,
-                  size: AppSizes.iconLarge,
+                  size: MediaQuery.of(context).size.width * 20/360,
                   color: Colors.white,
                 ),
               ),
@@ -122,14 +122,14 @@ class _HomePageState extends State<HomePage> {
                       builder: (context, snaptshot) {
                         if (provider.myCart.isNotEmpty) {
                           return Positioned(
-                            left: 30,
-                            bottom: 25,
+                            left:  MediaQuery.of(context).size.width * 30/360,
+                            bottom:  MediaQuery.of(context).size.width * 25/360,
                             child: Badge.count(
                               count: provider.myCart.length,
                               backgroundColor: Colors.amber,
-                              largeSize: 40 / 2,
+                              largeSize:  (MediaQuery.of(context).size.width * 40/360) / 2,
                               textStyle: GoogleFonts.roboto(
-                                fontSize: 13,
+                                fontSize:  MediaQuery.of(context).size.width * 12/360,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                               ),
@@ -152,46 +152,50 @@ class _HomePageState extends State<HomePage> {
                 ),
               );
             },
-            icon: const Icon(
+            icon: Icon(
               FontAwesomeIcons.heart,
-              size: AppSizes.iconLarge,
+              size: MediaQuery.of(context).size.width * 20/360,
               color: Colors.white,
             ),
           ),
-          const SizedBox(
-            width: 15,
+           SizedBox(
+            width:  MediaQuery.of(context).size.width * 15/360,
           )
         ],
       ),
       backgroundColor: AppColor.colorBackground,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const Column(
-              children: [
-                MyHeaderWidget(),
-                MySearchSectionWidget(),
-              ],
-            ),
-            Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                ),
-              ),
-              child: Column(
+      body: LayoutBuilder(
+        builder: (context,constraints){
+          return  SingleChildScrollView(
+          child: Column(
+            children: [
+              Column(
                 children: [
-                  const MyCarouselWidget(),
-                  MyChooseCategoryWidget(listCategories: _listCategories),
-                  const MyRecomadationWidget(),
-                  const MyProductListWidget(),
+                  MyHeaderWidget(constraints:constraints),
+                  MySearchSectionWidget(constraints:constraints),
                 ],
               ),
-            ),
-          ],
-        ),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
+                    topRight: Radius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    MyCarouselWidget(constraints:constraints),
+                    MyChooseCategoryWidget(listCategories: _listCategories,constraints:constraints),
+                    MyRecomadationWidget(constraints:constraints),
+                    MyProductListWidget(constraints:constraints),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+        },
       ),
     );
   }

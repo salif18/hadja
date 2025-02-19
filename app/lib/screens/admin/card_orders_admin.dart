@@ -7,32 +7,33 @@ import 'package:intl/intl.dart';
 
 class CardOrderAdmin extends StatelessWidget {
   final OrdersModel order;
-  const CardOrderAdmin({super.key, required this.order});
+  final constraints;
+  const CardOrderAdmin({super.key, required this.order, required this.constraints});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>SingleOrder(order:order)));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>SingleOrder(order:order,constraints:constraints)));
       },
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
         child: Container(
-          height: 190,
-          width: MediaQuery.of(context).size.width,
-          padding: const EdgeInsets.all(15),
+          height: constraints.maxWidth * AppSizes.converValueToadapter(context, 180),
+          width:constraints.maxWidth,
+          padding:EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(20)
+            borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 20))
           ),
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text("ORDER N° ${order.id}",style:GoogleFonts.roboto(fontSize:AppSizes.fontMedium,fontWeight: FontWeight.bold)),
+                    Text("ORDER N° ${order.id}",style:GoogleFonts.roboto(fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context, 12),fontWeight: FontWeight.bold)),
                   ],
                 ),
               ),
@@ -43,29 +44,29 @@ class CardOrderAdmin extends StatelessWidget {
                Row( 
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [ 
-                  Text("Date:",style: GoogleFonts.roboto(fontSize: AppSizes.fontSmall,color:Colors.grey),),
-                  Text(DateFormat('dd/MM/yyyy').format(order.createdAt),style: GoogleFonts.roboto(fontSize: AppSizes.fontSmall),)
+                  Text("Date:",style: GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),color:Colors.grey),),
+                  Text(DateFormat('dd/MM/yyyy').format(order.createdAt),style: GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12)),)
                 ],
               ),
               Row( 
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [ 
-                  Text("Client:",style: GoogleFonts.roboto(fontSize: AppSizes.fontSmall,color:Colors.grey),),
-                  Text(order.telephone,style: GoogleFonts.roboto(fontSize: AppSizes.fontSmall),)
+                  Text("Client:",style: GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),color:Colors.grey),),
+                  Text(order.telephone,style: GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12)),)
                 ],
               ),
                Row( 
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [ 
-                  Text("Address:",style: GoogleFonts.roboto(fontSize: AppSizes.fontSmall,color:Colors.grey),),
-                  Text(order.address,style: GoogleFonts.roboto(fontSize: AppSizes.fontSmall),)
+                  Text("Address:",style: GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),color:Colors.grey),),
+                  Text(order.address,style: GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12)),)
                 ],
               ),
                Row( 
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [ 
-                  Text("Order:",style: GoogleFonts.roboto(fontSize: AppSizes.fontSmall,color:Colors.grey),),
-                  Text(order.statusOfDelibery,style: GoogleFonts.roboto(fontSize: AppSizes.fontSmall , fontWeight: FontWeight.bold, color: order.statusOfDelibery == "En attente" ? Colors.blue : Colors.green),)
+                  Text("Order:",style: GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),color:Colors.grey),),
+                  Text(order.statusOfDelibery,style: GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12) , fontWeight: FontWeight.bold, color: order.statusOfDelibery == "En attente" ? Colors.blue : Colors.green),)
                 ],
               ),
             ],

@@ -16,7 +16,8 @@ import 'package:readmore/readmore.dart';
 
 class SingleProductAdmin extends StatefulWidget {
   final ArticlesModel article;
-  const SingleProductAdmin({super.key, required this.article});
+  final constraints;
+  const SingleProductAdmin({super.key, required this.article,required this.constraints});
 
   @override
   State<SingleProductAdmin> createState() => _SingleProductAdminState();
@@ -142,24 +143,24 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 80,
+        toolbarHeight: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,50),
         title: Text(
           widget.article.name,
-          style: GoogleFonts.roboto(fontSize: AppSizes.fontLarge, fontWeight: FontWeight.bold),
+          style: GoogleFonts.roboto(fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,16), fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: const Icon(Icons.arrow_back_ios_rounded, size: AppSizes.iconLarge),
+          icon: Icon(Icons.arrow_back_ios_rounded, size: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,24)),
         ),
         actions: [
           IconButton(
             onPressed: () {
               showRemoveArticle();
             },
-            icon: const Icon(Icons.delete, size: AppSizes.iconLarge),
+            icon: Icon(Icons.delete, size: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,24)),
           ),
         ],
       ),
@@ -169,15 +170,15 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
             Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(15),
+                  padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context,15)),
                   child: Image.network(
                     widget.article.img,
-                    width: double.infinity,
-                    height: 180,
+                    width: widget.constraints.maxWidth ,
+                    height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,170),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context,15)),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -185,51 +186,51 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
                         children: [
                           Text(
                             "Nom",
-                            style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium, fontWeight: FontWeight.bold),
+                            style: GoogleFonts.roboto(fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,14), fontWeight: FontWeight.bold),
                           ),
-                          const SizedBox(width: 20),
+                          SizedBox(width: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,20)),
                           Text(widget.article.name,
                               style: GoogleFonts.roboto(
-                                  fontSize: AppSizes.fontSmall, color: Colors.grey)),
+                                  fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,12), color: Colors.grey)),
                         ],
                       ),
                       Column(
                         children: [
                           Text(
                             "Prix",
-                            style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium, fontWeight: FontWeight.bold),
+                            style: GoogleFonts.roboto(fontSize:widget.constraints.maxWidth * AppSizes.converValueToadapter(context,14), fontWeight: FontWeight.bold),
                           ),
-                          const SizedBox(width: 20),
+                          SizedBox(width: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,20)),
                           Text(widget.article.price.toString(),
                               style: GoogleFonts.roboto(
-                                  fontSize: AppSizes.fontSmall, color: Colors.grey)),
+                                  fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,12), color: Colors.grey)),
                         ],
                       ),
                       Column(
                         children: [
                           Text(
                             "Stocks",
-                            style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium, fontWeight: FontWeight.bold),
+                            style: GoogleFonts.roboto(fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,14), fontWeight: FontWeight.bold),
                           ),
-                          const SizedBox(width: 20),
+                          SizedBox(width: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,20)),
                           Text(
                               widget.article.stock > 0
                                   ? widget.article.stock.toString()
                                   : "finis",
                               style: GoogleFonts.roboto(
-                                  fontSize: AppSizes.fontSmall, color: Colors.grey)),
+                                  fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,12), color: Colors.grey)),
                         ],
                       ),
                       Column(
                         children: [
                           Text(
                             "Categories",
-                            style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium,fontWeight: FontWeight.bold),
+                            style: GoogleFonts.roboto(fontSize:widget.constraints.maxWidth * AppSizes.converValueToadapter(context,14),fontWeight: FontWeight.bold),
                           ),
-                          const SizedBox(width: 20),
+                         SizedBox(width: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,20)),
                           Text(widget.article.categorie,
                               style: GoogleFonts.roboto(
-                                  fontSize: 14, color: Colors.grey)),
+                                  fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,12), color: Colors.grey)),
                         ],
                       ),
                     ],
@@ -240,22 +241,22 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
             Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  padding: EdgeInsets.symmetric(vertical: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,15)),
                   child:
-                      Text("Gallerie", style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium)),
+                      Text("Gallerie", style: GoogleFonts.roboto(fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,14))),
                 ),
                 SizedBox(
-                  height: 120, // Par exemple, définissez une hauteur fixe
+                  height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,120), // Par exemple, définissez une hauteur fixe
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: widget.article.galleries.length,
                     itemBuilder: (context, int index) {
                       final image = widget.article.galleries[index];
                       return Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context,8)),
                         child: SizedBox(
-                          width: 115,
-                          height: 120,
+                          width: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,115),
+                          height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,120),
                           child: Image.network(image.imgPath),
                         ),
                       );
@@ -263,7 +264,7 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
                   ),
                 ),
                 Padding(
-                    padding: const EdgeInsets.all(15),
+                    padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context,15)),
                     child: ReadMoreText(
                       widget.article.desc,
                       trimLines: 2,
@@ -279,20 +280,20 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 55),
+              padding:EdgeInsets.only(top: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,55)),
               child: ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,
-                  minimumSize: const Size(350, 50),
+                  minimumSize: Size(widget.constraints.maxWidth * AppSizes.converValueToadapter(context,350), widget.constraints.maxWidth * AppSizes.converValueToadapter(context,40)),
                 ),
                 onPressed: () {
                   _updatedProducts(context, widget.article);
                 },
                 icon:
-                    const Icon(Icons.edit_note, size: AppSizes.iconLarge, color: Colors.white),
+                    Icon(Icons.edit_note, size: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,24), color: Colors.white),
                 label: Text("Modifier",
                     style:
-                        GoogleFonts.roboto(fontSize: AppSizes.fontSmall, color: Colors.white)),
+                        GoogleFonts.roboto(fontSize:widget.constraints.maxWidth * AppSizes.converValueToadapter(context,12), color: Colors.white)),
               ),
             ),
           ],
@@ -307,18 +308,18 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
       isScrollControlled: true,
       builder: (BuildContext context) {
         return Container(
-          padding: const EdgeInsets.all(15),
-          height: MediaQuery.of(context).size.height * 0.95,
+          padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context,15)),
+          height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,360),
           child: SingleChildScrollView(
             child: Column(
               children: [
                 SizedBox(
-                  height: 80,
+                  height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,80),
                   child: Center(
                     child: Text(
                       "Modifier produits",
                       style: GoogleFonts.roboto(
-                          fontSize: AppSizes.fontLarge, fontWeight: FontWeight.w400),
+                          fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,14), fontWeight: FontWeight.w400),
                     ),
                   ),
                 ),
@@ -354,7 +355,7 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
                 return null;
               },
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,16)),
             TextFormField(
               controller: _descController,
               decoration: const InputDecoration(
@@ -367,7 +368,7 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
                 return null;
               },
             ),
-            const SizedBox(height: 20),
+             SizedBox(height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,16)),
             TextFormField(
               controller: _priceController,
               decoration: const InputDecoration(
@@ -381,7 +382,7 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
                 return null;
               },
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,16)),
             TextFormField(
               controller: _stockController,
               decoration: const InputDecoration(
@@ -395,7 +396,7 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
                 return null;
               },
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,16)),
             DropdownButtonFormField<String>(
               value: _categoryController,
               decoration: const InputDecoration(
@@ -419,7 +420,7 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
                 return null;
               },
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,16)),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -428,8 +429,8 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
                     Text("Image du produit",
                         style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium)),
                     IconButton(
-                      icon: const Icon(Icons.photo_camera_back_outlined,
-                          size: 38),
+                      icon: Icon(Icons.photo_camera_back_outlined,
+                          size: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,28)),
                       onPressed: () {
                         _getImageToGalleriePhone();
                       },
@@ -438,34 +439,35 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
                 ),
                 if (_articleImage != null)
                   Image.file(File(_articleImage!.path),
-                      width: 100, height: 100),
+                      width: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,100), 
+                      height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,100)),
               ],
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,16)),
             Column(
               children: [
                 Text("Ajouter des images à la galerie",
-                    style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium)),
+                    style: GoogleFonts.roboto(fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,14))),
                 IconButton(
-                  icon: const Icon(Icons.photo_library_outlined, size: 38),
+                  icon:Icon(Icons.photo_library_outlined, size: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,28)),
                   onPressed: () {
                     _selectMultiImageGallery();
                   },
                 ),
               ],
             ),
-            const SizedBox(height: 20),
+             SizedBox(height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,16)),
             if (gallerieImages != null && gallerieImages!.isNotEmpty)
               SizedBox(
-                height: 100,
+                height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,100),
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: gallerieImages?.length,
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context,8)),
                       child: Image.file(File(gallerieImages![index].path),
-                          width: 100, height: 100),
+                          width: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,100), height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,100)),
                     );
                   },
                 ),
@@ -473,7 +475,7 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF1D1A30),
-                minimumSize: const Size(400, 50),
+                minimumSize: Size(widget.constraints.maxWidth * AppSizes.converValueToadapter(context,400), widget.constraints.maxWidth * AppSizes.converValueToadapter(context,40)),
               ),
               onPressed: () {
                 if (_globalKey.currentState?.validate() == true) {
@@ -481,7 +483,7 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
                 }
               },
               child: Text("Ajouter",
-                  style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium, color: Colors.white)),
+                  style: GoogleFonts.roboto(fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,12), color: Colors.white)),
             ),
           ],
         ),
@@ -493,19 +495,19 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
     showModalBottomSheet(
       context: context,
       builder: (context) => Container(
-        height: MediaQuery.of(context).size.height / 5,
-        padding: const EdgeInsets.all(15),
+        height: widget.constraints.maxWidth / 5,
+        padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context,15)),
         child: Column(
           children: [
             ListTile(
               leading: const Icon(Icons.delete),
               title: Text(
                 "Supprimer cet article ?",
-                style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium),
+                style: GoogleFonts.roboto(fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,12)),
               ),
               subtitle: Text(
                 "Attention! Cette action est irréversible",
-                style: GoogleFonts.roboto(fontSize: AppSizes.fontSmall, color: Colors.red),
+                style: GoogleFonts.roboto(fontSize:  widget.constraints.maxWidth * AppSizes.converValueToadapter(context,12), color: Colors.red),
               ),
             ),
             Row(
@@ -517,7 +519,7 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
                   },
                   child: Text(
                     "Supprimer",
-                    style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium, color: Colors.red),
+                    style: GoogleFonts.roboto(fontSize:  widget.constraints.maxWidth * AppSizes.converValueToadapter(context,12), color: Colors.red),
                   ),
                 ),
                 TextButton(
@@ -526,7 +528,7 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
                   },
                   child: Text(
                     "Annuler",
-                    style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium, color: Colors.blue),
+                    style: GoogleFonts.roboto(fontSize:  widget.constraints.maxWidth * AppSizes.converValueToadapter(context,12), color: Colors.blue),
                   ),
                 ),
               ],

@@ -12,7 +12,8 @@ import 'package:hadja_grish/models/articles_model.dart';
 import 'package:hadja_grish/screens/home/details/single_product_sliver.dart';
 
 class MyCarouselWidget extends StatefulWidget {
-  const MyCarouselWidget({super.key});
+  final constraints;
+  const MyCarouselWidget({super.key,required this.constraints});
 
   @override
   State<MyCarouselWidget> createState() => _MyCarouselState();
@@ -60,20 +61,20 @@ class _MyCarouselState extends State<MyCarouselWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(0.0),
+      padding:  EdgeInsets.all(0.0),
       child: Container(
-        padding: const EdgeInsets.only(top: 15),
+        padding: EdgeInsets.only(top: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
               child: Container(
-                  padding: const EdgeInsets.only(left: 15, bottom: 15),
+                  padding: EdgeInsets.only(left: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 15), bottom: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
                   alignment: Alignment.topLeft,
                   child: Text(
                     "Nouveaux arrivages",
                     style: GoogleFonts.roboto(
-                        fontSize: AppSizes.fontLarge, color:AppColor.textColor, fontWeight: FontWeight.w600),
+                        fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 14), color:AppColor.textColor, fontWeight: FontWeight.w600),
                   )),
             ),
             StreamBuilder<List<ArticlesModel>>(
@@ -82,9 +83,9 @@ class _MyCarouselState extends State<MyCarouselWidget> {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const CircularProgressIndicator();
                   } else if (snapshot.hasError) {
-                    return Text("err",style: GoogleFonts.roboto(fontSize:20));
+                    return Text("Problème de chargement...",style: GoogleFonts.roboto(fontSize:widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12)));
                   } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return Text("No data available",style: GoogleFonts.roboto(fontSize:20),);
+                    return Text("Pas de données disponibles",style: GoogleFonts.roboto(fontSize:widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12)),);
                   } else {
                     return CarouselSlider(
                       items: snapshot.data!.take(5).map((item) {
@@ -98,20 +99,20 @@ class _MyCarouselState extends State<MyCarouselWidget> {
                                             item: item)));
                           },
                           child: Container(
-                            height: 200,
+                            height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 200),
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
                                 color: AppColor.secondBackgroud,
                                 image: DecorationImage(
                                     image: NetworkImage(item.img),
-                                    fit: BoxFit.contain)),
+                                    fit: BoxFit.fill)),
                           ),
                         );
                       }).toList(),
                       options: CarouselOptions(
-                          height: 200,
+                          height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 200),
                           enlargeCenterPage: true,
-                          aspectRatio: 16 / 9,
+                          aspectRatio: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 16) / 9,
                           autoPlay: true,
                           autoPlayCurve: Curves.fastOutSlowIn,
                           enableInfiniteScroll: true,
@@ -126,22 +127,22 @@ class _MyCarouselState extends State<MyCarouselWidget> {
                     );
                   }
                 }),
-            const SizedBox(height: 20),
+            SizedBox(height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
             DotsIndicator(
               dotsCount: 5,
               position: currentIndex.toInt(),
               decorator: DotsDecorator(
-                  size: const Size(12.0, 12.0),
-                  activeSize: const Size(40.0, 12.0),
+                  size: Size(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 10), widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
+                  activeSize: Size(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 40), widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
                   color: Colors.grey[400]!,
                   activeColor: AppColor.colorBackground,
                   //const Color.fromARGB(255, 5, 191, 100),
-                  spacing: const EdgeInsets.all(3.0),
+                  spacing: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 3)),
                   activeShape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5.0),
+                    borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
                   ),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5.0),
+                    borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
                   )),
             ),
           ],

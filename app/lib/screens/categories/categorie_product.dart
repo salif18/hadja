@@ -67,31 +67,33 @@ class _ArticleByCategoriesState extends State<ArticleByCategories> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        toolbarHeight: 80,
+        toolbarHeight: MediaQuery.of(context).size.width* 50/360,
         title: Text(widget.categorie,
             style: GoogleFonts.roboto(
-                fontSize: AppSizes.fontLarge, fontWeight: FontWeight.normal)),
+                fontSize: MediaQuery.of(context).size.width*16/360, fontWeight: FontWeight.normal)),
         centerTitle: true,
         leading: IconButton(
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: const Icon(Icons.arrow_back_ios_new_outlined, size: AppSizes.iconMedium)),
+            icon: Icon(Icons.arrow_back_ios_new_outlined, size: MediaQuery.of(context).size.width* 24/360)),
       ),
-      body: SingleChildScrollView(
+      body: LayoutBuilder(
+        builder:(context,constraints){
+          return SingleChildScrollView(
           child: Padding(
-        padding: const EdgeInsets.all(15),
+        padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context,15)),
         child: Column(
           children: [
             Container(
-              padding: const EdgeInsets.symmetric(vertical: 20),
+              padding: EdgeInsets.symmetric(vertical: constraints.maxWidth * AppSizes.converValueToadapter(context,20)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     "Nos ${widget.categorie}",
                     style: GoogleFonts.roboto(
-                        fontSize: AppSizes.fontLarge, fontWeight: FontWeight.w400),
+                        fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context,14), fontWeight: FontWeight.w400),
                   ),
                 ],
               ),
@@ -105,9 +107,9 @@ class _ArticleByCategoriesState extends State<ArticleByCategories> {
                         return const Center(child: CircularProgressIndicator());
                       } else if (snaptshot.hasError) {
                         return Center(
-                            child: Text("err",
+                            child: Text("Problème de connexion au server",
                                 style: GoogleFonts.roboto(
-                                    fontSize: 20,
+                                    fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context,12),
                                     fontWeight: FontWeight.normal)));
                       } else if (!snaptshot.hasData ||
                           snaptshot.data!.isEmpty) {
@@ -115,7 +117,7 @@ class _ArticleByCategoriesState extends State<ArticleByCategories> {
                             child: Text(
                                 "Pas de categories disponibles pour le moment",
                                 style: GoogleFonts.roboto(
-                                    fontSize: AppSizes.fontSmall,
+                                    fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context,12),
                                     fontWeight: FontWeight.normal)));
                       } else {
                         return GridView.builder(
@@ -124,8 +126,8 @@ class _ArticleByCategoriesState extends State<ArticleByCategories> {
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2,
-                                    crossAxisSpacing: 10,
-                                    mainAxisSpacing: 10,
+                                    crossAxisSpacing: 4,
+                                    mainAxisSpacing: 4,
                                     childAspectRatio: 0.8),
                             shrinkWrap: true,
                             itemBuilder: (BuildContext context, int index) {
@@ -141,7 +143,7 @@ class _ArticleByCategoriesState extends State<ArticleByCategories> {
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
+                                    borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context,10)),
                                     color: const Color(0xfff0fcf3),
                                   ),
                                   child: Column(
@@ -149,24 +151,24 @@ class _ArticleByCategoriesState extends State<ArticleByCategories> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                        padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context,8)),
                                         child: Container(
                                           width:
                                               MediaQuery.of(context).size.width,
-                                          height: 150,
+                                          height: constraints.maxWidth * AppSizes.converValueToadapter(context,150),
                                           decoration: BoxDecoration(
                                             borderRadius:
-                                                BorderRadius.circular(20),
+                                                BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context,20)),
                                           ),
                                           child: Image.network(
                                             article[index].img,
-                                            fit: BoxFit.contain,
+                                            fit: BoxFit.fill,
                                           ),
                                         ),
                                       ),
                                       Padding(
                                         padding:
-                                            const EdgeInsets.only(left: 15),
+                                             EdgeInsets.only(left: constraints.maxWidth * AppSizes.converValueToadapter(context,15)),
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
@@ -177,13 +179,13 @@ class _ArticleByCategoriesState extends State<ArticleByCategories> {
                                               children: [
                                                 Text(article[index].name,
                                                     style: GoogleFonts.roboto(
-                                                        fontSize: AppSizes.fontMedium,
+                                                        fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context,12),
                                                         fontWeight:
                                                             FontWeight.w600)),
                                                 Text(
                                                     "${article[index].price.toString()} fcfa",
                                                     style: GoogleFonts.roboto(
-                                                        fontSize: AppSizes.fontSmall,
+                                                        fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context,12),
                                                         color:
                                                             Colors.grey[500])),
                                               ],
@@ -200,14 +202,14 @@ class _ArticleByCategoriesState extends State<ArticleByCategories> {
                                                                 article[index]
                                                                     .id) ==
                                                         null
-                                                    ? const Icon(
+                                                    ? Icon(
                                                         Icons.favorite_border,
-                                                        size: AppSizes.iconLarge,
+                                                        size: constraints.maxWidth * AppSizes.converValueToadapter(context,25),
                                                         color:
                                                             Color(0xff2c3e50),
                                                       )
-                                                    : const Icon(Icons.favorite,
-                                                        size: AppSizes.iconLarge,
+                                                    : Icon(Icons.favorite,
+                                                        size: constraints.maxWidth * AppSizes.converValueToadapter(context,25),
                                                         color: Colors.red)),
                                           ],
                                         ),
@@ -221,7 +223,9 @@ class _ArticleByCategoriesState extends State<ArticleByCategories> {
                     }))
           ],
         ),
-      )),
+      ));
+        }
+      )
     );
   }
 }

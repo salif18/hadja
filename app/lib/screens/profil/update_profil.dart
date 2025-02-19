@@ -87,54 +87,59 @@ class _UpdateProfilState extends State<UpdateProfil> {
           ),
         ),
       ),
-      body: Container(
-        padding: const EdgeInsets.all(20),
-        child: SingleChildScrollView(
-          child: Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.circular(20)),
-            child: Form(
-              key: _globalKey,
-              child: Column(
-                children: [
-                  _text(context),
-                  _textFieldName(
-                    context,
-                  ),
-                  _textFieldNumber(context),
-                  _textFieldMail(context),
-                  const SizedBox(height: 100),
-                  _buttonSend(context),
-                ],
+      body:LayoutBuilder(
+        builder: (context,constraints){
+          return  Container(
+          padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
+          child: SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 20))),
+              child: Form(
+                key: _globalKey,
+                child: Column(
+                  children: [
+                    _text(context,constraints),
+                    _textFieldName(
+                      context,constraints
+                    ),
+                    _textFieldNumber(context,constraints),
+                    _textFieldMail(context,constraints),
+                    SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 100)),
+                    _buttonSend(context,constraints),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
+        );
+        },
+       
       ),
     );
   }
 
-  Widget _text(BuildContext context) {
+  Widget _text(BuildContext context ,constraints) {
     return Padding(
-      padding: const EdgeInsets.all(10),
+      padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
             child: Text(
               "Changer le profil ",
               style:
-                  GoogleFonts.roboto(fontSize: AppSizes.fontLarge, fontWeight: FontWeight.w600),
+                  GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 14), fontWeight: FontWeight.w600),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
             child: Text(
               "Vous pouvez apporter des modifications à votre profil",
               style:
-                  GoogleFonts.roboto(fontSize: AppSizes.fontSmall, fontWeight: FontWeight.w400),
+                  GoogleFonts.roboto(fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.w400),
             ),
           )
         ],
@@ -142,9 +147,9 @@ class _UpdateProfilState extends State<UpdateProfil> {
     );
   }
 
-  Widget _textFieldName(BuildContext context) {
+  Widget _textFieldName(BuildContext context,constraints) {
     return Padding(
-      padding: const EdgeInsets.all(8),
+      padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
       child: TextFormField(
          controller: _name,
         keyboardType: TextInputType.name,
@@ -153,19 +158,19 @@ class _UpdateProfilState extends State<UpdateProfil> {
           fillColor: Colors.grey[100],
           hintText: "Name",
           hintStyle:
-              GoogleFonts.aBeeZee(fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w400),
-          prefixIcon: const Icon(Icons.person_2_outlined, size: AppSizes.iconLarge),
+              GoogleFonts.aBeeZee(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.w400),
+          prefixIcon: Icon(Icons.person_2_outlined, size: constraints.maxWidth * AppSizes.converValueToadapter(context, 24)),
           border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
               borderSide: BorderSide.none),
         ),
       ),
     );
   }
 
-  Widget _textFieldNumber(BuildContext context) {
+  Widget _textFieldNumber(BuildContext context,constraints) {
     return Padding(
-      padding: const EdgeInsets.all(8),
+      padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
       child: TextFormField(
          controller: _numero,
         keyboardType: TextInputType.phone,
@@ -174,19 +179,19 @@ class _UpdateProfilState extends State<UpdateProfil> {
           fillColor: Colors.grey[100],
           hintText: "Numero",
           hintStyle:
-              GoogleFonts.aBeeZee(fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w400),
-          prefixIcon: const Icon(Icons.phone_android, size: AppSizes.iconLarge),
+              GoogleFonts.aBeeZee(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.w400),
+          prefixIcon: Icon(Icons.phone_android, size: constraints.maxWidth * AppSizes.converValueToadapter(context, 24)),
           border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
               borderSide: BorderSide.none),
         ),
       ),
     );
   }
 
-  Widget _textFieldMail(BuildContext context) {
+  Widget _textFieldMail(BuildContext context,constraints) {
     return Padding(
-      padding: const EdgeInsets.all(8),
+      padding:EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
       child: TextFormField(
          controller: _email,
         keyboardType: TextInputType.emailAddress,
@@ -195,19 +200,19 @@ class _UpdateProfilState extends State<UpdateProfil> {
           fillColor: Colors.grey[100],
           hintText: "Email",
           hintStyle:
-              GoogleFonts.aBeeZee(fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w400),
-          prefixIcon: const Icon(Icons.mail_outline, size: AppSizes.iconLarge),
+              GoogleFonts.aBeeZee(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.w400),
+          prefixIcon: Icon(Icons.mail_outline, size: constraints.maxWidth * AppSizes.converValueToadapter(context, 24)),
           border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
               borderSide: BorderSide.none),
         ),
       ),
     );
   }
 
-  Widget _buttonSend(BuildContext context) {
+  Widget _buttonSend(BuildContext context,constraints) {
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
       child: ElevatedButton.icon(
           onPressed: () {
             _sendUpdate();
@@ -215,11 +220,11 @@ class _UpdateProfilState extends State<UpdateProfil> {
           style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFF1D1A30),
               elevation: 5,
-              fixedSize: const Size(320, 50)),
-          icon: Icon(Icons.edit, size: AppSizes.iconLarge, color: Colors.grey[100]),
+              fixedSize: Size(constraints.maxWidth * AppSizes.converValueToadapter(context, 320), constraints.maxWidth * AppSizes.converValueToadapter(context, 40))),
+          icon: Icon(Icons.edit, size: constraints.maxWidth * AppSizes.converValueToadapter(context, 20), color: Colors.grey[100]),
           label: Text("Modifier le profil",
               style: GoogleFonts.roboto(
-                  fontSize: AppSizes.fontSmall,
+                  fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
                   fontWeight: FontWeight.w500,
                   color: Colors.grey[100]))),
     );

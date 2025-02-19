@@ -11,7 +11,8 @@ import 'package:provider/provider.dart';
 
 class MyChooseCategoryWidget extends StatefulWidget {
   final dynamic listCategories;
-  const MyChooseCategoryWidget({super.key, required this.listCategories});
+  final constraints;
+  const MyChooseCategoryWidget({super.key, required this.listCategories, required this.constraints});
 
   @override
   State<MyChooseCategoryWidget> createState() => _MyChooseCategoryState();
@@ -21,24 +22,24 @@ class _MyChooseCategoryState extends State<MyChooseCategoryWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 15),
+      padding: EdgeInsets.only(top: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
       child: SizedBox(
-        height: 150,
+        height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 150),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20,
-                vertical: 10,
+              padding: EdgeInsets.symmetric(
+                horizontal: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20),
+                vertical: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 10),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("Categories",
                       style: GoogleFonts.roboto(
-                          fontSize: AppSizes.fontLarge,color:AppColor.textColor ,fontWeight: FontWeight.w600)),
-                  const Icon(Icons.arrow_forward_ios_rounded, size: AppSizes.iconMedium)
+                          fontSize:widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 14),color:AppColor.textColor ,fontWeight: FontWeight.w600)),
+                  Icon(Icons.arrow_forward_ios_rounded, size: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 14))
                 ],
               ),
             ),
@@ -58,8 +59,8 @@ class _MyChooseCategoryState extends State<MyChooseCategoryWidget> {
                         stream: widget.listCategories.stream,
                         builder: (context, snapshot) {
                           if (snapshot.hasError) {
-                            return const Center(
-                              child: Text("Error"),
+                            return Center(
+                              child: Text("Problème de chargement...", style: TextStyle(fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12)),),
                             );
                           } else if (!snapshot.hasData ||
                               (snapshot.data!.isEmpty &&
@@ -74,7 +75,7 @@ class _MyChooseCategoryState extends State<MyChooseCategoryWidget> {
                                             builder: (context) =>
                                                 const MyCategoriList()));
                                   },
-                                  icon: const Icon(Icons.add)),
+                                  icon:Icon(Icons.add)),
                             );
                           } else {
                             return ListView.builder(
@@ -93,13 +94,13 @@ class _MyChooseCategoryState extends State<MyChooseCategoryWidget> {
                                                         marque.nameCategorie)));
                                   },
                                   child: Container(
-                                    height: 50,
-                                    width: 120,
-                                    margin: const EdgeInsets.all(10),
+                                    height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 50),
+                                    width: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 120),
+                                    margin: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
                                     decoration: BoxDecoration(
                                         color: const Color(0xFF1D1A30),
                                         borderRadius:
-                                            BorderRadius.circular(10)),
+                                            BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 10))),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -108,7 +109,7 @@ class _MyChooseCategoryState extends State<MyChooseCategoryWidget> {
                                           marque.nameCategorie,
                                           style: GoogleFonts.roboto(
                                               fontWeight: FontWeight.w400,
-                                              fontSize: AppSizes.fontSmall,
+                                              fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
                                               color: Colors.white),
                                         )
                                       ],

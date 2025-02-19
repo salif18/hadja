@@ -181,12 +181,7 @@ class ServicesApiOrders{
           style: GoogleFonts.roboto(fontSize: 16,fontWeight: FontWeight.w400)),
       backgroundColor: Colors.green,
       duration: const Duration(seconds: 5),
-      action: SnackBarAction(
-        label: "",
-        onPressed: () {
-          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        },
-      ),
+      
     ));
   }
 
@@ -197,12 +192,7 @@ class ServicesApiOrders{
           style: GoogleFonts.roboto(fontSize: 16,fontWeight: FontWeight.w400)),
       backgroundColor: const Color.fromARGB(255, 255, 35, 19),
       duration: const Duration(seconds: 5),
-      action: SnackBarAction(
-        label: "",
-        onPressed: () {
-          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        },
-      ),
+     
     ));
   }
 }

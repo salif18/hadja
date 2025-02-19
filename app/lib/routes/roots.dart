@@ -35,64 +35,69 @@ class _MyRootsState extends State<MyRoots> {
   }
 
   Widget _buildBottomNavigation() {
-    return SizedBox(
-      height: 80,
-      child: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        backgroundColor: Colors.white,
-        elevation: 20,
-        selectedItemColor: const Color(0xFF1D1A30),
-        unselectedItemColor: const Color.fromARGB(255, 168, 168, 168),
-        iconSize: AppSizes.iconLarge,
-        items: [
-          const BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined), label: "Accueil"),
-          const BottomNavigationBarItem(
-              icon: Icon(Icons.search_rounded), label: "Rechercher"),
-          const BottomNavigationBarItem(
-              icon: Icon(FontAwesomeIcons.productHunt), label: "Produits"),
-          BottomNavigationBarItem(
-            icon: Consumer<CartProvider>(
-              builder: (context, provider, child) {
-                return FutureBuilder(
-                  future: provider.loadCartFromLocalStorage(), 
-                  builder: (context, snaptshot){
-                    return Stack(
-                  children: [
-                    const Icon(Icons.shopping_cart_outlined),
-                    if (provider.myCart.isNotEmpty)
-                      Positioned(
-                        left: 8,
-                        bottom: 6,
-                        child: Badge.count(
-                          count: provider.myCart.length,
-                          largeSize: 35 / 2,
-                          backgroundColor: Colors.red,
-                          textStyle: GoogleFonts.roboto(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
+    return LayoutBuilder(
+      builder: (context,constraints){
+        return SizedBox(
+        height: constraints.maxWidth * AppSizes.converValueToadapter(context, 60),
+        child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          currentIndex: _currentIndex,
+          onTap: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+          backgroundColor: Colors.white,
+          elevation: 20,
+          selectedItemColor: const Color(0xFF1D1A30),
+          unselectedItemColor: const Color.fromARGB(255, 168, 168, 168),
+          iconSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 20),
+        selectedLabelStyle: GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12)),
+          items: [
+            const BottomNavigationBarItem(
+                icon: Icon(Icons.home_outlined), label: "Accueil"),
+            const BottomNavigationBarItem(
+                icon: Icon(Icons.search_rounded), label: "Rechercher"),
+            const BottomNavigationBarItem(
+                icon: Icon(FontAwesomeIcons.productHunt), label: "Produits"),
+            BottomNavigationBarItem(
+              icon: Consumer<CartProvider>(
+                builder: (context, provider, child) {
+                  return FutureBuilder(
+                    future: provider.loadCartFromLocalStorage(), 
+                    builder: (context, snaptshot){
+                      return Stack(
+                    children: [
+                      const Icon(Icons.shopping_cart_outlined),
+                      if (provider.myCart.isNotEmpty)
+                        Positioned(
+                          left: 8,
+                          bottom: 6,
+                          child: Badge.count(
+                            count: provider.myCart.length,
+                            largeSize: 35 / 2,
+                            backgroundColor: Colors.red,
+                            textStyle: GoogleFonts.roboto(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                      ),
-                  ],
-                );
-                  }
+                    ],
                   );
-              },
+                    }
+                    );
+                },
+              ),
+              label: "Panier",
             ),
-            label: "Panier",
-          ),
-          const BottomNavigationBarItem(
-              icon: Icon(Icons.favorite_border_rounded), label: "Favoris"),
-        ],
-      ),
+            const BottomNavigationBarItem(
+                icon: Icon(Icons.favorite_border_rounded), label: "Favoris"),
+          ],
+        ),
+      );
+      },
     );
   }
 }

@@ -75,57 +75,61 @@ class _UpdatePasswordState extends State<UpdatePassword> {
       appBar: AppBar(
         leading: IconButton(
             onPressed: () => Navigator.pop(context),
-            icon: const Icon(Icons.arrow_back_ios_rounded, size: AppSizes.iconMedium)),
+            icon: Icon(Icons.arrow_back_ios_rounded, size:MediaQuery.of(context).size.width * 14/360)),
       ),
-      body: Container(
-        padding: const EdgeInsets.all(20),
-        child: SingleChildScrollView(
-          child: Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: [_formulaires(context)],
+      body: LayoutBuilder(
+        builder: (context,constraints){
+          return  Container(
+          padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
+          child: SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
+              ),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [_formulaires(context ,constraints)],
+                ),
               ),
             ),
           ),
-        ),
+        );
+        },
       ),
     );
   }
 
-  Widget _formulaires(BuildContext context) {
+  Widget _formulaires(BuildContext context, constraints) {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.all(10),
+          padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
                 child: Text(
                   "Changer de mot de passe",
                   style: GoogleFonts.roboto(
-                      fontSize: AppSizes.fontLarge, fontWeight: FontWeight.w600),
+                      fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 20), fontWeight: FontWeight.w600),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
                 child: Text(
                   "Votre mot de passe doit contenir au moins 6 caractères",
                   style: GoogleFonts.roboto(
-                      fontSize: AppSizes.fontSmall, fontWeight: FontWeight.w400),
+                      fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 14), fontWeight: FontWeight.w400),
                 ),
               )
             ],
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 10),
+          padding: EdgeInsets.only(top: constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
           child: TextFormField(
              controller: _currentPassword,
             validator: (value) {
@@ -141,17 +145,17 @@ class _UpdatePasswordState extends State<UpdatePassword> {
               fillColor: Colors.grey[100],
               hintText: "Mot de passe actuel",
               hintStyle: GoogleFonts.aBeeZee(
-                  fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w400),
+                  fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.w400),
               // prefixIcon: const Icon(Icons.lock_outline_rounded, size: 33),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
                 borderSide: BorderSide.none,
               ),
             ),
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 10),
+          padding:  EdgeInsets.only(top: constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
           child: TextFormField(
             controller: _newPassword,
             validator: (value) {
@@ -167,17 +171,17 @@ class _UpdatePasswordState extends State<UpdatePassword> {
               fillColor: Colors.grey[100],
               hintText: "Nouveau mot de passe",
               hintStyle: GoogleFonts.aBeeZee(
-                  fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w400),
+                  fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.w400),
               // prefixIcon: const Icon(Icons.lock_outline_rounded, size: 33),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
                 borderSide: BorderSide.none,
               ),
             ),
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 10),
+          padding: EdgeInsets.only(top: constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
           child: TextFormField(
              controller: _passwordConfirmation,
             validator: (value) {
@@ -193,17 +197,17 @@ class _UpdatePasswordState extends State<UpdatePassword> {
               fillColor: Colors.grey[100],
               hintText: "Retapez le nouveau mot de passe",
               hintStyle: GoogleFonts.aBeeZee(
-                  fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w400),
+                  fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.w400),
               // prefixIcon: const Icon(Icons.lock_outline_rounded, size: 33),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
                 borderSide: BorderSide.none,
               ),
             ),
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
           child: Row(children: [
             TextButton(
                 onPressed: () {
@@ -213,16 +217,16 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                           builder: (context) => const ResetToken()));
                 },
                 child: Text("Mot de passe oublié ?",
-                    style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium)))
+                    style: GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 14))))
           ]),
         ),
         Padding(
-          padding: const EdgeInsets.all(5),
+          padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFF1D1A30),
               elevation: 5,
-              fixedSize: const Size(400, 50),
+              fixedSize: Size(constraints.maxWidth * AppSizes.converValueToadapter(context, 400), constraints.maxWidth * AppSizes.converValueToadapter(context, 40)),
             ),
             onPressed: () {
               _sendUpdate();
@@ -230,7 +234,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
             child: Text(
               "Changer le mot de passe",
               style: GoogleFonts.roboto(
-                fontSize: AppSizes.fontMedium,
+                fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
                 fontWeight: FontWeight.w500,
                 color: Colors.grey[100],
               ),

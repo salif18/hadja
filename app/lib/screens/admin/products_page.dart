@@ -167,31 +167,32 @@ class _ProductPageState extends State<ProductPage> {
       backgroundColor: Colors.grey[100],
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        toolbarHeight: 80,
+        toolbarHeight: MediaQuery.of(context).size.width * 50/360,
         centerTitle: true,
         backgroundColor: Colors.white,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: const Icon(Icons.arrow_back_ios_rounded, size: AppSizes.iconLarge),
+          icon: Icon(Icons.arrow_back_ios_rounded, size: MediaQuery.of(context).size.width * 24/360),
         ),
         title: Text(
           "Produits",
-          style: GoogleFonts.roboto(fontSize: AppSizes.fontLarge, fontWeight: FontWeight.w400),
+          style: GoogleFonts.roboto(fontSize: MediaQuery.of(context).size.width * 16/360, fontWeight: FontWeight.w400),
         ),
         actions: [
           IconButton(
             onPressed: () {
-              _addProducts(context);
+              _addProducts(context,MediaQuery.of(context).size.width);
             },
-            icon: const Icon(Icons.add, size: AppSizes.iconLarge),
+            icon: Icon(Icons.add, size: MediaQuery.of(context).size.width * 28/360),
           ),
-          const SizedBox(width: 20),
+          SizedBox(width: MediaQuery.of(context).size.width * 20/360),
         ],
       ),
-      body: Container(
-        padding: const EdgeInsets.all(20),
+      body:LayoutBuilder(builder: (context,constraints){
+        return  Container(
+        padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context,20)),
         height: MediaQuery.of(context).size.height,
         child: StreamBuilder<List<ArticlesModel>>(
             stream: _articlesData.stream,
@@ -200,11 +201,11 @@ class _ProductPageState extends State<ProductPage> {
                 return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
                 return Center(
-                  child: Text("Erreur", style: GoogleFonts.roboto(fontSize: 20, fontWeight: FontWeight.w600)),
+                  child: Text("Problème de connexion au server", style: GoogleFonts.roboto(fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.w600)),
                 );
               } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                 return Center(
-                  child: Text("Aucune donnée disponible", style: GoogleFonts.roboto(fontSize: 20, fontWeight: FontWeight.w600)),
+                  child: Text("Aucune donnée disponible", style: GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.w600)),
                 );
               } else {
                 return ListView.builder(
@@ -218,11 +219,11 @@ class _ProductPageState extends State<ProductPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => SingleProductAdmin(article: article)));
+                                  builder: (context) => SingleProductAdmin(article: article,constraints:constraints)));
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
                               color: Colors.white,
                               border: const Border(bottom: BorderSide(color: Color.fromARGB(255, 235, 235, 235)))),
                           child: Row(
@@ -231,36 +232,36 @@ class _ProductPageState extends State<ProductPage> {
                               Row(
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
                                     child: Container(
-                                      width: 50,
-                                      height: 50,
+                                      width: constraints.maxWidth * AppSizes.converValueToadapter(context, 50),
+                                      height: constraints.maxWidth * AppSizes.converValueToadapter(context, 50),
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(20)),
+                                          borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 20))),
                                       child: Image.network(
                                         article.img,
-                                        fit: BoxFit.contain,
+                                        fit: BoxFit.fill,
                                       ),
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(left: 15),
+                                    padding: EdgeInsets.only(left: constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text(article.name, style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w500)),
-                                        Text("${article.price.toString()} fcfa", style: GoogleFonts.roboto(fontSize: AppSizes.fontSmall, color: Colors.grey[500]))
+                                        Text(article.name, style: GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.w500)),
+                                        Text("${article.price.toString()} fcfa", style: GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), color: Colors.grey[500]))
                                       ],
                                     ),
                                   ),
                                 ],
                               ),
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
                                 child: Row(
                                   children: [
-                                    Text("stocks:", style: GoogleFonts.roboto(fontSize: AppSizes.fontSmall)),
-                                    const SizedBox(width: 10),
+                                    Text("stocks:", style: GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12))),
+                                    SizedBox(width: constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
                                     Text(article.stock > 0 ? article.stock.toString() : "finis"),
                                   ],
                                 ),
@@ -272,28 +273,29 @@ class _ProductPageState extends State<ProductPage> {
                     });
               }
             }),
-      ),
+      );
+      })
     );
   }
 
-  void _addProducts(BuildContext context) {
+  void _addProducts(BuildContext context,constraints) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) {
         return Container(
-          padding: const EdgeInsets.all(15),
-          height: MediaQuery.of(context).size.height * 0.95,
+          padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
+          height: constraints.maxWidth * AppSizes.converValueToadapter(context, 360),
           child: Form(
             key: _globalKey,
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Text("Ajout de Produit", style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w500)),
-                  const SizedBox(height: 20),
+                  Text("Ajout de Produit", style: GoogleFonts.roboto(fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.w500)),
+                  SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
                   TextFormField(
                     controller: _nameController,
-                    decoration: const InputDecoration(labelText: "Nom du produit", border: OutlineInputBorder()),
+                    decoration: InputDecoration(labelText: "Nom du produit", border: OutlineInputBorder()),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return "Le nom du produit est requis";
@@ -301,7 +303,7 @@ class _ProductPageState extends State<ProductPage> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: 20),
+                   SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
                   TextFormField(
                     controller: _descController,
                     decoration: const InputDecoration(labelText: "Description du produit", border: OutlineInputBorder()),
@@ -312,7 +314,7 @@ class _ProductPageState extends State<ProductPage> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
                   TextFormField(
                     controller: _priceController,
                     decoration: const InputDecoration(labelText: "Prix du produit", border: OutlineInputBorder()),
@@ -325,7 +327,7 @@ class _ProductPageState extends State<ProductPage> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
                   TextFormField(
                     controller: _stockController,
                     decoration: const InputDecoration(labelText: "Stock du produit", border: OutlineInputBorder()),
@@ -338,7 +340,7 @@ class _ProductPageState extends State<ProductPage> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: 20),
+                 SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
                   DropdownButtonFormField<String>(
                     value: _categoryController,
                     decoration: const InputDecoration(labelText: "Catégorie du produit", border: OutlineInputBorder()),
@@ -360,15 +362,15 @@ class _ProductPageState extends State<ProductPage> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: 20),
+                 SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Column(
                         children: [
-                          Text("Image du produit",style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium)),
+                          Text("Image du produit",style: GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12))),
                           IconButton(
-                            icon:  const Icon(Icons.photo_camera_back_outlined, size: 38),
+                            icon: Icon(Icons.photo_camera_back_outlined, size: constraints.maxWidth * AppSizes.converValueToadapter(context, 28)),
                             onPressed: () {
                               _getImageToGalleriePhone();
                             },
@@ -376,46 +378,46 @@ class _ProductPageState extends State<ProductPage> {
                         ],
                       ),
                       if (_articleImage != null)
-                        Image.file(File(_articleImage!.path), width: 100, height: 100),
+                        Image.file(File(_articleImage!.path), width: constraints.maxWidth * AppSizes.converValueToadapter(context, 100), height: constraints.maxWidth * AppSizes.converValueToadapter(context, 100)),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
                   Column(
                     children: [
-                      Text("Ajouter des images à la galerie",style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium)),
+                      Text("Ajouter des images à la galerie",style: GoogleFonts.roboto(fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context, 12))),
                       IconButton(
-                        icon:const Icon(Icons.photo_library_outlined, size: 38),
+                        icon:Icon(Icons.photo_library_outlined, size: constraints.maxWidth * AppSizes.converValueToadapter(context, 24)),
                         onPressed: () {
                           _selectMultiImageGallery();
                         },
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
                   if (gallerieImages != null)
                     SizedBox(
-                      height: 100,
+                      height: constraints.maxWidth * AppSizes.converValueToadapter(context, 100),
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: gallerieImages?.length,
                         itemBuilder: (context, index) {
                           return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Image.file(File(gallerieImages![index].path), width: 100, height: 100),
+                            padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
+                            child: Image.file(File(gallerieImages![index].path), width: constraints.maxWidth * AppSizes.converValueToadapter(context, 100), height: constraints.maxWidth * AppSizes.converValueToadapter(context, 100)),
                           );
                         },
                       ),
                     ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
                   ElevatedButton(
                      style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF1D1A30),
-                minimumSize: const Size(400, 50)),
+                minimumSize: Size(constraints.maxWidth * AppSizes.converValueToadapter(context, 400), constraints.maxWidth * AppSizes.converValueToadapter(context, 40))),
                     onPressed: () {
                       _sendToServer();
                       Navigator.pop(context);
                     },
-                    child:Text("Ajouter" ,style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium, color: Colors.white)),
+                    child:Text("Ajouter" ,style: GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), color: Colors.white)),
                   ),
                 ],
               ),

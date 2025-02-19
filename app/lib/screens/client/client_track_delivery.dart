@@ -9,7 +9,8 @@ import 'package:url_launcher/url_launcher.dart';
 
 class ClientTrackingDelivery extends StatefulWidget {
   final OrdersModel order ;
-  const ClientTrackingDelivery({super.key, required this.order});
+  final constraints;
+  const ClientTrackingDelivery({super.key, required this.order, required this.constraints});
 
   @override
   State<ClientTrackingDelivery> createState() => _ClientTrackingDeliveryState();
@@ -78,7 +79,7 @@ class _ClientTrackingDeliveryState extends State<ClientTrackingDelivery> {
       appBar: AppBar(
          leading: IconButton(onPressed: (){
           Navigator.pop(context);
-        }, icon: const Icon(Icons.arrow_back_ios_rounded, size:AppSizes.iconLarge)),
+        }, icon: Icon(Icons.arrow_back_ios_rounded, size:widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 24))),
          
       ),
       body: SizedBox(
@@ -86,27 +87,27 @@ class _ClientTrackingDeliveryState extends State<ClientTrackingDelivery> {
          // mainAxisAlignment: MainAxisAlignment.center,
           children: [
              Padding(
-               padding: const EdgeInsets.all(15),
+               padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
                child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(15),
+                    padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
                     child: Column(
                       crossAxisAlignment:CrossAxisAlignment.start,
                       children: [
-                        Text("Suis le courier jusqu'a chez vous !",style: GoogleFonts.abel(fontSize: 35,fontWeight: FontWeight.bold),),
-                        Text("En temps reel",style: GoogleFonts.abel(fontSize: AppSizes.fontLarge,fontWeight: FontWeight.bold),),
+                        Text("Suis le courier jusqu'a chez vous !",style: GoogleFonts.abel(fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 25),fontWeight: FontWeight.bold),),
+                        Text("En temps reel",style: GoogleFonts.abel(fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 14),fontWeight: FontWeight.bold),),
                       ],
                     ),
                   ),
                   Container(
-                    height: 200, 
-                    width: 200,
+                    height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 200), 
+                    width: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 200),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
                       image: const DecorationImage(
                         image: AssetImage("assets/logos/livraison.jpeg"), 
-                        fit: BoxFit.cover
+                        fit: BoxFit.fill
                         )
                     ),
                     
@@ -117,7 +118,7 @@ class _ClientTrackingDeliveryState extends State<ClientTrackingDelivery> {
              ),
             Center(
               child: Padding(
-                padding: const EdgeInsets.all(15),
+                padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF1D1A30),),
@@ -126,7 +127,7 @@ class _ClientTrackingDeliveryState extends State<ClientTrackingDelivery> {
                     },
                     child: Text("Suivre le trajet...",
                         style: GoogleFonts.roboto(
-                            fontSize: AppSizes.fontSmall,
+                            fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
                             fontWeight: FontWeight.w400,
                             color: Colors.white))),
               ),

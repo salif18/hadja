@@ -11,7 +11,8 @@ import 'package:hadja_grish/screens/livreur/card_order_delivery.dart';
 import 'package:provider/provider.dart';
 
 class OrdersLivreurs extends StatefulWidget {
-  const OrdersLivreurs({super.key});
+  final constraints;
+  const OrdersLivreurs({super.key, required this.constraints});
 
   @override
   State<OrdersLivreurs> createState() => _OrdersLivreursState();
@@ -61,14 +62,14 @@ class _OrdersLivreursState extends State<OrdersLivreurs> {
       appBar: AppBar(
         title: Text("Commandes",
             style:
-                GoogleFonts.roboto(fontSize: AppSizes.fontLarge, fontWeight: FontWeight.w400)),
+                GoogleFonts.roboto(fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 16), fontWeight: FontWeight.w400)),
         centerTitle: true,
-        toolbarHeight: 80,
+        toolbarHeight: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 80),
         leading: IconButton(
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: const Icon(Icons.arrow_back_ios_new_rounded, size: AppSizes.iconLarge)),
+            icon: Icon(Icons.arrow_back_ios_new_rounded, size: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 24))),
       ),
       body: StreamBuilder<List<OrdersModel>>(
           stream: _ordersData.stream,
@@ -77,15 +78,15 @@ class _OrdersLivreursState extends State<OrdersLivreurs> {
               return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
               return Center(
-                child: Text("Erreur",
+                child: Text("Problème de connexion au server...",
                     style: GoogleFonts.roboto(
-                        fontSize: 20, fontWeight: FontWeight.w600)),
+                        fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.w600)),
               );
             } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
               return Center(
                 child: Text("Aucune donnée disponible",
                     style: GoogleFonts.roboto(
-                        fontSize: 20, fontWeight: FontWeight.w600)),
+                        fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.w600)),
               );
             } else {
               return ListView.builder(
@@ -94,7 +95,7 @@ class _OrdersLivreursState extends State<OrdersLivreurs> {
                   itemBuilder: (BuildContext context, int index) {
                     final data = snapshot.data!;
                     OrdersModel order = data[index];
-                    return CardOrderDelivery(order: order);
+                    return CardOrderDelivery(order: order, constraints:widget.constraints);
                   });
             }
           }),

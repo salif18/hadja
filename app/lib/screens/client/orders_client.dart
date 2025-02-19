@@ -65,31 +65,32 @@ class _OrdersClientState extends State<OrdersClient> {
       appBar:AppBar(
         leading: IconButton(onPressed:(){
           Navigator.pop(context);
-        }, icon: const Icon(Icons.arrow_back_ios_new_rounded, size:AppSizes.iconLarge)
+        }, icon: Icon(Icons.arrow_back_ios_new_rounded, size:MediaQuery.of(context).size.width * 24/360)
         ),
          centerTitle: true, 
          title: Text("Commandes",style:GoogleFonts.roboto( 
-          fontSize:AppSizes.fontLarge, 
+          fontSize:MediaQuery.of(context).size.width*16/360, 
           fontWeight:FontWeight.w400
          ),
          ),
       ),
-      body: StreamBuilder<List<OrdersModel>>(
+      body: LayoutBuilder(builder: (context,constraints){
+        return StreamBuilder<List<OrdersModel>>(
             stream: _ordersData.stream,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
                 return Center(
-                  child: Text("Erreur",
+                  child: Text("Problème de onnexion au server...",
                       style: GoogleFonts.roboto(
-                          fontSize: 20, fontWeight: FontWeight.w600)),
+                          fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.w600)),
                 );
               } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                 return Center(
                   child: Text("Aucune donnée disponible",
                       style: GoogleFonts.roboto(
-                          fontSize: 20, fontWeight: FontWeight.w600)),
+                          fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.w600)),
                 );
               } else {
                 return ListView.builder(
@@ -98,10 +99,11 @@ class _OrdersClientState extends State<OrdersClient> {
                     itemBuilder: (BuildContext context, int index) {
                       final data = snapshot.data!;
                       OrdersModel order = data[index];
-                      return CardOrderClient(order :order);
+                      return CardOrderClient(order :order,constraints:constraints);
                     });
               }
-            }),
+            });
+      })
     );
   }
 }

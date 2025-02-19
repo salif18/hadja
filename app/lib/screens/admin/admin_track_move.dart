@@ -79,61 +79,65 @@ class _AdminTrackingDeliveryState extends State<AdminTrackingDelivery> {
       appBar: AppBar(
          leading: IconButton(onPressed: (){
           Navigator.pop(context);
-        }, icon: const Icon(Icons.arrow_back_ios_rounded, size:AppSizes.iconLarge)),
+        }, icon: Icon(Icons.arrow_back_ios_rounded, size: MediaQuery.of(context).size.width * 24/360)),
          
       ),
-      body: SizedBox(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-             Padding(
-               padding: const EdgeInsets.all(15),
-               child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Column(
-                      crossAxisAlignment:CrossAxisAlignment.start,
-                      children: [
-                        Text("Suis le courier jusqu'au client !",style: GoogleFonts.abel(fontSize: 35,fontWeight: FontWeight.bold),),
-                        Text("En temps reel",style: GoogleFonts.abel(fontSize: AppSizes.fontLarge,fontWeight: FontWeight.bold),),
-                      ],
+      body: LayoutBuilder(
+        builder: (context,constraints){
+          return SizedBox(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+               Padding(
+                 padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
+                 child: Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
+                      child: Column(
+                        crossAxisAlignment:CrossAxisAlignment.start,
+                        children: [
+                          Text("Suis le courier jusqu'au client !",style: GoogleFonts.abel(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 25),fontWeight: FontWeight.bold),),
+                          Text("En temps reel",style: GoogleFonts.abel(fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context, 14),fontWeight: FontWeight.bold),),
+                        ],
+                      ),
                     ),
-                  ),
-                  Container(
-                    height: 200, 
-                    width: 200,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      image: const DecorationImage(
-                        image: AssetImage("assets/logos/livraison.jpeg"), 
-                        fit: BoxFit.cover
-                        )
+                    Container(
+                      height: constraints.maxWidth * AppSizes.converValueToadapter(context, 200), 
+                      width: constraints.maxWidth * AppSizes.converValueToadapter(context, 200),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
+                        image: const DecorationImage(
+                          image: AssetImage("assets/logos/livraison.jpeg"), 
+                          fit: BoxFit.fill
+                          )
+                      ),
+                      
+                             
                     ),
-                    
-                           
-                  ),
-                ],
-                           ),
-             ),
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.all(15),
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF1D1A30),),
-                    onPressed: () {
-                      _openMap();
-                    },
-                    child: Text("Suivre la livraison...",
-                        style: GoogleFonts.roboto(
-                            fontSize: AppSizes.fontSmall,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.white))),
-              ),
-            )
-          ],
-        ),
+                  ],
+                             ),
+               ),
+              Center(
+                child: Padding(
+                  padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF1D1A30),),
+                      onPressed: () {
+                        _openMap();
+                      },
+                      child: Text("Suivre la livraison...",
+                          style: GoogleFonts.roboto(
+                              fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white))),
+                ),
+              )
+            ],
+          ),
+        );
+        },
       ),
     );
   }

@@ -6,7 +6,8 @@ import 'package:hadja_grish/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
 class MyHeaderWidget extends StatefulWidget {
-  const MyHeaderWidget({super.key});
+  final constraints;
+  const MyHeaderWidget({super.key, required this.constraints});
 
   @override
   State<MyHeaderWidget> createState() => _MyHeaderState();
@@ -16,37 +17,39 @@ class _MyHeaderState extends State<MyHeaderWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.only(top: 15),
+        padding: EdgeInsets.only(top: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
         child: Consumer<UserInfosProvider>(builder: (context, provider, child) {
           return FutureBuilder(
               future: provider.loadProfilFromLocalStorage(),
               builder: (context, snaptshot) {
                  ProfilModel? profil = snaptshot.data;
                 return Container(
-                  height: 110,
-                  padding: const EdgeInsets.all(15),
-                  decoration: const BoxDecoration(),
+                  height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 100),
+                  padding:  EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
+                  decoration:  BoxDecoration(),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Salut! ${profil?.name ?? "votre nom"}",
-                              style: GoogleFonts.aBeeZee(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: AppSizes.fontMedium,
-                                  color: Colors.white)),
-                          const SizedBox(height: 5),
-                          Text("Quel produit veux tu ?",
-                              style: GoogleFonts.roboto(
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: AppSizes.fontMedium,
-                                  color: Colors.grey[100]))
-                        ],
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Salut! ${profil?.name ?? "votre nom"}",
+                                style: GoogleFonts.aBeeZee(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize:widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
+                                    color: Colors.white)),
+                            SizedBox(height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
+                            Text("Quel produit veux tu ?",
+                                style: GoogleFonts.roboto(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
+                                    color: Colors.grey[100]))
+                          ],
+                        ),
                       ),
                       CircleAvatar(
-                      radius: 30,
+                      radius: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20),
                       backgroundImage: profil?.photo != null
                           ? NetworkImage(profil!.photo!)
                           : AssetImage("assets/images/profil1.jpg") as ImageProvider,

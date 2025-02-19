@@ -188,28 +188,29 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        toolbarHeight: 80,
+        toolbarHeight: MediaQuery.of(context).size.width * 50/360,
         centerTitle: true,
         actions: [
           IconButton(
               onPressed: () {
-                _addLivreurs(context);
+                _addLivreurs(context,MediaQuery.of(context).size.width);
               },
               icon: const Icon(Icons.add, size: AppSizes.iconLarge)),
-          const SizedBox(
-            width: 20,
+           SizedBox(
+            width: MediaQuery.of(context).size.width * 20/360,
           )
         ],
         title: Text("Livreurs",
             style:
-                GoogleFonts.roboto(fontSize: AppSizes.fontLarge, fontWeight: FontWeight.w500)),
+                GoogleFonts.roboto(fontSize: MediaQuery.of(context).size.width * 16/360, fontWeight: FontWeight.w500)),
         leading: IconButton(
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: const Icon(Icons.arrow_back_ios_rounded, size: AppSizes.iconLarge)),
+            icon: Icon(Icons.arrow_back_ios_rounded, size:MediaQuery.of(context).size.width * 24/360)),
       ),
-      body: Container(
+      body: LayoutBuilder(builder: (context,constraints){
+        return Container(
         padding: const EdgeInsets.all(20),
         child: StreamBuilder<List< ProfilModel>>(
             stream: _liberyData.stream,
@@ -217,23 +218,23 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
-                return Text("err",
+                return Text("Problème de connexion au server...",
                     style: GoogleFonts.roboto(
-                        fontSize: AppSizes.fontLarge, fontWeight: FontWeight.w600));
+                        fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context,12), fontWeight: FontWeight.w600));
               } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return Text("No data available",
+                return Text("Pas de données disponibles",
                     style: GoogleFonts.roboto(
-                        fontSize: AppSizes.fontLarge, fontWeight: FontWeight.w600));
+                        fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context,12), fontWeight: FontWeight.w600));
               } else {
                 return ListView.builder(
                     itemCount: snapshot.data!.length,
                     itemBuilder: (BuildContext context, int index) {
                       ProfilModel livreur = snapshot.data![index];
                       return Container(
-                        height: 110,
-                        padding: const EdgeInsets.all(15),
+                        height: constraints.maxWidth * AppSizes.converValueToadapter(context,110),
+                        padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context,15)),
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context,10)),
                             color: Colors.white,
                             border: const Border(
                                 bottom: BorderSide(
@@ -243,39 +244,39 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context,8)),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context,8)),
                                     child: Container(
-                                      width: 50,
-                                      height: 50,
+                                      width: constraints.maxWidth * AppSizes.converValueToadapter(context,50),
+                                      height: constraints.maxWidth * AppSizes.converValueToadapter(context,50),
                                       decoration: BoxDecoration(
                                           borderRadius:
-                                              BorderRadius.circular(20)),
+                                              BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context,20))),
                                       child: Image.asset(
                                         livreur.photo ??
                                             "assets/images/profil1.jpg",
-                                        fit: BoxFit.contain,
+                                        fit: BoxFit.fill,
                                       ),
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(left: 15),
+                                    padding: EdgeInsets.only(left: constraints.maxWidth * AppSizes.converValueToadapter(context,15)),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(livreur.name!,
+                                        Text(livreur.name ?? "",
                                             style: GoogleFonts.roboto(
-                                                fontSize: AppSizes.fontMedium,
+                                                fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context,12),
                                                 fontWeight: FontWeight.w500)),
                                         Text(livreur.number.toString(),
                                             style: GoogleFonts.roboto(
-                                                fontSize: AppSizes.fontSmall,
+                                                fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context,12),
                                                 color: Colors.grey[500]))
                                       ],
                                     ),
@@ -284,22 +285,22 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context,8)),
                               child: Row(
                                 children: [
                                   IconButton(
                                       onPressed: () {
-                                        _updateDelibey(context, livreur);
+                                        _updateDelibey(context, livreur,constraints);
                                       },
-                                      icon: const Icon(Icons.edit,
-                                          size: AppSizes.iconLarge, color: Colors.blue)),
+                                      icon: Icon(Icons.edit,
+                                          size: constraints.maxWidth * AppSizes.converValueToadapter(context,24), color: Colors.blue)),
                                   IconButton(
                                       onPressed: () {
-                                        showRemoveLibery(context, livreur.userId);
+                                        showRemoveLibery(context, livreur.userId,constraints);
                                       },
-                                      icon: const Icon(
+                                      icon: Icon(
                                           Icons.group_remove_outlined,
-                                          size: AppSizes.iconLarge,
+                                          size: constraints.maxWidth * AppSizes.converValueToadapter(context,24),
                                           color: Colors.red))
                                 ],
                               ),
@@ -310,31 +311,32 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
                     });
               }
             }),
-      ),
+      );
+      })
     );
   }
 
 // FENETRE AJOUT DE LIVREUR
-  _addLivreurs(BuildContext context) {
+  _addLivreurs(BuildContext context, constraints) {
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
         builder: (BuildContext context) {
           return Container(
-            padding: const EdgeInsets.all(15),
-            height: MediaQuery.of(context).size.height * 0.8,
-            decoration: const BoxDecoration(),
+            padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context,15)),
+            height: constraints.maxWidth * AppSizes.converValueToadapter(context,360),
+            decoration: BoxDecoration(),
             child: Column(
               children: [
                 SizedBox(
-                  height: 80,
+                  height: constraints.maxWidth * AppSizes.converValueToadapter(context,80),
                   child: Center(
                     child: Text("Ajouter livreurs",
                         style: GoogleFonts.roboto(
-                            fontSize: AppSizes.fontLarge, fontWeight: FontWeight.w400)),
+                            fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context,12), fontWeight: FontWeight.w400)),
                   ),
                 ),
-                _formulaires(context),
+                _formulaires(context,constraints),
               ],
             ),
           );
@@ -342,26 +344,26 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
   }
 
 // FENETRE MODIFICATION DE LIVREUR
-  _updateDelibey(BuildContext context, livreur) {
+  _updateDelibey(BuildContext context, livreur,constraints) {
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
         builder: (BuildContext context) {
           return Container(
-            padding: const EdgeInsets.all(15),
-            height: MediaQuery.of(context).size.height * 0.8,
+            padding:  EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context,15)),
+            height: constraints.maxWidth * AppSizes.converValueToadapter(context,360),
             decoration: const BoxDecoration(),
             child: Column(
               children: [
                 SizedBox(
-                  height: 80,
+                  height: constraints.maxWidth * AppSizes.converValueToadapter(context,80),
                   child: Center(
                     child: Text("Modifier livreur",
                         style: GoogleFonts.roboto(
-                            fontSize: AppSizes.fontLarge, fontWeight: FontWeight.w400)),
+                            fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context,14), fontWeight: FontWeight.w400)),
                   ),
                 ),
-                _updateFormulaires(context, livreur),
+                _updateFormulaires(context, livreur,constraints),
               ],
             ),
           );
@@ -369,13 +371,13 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
   }
 
 // FORMULAIRE DE CREATION LIVREUR
-  _formulaires(BuildContext context) {
+  _formulaires(BuildContext context, constraints) {
     return Form(
         key: _formKeyAdd,
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context,8)),
               child: TextFormField(
                 keyboardType: TextInputType.name,
                 controller: _nom,
@@ -388,14 +390,14 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
                 decoration: InputDecoration(
                     hintText: "Nom ",
                     hintStyle:
-                        GoogleFonts.roboto(fontSize: AppSizes.fontMedium, color: Colors.grey),
-                    prefixIcon: const Icon(Icons.person_add, size: AppSizes.iconMedium),
+                        GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context,12), color: Colors.grey),
+                    prefixIcon: Icon(Icons.person_add, size: constraints.maxWidth * AppSizes.converValueToadapter(context,22)),
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20))),
+                        borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context,20)))),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context,8)),
               child: TextFormField(
                 keyboardType: TextInputType.phone,
                 controller: _numero,
@@ -408,14 +410,14 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
                 decoration: InputDecoration(
                     hintText: "Numero",
                     hintStyle:
-                        GoogleFonts.roboto(fontSize: AppSizes.fontMedium, color: Colors.grey),
-                    prefixIcon: const Icon(Icons.phone, size: AppSizes.iconMedium),
+                        GoogleFonts.roboto(fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context,12), color: Colors.grey),
+                    prefixIcon: Icon(Icons.phone, size: constraints.maxWidth * AppSizes.converValueToadapter(context,22)),
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20))),
+                        borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context,20)))),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context,8)),
               child: TextFormField(
                 keyboardType: TextInputType.emailAddress,
                 controller: _email,
@@ -428,19 +430,19 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
                 decoration: InputDecoration(
                     hintText: "Email",
                     hintStyle:
-                        GoogleFonts.roboto(fontSize: AppSizes.fontMedium, color: Colors.grey),
-                    prefixIcon: const Icon(Icons.mail_rounded, size: AppSizes.iconMedium),
+                        GoogleFonts.roboto(fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context,12), color: Colors.grey),
+                    prefixIcon:Icon(Icons.mail_rounded, size:constraints.maxWidth * AppSizes.converValueToadapter(context,22)),
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20))),
+                        borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context,20)))),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(10),
+              padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context,10)),
               child: DropdownButtonFormField<String?>(
                 hint: Text(
                   "Definir statut user",
                   style: GoogleFonts.roboto(
-                      fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w500),
+                      fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context,12), fontWeight: FontWeight.w500),
                 ),
                 value: _statutUser,
                 validator: (value) {
@@ -458,9 +460,9 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
                   fillColor: Colors.grey[100],
                   filled: true,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context,20)),
                   ),
-                  prefixIcon: const Icon(Icons.category_outlined, size: AppSizes.iconMedium),
+                  prefixIcon: Icon(Icons.category_outlined, size:constraints.maxWidth * AppSizes.converValueToadapter(context,22)),
                 ),
                 items: _statutList.map((statut) {
                   return DropdownMenuItem<String?>(
@@ -468,14 +470,14 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
                     child: Text(
                       statut,
                       style:
-                          GoogleFonts.roboto(fontSize: AppSizes.fontMedium, color: Colors.black),
+                          GoogleFonts.roboto(fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context,12), color: Colors.black),
                     ),
                   );
                 }).toList(),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context,8)),
               child: TextFormField(
                 keyboardType: TextInputType.name,
                 obscureText: isVisibility,
@@ -489,8 +491,8 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
                 decoration: InputDecoration(
                     hintText: "Password",
                     hintStyle:
-                        GoogleFonts.roboto(fontSize: AppSizes.fontMedium, color: Colors.grey),
-                    prefixIcon: const Icon(Icons.key, size: AppSizes.iconMedium),
+                        GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context,12), color: Colors.grey),
+                    prefixIcon: Icon(Icons.key, size: constraints.maxWidth * AppSizes.converValueToadapter(context,22)),
                     suffixIcon: IconButton(
                         onPressed: () {
                           setState(() {
@@ -501,21 +503,21 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
                             ? Icons.visibility
                             : Icons.visibility_off)),
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20))),
+                        borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context,20)))),
               ),
             ),
-            const SizedBox(height: 15),
+            SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context,15)),
             ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF1D1A30),
-                    minimumSize: const Size(400, 50)),
+                    minimumSize: Size(constraints.maxWidth * AppSizes.converValueToadapter(context,400), constraints.maxWidth * AppSizes.converValueToadapter(context,40))),
                 onPressed: () {
                   _sendToserver(context);
                    Navigator.pop(context);
                 },
                 child: Text("Enregistrer",
                     style: GoogleFonts.roboto(
-                        fontSize: AppSizes.fontSmall,
+                        fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context,12),
                         fontWeight: FontWeight.w400,
                         color: Colors.white)))
           ],
@@ -523,7 +525,7 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
   }
 
 // FORMULAIRE DE MODIFICATION DE LIVREUR
-  _updateFormulaires(BuildContext context,ProfilModel livreur) {
+  _updateFormulaires(BuildContext context,ProfilModel livreur,constraints) {
   // Initialisation des contrôleurs avec les valeurs du livreur
   _nom.text = livreur.name ?? ''; 
   _numero.text = livreur.number.toString(); 
@@ -534,54 +536,54 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding:EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context,8)),
               child: TextFormField(
                 keyboardType: TextInputType.name,
                 controller: _nom,
                 decoration: InputDecoration(
                     hintText: "Nom ",
                     hintStyle:
-                        GoogleFonts.roboto(fontSize: AppSizes.fontMedium, color: Colors.grey),
-                    prefixIcon: const Icon(Icons.person_add, size: AppSizes.iconMedium),
+                        GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context,12), color: Colors.grey),
+                    prefixIcon: Icon(Icons.person_add, size: constraints.maxWidth * AppSizes.converValueToadapter(context,22)),
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20))),
+                        borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context,20)))),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context,8)),
               child: TextFormField(
                 keyboardType: TextInputType.phone,
                 controller: _numero,
                 decoration: InputDecoration(
                     hintText: "Numero",
                     hintStyle:
-                        GoogleFonts.roboto(fontSize: AppSizes.fontMedium, color: Colors.grey),
-                    prefixIcon: const Icon(Icons.phone, size: AppSizes.iconMedium),
+                        GoogleFonts.roboto(fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context,12), color: Colors.grey),
+                    prefixIcon: Icon(Icons.phone, size: constraints.maxWidth * AppSizes.converValueToadapter(context,12)),
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20))),
+                        borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context,20)))),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding:  EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context,8)),
               child: TextFormField(
                 keyboardType: TextInputType.emailAddress,
                 controller: _email,
                 decoration: InputDecoration(
                     hintText: "Email",
                     hintStyle:
-                        GoogleFonts.roboto(fontSize: AppSizes.fontMedium, color: Colors.grey),
-                    prefixIcon: const Icon(Icons.mail_rounded, size: AppSizes.iconMedium),
+                        GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context,12), color: Colors.grey),
+                    prefixIcon: Icon(Icons.mail_rounded, size:constraints.maxWidth * AppSizes.converValueToadapter(context,22)),
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20))),
+                        borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context,20)))),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(10),
+              padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context,10)),
               child: DropdownButtonFormField<String?>(
                 hint: Text(
                   "Definir statut user",
                   style: GoogleFonts.roboto(
-                      fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w500),
+                      fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context,12), fontWeight: FontWeight.w500),
                 ),
                 value: _statutUser,
                 onChanged: (value) {
@@ -593,9 +595,9 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
                   fillColor: Colors.grey[100],
                   filled: true,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context,20)),
                   ),
-                  prefixIcon: const Icon(Icons.category_outlined, size: AppSizes.iconMedium),
+                  prefixIcon: Icon(Icons.category_outlined, size: constraints.maxWidth * AppSizes.converValueToadapter(context,22)),
                 ),
                 items: _statutList.map((statut) {
                   return DropdownMenuItem<String?>(
@@ -603,24 +605,24 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
                     child: Text(
                       statut,
                       style:
-                          GoogleFonts.roboto(fontSize: AppSizes.fontMedium, color: Colors.black),
+                          GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context,12), color: Colors.black),
                     ),
                   );
                 }).toList(),
               ),
             ),
-            const SizedBox(height: 15),
+            SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context,15)),
             ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF1D1A30),
-                    minimumSize: const Size(400, 50)),
+                    minimumSize: Size(constraints.maxWidth * AppSizes.converValueToadapter(context,400), constraints.maxWidth * AppSizes.converValueToadapter(context,40))),
                 onPressed: () {
                   _sendUpdateLiberyToserver(context, livreur);
                    Navigator.pop(context);
                 },
                 child: Text("Modifier",
                     style: GoogleFonts.roboto(
-                        fontSize: AppSizes.fontSmall,
+                        fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context,12),
                         fontWeight: FontWeight.w400,
                         color: Colors.white)))
           ],
@@ -628,12 +630,12 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
   }
 
   // FENETRE DIALOGUE POUR CONFIRMER LA SUPPRESSION
-  Future<bool> showRemoveLibery(BuildContext context, id) async {
+  Future<bool> showRemoveLibery(BuildContext context, id,constraints) async {
     return await showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title:  Text("Confirmer",style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium)),
+          title:  Text("Confirmer",style: GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context,12))),
           content:
               const Text("Êtes-vous sûr de vouloir supprimer ce livreur ?"),
           actions: [
@@ -641,14 +643,14 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text("Annuler", style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium)),
+              child: Text("Annuler", style: GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context,12))),
             ),
             TextButton(
               onPressed: () {
                 _deleteDeliberyToserver(context, id);
                  Navigator.pop(context);
               },
-              child: Text("Supprimer", style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium)),
+              child: Text("Supprimer", style: GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context,12))),
             ),
           ],
         );

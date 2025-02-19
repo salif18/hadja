@@ -41,66 +41,71 @@ class _FavoritesPageState extends State<FavoritesPage>
       backgroundColor: Colors.white,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        toolbarHeight: 80,
+        toolbarHeight: MediaQuery.of(context).size.width * 50/360,
         centerTitle: true,
         title: Text(
           "Favoris",
-          style: GoogleFonts.roboto(fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w600),
+          style: GoogleFonts.roboto(fontSize: MediaQuery.of(context).size.width * 16/360, fontWeight: FontWeight.w600),
         ),
       ),
-      body: Consumer<FavoriteProvider>(
-        builder: (context, favoriteProvider, child) {
-          List<ArticlesModel> myFavorites = favoriteProvider.getFavorites;
-          return SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(15),
-              child: Column(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(vertical: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Mes produits",
-                          style: GoogleFonts.roboto(
-                              fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w600),
-                        ),
-                      ],
+      body: LayoutBuilder(
+        builder: (context,constraints){
+          return Consumer<FavoriteProvider>(
+          builder: (context, favoriteProvider, child) {
+            List<ArticlesModel> myFavorites = favoriteProvider.getFavorites;
+            return SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
+                child: Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.symmetric(vertical: constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Ma liste de souhaits",
+                            style: GoogleFonts.roboto(
+                                fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 14), fontWeight: FontWeight.w600),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: myFavorites.isNotEmpty
-                        ? ListView.builder(
-                            itemCount: myFavorites.length,
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemBuilder: (BuildContext context, int index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          SingleProductVerSionSliver(
-                                        item: myFavorites[index],
+                    Container(
+                      padding: EdgeInsets.only(top: constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
+                      child: myFavorites.isNotEmpty
+                          ? ListView.builder(
+                              itemCount: myFavorites.length,
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemBuilder: (BuildContext context, int index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            SingleProductVerSionSliver(
+                                          item: myFavorites[index],
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                },
-                                child:
-                                    MyCardFavorites(item: myFavorites[index]),
-                              );
-                            },
-                          )
-                        : const EmptyFavorite(),
-                  ),
-                ],
+                                    );
+                                  },
+                                  child:
+                                      MyCardFavorites(item: myFavorites[index],constraints: constraints,),
+                                );
+                              },
+                            )
+                          : EmptyFavorite(constraints: constraints,),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          );
+            );
+          },
+        );
         },
+      
       ),
     );
   }

@@ -13,7 +13,8 @@ import 'package:hadja_grish/screens/home/details/single_product_sliver.dart';
 import 'package:provider/provider.dart';
 
 class MyRecomadationWidget extends StatefulWidget {
-  const MyRecomadationWidget({super.key});
+  final constraints;
+  const MyRecomadationWidget({super.key, required this.constraints});
 
   @override
   State<MyRecomadationWidget> createState() => _MyRecomadationWidgetState();
@@ -43,23 +44,23 @@ class _MyRecomadationWidgetState extends State<MyRecomadationWidget> {
     List<ArticlesModel> favorites = favoriteProvider.getFavorites;
 
     return SizedBox(
-      height: 325,
+      height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 325),
       child: Column(
         children: [
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            padding: EdgeInsets.symmetric(horizontal: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20), vertical: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   "Recommandations",
                   style: GoogleFonts.roboto(
-                      fontSize: AppSizes.fontLarge,
+                      fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
                       color: AppColor.textColor,
                       fontWeight: FontWeight.w600),
                 ),
-                const Icon(Icons.arrow_forward_ios_rounded,
-                    size: AppSizes.iconMedium),
+               Icon(Icons.arrow_forward_ios_rounded,
+                    size: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 14)),
               ],
             ),
           ),
@@ -70,9 +71,9 @@ class _MyRecomadationWidgetState extends State<MyRecomadationWidget> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
-                  return const Text("Erreur lors du chargement des produits.");
+                  return Text("Problème survenu lors du chargement des produits.",style: TextStyle(fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12)),);
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return const Text("Aucun produit disponible.");
+                  return Text("Aucun produit disponible.",style: TextStyle(fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12)),);
                 } else {
                   final articles = snapshot.data!;
                   return ListView.builder(
@@ -91,32 +92,34 @@ class _MyRecomadationWidgetState extends State<MyRecomadationWidget> {
                           );
                         },
                         child: Container(
-                          margin: const EdgeInsets.all(5),
-                          width: 200,
+                          margin: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
+                          width: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 200),
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
                             color: AppColor.secondBackgroud,
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
                                 child: Container(
                                   width: MediaQuery.of(context).size.width,
-                                  height: 120,
+                                  height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 120),
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
+                                    borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
                                   ),
                                   child: Image.network(
                                     articles[index].img,
-                                    fit: BoxFit.contain,
+                                    fit: BoxFit.fill,
                                   ),
                                 ),
                               ),
                               Padding(
                                 padding:
-                                    const EdgeInsets.only(left: 15, top: 15),
+                                    EdgeInsets.only(
+                                      left: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 15), 
+                                      top: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -126,13 +129,15 @@ class _MyRecomadationWidgetState extends State<MyRecomadationWidget> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(articles[index].name,
+                                        overflow: TextOverflow.ellipsis,
                                             style: GoogleFonts.roboto(
-                                                fontSize: MediaQuery.of(context).size.width*0.03,
+                                            
+                                                fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
                                                 fontWeight: FontWeight.w600)),
                                         Text(
                                             "${articles[index].price.toString()} fcfa",
                                             style: GoogleFonts.roboto(
-                                                fontSize: AppSizes.fontSmall,
+                                                fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
                                                 color: AppColor.accentColor)),
                                       ],
                                     ),
@@ -146,14 +151,14 @@ class _MyRecomadationWidgetState extends State<MyRecomadationWidget> {
                                                       item.id ==
                                                       articles[index].id) ==
                                               null
-                                          ? const Icon(
+                                          ? Icon(
                                               Icons.favorite_border,
-                                              size: 28,
+                                              size: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 24),
                                               color: Color(0xff2c3e50),
                                             )
-                                          : const Icon(
+                                          : Icon(
                                               Icons.favorite,
-                                              size: 28,
+                                              size: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 24),
                                               color: Colors.red,
                                             ),
                                     ),

@@ -62,31 +62,32 @@ class _ListOrderLivrerState extends State<ListOrderLivrer> {
        appBar: AppBar(
             title: Text("Mes livraisons",
                 style: GoogleFonts.roboto(
-                    fontSize: AppSizes.fontLarge, fontWeight: FontWeight.w400)),
+                    fontSize: MediaQuery.of(context).size.width * 16/360, fontWeight: FontWeight.w400)),
             centerTitle: true,
-            toolbarHeight: 80,
+            toolbarHeight: MediaQuery.of(context).size.width * 50/360,
             leading: IconButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                icon: const Icon(Icons.arrow_back_ios_new_rounded, size: AppSizes.iconLarge)),
+                icon: Icon(Icons.arrow_back_ios_new_rounded, size: MediaQuery.of(context).size.width * 24/360)),
        ),
-      body: StreamBuilder<List<OrdersModel>>(
+      body: LayoutBuilder(builder: (context,constraints){
+        return StreamBuilder<List<OrdersModel>>(
             stream: _ordersDataLivrer.stream,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
                 return Center(
-                  child: Text("Erreur",
+                  child: Text("Problème de connexion au server...",
                       style: GoogleFonts.roboto(
-                          fontSize: 20, fontWeight: FontWeight.w600)),
+                          fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.w600)),
                 );
               } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                 return Center(
                   child: Text("Aucune donnée disponible",
                       style: GoogleFonts.roboto(
-                          fontSize: 20, fontWeight: FontWeight.w600)),
+                          fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.w600)),
                 );
               } else {
                 return ListView.builder(
@@ -96,11 +97,12 @@ class _ListOrderLivrerState extends State<ListOrderLivrer> {
                       final data = snapshot.data!;
                       OrdersModel order = data[index];
                       return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: CardOrderDelivery(order: order),
+                        padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
+                        child: CardOrderDelivery(order: order, constraints:constraints),
                       );
                     });
               }
-            }));
+            });
+      }));
   }
 }
