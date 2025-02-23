@@ -50,14 +50,35 @@ class _AddressLivraisonState extends State<AddressLivraison> {
     });
   }
 
-  Future<void> sendOrders() async {
+  Future<void> sendOrders(BuildContext context) async {
     final provider = Provider.of<AuthProvider>(context, listen: false);
     final userId = await provider.userId();
+
+    if (userId == null) {
+    api.showSnackBarErrorPersonalized(context, "Utilisateur non connecté");
+    return;
+  }
+
     final totalProvider = Provider.of<CartProvider>(context, listen: false);
     final total = totalProvider.calculateTotal();
     final cartprovider = Provider.of<CartProvider>(context, listen: false);
     final cart = cartprovider.myCart;
+
+     if (cart.isEmpty) {
+    api.showSnackBarErrorPersonalized(context, "Panier vide");
+    return;
+  }
+   if (_formKey.currentState!.validate()) {
     try {
+
+      final cartItems = cart.map((item) => {
+      "productId": item.productId,
+      "name": item.name,
+      "img": item.img,
+      "qty": item.qty,
+      "prix": item.prix
+    }).toList();
+
       Map<String, dynamic> order = {
         "userId": userId,
         "deliveryId": null,
@@ -69,10 +90,11 @@ class _AddressLivraisonState extends State<AddressLivraison> {
         "telephone": telephone.text,
         "total": total,
         "statut_of_delibery": "En attente",
-        "articles":cart   // jsonEncode(cart.map((item) => item.toJson()).toList()),
+        "cartItems":cartItems   // jsonEncode(cart.map((item) => item.toJson()).toList()),
       };
       final response = await api.postOrders(order);
       final body = jsonDecode(response.body);
+      print(order);
       if (response.statusCode == 201) {
         cartprovider.clearCart();
         api.showSnackBarSuccessPersonalized(context, body["message"]);
@@ -82,12 +104,13 @@ class _AddressLivraisonState extends State<AddressLivraison> {
     } catch (e) {
       Exception(e);
     }
+   }
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 300),
+      height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 560),
       width:  widget.constraints.maxWidth ,
       
       decoration: BoxDecoration(
@@ -145,6 +168,12 @@ class _AddressLivraisonState extends State<AddressLivraison> {
             padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
             child: TextFormField(
               controller: address,
+               validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Veuillez votre addresse';
+                }
+                return null;
+              },
               keyboardType: TextInputType.streetAddress,
               decoration: InputDecoration(
                 filled: true,
@@ -164,6 +193,12 @@ class _AddressLivraisonState extends State<AddressLivraison> {
             padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
             child: TextFormField(
               controller: telephone,
+               validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Veuillez votre numéro';
+                }
+                return null;
+              },
               keyboardType: TextInputType.phone,
               decoration: InputDecoration(
                 filled: true,
@@ -239,8 +274,8 @@ class _AddressLivraisonState extends State<AddressLivraison> {
                 minimumSize: Size(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 400), widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 40)),
               ),
               onPressed: () {
-                sendOrders();
-                 Navigator.pop(context);
+                sendOrders(context);
+                Navigator.pop(context);
               },
               child: Text("Passer commande",
                   style: GoogleFonts.roboto(fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12), color: Colors.white)),

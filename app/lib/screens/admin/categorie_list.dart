@@ -52,7 +52,7 @@ class _MyCategoriListState extends State<MyCategoriList> {
   }
 
 //SUPPRIMER CATEGORIE API
-  Future<void> _removeCategories(int id) async {
+  Future<void> _removeCategories(String id) async {
     try {
       final res = await api.deleteCategories(id);
       if (res.statusCode == 200) {
@@ -98,7 +98,7 @@ class _MyCategoriListState extends State<MyCategoriList> {
   }
 
 //MODIFIER CATEGORIE API
-  Future<void> _sendNewUpdateToserver(BuildContext context, int id) async {
+  Future<void> _sendNewUpdateToserver(BuildContext context, String id) async {
     if (_globalKey.currentState!.validate()) {
       final data = {
         "name_categorie": _categorieName.text,
@@ -171,7 +171,7 @@ class _MyCategoriListState extends State<MyCategoriList> {
                     key: Key(categorie.id.toString()),
                     direction: DismissDirection.endToStart,
                     onDismissed: (direction) {
-                      _removeCategories(categorie.id);
+                      _removeCategories(categorie.id! );
                     },
                     confirmDismiss: (direction) async {
                       return await showRemoveCategorie(context,constraints);
@@ -196,7 +196,7 @@ class _MyCategoriListState extends State<MyCategoriList> {
                         title: Text(categorie.nameCategorie,style: GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12)),),
                         trailing: IconButton(
                             onPressed: () {
-                              _updateCateShow(context, categorie.id,constraints);
+                              _updateCateShow(context, categorie.id! ,constraints);
                             },
                             icon: Icon(Icons.edit,
                                 size: constraints.maxWidth * AppSizes.converValueToadapter(context, 22), color: Colors.blue)),
@@ -296,7 +296,7 @@ class _MyCategoriListState extends State<MyCategoriList> {
   }
 
 //FENETRE POUR MODIFIER CATEGORIE
-  void _updateCateShow(BuildContext context, int id,constraints) {
+  void _updateCateShow(BuildContext context, String id,constraints) {
     showDialog(
       context: context,
       builder: (BuildContext context) {

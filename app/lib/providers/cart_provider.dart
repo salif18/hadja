@@ -24,16 +24,16 @@ class CartProvider extends ChangeNotifier {
   void addToCart(ArticlesModel article, int newQty) {
     // Vérifier si le produit est déjà dans le panier
     final itemIsExist = _cart
-        .firstWhereOrNull((item) => item.productId.contains(article.id.toString()));
+        .firstWhereOrNull((item) => item.productId.contains(article.id!));
     // Si c'est le cas, modifier seulement la quantité existante
     if (itemIsExist != null) {
       itemIsExist.qty += newQty;
     } else {
       // Sinon, ajouter le nouveau produit
       _cart.add(CartItemModel(
-          productId: article.id.toString(),
+          productId: article.id!,
           name: article.name,
-          img: article.img,
+          img: article.img ?? "",
           qty: newQty,
           prix: article.price * newQty));
     }
@@ -113,6 +113,11 @@ class CartProvider extends ChangeNotifier {
     }
   }
 
+
+  // Calculer le nombre total d'articles
+  int get nombreArticles {
+    return _cart.fold(0, (count, item) => count + item.qty);
+  }
   
   // fonction pour vider le panier
   void clearCart() {

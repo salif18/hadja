@@ -32,9 +32,9 @@ class MyCardFavorites extends StatelessWidget {
                   height: constraints.maxWidth * AppSizes.converValueToadapter(context, 80),
                   width: constraints.maxWidth * AppSizes.converValueToadapter(context, 80),
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
+                      // borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
                       image: DecorationImage(
-                          image: NetworkImage(item.img), fit: BoxFit.fill)),
+                          image: NetworkImage(item.img ?? ""), fit: BoxFit.fill)),
                 ),
               ),
               Expanded(
@@ -42,21 +42,24 @@ class MyCardFavorites extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          item.name,
-                          style: GoogleFonts.roboto(
-                              fontWeight: FontWeight.bold,
-                              fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
-                              color: const Color(0xFF1D1A30)),
-                        ),
-                        Text(item.price.toString(),
+                  Expanded(
+                    child: SizedBox(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            item.name,
+                            overflow: TextOverflow.ellipsis,
                             style: GoogleFonts.roboto(
-                                fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), color: const Color(0xFF1D1A30)))
-                      ],
+                                fontWeight: FontWeight.bold,
+                                fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
+                                color: const Color(0xFF1D1A30)),
+                          ),
+                          Text("${item.price.toString()} FCFA",
+                              style: GoogleFonts.roboto(
+                                  fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), color: const Color(0xFF1D1A30)))
+                        ],
+                      ),
                     ),
                   ),
                   IconButton(

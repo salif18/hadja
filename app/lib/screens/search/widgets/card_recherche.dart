@@ -41,7 +41,7 @@ class ResultSearch extends StatelessWidget {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
                         image: DecorationImage(
-                            image: NetworkImage(item.img), fit: BoxFit.fill)),
+                            image: NetworkImage(item.img ?? ""), fit: BoxFit.fill)),
                   ),
                 ),
                 Expanded(

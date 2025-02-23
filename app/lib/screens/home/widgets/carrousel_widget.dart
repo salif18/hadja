@@ -99,18 +99,18 @@ class _MyCarouselState extends State<MyCarouselWidget> {
                                             item: item)));
                           },
                           child: Container(
-                            height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 200),
+                            height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 150),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
                                 color: AppColor.secondBackgroud,
                                 image: DecorationImage(
-                                    image: NetworkImage(item.img),
-                                    fit: BoxFit.fill)),
+                                    image: NetworkImage(item.img ?? ""),
+                                    fit: BoxFit.contain)),
                           ),
                         );
                       }).toList(),
                       options: CarouselOptions(
-                          height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 200),
+                          height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 150),
                           enlargeCenterPage: true,
                           aspectRatio: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 16) / 9,
                           autoPlay: true,

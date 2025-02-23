@@ -34,32 +34,37 @@ class _MyCardState extends State<MyCard> {
                 height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 80),
                 width: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 80),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
+                    // borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
                     image: DecorationImage(
                         image: NetworkImage(widget.item.img),
                         fit: BoxFit.fill)),
               ),
+                SizedBox(width: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
               Expanded(
                   child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        widget.item.name,
-                        overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.roboto(
-                          fontWeight: FontWeight.bold,
-                            fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
-                            color: const Color(0xff121212)),
-                      ),
-                      Text(widget.item.prix.toString(),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.item.name,
+                          overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.roboto(
+                            fontWeight: FontWeight.bold,
                               fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
-                              color:const Color(0xff121212)))
-                    ],
+                              color: const Color(0xff121212)),
+                        ),
+                        Text("${widget.item.prix.toString()} FCFA",
+                            style: GoogleFonts.roboto(
+                                fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
+                                color:const Color(0xff121212)))
+                      ],
+                    ),
                   ),
+                  SizedBox(width: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
                   Container(
                     height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 50),
                     decoration: BoxDecoration(

@@ -28,17 +28,17 @@ class _ProductPageState extends State<ProductPage> {
   ServicesAPiProducts api = ServicesAPiProducts();
   ServicesApiCategory apiCatego = ServicesApiCategory();
   // declarations des Variables list categories et list des articles
-  List<CategoriesModel> _listCategories = [];
+  List<CategoriesModel?> _listCategories = [];
   final StreamController<List<ArticlesModel>> _articlesData = StreamController();
 
 // configuration de selection image depuis gallerie
   final ImagePicker _picker = ImagePicker();
   XFile? _articleImage;
-  List<XFile>? gallerieImages = [];
+  // List<XFile>? gallerieImages = [];
 
 // configuration des champs de formulaires pour le controller
   final _nameController = TextEditingController();
-  String? _categoryController;
+  String? _categoryController ;
   final _descController = TextEditingController();
   final _priceController = TextEditingController();
   final _stockController = TextEditingController();
@@ -88,6 +88,7 @@ class _ProductPageState extends State<ProductPage> {
     try {
       final res = await api.getAllProducts();
       final body = jsonDecode(res.body);
+      print(body);
       if (res.statusCode == 200) {
         _articlesData.add((body["articles"] as List)
             .map((json) => ArticlesModel.fromJson(json))
@@ -109,37 +110,37 @@ class _ProductPageState extends State<ProductPage> {
   }
 
 // selectionner plusieur images depuis gallerie du telephone
-  Future<void> _selectMultiImageGallery() async {
-    try {
-      final List<XFile> pickedFiles = await _picker.pickMultiImage();
-      if (pickedFiles.isNotEmpty) {
-        setState(() {
-          gallerieImages?.addAll(pickedFiles);
-        });
-      }
-    } on Exception catch (e) {
-      Exception(e.toString());
-    }
-  }
+  // Future<void> _selectMultiImageGallery() async {
+  //   try {
+  //     final List<XFile> pickedFiles = await _picker.pickMultiImage();
+  //     if (pickedFiles.isNotEmpty) {
+  //       setState(() {
+  //         gallerieImages?.addAll(pickedFiles);
+  //       });
+  //     }
+  //   } on Exception catch (e) {
+  //     Exception(e.toString());
+  //   }
+  // }
 
 // Envoie des donnees vers le server
   Future<void> _sendToServer() async {
     if (_globalKey.currentState!.validate()) {
-      if (_articleImage == null || _categoryController == null) {
+      if (_articleImage == null ) {
         api.showSnackBarErrorPersonalized(context, "Veuillez sélectionner une image et une catégorie.");
         return;
       }
 
       // recuperation des chemins de chaque images ajouter dans gallerieImages
-      List<MultipartFile> imageFilesPaths = [];
-      for (var image in gallerieImages!) {
-        imageFilesPaths.add(await MultipartFile.fromFile(image.path, filename: image.path.split("/").last));
-      }
+      // List<MultipartFile> imageFilesPaths = [];
+      // for (var image in gallerieImages!) {
+      //   imageFilesPaths.add(await MultipartFile.fromFile(image.path, filename: image.path.split("/").last));
+      // }
 
       FormData formData = FormData.fromMap({
         "name": _nameController.text,
         "img": await MultipartFile.fromFile(_articleImage!.path, filename: _articleImage!.path.split("/").last),
-        "galleries[]": imageFilesPaths,
+        // "galleries": imageFilesPaths,
         "categorie": _categoryController,
         "desc": _descController.text,
         "stock": _stockController.text,
@@ -154,9 +155,11 @@ class _ProductPageState extends State<ProductPage> {
           api.showSnackBarSuccessPersonalized(context, res.data["message"]);
         } else {
           api.showSnackBarErrorPersonalized(context, res.data["message"]);
+         
         }
       } catch (e) {
         api.showSnackBarErrorPersonalized(context, e.toString());
+         print(e.toString());
       }
     }
   }
@@ -239,7 +242,7 @@ class _ProductPageState extends State<ProductPage> {
                                       decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 20))),
                                       child: Image.network(
-                                        article.img,
+                                        article.img ?? "",
                                         fit: BoxFit.fill,
                                       ),
                                     ),
@@ -283,9 +286,10 @@ class _ProductPageState extends State<ProductPage> {
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) {
-        return Container(
+        return LayoutBuilder(builder: (context,constraints){
+          return Container(
           padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
-          height: constraints.maxWidth * AppSizes.converValueToadapter(context, 360),
+          height: constraints.maxWidth * AppSizes.converValueToadapter(context, 560),
           child: Form(
             key: _globalKey,
             child: SingleChildScrollView(
@@ -341,12 +345,12 @@ class _ProductPageState extends State<ProductPage> {
                     },
                   ),
                  SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
-                  DropdownButtonFormField<String>(
+                  DropdownButtonFormField<String?>(
                     value: _categoryController,
                     decoration: const InputDecoration(labelText: "Catégorie du produit", border: OutlineInputBorder()),
                     items: _listCategories.map((category) {
                       return DropdownMenuItem<String>(
-                        value: category.nameCategorie,
+                        value: category!.nameCategorie,
                         child: Text(category.nameCategorie),
                       );
                     }).toList(),
@@ -381,33 +385,33 @@ class _ProductPageState extends State<ProductPage> {
                         Image.file(File(_articleImage!.path), width: constraints.maxWidth * AppSizes.converValueToadapter(context, 100), height: constraints.maxWidth * AppSizes.converValueToadapter(context, 100)),
                     ],
                   ),
-                  SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
-                  Column(
-                    children: [
-                      Text("Ajouter des images à la galerie",style: GoogleFonts.roboto(fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context, 12))),
-                      IconButton(
-                        icon:Icon(Icons.photo_library_outlined, size: constraints.maxWidth * AppSizes.converValueToadapter(context, 24)),
-                        onPressed: () {
-                          _selectMultiImageGallery();
-                        },
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
-                  if (gallerieImages != null)
-                    SizedBox(
-                      height: constraints.maxWidth * AppSizes.converValueToadapter(context, 100),
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: gallerieImages?.length,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
-                            child: Image.file(File(gallerieImages![index].path), width: constraints.maxWidth * AppSizes.converValueToadapter(context, 100), height: constraints.maxWidth * AppSizes.converValueToadapter(context, 100)),
-                          );
-                        },
-                      ),
-                    ),
+                  // SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
+                  // Column(
+                  //   children: [
+                  //     Text("Ajouter des images à la galerie",style: GoogleFonts.roboto(fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context, 12))),
+                  //     IconButton(
+                  //       icon:Icon(Icons.photo_library_outlined, size: constraints.maxWidth * AppSizes.converValueToadapter(context, 24)),
+                  //       onPressed: () {
+                  //         _selectMultiImageGallery();
+                  //       },
+                  //     ),
+                  //   ],
+                  // ),
+                  // SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
+                  // if (gallerieImages != null)
+                  //   SizedBox(
+                  //     height: constraints.maxWidth * AppSizes.converValueToadapter(context, 100),
+                  //     child: ListView.builder(
+                  //       scrollDirection: Axis.horizontal,
+                  //       itemCount: gallerieImages?.length,
+                  //       itemBuilder: (context, index) {
+                  //         return Padding(
+                  //           padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
+                  //           child: Image.file(File(gallerieImages![index].path), width: constraints.maxWidth * AppSizes.converValueToadapter(context, 100), height: constraints.maxWidth * AppSizes.converValueToadapter(context, 100)),
+                  //         );
+                  //       },
+                  //     ),
+                  //   ),
                   SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
                   ElevatedButton(
                      style: ElevatedButton.styleFrom(
@@ -424,6 +428,7 @@ class _ProductPageState extends State<ProductPage> {
             ),
           ),
         );
+        });
       },
     );
   }

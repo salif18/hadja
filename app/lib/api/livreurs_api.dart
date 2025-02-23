@@ -11,12 +11,11 @@ class ServicesApiDelibery{
   
    //obtenir categorie pour formulaire
   getAllDelibery()async{
-    var uri = "$domaineName/livreurs";
+    var uri = "$domaineName/auth/livreurs";
     return await http.get(Uri.parse(uri),
      headers: {
-            "Content-Type": "application/json; charset=UTF-8",
-            "Accept":"*/*",
-            "Accept-Encoding":"gzip, deflate, br",
+           "Content-Type": "application/json",
+            "Authorization": "Bearer "
           },
     );
   }
@@ -24,25 +23,23 @@ class ServicesApiDelibery{
 
   //delete
   deleteDelibery(id)async{
-     var uri = "$domaineName/livreurs/delete/$id";
+     var uri = "$domaineName/auth/livreurs/delete/$id";
      return await http.delete(Uri.parse(uri),
      headers: {
-            "Content-Type": "application/json; charset=UTF-8",
-            "Accept":"*/*",
-            "Accept-Encoding":"gzip, deflate, br",
+            "Content-Type": "application/json",
+            "Authorization": "Bearer "
           },
      );
   }
 
   //delete
   updateDelibery(data,id)async{
-     var uri = "$domaineName/livreurs/update/$id";
+     var uri = "$domaineName/auth/livreurs/update/$id";
      return await http.put(Uri.parse(uri),
      body:jsonEncode(data),
      headers: {
-            "Content-Type": "application/json; charset=UTF-8",
-            "Accept":"*/*",
-            "Accept-Encoding":"gzip, deflate, br",
+           "Content-Type": "application/json",
+            "Authorization": "Bearer "
           },
      );
   }

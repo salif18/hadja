@@ -16,9 +16,8 @@ Dio dio = Dio();
     return await dio.post(uri,
     data:data,
      options:Options(headers: {
-            "Content-Type": "application/json; charset=UTF-8",
-            "Accept":"*/*",
-            "Accept-Encoding":"gzip, deflate, br",
+           "Content-Type": "application/json",
+            "Authorization": "Bearer "
           },
     ));
   }
@@ -27,9 +26,8 @@ Dio dio = Dio();
     var uri = "$domaineName/categories";
     return await dio.get(uri,
      options:Options(headers: {
-            "Content-Type": "application/json; charset=UTF-8",
-            "Accept":"*/*",
-            "Accept-Encoding":"gzip, deflate, br",
+            "Content-Type": "application/json",
+            "Authorization": "Bearer "
           },
     ));
   }
@@ -40,9 +38,8 @@ Dio dio = Dio();
     return await dio.put(uri,
     data:data,
      options:Options(headers: {
-            "Content-Type": "application/json; charset=UTF-8",
-            "Accept":"*/*",
-            "Accept-Encoding":"gzip, deflate, br",
+           "Content-Type": "application/json",
+            "Authorization": "Bearer "
           },
     ));
   }
@@ -52,9 +49,8 @@ Dio dio = Dio();
     var uri = "$domaineName/categories/delete/$id";
     return await dio.delete(uri,
      options:Options(headers: {
-            "Content-Type": "application/json; charset=UTF-8",
-            "Accept":"*/*",
-            "Accept-Encoding":"gzip, deflate, br",
+           "Content-Type": "application/json",
+            "Authorization": "Bearer "
           },
     ));
   }

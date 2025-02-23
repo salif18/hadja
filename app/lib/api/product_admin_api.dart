@@ -15,10 +15,11 @@ class ServicesAPiProducts {
     return await dio.post(
       uri,
       data: data,
-      options: Options(headers: {
-        "Content-Type": "application/json; charset=UTF-8",
-        "Accept": "*/*",
-        "Accept-Encoding": "gzip, deflate, br",
+      options: Options(
+        headers: {
+       "Content-Type": "multipart/form-data",
+       "Authorization": "Bearer "
+       
       },)
     );
   }
@@ -30,34 +31,31 @@ class ServicesAPiProducts {
       uri,
       data: data,
       options: Options(headers: {
-        "Content-Type": "application/json; charset=UTF-8",
-        "Accept": "*/*",
-        "Accept-Encoding": "gzip, deflate, br",
+       "Content-Type": "application/json",
+            "Authorization": "Bearer "
       },)
     );
   }
 
   //obtenir depenses
   getAllProducts() async {
-    var uri = "$domaineName/get_article_with_galeries";
+    var uri = "$domaineName/articles";
     return await http.get(
       Uri.parse(uri),
      headers: {
-        "Content-Type": "application/json; charset=UTF-8",
-        "Accept": "*/*",
-        "Accept-Encoding": "gzip, deflate, br",
+       "Content-Type": "application/json",
+            "Authorization": "Bearer "
       });
   }
 
    //obtenir depenses
   getProductByCategorie(String data) async {
-    var uri = "$domaineName/articles_by_categories/$data";
+    var uri = "$domaineName/articles/articles_by_categories/$data";
     return await http.get(
       Uri.parse(uri),
      headers: {
-        "Content-Type": "application/json; charset=UTF-8",
-        "Accept": "*/*",
-        "Accept-Encoding": "gzip, deflate, br",
+       "Content-Type": "application/json",
+            "Authorization": "Bearer "
       });
   }
 
@@ -68,9 +66,8 @@ class ServicesAPiProducts {
     return await http.delete(
       Uri.parse(uri),
       headers: {
-        "Content-Type": "application/json; charset=UTF-8",
-        "Accept": "*/*",
-        "Accept-Encoding": "gzip, deflate, br",
+        "Content-Type": "application/json",
+            "Authorization": "Bearer "
       },
     );
   }

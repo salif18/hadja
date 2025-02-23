@@ -70,6 +70,7 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
     }
   }
 
+// Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
   Future<void> _removeArticles() async {
     try {
       final res = await api.deleteProduct(widget.article.id);
@@ -172,7 +173,7 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
                 Padding(
                   padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context,15)),
                   child: Image.network(
-                    widget.article.img,
+                    widget.article.img ?? "",
                     width: widget.constraints.maxWidth ,
                     height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,170),
                   ),
@@ -240,29 +241,29 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
             ),
             Column(
               children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,15)),
-                  child:
-                      Text("Gallerie", style: GoogleFonts.roboto(fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,14))),
-                ),
-                SizedBox(
-                  height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,120), // Par exemple, définissez une hauteur fixe
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: widget.article.galleries.length,
-                    itemBuilder: (context, int index) {
-                      final image = widget.article.galleries[index];
-                      return Padding(
-                        padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context,8)),
-                        child: SizedBox(
-                          width: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,115),
-                          height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,120),
-                          child: Image.network(image.imgPath),
-                        ),
-                      );
-                    },
-                  ),
-                ),
+                // Padding(
+                //   padding: EdgeInsets.symmetric(vertical: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,15)),
+                //   child:
+                //       Text("Gallerie", style: GoogleFonts.roboto(fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,14))),
+                // ),
+                // SizedBox(
+                //   height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,120), // Par exemple, définissez une hauteur fixe
+                //   child: ListView.builder(
+                //     scrollDirection: Axis.horizontal,
+                //     itemCount: widget.article.galleries!.length,
+                //     itemBuilder: (context, int index) {
+                //       final image = widget.article.galleries![index];
+                //       return Padding(
+                //         padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context,8)),
+                //         child: SizedBox(
+                //           width: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,115),
+                //           height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,120),
+                //           child: Image.network(image.imgPath ?? ""),
+                //         ),
+                //       );
+                //     },
+                //   ),
+                // ),
                 Padding(
                     padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context,15)),
                     child: ReadMoreText(
@@ -495,7 +496,7 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
     showModalBottomSheet(
       context: context,
       builder: (context) => Container(
-        height: widget.constraints.maxWidth / 5,
+        height: widget.constraints.maxWidth / 2,
         padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context,15)),
         child: Column(
           children: [

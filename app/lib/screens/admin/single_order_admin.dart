@@ -91,8 +91,10 @@ class _SingleOrderState extends State<SingleOrder> {
         title: Text("Details",
             style: GoogleFonts.roboto(fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 16), fontWeight: FontWeight.w400)),
       ),
-      body: Column(
-          children: [_orders(context)],
+      body: SingleChildScrollView(
+        child: Column(
+            children: [_orders(context)],
+        ),
       ),
     );
   }
@@ -120,19 +122,23 @@ class _SingleOrderState extends State<SingleOrder> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Image.network(item.img, 
+                        Image.network(item.img ?? "", 
                         height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 80), 
                         width: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 80)),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(item.name,
-                                style: GoogleFonts.roboto(
-                                    fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.w400)),
-                            Text("Quantité ${item.qty}",
-                                style: GoogleFonts.roboto(
-                                    fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12), color: Colors.grey[500])),
-                          ],
+                        SizedBox(                        width: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(item.name ?? "",
+                              overflow: TextOverflow.ellipsis,
+                                  style: GoogleFonts.roboto(
+                                      fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.w400)),
+                              Text("Quantité ${item.qty}",
+                                  style: GoogleFonts.roboto(
+                                      fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12), color: Colors.grey[500])),
+                            ],
+                          ),
                         ),
                         Text("prix ${item.prix}",
                             style: GoogleFonts.roboto(
@@ -204,11 +210,13 @@ class _SingleOrderState extends State<SingleOrder> {
                 ),
               ),
             ),
-          _orderDetailRow("Order", widget.order.statusOfDelibery),
-          _orderDetailRow("Client", widget.order.telephone),
-          _orderDetailRow("Date", DateFormat('dd/MM/yyyy').format(widget.order.createdAt)),
-          _orderDetailRow("Adresse", widget.order.address),
-          Padding(
+            Column(
+              children: [
+              _orderDetailRow("Order", widget.order.statusOfDelibery),
+                      _orderDetailRow("Client", widget.order.telephone),
+                      _orderDetailRow("Date", DateFormat('dd/MM/yyyy').format(widget.order.createdAt)),
+                      _orderDetailRow("Adresse", widget.order.address),
+                      Padding(
             padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
             child: ElevatedButton(
               onPressed: () {
@@ -229,7 +237,9 @@ class _SingleOrderState extends State<SingleOrder> {
                       fontWeight: FontWeight.w400,
                       color: Colors.white)),
             ),
-          ),
+                      ),
+            ],)
+        
         ],
       ),
     );

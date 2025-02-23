@@ -97,7 +97,7 @@ class _MyProductListWidgetState extends State<MyProductListWidget> {
                       crossAxisCount: 2,
                       crossAxisSpacing: 4,
                       mainAxisSpacing: 4,
-                      childAspectRatio: 0.8,
+                      childAspectRatio: 0.70,
                     ),
                     shrinkWrap: true,
                     itemBuilder: (BuildContext context, int index) {
@@ -119,42 +119,26 @@ class _MyProductListWidgetState extends State<MyProductListWidget> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Padding(
-                                padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
-                                child: Container(
-                                  width: widget.constraints.maxWidth ,
-                                  height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 110),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
-                                  ),
-                                  child: Image.network(
-                                    articles[index].img,
-                                    fit: BoxFit.fill,
+                              Stack(
+                                children: [
+                                  Padding(
+                                  padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
+                                  child: Container(
+                                    width: widget.constraints.maxWidth ,
+                                    height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 160),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
+                                    ),
+                                    child: Image.network(
+                                      articles[index].img ?? "",
+                                      fit: BoxFit.fill,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(left: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 15), top: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(articles[index].name,
-                                            style: GoogleFonts.roboto(
-                                                fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
-                                                fontWeight: FontWeight.w600)),
-                                        Text(
-                                            "${articles[index].price.toString()} fcfa",
-                                            style: GoogleFonts.roboto(
-                                                fontSize:widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
-                                                color: AppColor.accentColor)),
-                                      ],
-                                    ),
-                                    IconButton(
+                                Positioned(
+                                  right: 10,
+                                  top: 5,
+                                  child:IconButton(
                                       onPressed: () {
                                         favoriteProvider.addMyFavorites(
                                             articles[index]);
@@ -173,6 +157,34 @@ class _MyProductListWidgetState extends State<MyProductListWidget> {
                                               size: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 24),
                                               color: Colors.red),
                                     ),
+                                  )
+                                ]
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 15), top: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(articles[index].name,
+                          overflow: TextOverflow.ellipsis,
+                                              style: GoogleFonts.roboto(
+                                                  fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
+                                                  fontWeight: FontWeight.w600)),
+                                          Text(
+                                              "${articles[index].price.toString()} fcfa",
+                                              style: GoogleFonts.roboto(
+                                                  fontSize:widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
+                                                  color: AppColor.accentColor)),
+                                        ],
+                                      ),
+                                    ),
+                                    
                                   ],
                                 ),
                               ),

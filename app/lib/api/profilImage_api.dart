@@ -10,20 +10,20 @@ class ServicesApiProfil{
     return await dio.post(url, 
     data:data, 
      options: Options(headers: {
-        "Content-Type": "application/json; charset=UTF-8",
-        "Accept": "*/*",
-        "Accept-Encoding": "gzip, deflate, br",
+        "Content-Type": "multipart/form-data",
+       "Authorization": "Bearer "
+       
     }));
   }
 
   // fonction de modification
   updatePhotoProfil(data)async{
     var url = "$domaineName/profil/photo/update";
-    return await dio.post(url, 
+    return await dio.put(url, 
     data:data, 
      options: Options(headers: {
-        "Accept": "*/*",
-        "Accept-Encoding": "gzip, deflate, br",
+         "Content-Type": "multipart/form-data",
+       "Authorization": "Bearer "
     })
     );
   }
@@ -34,8 +34,8 @@ class ServicesApiProfil{
     return await dio.delete(url, 
     data:data, 
      options: Options(headers: {
-        "Accept": "*/*",
-        "Accept-Encoding": "gzip, deflate, br",
+        "Content-Type": "multipart/form-data",
+       "Authorization": "Bearer "
     })
     );
   }

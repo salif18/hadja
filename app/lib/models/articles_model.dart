@@ -1,9 +1,9 @@
 import 'package:hadja_grish/http/domaine.dart';
 
 class Galleries {
-  int id;
-  int articleId;
-  String imgPath;
+  String? id;
+  String? articleId;
+  String? imgPath;
 
   Galleries({
     required this.id,
@@ -15,7 +15,7 @@ class Galleries {
     return Galleries(
       id: json['id'],
       articleId: json['article_id'],
-      imgPath: completeImageUrl(json['img_path']),
+      imgPath: json['img_path'],
     );
   }
 
@@ -34,16 +34,16 @@ class Galleries {
 }
 
 class ArticlesModel {
-  int id;
+  String? id;
   String name;
-  String img;
+  String? img;
   String categorie;
   String desc;
   int price;
   int stock;
   int likes;
   int dislikes;
-  List<Galleries> galleries;
+  // List<Galleries>? galleries;
 
   ArticlesModel({
     required this.id,
@@ -55,29 +55,29 @@ class ArticlesModel {
     required this.stock,
     required this.likes,
     required this.dislikes,
-    required this.galleries,
+    // required this.galleries,
   });
 
   factory ArticlesModel.fromJson(Map<String, dynamic> json) {
     return ArticlesModel(
-      id: json['id'],
+      id: json['_id'],
       name: json['name'],
-      img: completeImageUrl(json['img']),
+      img:json['img'] ?? "",
       categorie: json['categorie'],
       desc: json['desc'],
       price: json['price'],
       stock: json['stock'],
       likes: json['likes'],
       dislikes: json['disLikes'],
-      galleries: (json['galleries'] as List)
-          .map((galleryJson) => Galleries.fromJson(galleryJson))
-          .toList(),
+      // galleries:json['galleries'] != null ? (json['galleries'] as List)
+      //     .map((galleryJson) => Galleries.fromJson(galleryJson))
+      //     .toList():[],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      '_id': id,
       'name': name,
       'img': img,
       'categorie': categorie,
@@ -86,7 +86,7 @@ class ArticlesModel {
       'stock': stock,
       'likes': likes,
       'disLikes': dislikes,
-      'galleries': galleries.map((gallerie) => gallerie.toJson()).toList(),
+      // 'galleries': galleries!.map((gallerie) => gallerie.toJson()).toList(),
     };
   }
 

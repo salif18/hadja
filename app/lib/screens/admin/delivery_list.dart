@@ -193,7 +193,7 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
         actions: [
           IconButton(
               onPressed: () {
-                _addLivreurs(context,MediaQuery.of(context).size.width);
+                _addLivreurs(context);
               },
               icon: const Icon(Icons.add, size: AppSizes.iconLarge)),
            SizedBox(
@@ -317,28 +317,35 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
   }
 
 // FENETRE AJOUT DE LIVREUR
-  _addLivreurs(BuildContext context, constraints) {
+  _addLivreurs(BuildContext context) {
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
         builder: (BuildContext context) {
-          return Container(
-            padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context,15)),
-            height: constraints.maxWidth * AppSizes.converValueToadapter(context,360),
-            decoration: BoxDecoration(),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: constraints.maxWidth * AppSizes.converValueToadapter(context,80),
-                  child: Center(
-                    child: Text("Ajouter livreurs",
-                        style: GoogleFonts.roboto(
-                            fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context,12), fontWeight: FontWeight.w400)),
-                  ),
+          return LayoutBuilder(
+            builder: (context,constraints){
+              return  Container(
+              padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context,15)),
+              height: constraints.maxWidth * AppSizes.converValueToadapter(context,600),
+              decoration: BoxDecoration(),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: constraints.maxWidth * AppSizes.converValueToadapter(context,80),
+                      child: Center(
+                        child: Text("Ajouter livreurs",
+                            style: GoogleFonts.roboto(
+                                fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context,12), fontWeight: FontWeight.w400)),
+                      ),
+                    ),
+                    _formulaires(context,constraints),
+                  ],
                 ),
-                _formulaires(context,constraints),
-              ],
-            ),
+              ),
+            );
+            },
+           
           );
         });
   }
@@ -351,20 +358,22 @@ final GlobalKey<FormState> _formKeyUpdate = GlobalKey<FormState>();
         builder: (BuildContext context) {
           return Container(
             padding:  EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context,15)),
-            height: constraints.maxWidth * AppSizes.converValueToadapter(context,360),
+            height: constraints.maxWidth * AppSizes.converValueToadapter(context,500),
             decoration: const BoxDecoration(),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: constraints.maxWidth * AppSizes.converValueToadapter(context,80),
-                  child: Center(
-                    child: Text("Modifier livreur",
-                        style: GoogleFonts.roboto(
-                            fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context,14), fontWeight: FontWeight.w400)),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: constraints.maxWidth * AppSizes.converValueToadapter(context,80),
+                    child: Center(
+                      child: Text("Modifier livreur",
+                          style: GoogleFonts.roboto(
+                              fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context,14), fontWeight: FontWeight.w400)),
+                    ),
                   ),
-                ),
-                _updateFormulaires(context, livreur,constraints),
-              ],
+                  _updateFormulaires(context, livreur,constraints),
+                ],
+              ),
             ),
           );
         });

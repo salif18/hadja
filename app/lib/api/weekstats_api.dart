@@ -14,9 +14,8 @@ Dio dio = Dio();
     var uri = "$domaineName/orders/stats/week";
     return await dio.get(uri,
      options:Options(headers: {
-            "Content-Type": "application/json; charset=UTF-8",
-            "Accept":"*/*",
-            "Accept-Encoding":"gzip, deflate, br",
+           "Content-Type": "application/json",
+            "Authorization": "Bearer "
           },
     ));
   }
@@ -25,9 +24,8 @@ Dio dio = Dio();
     var uri = "$domaineName/categories";
     return await dio.get(uri,
      options:Options(headers: {
-            "Content-Type": "application/json; charset=UTF-8",
-            "Accept":"*/*",
-            "Accept-Encoding":"gzip, deflate, br",
+            "Content-Type": "application/json",
+            "Authorization": "Bearer "
           },
     ));
   }

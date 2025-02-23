@@ -23,7 +23,7 @@ class CartItemModel{
 
   Map<String,dynamic> toJson(){
     return {
-       "productId":productId.toString(),
+       "productId":productId,
        "name":name,
        "img":img,
        "qty":qty,

@@ -44,7 +44,7 @@ class _MyRecomadationWidgetState extends State<MyRecomadationWidget> {
     List<ArticlesModel> favorites = favoriteProvider.getFavorites;
 
     return SizedBox(
-      height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 325),
+      height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 295),
       child: Column(
         children: [
           Container(
@@ -93,7 +93,7 @@ class _MyRecomadationWidgetState extends State<MyRecomadationWidget> {
                         },
                         child: Container(
                           margin: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
-                          width: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 200),
+                          width: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 170),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
                             color: AppColor.secondBackgroud,
@@ -105,64 +105,68 @@ class _MyRecomadationWidgetState extends State<MyRecomadationWidget> {
                                 padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
                                 child: Container(
                                   width: MediaQuery.of(context).size.width,
-                                  height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 120),
+                                  height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 160),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
                                   ),
                                   child: Image.network(
-                                    articles[index].img,
+                                    articles[index].img ?? "",
                                     fit: BoxFit.fill,
                                   ),
                                 ),
                               ),
-                              Padding(
-                                padding:
-                                    EdgeInsets.only(
-                                      left: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 15), 
-                                      top: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(articles[index].name,
-                                        overflow: TextOverflow.ellipsis,
-                                            style: GoogleFonts.roboto(
-                                            
-                                                fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
-                                                fontWeight: FontWeight.w600)),
-                                        Text(
-                                            "${articles[index].price.toString()} fcfa",
-                                            style: GoogleFonts.roboto(
-                                                fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
-                                                color: AppColor.accentColor)),
-                                      ],
-                                    ),
-                                    IconButton(
-                                      onPressed: () {
-                                        favoriteProvider.addMyFavorites(
-                                            articles[index]);
-                                      },
-                                      icon: favorites.firstWhereOrNull(
-                                                  (item) =>
-                                                      item.id ==
-                                                      articles[index].id) ==
-                                              null
-                                          ? Icon(
-                                              Icons.favorite_border,
-                                              size: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 24),
-                                              color: Color(0xff2c3e50),
-                                            )
-                                          : Icon(
-                                              Icons.favorite,
-                                              size: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 24),
-                                              color: Colors.red,
-                                            ),
-                                    ),
-                                  ],
+                              Expanded(
+                                child: Padding(
+                                  padding:
+                                      EdgeInsets.only(
+                                        left: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 15), 
+                                        top: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(articles[index].name,
+                                            overflow: TextOverflow.ellipsis,
+                                                style: GoogleFonts.roboto(
+                                                
+                                                    fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
+                                                    fontWeight: FontWeight.w600)),
+                                            Text(
+                                                "${articles[index].price.toString()} fcfa",
+                                                style: GoogleFonts.roboto(
+                                                    fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
+                                                    color: AppColor.accentColor)),
+                                          ],
+                                        ),
+                                      ),
+                                      // IconButton(
+                                      //   onPressed: () {
+                                      //     favoriteProvider.addMyFavorites(
+                                      //         articles[index]);
+                                      //   },
+                                      //   icon: favorites.firstWhereOrNull(
+                                      //               (item) =>
+                                      //                   item.id ==
+                                      //                   articles[index].id) ==
+                                      //           null
+                                      //       ? Icon(
+                                      //           Icons.favorite_border,
+                                      //           size: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 24),
+                                      //           color: Color(0xff2c3e50),
+                                      //         )
+                                      //       : Icon(
+                                      //           Icons.favorite,
+                                      //           size: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 24),
+                                      //           color: Colors.red,
+                                      //         ),
+                                      // ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],

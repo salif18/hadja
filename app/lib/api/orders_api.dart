@@ -15,9 +15,8 @@ class ServicesApiOrders{
     return await http.post(Uri.parse(uri),
     body: jsonEncode(data),
      headers: {
-            "Content-Type": "application/json; charset=UTF-8",
-            "Accept":"*/*",
-            "Accept-Encoding":"gzip, deflate, br",
+            "Content-Type": "application/json",
+            "Authorization": "Bearer "
           },
     );
   }
@@ -27,9 +26,8 @@ class ServicesApiOrders{
     var uri = "$domaineName/orders/$userId";
     return await http.get(Uri.parse(uri),
      headers: {
-            "Content-Type": "application/json; charset=UTF-8",
-            "Accept":"*/*",
-            "Accept-Encoding":"gzip, deflate, br",
+            "Content-Type": "application/json",
+            "Authorization": "Bearer "
           },
     );
   }
@@ -40,9 +38,8 @@ class ServicesApiOrders{
     return await http.get(
       Uri.parse(uri),
       headers: {
-        "Content-Type": "application/json; charset=UTF-8",
-        "Accept": "*/*",
-        "Accept-Encoding": "gzip, deflate, br",
+       "Content-Type": "application/json",
+            "Authorization": "Bearer "
       },
     );
   }
@@ -53,9 +50,8 @@ class ServicesApiOrders{
     return await http.get(
       Uri.parse(uri),
       headers: {
-        "Content-Type": "application/json; charset=UTF-8",
-        "Accept": "*/*",
-        "Accept-Encoding": "gzip, deflate, br",
+        "Content-Type": "application/json",
+            "Authorization": "Bearer "
       },
     );
   }
@@ -66,9 +62,8 @@ class ServicesApiOrders{
     return await http.get(
       Uri.parse(uri),
       headers: {
-        "Content-Type": "application/json; charset=UTF-8",
-        "Accept": "*/*",
-        "Accept-Encoding": "gzip, deflate, br",
+       "Content-Type": "application/json",
+            "Authorization": "Bearer "
       },
     );
   }
@@ -79,9 +74,8 @@ class ServicesApiOrders{
     return await http.put(
       Uri.parse(uri),
       headers: {
-        "Content-Type": "application/json; charset=UTF-8",
-        "Accept": "*/*",
-        "Accept-Encoding": "gzip, deflate, br",
+       "Content-Type": "application/json",
+            "Authorization": "Bearer "
       },
     );
   }
@@ -92,9 +86,8 @@ class ServicesApiOrders{
     return await http.delete(
       Uri.parse(uri),
       headers: {
-        "Content-Type": "application/json; charset=UTF-8",
-        "Accept": "*/*",
-        "Accept-Encoding": "gzip, deflate, br",
+        "Content-Type": "application/json",
+            "Authorization": "Bearer "
       },
     );
   }
@@ -104,9 +97,8 @@ class ServicesApiOrders{
     var uri = "$domaineName/orders/positions/$id";
     return await http.get(Uri.parse(uri),
      headers: {
-            "Content-Type": "application/json; charset=UTF-8",
-            "Accept":"*/*",
-            "Accept-Encoding":"gzip, deflate, br",
+           "Content-Type": "application/json",
+            "Authorization": "Bearer "
           },
     );
   }
@@ -117,9 +109,8 @@ class ServicesApiOrders{
     return await http.put(Uri.parse(uri),
     body: jsonEncode(data),
      headers: {
-            "Content-Type": "application/json; charset=UTF-8",
-            "Accept":"*/*",
-            "Accept-Encoding":"gzip, deflate, br",
+           "Content-Type": "application/json",
+            "Authorization": "Bearer "
           },
     );
   }
@@ -130,9 +121,8 @@ class ServicesApiOrders{
     return await http.put(Uri.parse(uri),
     body:jsonEncode(data),
      headers: {
-            "Content-Type": "application/json; charset=UTF-8",
-            "Accept":"*/*",
-            "Accept-Encoding":"gzip, deflate, br",
+            "Content-Type": "application/json",
+            "Authorization": "Bearer "
           },
     );
   }
@@ -142,33 +132,30 @@ class ServicesApiOrders{
     var uri = "$domaineName/orders/livrer/$userId";
     return await http.get(Uri.parse(uri),
      headers: {
-            "Content-Type": "application/json; charset=UTF-8",
-            "Accept":"*/*",
-            "Accept-Encoding":"gzip, deflate, br",
+           "Content-Type": "application/json",
+            "Authorization": "Bearer "
           },
     );
   }
 
    //OBTENIR COMMANDES EN ATTENTE
   getAllOrdersEnCours()async{
-    var uri = "$domaineName/orders/status/En attente";
+    var uri = "$domaineName/orders/status/${"En attente"}";
     return await http.get(Uri.parse(uri),
      headers: {
-            "Content-Type": "application/json; charset=UTF-8",
-            "Accept":"*/*",
-            "Accept-Encoding":"gzip, deflate, br",
+           "Content-Type": "application/json",
+            "Authorization": "Bearer "
           },
     );
   }
 
    //OBTENIR COMMANDES LIVRER
   getAllOrdersLivrer()async{
-    var uri = "$domaineName/orders/status/Livrer";
+    var uri = "$domaineName/orders/status/${"Livrer"}";
     return await http.get(Uri.parse(uri),
      headers: {
-            "Content-Type": "application/json; charset=UTF-8",
-            "Accept":"*/*",
-            "Accept-Encoding":"gzip, deflate, br",
+           "Content-Type": "application/json",
+            "Authorization": "Bearer "
           },
     );
   }

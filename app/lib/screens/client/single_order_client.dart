@@ -59,13 +59,16 @@ class _SingleOrderClientState extends State<SingleOrderClient> {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                     Image.network(item.img,height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 80),width: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 80),), 
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(item.name,style:GoogleFonts.roboto(fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12),fontWeight:FontWeight.w400)),
-                        Text("Quantité ${item.qty.toString()}",style:GoogleFonts.roboto(fontSize:widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12),color:Colors.grey[500]))
-                      ],
+                     Image.network(item.img ?? "",height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 80),width: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 80),), 
+                     SizedBox(width: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(item.name ?? "",overflow: TextOverflow.ellipsis,style:GoogleFonts.roboto(fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12),fontWeight:FontWeight.w400)),
+                          Text("Quantité ${item.qty.toString()}",style:GoogleFonts.roboto(fontSize:widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12),color:Colors.grey[500]))
+                        ],
+                      ),
                     ), 
                     Text("prix ${item.prix}",style:GoogleFonts.roboto(fontSize:widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12),fontWeight:FontWeight.w400))]),
             ),

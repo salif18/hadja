@@ -38,6 +38,7 @@ class _OrderEnCoursState extends State<OrderEnCours> {
     try {
       final response = await api.getAllOrdersEnCours();
       final body = jsonDecode(response.body);
+      print(body);
       if (response.statusCode == 200) {
         _ordersDataEncours.add(
           (body["orders"] as List)

@@ -119,62 +119,75 @@ class _MyArticlePageState extends State<MyArticlePage> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Padding(
-                                    padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
-                                    child: Container(
-                                      width: constraints.maxWidth,
-                                      height: constraints.maxWidth * AppSizes.converValueToadapter(context, 110),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
-                                      ),
-                                      child: Image.network(
-                                        article.img,
-                                        fit: BoxFit.fill,
+                                  Stack(
+                                    children: [
+                                      Padding(
+                                      padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
+                                      child: Container(
+                                        width: constraints.maxWidth,
+                                        height: constraints.maxWidth * AppSizes.converValueToadapter(context, 150),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
+                                        ),
+                                        child: Image.network(
+                                          article.img ?? "",
+                                          fit: BoxFit.fill,
+                                        ),
                                       ),
                                     ),
+                                    Positioned(
+                                      right: 10,
+                                      top: 5,
+                                      child: IconButton(
+                                            onPressed: () {
+                                              favoriteProvider.addMyFavorites(article);
+                                            },
+                                            icon: favorites.firstWhereOrNull(
+                                                      (item) => item.id == article.id) ==
+                                                  null
+                                              ? Icon(
+                                                  Icons.favorite_border,
+                                                  size: constraints.maxWidth * AppSizes.converValueToadapter(context, 24),
+                                                  color: Color(0xff2c3e50),
+                                                )
+                                              : Icon(
+                                                  Icons.favorite,
+                                                  size: constraints.maxWidth * AppSizes.converValueToadapter(context, 24),
+                                                  color: Colors.red,
+                                                ),
+                                          ),
+                                    )
+                                    ]
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: constraints.maxWidth * AppSizes.converValueToadapter(context, 15), top: constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              article.name,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: GoogleFonts.roboto(
-                                                  fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
-                                                  fontWeight: FontWeight.w600),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: EdgeInsets.only(left: constraints.maxWidth * AppSizes.converValueToadapter(context, 15), ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  article.name,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: GoogleFonts.roboto(
+                                                      fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
+                                                      fontWeight: FontWeight.w600),
+                                                ),
+                                                Text(
+                                                  "${article.price} fcfa",
+                                                  style: GoogleFonts.roboto(
+                                                      fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
+                                                      color: Colors.grey[500]),
+                                                ),
+                                              ],
                                             ),
-                                            Text(
-                                              "${article.price} fcfa",
-                                              style: GoogleFonts.roboto(
-                                                  fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
-                                                  color: Colors.grey[500]),
-                                            ),
-                                          ],
-                                        ),
-                                        IconButton(
-                                          onPressed: () {
-                                            favoriteProvider.addMyFavorites(article);
-                                          },
-                                          icon: favorites.firstWhereOrNull(
-                                                    (item) => item.id == article.id) ==
-                                                null
-                                            ? Icon(
-                                                Icons.favorite_border,
-                                                size: constraints.maxWidth * AppSizes.converValueToadapter(context, 24),
-                                                color: Color(0xff2c3e50),
-                                              )
-                                            : Icon(
-                                                Icons.favorite,
-                                                size: constraints.maxWidth * AppSizes.converValueToadapter(context, 24),
-                                                color: Colors.red,
-                                              ),
-                                        ),
-                                      ],
+                                          ),
+                                         
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ],

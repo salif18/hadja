@@ -128,7 +128,7 @@ class _ArticleByCategoriesState extends State<ArticleByCategories> {
                                     crossAxisCount: 2,
                                     crossAxisSpacing: 4,
                                     mainAxisSpacing: 4,
-                                    childAspectRatio: 0.8),
+                                    childAspectRatio: 0.75),
                             shrinkWrap: true,
                             itemBuilder: (BuildContext context, int index) {
                               final article = snaptshot.data!;
@@ -150,68 +150,81 @@ class _ArticleByCategoriesState extends State<ArticleByCategories> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Padding(
-                                        padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context,8)),
-                                        child: Container(
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          height: constraints.maxWidth * AppSizes.converValueToadapter(context,150),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context,20)),
-                                          ),
-                                          child: Image.network(
-                                            article[index].img,
-                                            fit: BoxFit.fill,
+                                      Stack(
+                                        children: [Padding(
+                                          padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context,8)),
+                                          child: Container(
+                                            width:
+                                                MediaQuery.of(context).size.width,
+                                            height: constraints.maxWidth * AppSizes.converValueToadapter(context,150),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context,20)),
+                                            ),
+                                            child: Image.network(
+                                              article[index].img ?? "",
+                                              fit: BoxFit.fill,
+                                            ),
                                           ),
                                         ),
+                                        Positioned(
+                                          right: 10,
+                                          top: 5,
+                                          child: IconButton(
+                                                  onPressed: () {
+                                                    favoriteProvider
+                                                        .addMyFavorites(
+                                                            article[index]);
+                                                  },
+                                                  icon: favorites.firstWhereOrNull(
+                                                              (item) =>
+                                                                  item.id ==
+                                                                  article[index]
+                                                                      .id) ==
+                                                          null
+                                                      ? Icon(
+                                                          Icons.favorite_border,
+                                                          size: constraints.maxWidth * AppSizes.converValueToadapter(context,25),
+                                                          color:
+                                                              Color(0xff2c3e50),
+                                                        )
+                                                      : Icon(Icons.favorite,
+                                                          size: constraints.maxWidth * AppSizes.converValueToadapter(context,25),
+                                                          color: Colors.red)), 
+                                        )
+                                        ]
                                       ),
-                                      Padding(
-                                        padding:
-                                             EdgeInsets.only(left: constraints.maxWidth * AppSizes.converValueToadapter(context,15)),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(article[index].name,
-                                                    style: GoogleFonts.roboto(
-                                                        fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context,12),
-                                                        fontWeight:
-                                                            FontWeight.w600)),
-                                                Text(
-                                                    "${article[index].price.toString()} fcfa",
-                                                    style: GoogleFonts.roboto(
-                                                        fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context,12),
-                                                        color:
-                                                            Colors.grey[500])),
-                                              ],
-                                            ),
-                                            IconButton(
-                                                onPressed: () {
-                                                  favoriteProvider
-                                                      .addMyFavorites(
-                                                          article[index]);
-                                                },
-                                                icon: favorites.firstWhereOrNull(
-                                                            (item) =>
-                                                                item.id ==
-                                                                article[index]
-                                                                    .id) ==
-                                                        null
-                                                    ? Icon(
-                                                        Icons.favorite_border,
-                                                        size: constraints.maxWidth * AppSizes.converValueToadapter(context,25),
-                                                        color:
-                                                            Color(0xff2c3e50),
-                                                      )
-                                                    : Icon(Icons.favorite,
-                                                        size: constraints.maxWidth * AppSizes.converValueToadapter(context,25),
-                                                        color: Colors.red)),
-                                          ],
+                                      Expanded(
+                                        child: Padding(
+                                          padding:
+                                               EdgeInsets.only(left: constraints.maxWidth * AppSizes.converValueToadapter(context,15)),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(article[index].name,
+                                                    overflow: TextOverflow.ellipsis,
+                                                        style: GoogleFonts.roboto(
+                                                            fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context,12),
+                                                            fontWeight:
+                                                                FontWeight.w600)),
+                                                    Text(
+                                                        "${article[index].price.toString()} fcfa",
+                                                        style: GoogleFonts.roboto(
+                                                            fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context,12),
+                                                            color:
+                                                                Colors.grey[500])),
+                                                  ],
+                                                ),
+                                              ),
+                                             
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ],

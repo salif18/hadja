@@ -55,7 +55,7 @@ class _UpdateProfilState extends State<UpdateProfil> {
             );
           });
           
-      final res = await api.postUpdateUserProfil(data, userId);
+      final res = await api.postUpdateUserData(data, userId);
       final body = json.decode(res.body);
       Navigator.pop(context);
       if (res.statusCode == 200) {

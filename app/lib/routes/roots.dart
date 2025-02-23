@@ -51,7 +51,7 @@ class _MyRootsState extends State<MyRoots> {
           elevation: 20,
           selectedItemColor: const Color(0xFF1D1A30),
           unselectedItemColor: const Color.fromARGB(255, 168, 168, 168),
-          iconSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 20),
+          iconSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 30),
         selectedLabelStyle: GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12)),
           items: [
             const BottomNavigationBarItem(
@@ -59,7 +59,7 @@ class _MyRootsState extends State<MyRoots> {
             const BottomNavigationBarItem(
                 icon: Icon(Icons.search_rounded), label: "Rechercher"),
             const BottomNavigationBarItem(
-                icon: Icon(FontAwesomeIcons.productHunt), label: "Produits"),
+                icon: Icon(Icons.list_outlined), label: "Produits"),
             BottomNavigationBarItem(
               icon: Consumer<CartProvider>(
                 builder: (context, provider, child) {
@@ -71,14 +71,14 @@ class _MyRootsState extends State<MyRoots> {
                       const Icon(Icons.shopping_cart_outlined),
                       if (provider.myCart.isNotEmpty)
                         Positioned(
-                          left: 8,
-                          bottom: 6,
+                          left: constraints.maxWidth * AppSizes.converValueToadapter(context, 10),
+                          bottom: constraints.maxWidth * AppSizes.converValueToadapter(context, 20),
                           child: Badge.count(
-                            count: provider.myCart.length,
-                            largeSize: 35 / 2,
+                            count: provider.nombreArticles,
+                            largeSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 20) / 2,
                             backgroundColor: Colors.red,
                             textStyle: GoogleFonts.roboto(
-                              fontSize: 12,
+                              fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 8),
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                             ),

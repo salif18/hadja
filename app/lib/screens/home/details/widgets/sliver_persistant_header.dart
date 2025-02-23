@@ -17,7 +17,7 @@ final double minHeight;
     return Stack(
        children: [
         Image.network(
-          item.img,
+          item.img ?? "",
           fit: BoxFit.cover,
           width: MediaQuery.of(context).size.width,
           height: maxHeight,

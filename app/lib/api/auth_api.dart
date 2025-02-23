@@ -85,7 +85,7 @@ class ServicesApiAuth{
 
   //fontion de reinitialisation de password
   postResetPassword(data) async {
-    var uri = "$domaineName/auth/reset_password";
+    var uri = "$domaineName/reset/reset_password";
     return await http.post(
       Uri.parse(uri),
       body: jsonEncode(data),
@@ -98,7 +98,7 @@ class ServicesApiAuth{
 
   //fontion de validation de mot de password reinitialiser
   postValidatePassword(data) async {
-    var uri = "$domaineName/auth/validate_password";
+    var uri = "$domaineName/reset/validate_password";
     return await http.post(
       Uri.parse(uri),
       body: jsonEncode(data),

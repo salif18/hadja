@@ -2,6 +2,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hadja_grish/constants/app_size.dart';
 import 'package:hadja_grish/models/articles_model.dart';
 import 'package:hadja_grish/providers/cart_provider.dart';
 import 'package:hadja_grish/providers/favorite_provider.dart';
@@ -35,50 +36,48 @@ class _SingleProductVerSionSliverState extends State<SingleProductVerSionSliver>
     void Function(ArticlesModel, int) addToCart = cartProvider.addToCart;
 
     return Scaffold(
-      body: CustomScrollView(
+      body: LayoutBuilder(builder: (context,constraints){
+        return CustomScrollView(
         slivers: [
           SliverPersistentHeader(
             delegate: MySliverPersistentHeaderDelegate(
-              maxHeight: 360,
-              minHeight: 30,
+              maxHeight: constraints.maxWidth * AppSizes.converValueToadapter(context, 360),
+              minHeight: constraints.maxWidth * AppSizes.converValueToadapter(context, 30),
               item: widget.item,
             ),
           ),
-          SliverToBoxAdapter(
-            child: Container(
-              color: Colors.grey[100],
-              child: Column(
-                children: [
-                  _headerDescription(context),
-                  _overProductImage(context),
-                  _productDescription(context),
-                  _diviser(context),
-                  _actionsButtons(context, addToCart),
-                ],
-              ),
-            ),
+          SliverList(
+            delegate: SliverChildListDelegate([
+               _headerDescription(context,constraints),
+                  // _overProductImage(context),
+                  _productDescription(context,constraints),
+                  _diviser(context,constraints),
+                  _actionsButtons(context, addToCart,constraints),
+            ]),
+           
           ),
         ],
-      ),
+      );
+      })
     );
   }
 
-  Widget _headerDescription(BuildContext context) {
+  Widget _headerDescription(BuildContext context,constraints) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 25),
+      padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * AppSizes.converValueToadapter(context, 25)),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
             ),
             child: Image.network(
-              widget.item.img,
-              width: 80,
+              widget.item.img ?? "",
+              width: constraints.maxWidth * AppSizes.converValueToadapter(context, 80),
             ),
           ),
-          const SizedBox(width: 15),
+          SizedBox(width: constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
           Expanded(
             child: Consumer<FavoriteProvider>(
               builder: (context, favoriteProvider, child) {
@@ -86,25 +85,27 @@ class _SingleProductVerSionSliverState extends State<SingleProductVerSionSliver>
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SizedBox(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            widget.item.name,
-                            style: GoogleFonts.roboto(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
+                    Expanded(
+                      child: SizedBox(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.item.name,
+                              style: GoogleFonts.roboto(
+                                fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
-                          ),
-                          Text(
-                            widget.item.price.toString(),
-                            style: GoogleFonts.roboto(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w200,
+                            Text(
+                              "${widget.item.price.toString()} FCFA",
+                              style: GoogleFonts.roboto(
+                                fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
+                                fontWeight: FontWeight.w200,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -116,14 +117,14 @@ class _SingleProductVerSionSliverState extends State<SingleProductVerSionSliver>
                                     .id
                                     == widget.item.id) ==
                                 null
-                            ? const Icon(
+                            ? Icon(
                                 Icons.favorite_border,
-                                size: 38,
+                                size: constraints.maxWidth * AppSizes.converValueToadapter(context, 38),
                                 color: Color(0xff2c3e50),
                               )
-                            : const Icon(
+                            : Icon(
                                 Icons.favorite,
-                                size: 38,
+                                size: constraints.maxWidth * AppSizes.converValueToadapter(context, 38),
                                 color: Colors.red,
                               ),
                       ),
@@ -138,39 +139,39 @@ class _SingleProductVerSionSliverState extends State<SingleProductVerSionSliver>
     );
   }
 
-  Widget _overProductImage(BuildContext context) {
-    return Container(
-      height: 200,
-      padding: const EdgeInsets.symmetric(vertical: 20),
-      child: ListView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: 25),
-        scrollDirection: Axis.horizontal,
-        itemCount: widget.item.galleries.length,
-        itemBuilder: (context, index) {
-          return Container(
-            margin: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            width: 250,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Image.network(
-                    widget.item.galleries[index].imgPath,
-                fit: BoxFit.contain,
-                )
-            ),
-          );
-        },
-      ),
-    );
-  }
+  // Widget _overProductImage(BuildContext context) {
+  //   return Container(
+  //     height: 200,
+  //     padding: const EdgeInsets.symmetric(vertical: 20),
+  //     child: ListView.builder(
+  //       padding: const EdgeInsets.symmetric(horizontal: 25),
+  //       scrollDirection: Axis.horizontal,
+  //       itemCount: widget.item.galleries!.length,
+  //       itemBuilder: (context, index) {
+  //         return Container(
+  //           margin: const EdgeInsets.all(8),
+  //           decoration: BoxDecoration(
+  //             color: Colors.white,
+  //             borderRadius: BorderRadius.circular(20),
+  //           ),
+  //           width: 250,
+  //           child: ClipRRect(
+  //             borderRadius: BorderRadius.circular(20),
+  //             child: Image.network(
+  //                   widget.item.galleries![index].imgPath ?? "",
+  //               fit: BoxFit.contain,
+  //               )
+  //           ),
+  //         );
+  //       },
+  //     ),
+  //   );
+  // }
 
-  Widget _productDescription(BuildContext context) {
+  Widget _productDescription(BuildContext context,constraints) {
     return Container(
       width: double.maxFinite,
-      padding: const EdgeInsets.symmetric(horizontal: 25),
+      padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * AppSizes.converValueToadapter(context, 25),vertical: constraints.maxWidth * AppSizes.converValueToadapter(context, 25)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -182,6 +183,7 @@ class _SingleProductVerSionSliverState extends State<SingleProductVerSionSliver>
             trimCollapsedText: 'Voir plus',
             trimExpandedText: ' réduire',
             style: TextStyle(
+              fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
               color: const Color(0xFF1D1A30).withOpacity(0.7),
               height: 1.5,
             ),
@@ -191,9 +193,9 @@ class _SingleProductVerSionSliverState extends State<SingleProductVerSionSliver>
     );
   }
 
-  Widget _diviser(BuildContext context) {
+  Widget _diviser(BuildContext context,constraints) {
     return Padding(
-      padding: const EdgeInsets.all(25),
+      padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
       child: Divider(
         height: 3,
         color: Colors.green[100],
@@ -203,54 +205,54 @@ class _SingleProductVerSionSliverState extends State<SingleProductVerSionSliver>
   }
 
   Widget _actionsButtons(
-      BuildContext context, void Function(ArticlesModel, int) addToCart) {
+      BuildContext context, void Function(ArticlesModel, int) addToCart,constraints) {
     return Container(
-      padding: const EdgeInsets.all(25),
+      padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 25)),
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(10),
+            padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
             child: Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(10),
+                  padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
                   ),
                   child: Column(
                     children: [
                       Text(
                         "Quantité",
                         style: GoogleFonts.roboto(
-                          fontSize: 20,
+                          fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
                         qty.toString(),
                         style: GoogleFonts.roboto(
-                          fontSize: 60,
+                          fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 60),
                         ),
                       ),
                       Text(
-                        "${widget.item.price * qty}",
+                        "${widget.item.price * qty} Fcfa",
                         style: GoogleFonts.roboto(
-                          fontSize: 15,
+                          fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(width: 15),
+                SizedBox(width: constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
                 Padding(
-                  padding: const EdgeInsets.all(1),
+                  padding: EdgeInsets.all(1),
                   child: Row(
                     children: [
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          minimumSize: const Size(40, 40),
+                          minimumSize: Size(constraints.maxWidth * AppSizes.converValueToadapter(context, 40), constraints.maxWidth * AppSizes.converValueToadapter(context, 40)),
                           backgroundColor: const Color(0xFF1D1A30),
                         ),
                         onPressed: () {
@@ -260,11 +262,11 @@ class _SingleProductVerSionSliverState extends State<SingleProductVerSionSliver>
                         },
                         child: const Icon(Icons.add, color: Colors.white),
                       ),
-                      const SizedBox(width: 15),
+                     SizedBox(width: constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
                       if (qty > 1)
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            minimumSize: const Size(40, 40),
+                            minimumSize: Size(constraints.maxWidth * AppSizes.converValueToadapter(context, 40), constraints.maxWidth * AppSizes.converValueToadapter(context, 40)),
                             backgroundColor: const Color(0xFF1D1A30),
                           ),
                           onPressed: () {
@@ -281,11 +283,11 @@ class _SingleProductVerSionSliverState extends State<SingleProductVerSionSliver>
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
             child: ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
-                minimumSize: const Size(300, 50),
-                backgroundColor: const Color(0xFF1D1A30),
+                minimumSize: Size(constraints.maxWidth * AppSizes.converValueToadapter(context, 300), constraints.maxWidth * AppSizes.converValueToadapter(context, 40)),
+                backgroundColor: Colors.orangeAccent,
               ),
               onPressed: () {
                 addToCart(widget.item, qty);
@@ -293,25 +295,19 @@ class _SingleProductVerSionSliverState extends State<SingleProductVerSionSliver>
                   content: Text(
                     "Article ajouté",
                     style: GoogleFonts.roboto(
-                        fontSize: 16),
+                        fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context, 12)),
                   ),
                   // backgroundColor: const Color.fromARGB(255, 255, 35, 19),
                   duration: const Duration(seconds: 1),
                    backgroundColor: Colors.blueAccent,
-                   action: SnackBarAction(
-                    label: "",
-                    onPressed: () {
-                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                    },
-                  ),
                 ));
               },
-              icon: const Icon(Icons.add_shopping_cart,
-                  color: Colors.white, size: 30),
+              icon: Icon(Icons.add_shopping_cart,
+                  color: Colors.white, size: constraints.maxWidth * AppSizes.converValueToadapter(context, 30)),
               label: Text(
                 "Ajouter au panier",
                 style: GoogleFonts.roboto(
-                  fontSize: 16,
+                  fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
                   color: Colors.white,
                 ),
               ),
@@ -322,3 +318,4 @@ class _SingleProductVerSionSliverState extends State<SingleProductVerSionSliver>
     );
   }
 }
+

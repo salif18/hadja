@@ -107,6 +107,7 @@ class _CartPageState extends State<CartPage> with WidgetsBindingObserver {
           builder: (context, cartProvider, child) {
             List<CartItemModel> cart = cartProvider.myCart;
             int total = cartProvider.total;
+            int totalArticle =cartProvider.nombreArticles;
             return cart.isEmpty
                 ? const SizedBox.shrink()
                 : Container(
@@ -115,18 +116,18 @@ class _CartPageState extends State<CartPage> with WidgetsBindingObserver {
                       color: Colors.white,
                       border: Border(
                         top: BorderSide(
-                          color: Color.fromARGB(255, 200, 255, 198),
+                          color: Color.fromARGB(255, 246, 248, 246),
                           width: 1,
                           style: BorderStyle.solid,
                         ),
                       ),
                       borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
-                        topRight: Radius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
+                        topLeft: Radius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
+                        topRight: Radius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
                       ),
                     ),
                     width: double.infinity,
-                    height: constraints.maxWidth * AppSizes.converValueToadapter(context, 200),
+                    height: constraints.maxWidth * AppSizes.converValueToadapter(context, 169),
                     child: Column(
                       children: [
                         Padding(
@@ -143,7 +144,7 @@ class _CartPageState extends State<CartPage> with WidgetsBindingObserver {
                                 ),
                               ),
                               Text(
-                                "${cart.length}",
+                                "${totalArticle}",
                                 style: GoogleFonts.roboto(
                                   fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
                                   fontWeight: FontWeight.bold,

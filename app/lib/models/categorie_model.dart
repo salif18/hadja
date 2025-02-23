@@ -1,5 +1,5 @@
 class CategoriesModel{
-  final int id;
+  final String? id;
   final String nameCategorie ;
   CategoriesModel({
     required this.id,
@@ -8,14 +8,14 @@ class CategoriesModel{
 
 factory CategoriesModel.fromJson(Map<String,dynamic> json){
   return CategoriesModel(
-    id: json["id"],
+    id: json["_id"],
     nameCategorie: json["name_categorie"]
     );
 }
 
 Map<String,dynamic> toJson(){
   return {
-    "id":id,
+    "_id":id,
     "name_categorie":nameCategorie
   };
 }

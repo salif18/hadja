@@ -1,57 +1,45 @@
 class OrderItem {
-  final int id;
-  final int orderId;
-  final int productId;
-  final String name;
-  final String img;
-  final int qty;
-  final int prix;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  final String? id;
+  final String? productId;
+  final String? name;
+  final String? img;
+  final int? qty;
+  final int? prix;
 
   OrderItem({
     required this.id,
-    required this.orderId,
     required this.productId,
     required this.name,
     required this.img,
     required this.qty,
     required this.prix,
-    required this.createdAt,
-    required this.updatedAt,
   });
 
   factory OrderItem.fromJson(Map<String, dynamic> json) {
     return OrderItem(
-      id: json['id'],
-      orderId: json['order_id'],
-      productId: int.parse(json['productId']),
-      name: json['name'],
-      img: json['img'],
-      qty: json['qty'],
-      prix: json['prix'],
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
+      id: json['_id'] ?? "",
+      productId: json['productId'] ?? "",
+      name: json['name'] ?? "",
+      img: json['img'] ?? "",
+      qty: json['qty'] ?? 0,
+      prix: json['prix'] ?? 0,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      "id": id,
-      "order_id": orderId,
+      "_id": id,
       "productId": productId,
       "name": name,
       "img": img,
       "qty": qty,
       "prix": prix,
-      "created_at": createdAt.toIso8601String(),
-      "updated_at": updatedAt.toIso8601String(),
     };
   }
 }
 
 class OrdersModel {
-  final int id;
+  final String id;
   final String userId;
   final String? deliveryId;
   final String address;
@@ -73,8 +61,8 @@ class OrdersModel {
     required this.address,
     required this.clientLat,
     required this.clientLong,
-    required this.deliveryLat,
-    required this.deliveryLong,
+    this.deliveryLat,
+    this.deliveryLong,
     required this.telephone,
     required this.total,
     required this.statusOfDelibery,
@@ -85,28 +73,28 @@ class OrdersModel {
 
   factory OrdersModel.fromJson(Map<String, dynamic> json) {
     return OrdersModel(
-      id: json['id'],
-      userId: json['userId'],
+      id: json['_id'] ?? "",
+      userId: json['userId'] ?? "",
       deliveryId: json['deliveryId'],
-      address: json['address'],
-      clientLat: json['clientLat'],
-      clientLong: json['clientLong'],
-      deliveryLat: json['deliveryLat'],
-      deliveryLong: json['deliveryLong'],
-      telephone: json['telephone'],
-      total: json['total'],
-      statusOfDelibery: json['statut_of_delibery'],
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
-      orderItems: (json['order_items'] as List)
-          .map((item) => OrderItem.fromJson(item))
-          .toList(),
+      address: json['address'] ?? "",
+      clientLat: (json['clientLat'] ?? 0.0).toDouble(),
+      clientLong: (json['clientLong'] ?? 0.0).toDouble(),
+      deliveryLat: json['deliveryLat'] != null ? (json['deliveryLat'] as num).toDouble() : null,
+      deliveryLong: json['deliveryLong'] != null ? (json['deliveryLong'] as num).toDouble() : null,
+      telephone: json['telephone'] ?? "",
+      total: json['total'] ?? 0,
+      statusOfDelibery: json['statut_of_delibery'] ?? "En attente",
+      createdAt: DateTime.parse(json['createdAt']),
+      updatedAt: DateTime.parse(json['updatedAt']),
+      orderItems: (json['cartItems'] as List<dynamic>?)
+        ?.map((item) => OrderItem.fromJson(item))
+        .toList() ?? [],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      "id": id,
+      "_id": id,
       "userId": userId,
       "deliveryId": deliveryId,
       "address": address,
@@ -117,9 +105,9 @@ class OrdersModel {
       "telephone": telephone,
       "total": total,
       "statut_of_delibery": statusOfDelibery,
-      "created_at": createdAt.toIso8601String(),
-      "updated_at": updatedAt.toIso8601String(),
-      "order_items": orderItems.map((item) => item.toJson()).toList(),
+      "createdAt": createdAt.toIso8601String(),
+      "updatedAt": updatedAt.toIso8601String(),
+      "cartItems": orderItems.map((item) => item.toJson()).toList(),
     };
   }
 }

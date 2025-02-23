@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hadja_grish/screens/auth/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthProvider extends ChangeNotifier{
@@ -48,11 +49,17 @@ class AuthProvider extends ChangeNotifier{
   }
 
   //deconnecter et supprimer userid et token
-  void logoutButton() {
+  void logoutButton(BuildContext context) {
     _token = "";
     removeToLocalStorage("token");
     removeToLocalStorage("userId");
     removeToLocalStorage("profil");
     notifyListeners();
+        // Redirection vers la page de connexion après déconnexion
+  Navigator.pushAndRemoveUntil(
+    context,
+    MaterialPageRoute(builder: (context) => const LoginPage()),
+    (route) => false, // Supprime toutes les pages précédentes
+  );
   }
 }

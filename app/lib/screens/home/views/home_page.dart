@@ -92,7 +92,7 @@ class _HomePageState extends State<HomePage> {
         title: Text(
           "LaHadja",
           style: GoogleFonts.allison(
-            fontSize:  MediaQuery.of(context).size.width * 20/360,
+            fontSize:  MediaQuery.of(context).size.width * 30/360,
             fontWeight: FontWeight.bold,
             color: Colors.white,
           ),
@@ -122,12 +122,12 @@ class _HomePageState extends State<HomePage> {
                       builder: (context, snaptshot) {
                         if (provider.myCart.isNotEmpty) {
                           return Positioned(
-                            left:  MediaQuery.of(context).size.width * 30/360,
+                            left:  MediaQuery.of(context).size.width * 25/360,
                             bottom:  MediaQuery.of(context).size.width * 25/360,
                             child: Badge.count(
-                              count: provider.myCart.length,
+                              count: provider.nombreArticles,
                               backgroundColor: Colors.amber,
-                              largeSize:  (MediaQuery.of(context).size.width * 40/360) / 2,
+                              largeSize:  (MediaQuery.of(context).size.width * 30/360) / 2,
                               textStyle: GoogleFonts.roboto(
                                 fontSize:  MediaQuery.of(context).size.width * 12/360,
                                 fontWeight: FontWeight.bold,
