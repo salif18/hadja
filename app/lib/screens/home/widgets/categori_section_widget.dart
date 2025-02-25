@@ -12,7 +12,8 @@ import 'package:provider/provider.dart';
 class MyChooseCategoryWidget extends StatefulWidget {
   final dynamic listCategories;
   final constraints;
-  const MyChooseCategoryWidget({super.key, required this.listCategories, required this.constraints});
+  const MyChooseCategoryWidget(
+      {super.key, required this.listCategories, required this.constraints});
 
   @override
   State<MyChooseCategoryWidget> createState() => _MyChooseCategoryState();
@@ -22,29 +23,38 @@ class _MyChooseCategoryState extends State<MyChooseCategoryWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
+      padding: EdgeInsets.only(
+          top: widget.constraints.maxWidth *
+              AppSizes.converValueToadapter(context, 8)),
       child: SizedBox(
-        height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 110),
+        height: widget.constraints.maxWidth *
+            AppSizes.converValueToadapter(context, 110),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               padding: EdgeInsets.symmetric(
-                horizontal: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20),
-                vertical: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 10),
+                horizontal: widget.constraints.maxWidth *
+                    AppSizes.converValueToadapter(context, 20),
+                vertical: widget.constraints.maxWidth *
+                    AppSizes.converValueToadapter(context, 10),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("Categories",
                       style: GoogleFonts.roboto(
-                          fontSize:widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 14),color:AppColor.textColor ,fontWeight: FontWeight.w600)),
-                  Icon(Icons.arrow_forward_ios_rounded, size: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 14))
+                          fontSize: widget.constraints.maxWidth *
+                              AppSizes.converValueToadapter(context, 14),
+                          color: AppColor.textColor,
+                          fontWeight: FontWeight.w600)),
+                  Icon(Icons.arrow_forward_ios_rounded,
+                      size: widget.constraints.maxWidth *
+                          AppSizes.converValueToadapter(context, 14))
                 ],
               ),
             ),
             Expanded(
-            
               child: Consumer<UserInfosProvider>(
                 builder: (context, provider, child) {
                   return FutureBuilder<ProfilModel?>(
@@ -61,30 +71,37 @@ class _MyChooseCategoryState extends State<MyChooseCategoryWidget> {
                         builder: (context, snapshot) {
                           if (snapshot.hasError) {
                             return Center(
-                              child: Text("Problème de chargement...", style: TextStyle(fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12)),),
+                              child: Text(
+                                "Problème de chargement...",
+                                style: TextStyle(
+                                    fontSize: widget.constraints.maxWidth *
+                                        AppSizes.converValueToadapter(
+                                            context, 12)),
+                              ),
                             );
-                          } else if (!snapshot.hasData || snapshot.data!.isEmpty ) {
-                            if(profil?.userStatut == "admin"){
-return Container(
-                              alignment: Alignment.center,
-                              child: IconButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const MyCategoriList()));
-                                  },
-                                  icon:Icon(Icons.add)),
-                            );
-                            }else {
-return Container(
-                              alignment: Alignment.center,
-                              child: Center(child: Text("Aucunes catégories dabord..."),)
-                            );
+                          } else if (!snapshot.hasData ||
+                              snapshot.data!.isEmpty) {
+                            if (profil?.userStatut == "admin") {
+                              return Container(
+                                alignment: Alignment.center,
+                                child: IconButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const MyCategoriList()));
+                                    },
+                                    icon: Icon(Icons.add)),
+                              );
+                            } else {
+                              return Container(
+                                  alignment: Alignment.center,
+                                  child: Center(
+                                    child: Text("Aucunes catégories dabord..."),
+                                  ));
                             }
-                            
-                          }   else {
+                          } else {
                             return ListView.builder(
                               scrollDirection: Axis.horizontal,
                               itemCount: snapshot.data!.length,
@@ -101,13 +118,23 @@ return Container(
                                                         marque.nameCategorie)));
                                   },
                                   child: Container(
-                                    height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 10),
-                                    width: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 120),
-                                    margin: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
+                                    height: widget.constraints.maxWidth *
+                                        AppSizes.converValueToadapter(
+                                            context, 10),
+                                    width: widget.constraints.maxWidth *
+                                        AppSizes.converValueToadapter(
+                                            context, 120),
+                                    margin: EdgeInsets.all(
+                                        widget.constraints.maxWidth *
+                                            AppSizes.converValueToadapter(
+                                                context, 6)),
                                     decoration: BoxDecoration(
-                                        color: const Color(0xFF1D1A30),
-                                        borderRadius:
-                                            BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 10))),
+                                        color: const Color.fromARGB(
+                                            242, 255, 255, 255),
+                                        borderRadius: BorderRadius.circular(
+                                            widget.constraints.maxWidth *
+                                                AppSizes.converValueToadapter(
+                                                    context, 10))),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -116,9 +143,12 @@ return Container(
                                           marque.nameCategorie,
                                           overflow: TextOverflow.ellipsis,
                                           style: GoogleFonts.roboto(
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
-                                              color: Colors.white),
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: widget
+                                                      .constraints.maxWidth *
+                                                  AppSizes.converValueToadapter(
+                                                      context, 12),
+                                              color: const Color(0xFF1D1A30)),
                                         )
                                       ],
                                     ),

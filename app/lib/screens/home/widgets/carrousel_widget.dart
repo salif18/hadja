@@ -100,9 +100,10 @@ class _MyCarouselState extends State<MyCarouselWidget> {
                           },
                           child: Container(
                             height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 150),
+                            width: widget.constraints.maxWidth ,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
-                                color: AppColor.secondBackgroud,
+                                color: const Color(0xFF1D1A30),
                                 image: DecorationImage(
                                     image: NetworkImage(item.img ?? ""),
                                     fit: BoxFit.contain)),
@@ -118,7 +119,7 @@ class _MyCarouselState extends State<MyCarouselWidget> {
                           enableInfiniteScroll: true,
                           autoPlayAnimationDuration:
                               const Duration(milliseconds: 800),
-                          viewportFraction: 0.8,
+                          viewportFraction: 0.9,
                           onPageChanged: (index, reason) {
                             setState(() {
                               currentIndex = index;

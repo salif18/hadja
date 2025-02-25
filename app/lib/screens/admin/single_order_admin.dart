@@ -6,17 +6,20 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/api/livreurs_api.dart';
+import 'package:hadja_grish/api/notification_api.dart';
 import 'package:hadja_grish/api/orders_api.dart';
 import 'package:hadja_grish/constants/app_size.dart';
 import 'package:hadja_grish/models/orders_model.dart';
 import 'package:hadja_grish/models/user.dart';
 import 'package:hadja_grish/screens/admin/admin_track_move.dart';
 import 'package:intl/intl.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class SingleOrder extends StatefulWidget {
   final OrdersModel order;
   final constraints;
-  const SingleOrder({super.key, required this.order, required this.constraints});
+  const SingleOrder(
+      {super.key, required this.order, required this.constraints});
 
   @override
   State<SingleOrder> createState() => _SingleOrderState();
@@ -24,6 +27,10 @@ class SingleOrder extends StatefulWidget {
 
 class _SingleOrderState extends State<SingleOrder> {
   final ServicesApiOrders api = ServicesApiOrders();
+  final NotificationServices notiApi = NotificationServices();
+  late IO.Socket socket;
+  List<String> notifications = [];
+
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
   final ServicesApiDelibery apiDelibery = ServicesApiDelibery();
 
@@ -34,6 +41,7 @@ class _SingleOrderState extends State<SingleOrder> {
   void initState() {
     super.initState();
     _getLibery();
+    _connectToSocket();
   }
 
   Future<void> _getLibery() async {
@@ -73,12 +81,50 @@ class _SingleOrderState extends State<SingleOrder> {
 
       if (response.statusCode == 200) {
         api.showSnackBarSuccessPersonalized(context, body["message"]);
+        _sendNotification();
       } else {
         api.showSnackBarErrorPersonalized(context, body["message"]);
       }
     } catch (e) {
       Navigator.pop(context); // Close the dialog
       api.showSnackBarErrorPersonalized(context, e.toString());
+    }
+  }
+
+  void _connectToSocket() {
+    socket = IO.io('https://hadja-store-node.vercel.app/api', {
+      // Utilisez l'IP locale pour Android
+      'transports': ['websocket'],
+      'autoConnect': true,
+      'query': {'userId': deliveryId} // Ajoutez l'ID du livreur
+    });
+
+    socket.onConnect((_) {
+      socket.emit(
+          'join-room', deliveryId); // Rejoindre la salle après connexion
+    });
+  }
+
+  Future<void> _sendNotification() async {
+    if (deliveryId == null) return;
+
+    final data = {
+      'userId': deliveryId,
+      'message': 'Nouvelle commande assignée: ${widget.order.id}',
+      'createdAt': DateTime.now().toIso8601String(),
+    };
+
+    try {
+      final response = await notiApi.postNotifications(data);
+      if (response.statusCode == 200) {
+        socket.emit('livreur-selectionne', {
+          'userId': deliveryId,
+          'message': data['message'],
+          'orderId': widget.order.id
+        });
+      }
+    } catch (e) {
+      // Gestion d'erreur
     }
   }
 
@@ -89,11 +135,14 @@ class _SingleOrderState extends State<SingleOrder> {
       appBar: AppBar(
         centerTitle: true,
         title: Text("Details",
-            style: GoogleFonts.roboto(fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 16), fontWeight: FontWeight.w400)),
+            style: GoogleFonts.roboto(
+                fontSize: widget.constraints.maxWidth *
+                    AppSizes.converValueToadapter(context, 16),
+                fontWeight: FontWeight.w400)),
       ),
       body: SingleChildScrollView(
         child: Column(
-            children: [_orders(context)],
+          children: [_orders(context)],
         ),
       ),
     );
@@ -102,47 +151,66 @@ class _SingleOrderState extends State<SingleOrder> {
   Widget _orders(BuildContext context) {
     return Container(
       color: Colors.white,
-      padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
+      padding: EdgeInsets.all(widget.constraints.maxWidth *
+          AppSizes.converValueToadapter(context, 15)),
       child: Column(
         children: [
           SizedBox(
-            height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 360),
+            height: widget.constraints.maxWidth *
+                AppSizes.converValueToadapter(context, 360),
             child: ListView.builder(
               itemCount: widget.order.orderItems.length,
               itemBuilder: (BuildContext context, int index) {
                 final item = widget.order.orderItems[index];
                 return Padding(
-                  padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
+                  padding: EdgeInsets.all(widget.constraints.maxWidth *
+                      AppSizes.converValueToadapter(context, 8)),
                   child: Container(
-                    height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 100),
-                    padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
+                    height: widget.constraints.maxWidth *
+                        AppSizes.converValueToadapter(context, 100),
+                    padding: EdgeInsets.all(widget.constraints.maxWidth *
+                        AppSizes.converValueToadapter(context, 8)),
                     decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20))),
+                        borderRadius: BorderRadius.circular(
+                            widget.constraints.maxWidth *
+                                AppSizes.converValueToadapter(context, 20))),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Image.network(item.img ?? "", 
-                        height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 80), 
-                        width: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 80)),
-                        SizedBox(                        width: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
+                        Image.network(item.img ?? "",
+                            height: widget.constraints.maxWidth *
+                                AppSizes.converValueToadapter(context, 80),
+                            width: widget.constraints.maxWidth *
+                                AppSizes.converValueToadapter(context, 80)),
+                        SizedBox(
+                            width: widget.constraints.maxWidth *
+                                AppSizes.converValueToadapter(context, 8)),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(item.name ?? "",
-                              overflow: TextOverflow.ellipsis,
+                                  overflow: TextOverflow.ellipsis,
                                   style: GoogleFonts.roboto(
-                                      fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.w400)),
+                                      fontSize: widget.constraints.maxWidth *
+                                          AppSizes.converValueToadapter(
+                                              context, 12),
+                                      fontWeight: FontWeight.w400)),
                               Text("Quantité ${item.qty}",
                                   style: GoogleFonts.roboto(
-                                      fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12), color: Colors.grey[500])),
+                                      fontSize: widget.constraints.maxWidth *
+                                          AppSizes.converValueToadapter(
+                                              context, 12),
+                                      color: Colors.grey[500])),
                             ],
                           ),
                         ),
                         Text("prix ${item.prix}",
                             style: GoogleFonts.roboto(
-                                fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.w400)),
+                                fontSize: widget.constraints.maxWidth *
+                                    AppSizes.converValueToadapter(context, 12),
+                                fontWeight: FontWeight.w400)),
                       ],
                     ),
                   ),
@@ -152,7 +220,7 @@ class _SingleOrderState extends State<SingleOrder> {
           ),
           if (widget.order.deliveryId == null)
             Padding(
-              padding:EdgeInsets.all(1),
+              padding: EdgeInsets.all(1),
               child: SizedBox(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -161,12 +229,16 @@ class _SingleOrderState extends State<SingleOrder> {
                       child: Form(
                         key: _globalKey,
                         child: Padding(
-                          padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
+                          padding: EdgeInsets.all(widget.constraints.maxWidth *
+                              AppSizes.converValueToadapter(context, 10)),
                           child: DropdownButtonFormField<String?>(
                             hint: Text(
                               "Choisir un livreur",
                               style: GoogleFonts.roboto(
-                                  fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 14), fontWeight: FontWeight.w500),
+                                  fontSize: widget.constraints.maxWidth *
+                                      AppSizes.converValueToadapter(
+                                          context, 14),
+                                  fontWeight: FontWeight.w500),
                             ),
                             value: deliveryId,
                             onChanged: (value) {
@@ -178,7 +250,9 @@ class _SingleOrderState extends State<SingleOrder> {
                               fillColor: Colors.grey[100],
                               filled: true,
                               border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
+                                borderRadius: BorderRadius.circular(widget
+                                        .constraints.maxWidth *
+                                    AppSizes.converValueToadapter(context, 20)),
                               ),
                             ),
                             items: _liberyData.map((delivery) {
@@ -187,7 +261,10 @@ class _SingleOrderState extends State<SingleOrder> {
                                 child: Text(
                                   delivery.name ?? "",
                                   style: GoogleFonts.roboto(
-                                      fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12), color: Colors.black),
+                                      fontSize: widget.constraints.maxWidth *
+                                          AppSizes.converValueToadapter(
+                                              context, 12),
+                                      color: Colors.black),
                                 ),
                               );
                             }).toList(),
@@ -204,42 +281,51 @@ class _SingleOrderState extends State<SingleOrder> {
                         child: Text(
                           "Confirmer",
                           style: GoogleFonts.roboto(
-                              fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12), color: Colors.white),
+                              fontSize: widget.constraints.maxWidth *
+                                  AppSizes.converValueToadapter(context, 12),
+                              color: Colors.white),
                         ))
                   ],
                 ),
               ),
             ),
-            Column(
-              children: [
+          Column(
+            children: [
               _orderDetailRow("Order", widget.order.statusOfDelibery),
-                      _orderDetailRow("Client", widget.order.telephone),
-                      _orderDetailRow("Date", DateFormat('dd/MM/yyyy').format(widget.order.createdAt)),
-                      _orderDetailRow("Adresse", widget.order.address),
-                      Padding(
-            padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => AdminTrackingDelivery(
-                              order: widget.order,
-                            )));
-              },
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 400), widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 40)),
-                backgroundColor: const Color(0xFF1D1A30),
+              _orderDetailRow("Client", widget.order.telephone),
+              _orderDetailRow("Date",
+                  DateFormat('dd/MM/yyyy').format(widget.order.createdAt)),
+              _orderDetailRow("Adresse", widget.order.address),
+              Padding(
+                padding: EdgeInsets.all(widget.constraints.maxWidth *
+                    AppSizes.converValueToadapter(context, 15)),
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AdminTrackingDelivery(
+                                  order: widget.order,
+                                )));
+                  },
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size(
+                        widget.constraints.maxWidth *
+                            AppSizes.converValueToadapter(context, 400),
+                        widget.constraints.maxWidth *
+                            AppSizes.converValueToadapter(context, 40)),
+                    backgroundColor: const Color(0xFF1D1A30),
+                  ),
+                  child: Text("Suivi du courrier",
+                      style: GoogleFonts.roboto(
+                          fontSize: widget.constraints.maxWidth *
+                              AppSizes.converValueToadapter(context, 12),
+                          fontWeight: FontWeight.w400,
+                          color: Colors.white)),
+                ),
               ),
-              child: Text("Suivi du courrier",
-                  style: GoogleFonts.roboto(
-                      fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
-                      fontWeight: FontWeight.w400,
-                      color: Colors.white)),
-            ),
-                      ),
-            ],)
-        
+            ],
+          )
         ],
       ),
     );
@@ -247,17 +333,24 @@ class _SingleOrderState extends State<SingleOrder> {
 
   Widget _orderDetailRow(String title, String value) {
     return Padding(
-      padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
+      padding: EdgeInsets.all(widget.constraints.maxWidth *
+          AppSizes.converValueToadapter(context, 15)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(title,
               style: GoogleFonts.roboto(
-                  fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.w400)),
-          SizedBox(width: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
+                  fontSize: widget.constraints.maxWidth *
+                      AppSizes.converValueToadapter(context, 12),
+                  fontWeight: FontWeight.w400)),
+          SizedBox(
+              width: widget.constraints.maxWidth *
+                  AppSizes.converValueToadapter(context, 15)),
           Text(value,
               style: GoogleFonts.roboto(
-                  fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.w400)),
+                  fontSize: widget.constraints.maxWidth *
+                      AppSizes.converValueToadapter(context, 12),
+                  fontWeight: FontWeight.w400)),
         ],
       ),
     );

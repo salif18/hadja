@@ -40,7 +40,7 @@ class _MySearchSectionState extends State<MySearchSectionWidget> {
               ),
               border: OutlineInputBorder(
                   borderSide: BorderSide.none,
-                  borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 25)))),
+                  borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 15)))),
         ),
       ),
     );

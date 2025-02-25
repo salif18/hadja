@@ -232,32 +232,36 @@ class _ProductPageState extends State<ProductPage> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Row(
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
-                                    child: Container(
-                                      width: constraints.maxWidth * AppSizes.converValueToadapter(context, 50),
-                                      height: constraints.maxWidth * AppSizes.converValueToadapter(context, 50),
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 20))),
-                                      child: Image.network(
-                                        article.img ?? "",
-                                        fit: BoxFit.fill,
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
+                                      child: Container(
+                                        width: constraints.maxWidth * AppSizes.converValueToadapter(context, 50),
+                                        height: constraints.maxWidth * AppSizes.converValueToadapter(context, 50),
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 20))),
+                                        child: Image.network(
+                                          article.img ?? "",
+                                          fit: BoxFit.fill,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(article.name, style: GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.w500)),
-                                        Text("${article.price.toString()} fcfa", style: GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), color: Colors.grey[500]))
-                                      ],
+                                    Expanded(
+                                      child: Padding(
+                                        padding: EdgeInsets.only(left: constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(article.name,overflow: TextOverflow.ellipsis, style: GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.w500)),
+                                            Text("${article.price.toString()} fcfa", style: GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), color: Colors.grey[500]))
+                                          ],
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                               Padding(
                                 padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),

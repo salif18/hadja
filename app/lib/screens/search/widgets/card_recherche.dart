@@ -49,21 +49,24 @@ class ResultSearch extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            item.name,
-                            style: GoogleFonts.roboto(
-                                fontWeight: FontWeight.bold,
-                                fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
-                                color: const Color(0xff121212)),
-                          ),
-                          Text("${item.price} cfa",
+                    Expanded(
+                      child: SizedBox(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              item.name,
+                              overflow: TextOverflow.ellipsis,
                               style: GoogleFonts.roboto(
-                                  fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), color: const Color(0xff121212)))
-                        ],
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
+                                  color: const Color(0xff121212)),
+                            ),
+                            Text("${item.price} cfa",
+                                style: GoogleFonts.roboto(
+                                    fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), color: const Color(0xff121212)))
+                          ],
+                        ),
                       ),
                     ),
                   ],

@@ -40,7 +40,7 @@ class _MyArticlePageState extends State<MyArticlePage> {
     List<ArticlesModel> favorites = favoriteProvider.getFavorites;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey[100],
       appBar: AppBar(
         automaticallyImplyLeading: false,
         toolbarHeight: MediaQuery.of(context).size.width * 50/360,
@@ -95,8 +95,8 @@ class _MyArticlePageState extends State<MyArticlePage> {
                         physics: const NeverScrollableScrollPhysics(),
                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
-                          crossAxisSpacing: 4,
-                          mainAxisSpacing: 4,
+                          crossAxisSpacing: 8,
+                          mainAxisSpacing: 2,
                           childAspectRatio: 0.8,
                         ),
                         shrinkWrap: true,
@@ -114,7 +114,7 @@ class _MyArticlePageState extends State<MyArticlePage> {
                             child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
-                                color: AppColor.secondBackgroud,
+                                // color: AppColor.secondBackgroud,
                               ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -122,7 +122,7 @@ class _MyArticlePageState extends State<MyArticlePage> {
                                   Stack(
                                     children: [
                                       Padding(
-                                      padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
+                                      padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 0)),
                                       child: Container(
                                         width: constraints.maxWidth,
                                         height: constraints.maxWidth * AppSizes.converValueToadapter(context, 150),
@@ -136,32 +136,41 @@ class _MyArticlePageState extends State<MyArticlePage> {
                                       ),
                                     ),
                                     Positioned(
-                                      right: 10,
-                                      top: 5,
-                                      child: IconButton(
-                                            onPressed: () {
-                                              favoriteProvider.addMyFavorites(article);
-                                            },
-                                            icon: favorites.firstWhereOrNull(
-                                                      (item) => item.id == article.id) ==
-                                                  null
-                                              ? Icon(
-                                                  Icons.favorite_border,
-                                                  size: constraints.maxWidth * AppSizes.converValueToadapter(context, 24),
-                                                  color: Color(0xff2c3e50),
-                                                )
-                                              : Icon(
-                                                  Icons.favorite,
-                                                  size: constraints.maxWidth * AppSizes.converValueToadapter(context, 24),
-                                                  color: Colors.red,
-                                                ),
-                                          ),
+                                      right: 12,
+                                      top: 15,
+                                      child: Container(
+                                           width: constraints.maxWidth *AppSizes.converValueToadapter(context, 35),
+                                    height: constraints.maxWidth *AppSizes.converValueToadapter(context, 35),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: Colors.grey.withOpacity(0.5)
+                                    ),
+                                  
+                                        child: IconButton(
+                                              onPressed: () {
+                                                favoriteProvider.addMyFavorites(article);
+                                              },
+                                              icon: favorites.firstWhereOrNull(
+                                                        (item) => item.id == article.id) ==
+                                                    null
+                                                ? Icon(
+                                                    Icons.favorite_border,
+                                                    size: constraints.maxWidth * AppSizes.converValueToadapter(context, 20),
+                                                    color: Colors.white,
+                                                  )
+                                                : Icon(
+                                                    Icons.favorite,
+                                                    size: constraints.maxWidth * AppSizes.converValueToadapter(context, 20),
+                                                    color: Colors.red,
+                                                  ),
+                                            ),
+                                      ),
                                     )
                                     ]
                                   ),
                                   Expanded(
                                     child: Padding(
-                                      padding: EdgeInsets.only(left: constraints.maxWidth * AppSizes.converValueToadapter(context, 15), ),
+                                      padding: EdgeInsets.only(left: constraints.maxWidth * AppSizes.converValueToadapter(context, 5),top:constraints.maxWidth * AppSizes.converValueToadapter(context, 5)  ),
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
@@ -177,10 +186,11 @@ class _MyArticlePageState extends State<MyArticlePage> {
                                                       fontWeight: FontWeight.w600),
                                                 ),
                                                 Text(
-                                                  "${article.price} fcfa",
+                                                  "${article.price} FCFA",
                                                   style: GoogleFonts.roboto(
-                                                      fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
-                                                      color: Colors.grey[500]),
+                                                      fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Colors.black),
                                                 ),
                                               ],
                                             ),

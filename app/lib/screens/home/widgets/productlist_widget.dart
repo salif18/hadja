@@ -44,11 +44,11 @@ class _MyProductListWidgetState extends State<MyProductListWidget> {
     List<ArticlesModel> favorites = favoriteProvider.getFavorites;
 
     return Padding(
-      padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
+      padding: EdgeInsets.symmetric(horizontal:widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
       child: Column(
         children: [
           Container(
-            padding: EdgeInsets.symmetric(vertical: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
+            padding: EdgeInsets.symmetric(horizontal: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 15),vertical: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -95,9 +95,9 @@ class _MyProductListWidgetState extends State<MyProductListWidget> {
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      crossAxisSpacing: 4,
+                      crossAxisSpacing: 8,
                       mainAxisSpacing: 4,
-                      childAspectRatio: 0.70,
+                      childAspectRatio: 0.76,
                     ),
                     shrinkWrap: true,
                     itemBuilder: (BuildContext context, int index) {
@@ -113,7 +113,7 @@ class _MyProductListWidgetState extends State<MyProductListWidget> {
                         child: Container(
                           width: widget.constraints.maxWidth,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
+                            // borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
                             color: AppColor.secondBackgroud,
                           ),
                           child: Column(
@@ -122,7 +122,7 @@ class _MyProductListWidgetState extends State<MyProductListWidget> {
                               Stack(
                                 children: [
                                   Padding(
-                                  padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
+                                  padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 0)),
                                   child: Container(
                                     width: widget.constraints.maxWidth ,
                                     height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 160),
@@ -136,32 +136,40 @@ class _MyProductListWidgetState extends State<MyProductListWidget> {
                                   ),
                                 ),
                                 Positioned(
-                                  right: 10,
-                                  top: 5,
-                                  child:IconButton(
-                                      onPressed: () {
-                                        favoriteProvider.addMyFavorites(
-                                            articles[index]);
-                                      },
-                                      icon: favorites.firstWhereOrNull((item) =>
-                                                  item.id ==
-                                                  articles[index].id) ==
-                                              null
-                                          ? Icon(
-                                              Icons.favorite_border,
-                                              size: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 24),
-                                              color: Color(0xff2c3e50),
-                                            )
-                                          : Icon(
-                                              Icons.favorite,
-                                              size: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 24),
-                                              color: Colors.red),
+                                  right: 12,
+                                  top: 15,
+                                  child:Container(
+                                    width: widget.constraints.maxWidth *AppSizes.converValueToadapter(context, 35),
+                                    height: widget.constraints.maxWidth *AppSizes.converValueToadapter(context, 35),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: Colors.grey.withOpacity(0.5)
                                     ),
+                                    child: IconButton(
+                                        onPressed: () {
+                                          favoriteProvider.addMyFavorites(
+                                              articles[index]);
+                                        },
+                                        icon: favorites.firstWhereOrNull((item) =>
+                                                    item.id ==
+                                                    articles[index].id) ==
+                                                null
+                                            ? Icon(
+                                                Icons.favorite_border,
+                                                size: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20),
+                                                color: Colors.white,
+                                              )
+                                            : Icon(
+                                                Icons.favorite,
+                                                size: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20),
+                                                color: Colors.red),
+                                      ),
+                                  ),
                                   )
                                 ]
                               ),
                               Padding(
-                                padding: EdgeInsets.only(left: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 15), top: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
+                                padding: EdgeInsets.only(left: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 5), top: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -177,10 +185,11 @@ class _MyProductListWidgetState extends State<MyProductListWidget> {
                                                   fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
                                                   fontWeight: FontWeight.w600)),
                                           Text(
-                                              "${articles[index].price.toString()} fcfa",
+                                              "${articles[index].price.toString()} FCFA",
                                               style: GoogleFonts.roboto(
-                                                  fontSize:widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
-                                                  color: AppColor.accentColor)),
+                                                  fontSize:widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.black)),
                                         ],
                                       ),
                                     ),

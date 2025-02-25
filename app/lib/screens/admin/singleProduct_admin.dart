@@ -167,6 +167,7 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
       ),
       body: SingleChildScrollView(
         child: Column(
+
           children: [
             Column(
               children: [
@@ -180,10 +181,13 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
                 ),
                 Padding(
                   padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context,15)),
-                  child: Row(
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Column(
+                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             "Nom",
@@ -191,6 +195,7 @@ class _SingleProductAdminState extends State<SingleProductAdmin> {
                           ),
                           SizedBox(width: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,20)),
                           Text(widget.article.name,
+                          overflow: TextOverflow.ellipsis,
                               style: GoogleFonts.roboto(
                                   fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,12), color: Colors.grey)),
                         ],

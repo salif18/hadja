@@ -129,7 +129,7 @@ class ServicesApiOrders{
 
    //OBTENIR COMMANDES LIVRER PAR LIVREUR
   getDeliveryOrdersLivrer(userId)async{
-    var uri = "$domaineName/orders/livrer/$userId";
+    var uri = "$domaineName/orders/livrer/for/$userId";
     return await http.get(Uri.parse(uri),
      headers: {
            "Content-Type": "application/json",

@@ -24,12 +24,20 @@ class _MyHeaderState extends State<MyHeaderWidget> {
               builder: (context, snaptshot) {
                  ProfilModel? profil = snaptshot.data;
                 return Container(
-                  height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 100),
-                  padding:  EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
+                  height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 46),
+                  padding:  EdgeInsets.symmetric(horizontal:widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
                   decoration:  BoxDecoration(),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                         CircleAvatar(
+                      radius: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20),
+                      backgroundImage: profil?.photo != null
+                          ? NetworkImage(profil!.photo!)
+                          : AssetImage("assets/images/profil1.jpg") as ImageProvider,
+                      backgroundColor: Colors.transparent, // Couleur de fond pour éviter le noir
+                    ),
+                    SizedBox( width:widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 10),),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,17 +52,11 @@ class _MyHeaderState extends State<MyHeaderWidget> {
                                 style: GoogleFonts.roboto(
                                     fontWeight: FontWeight.normal,
                                     fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
-                                    color: Colors.grey[100]))
+                                    color: Colors.white))
                           ],
                         ),
                       ),
-                      CircleAvatar(
-                      radius: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20),
-                      backgroundImage: profil?.photo != null
-                          ? NetworkImage(profil!.photo!)
-                          : AssetImage("assets/images/profil1.jpg") as ImageProvider,
-                      backgroundColor: Colors.transparent, // Couleur de fond pour éviter le noir
-                    ),
+      
                     ],
                   ),
                 );

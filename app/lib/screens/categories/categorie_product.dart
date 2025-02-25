@@ -168,29 +168,37 @@ class _ArticleByCategoriesState extends State<ArticleByCategories> {
                                           ),
                                         ),
                                         Positioned(
-                                          right: 10,
-                                          top: 5,
-                                          child: IconButton(
-                                                  onPressed: () {
-                                                    favoriteProvider
-                                                        .addMyFavorites(
-                                                            article[index]);
-                                                  },
-                                                  icon: favorites.firstWhereOrNull(
-                                                              (item) =>
-                                                                  item.id ==
-                                                                  article[index]
-                                                                      .id) ==
-                                                          null
-                                                      ? Icon(
-                                                          Icons.favorite_border,
-                                                          size: constraints.maxWidth * AppSizes.converValueToadapter(context,25),
-                                                          color:
-                                                              Color(0xff2c3e50),
-                                                        )
-                                                      : Icon(Icons.favorite,
-                                                          size: constraints.maxWidth * AppSizes.converValueToadapter(context,25),
-                                                          color: Colors.red)), 
+                                          right: 12,
+                                          top: 15,
+                                          child: Container(
+                                              width: constraints.maxWidth *AppSizes.converValueToadapter(context, 35),
+                                    height: constraints.maxWidth *AppSizes.converValueToadapter(context, 35),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: Colors.grey.withOpacity(0.5)
+                                    ),
+                                            child: IconButton(
+                                                    onPressed: () {
+                                                      favoriteProvider
+                                                          .addMyFavorites(
+                                                              article[index]);
+                                                    },
+                                                    icon: favorites.firstWhereOrNull(
+                                                                (item) =>
+                                                                    item.id ==
+                                                                    article[index]
+                                                                        .id) ==
+                                                            null
+                                                        ? Icon(
+                                                            Icons.favorite_border,
+                                                            size: constraints.maxWidth * AppSizes.converValueToadapter(context,20),
+                                                            color:
+                                                                Colors.white,
+                                                          )
+                                                        : Icon(Icons.favorite,
+                                                            size: constraints.maxWidth * AppSizes.converValueToadapter(context,20),
+                                                            color: Colors.red)),
+                                          ), 
                                         )
                                         ]
                                       ),
@@ -214,11 +222,12 @@ class _ArticleByCategoriesState extends State<ArticleByCategories> {
                                                             fontWeight:
                                                                 FontWeight.w600)),
                                                     Text(
-                                                        "${article[index].price.toString()} fcfa",
+                                                        "${article[index].price.toString()} FCFA",
                                                         style: GoogleFonts.roboto(
-                                                            fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context,12),
+                                                            fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context,14),
+                                                            fontWeight: FontWeight.bold,
                                                             color:
-                                                                Colors.grey[500])),
+                                                                Colors.black)),
                                                   ],
                                                 ),
                                               ),

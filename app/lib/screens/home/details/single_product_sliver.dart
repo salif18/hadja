@@ -100,8 +100,8 @@ class _SingleProductVerSionSliverState extends State<SingleProductVerSionSliver>
                             Text(
                               "${widget.item.price.toString()} FCFA",
                               style: GoogleFonts.roboto(
-                                fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
-                                fontWeight: FontWeight.w200,
+                                fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ],
@@ -236,7 +236,7 @@ class _SingleProductVerSionSliverState extends State<SingleProductVerSionSliver>
                         ),
                       ),
                       Text(
-                        "${widget.item.price * qty} Fcfa",
+                        "${widget.item.price * qty} FCFA",
                         style: GoogleFonts.roboto(
                           fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
                           fontWeight: FontWeight.bold,

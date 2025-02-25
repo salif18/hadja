@@ -44,11 +44,11 @@ class _MyRecomadationWidgetState extends State<MyRecomadationWidget> {
     List<ArticlesModel> favorites = favoriteProvider.getFavorites;
 
     return SizedBox(
-      height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 295),
+      height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 280),
       child: Column(
         children: [
           Container(
-            padding: EdgeInsets.symmetric(horizontal: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20), vertical: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
+            padding: EdgeInsets.symmetric(horizontal: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20), vertical: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -137,10 +137,11 @@ class _MyRecomadationWidgetState extends State<MyRecomadationWidget> {
                                                     fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
                                                     fontWeight: FontWeight.w600)),
                                             Text(
-                                                "${articles[index].price.toString()} fcfa",
+                                                "${articles[index].price.toString()} FCFA",
                                                 style: GoogleFonts.roboto(
-                                                    fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
-                                                    color: AppColor.accentColor)),
+                                                  fontWeight: FontWeight.bold,
+                                                    fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
+                                                    color: Colors.black)),
                                           ],
                                         ),
                                       ),

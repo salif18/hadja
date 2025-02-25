@@ -9,6 +9,7 @@ import 'package:hadja_grish/screens/favorites/views/favorites_page.dart';
 import 'package:hadja_grish/screens/home/views/home_page.dart';
 import 'package:hadja_grish/screens/search/views/search_page.dart';
 import 'package:provider/provider.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class MyRoots extends StatefulWidget {
   const MyRoots({super.key});
@@ -25,8 +26,8 @@ class _MyRootsState extends State<MyRoots> {
     return Scaffold(
       body:<Widget>[
           HomePage(),
-          SearchPage(),
           MyArticlePage(),
+          SearchPage(),
           CartPage(),
           FavoritesPage()
         ][_currentIndex],
@@ -50,16 +51,17 @@ class _MyRootsState extends State<MyRoots> {
           backgroundColor: Colors.white,
           elevation: 20,
           selectedItemColor: const Color(0xFF1D1A30),
-          unselectedItemColor: const Color.fromARGB(255, 168, 168, 168),
+          unselectedItemColor: const Color.fromARGB(255, 209, 209, 209),
           iconSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 30),
         selectedLabelStyle: GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12)),
           items: [
             const BottomNavigationBarItem(
                 icon: Icon(Icons.home_outlined), label: "Accueil"),
+                 BottomNavigationBarItem(
+                icon: Icon(MdiIcons.textSearchVariant), label: "Produits"),
             const BottomNavigationBarItem(
                 icon: Icon(Icons.search_rounded), label: "Rechercher"),
-            const BottomNavigationBarItem(
-                icon: Icon(Icons.list_outlined), label: "Produits"),
+           
             BottomNavigationBarItem(
               icon: Consumer<CartProvider>(
                 builder: (context, provider, child) {
