@@ -16,6 +16,7 @@ import 'package:hadja_grish/screens/home/widgets/header_widget.dart';
 import 'package:hadja_grish/screens/home/widgets/productlist_widget.dart';
 import 'package:hadja_grish/screens/home/widgets/recomaded_widget.dart';
 import 'package:hadja_grish/screens/home/widgets/search_section_widget.dart';
+import 'package:hadja_grish/screens/notifications/notification.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -147,6 +148,7 @@ class _HomePageState extends State<HomePage> {
                       });
                 },
               ),
+              
             ],
           ),
           IconButton(
@@ -164,6 +166,12 @@ class _HomePageState extends State<HomePage> {
               color: Colors.white,
             ),
           ),
+          IconButton(
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> const NotificationView()));
+                }, 
+                icon: Icon(Icons.notifications_none,color: Colors.white,size: MediaQuery.of(context).size.width * 22 / 360,)
+                ),
           SizedBox(
             width: MediaQuery.of(context).size.width * 15 / 360,
           )

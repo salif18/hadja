@@ -80,8 +80,8 @@ class _SingleOrderState extends State<SingleOrder> {
       Navigator.pop(context); // Close the dialog
 
       if (response.statusCode == 200) {
-        api.showSnackBarSuccessPersonalized(context, body["message"]);
         _sendNotification();
+         api.showSnackBarSuccessPersonalized(context, body["message"]);
       } else {
         api.showSnackBarErrorPersonalized(context, body["message"]);
       }
@@ -110,7 +110,8 @@ class _SingleOrderState extends State<SingleOrder> {
 
     final data = {
       'userId': deliveryId,
-      'message': 'Nouvelle commande assignée: ${widget.order.id}',
+      'orderId': widget.order.id,
+      'message': 'Vous avez une nouvelle commande à livrer',
       'createdAt': DateTime.now().toIso8601String(),
     };
 
