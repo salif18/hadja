@@ -1,12 +1,15 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/api/category_api.dart';
+import 'package:hadja_grish/api/notification_api.dart';
 import 'package:hadja_grish/components/drawer.dart';
 import 'package:hadja_grish/constants/app_size.dart';
 import 'package:hadja_grish/models/categorie_model.dart';
+import 'package:hadja_grish/providers/auth_provider.dart';
 import 'package:hadja_grish/providers/cart_provider.dart';
 import 'package:hadja_grish/screens/cart/views/cart_page.dart';
 import 'package:hadja_grish/screens/favorites/views/favorites_page.dart';
@@ -31,13 +34,37 @@ class _HomePageState extends State<HomePage> {
 
   ServicesApiCategory api = ServicesApiCategory();
 
+  final NotificationServices apiNoti = NotificationServices();
+  int count = 0;
+
   final StreamController<List<CategoriesModel>> _listCategories =
       StreamController<List<CategoriesModel>>();
 
   @override
   void initState() {
     _getCategories();
+    _getNotificationNoRead();
     super.initState();
+  }
+
+  void _getNotificationNoRead() async {
+    final provider = Provider.of<AuthProvider>(context, listen: false);
+    final userId = await provider.userId();
+    try {
+      final res = await apiNoti.getCountNotificationsNoRead(userId);
+      final body = jsonDecode(res.body);
+      if (res.statusCode == 200) {
+        setState(() {
+          count = body["count"];
+        });
+      } else {
+        setState(() {
+          count = 0;
+        });
+      }
+    } catch (e) {
+      print(e); // Affiche l'erreur pour le debug
+    }
   }
 
   @override
@@ -148,7 +175,6 @@ class _HomePageState extends State<HomePage> {
                       });
                 },
               ),
-              
             ],
           ),
           IconButton(
@@ -166,12 +192,35 @@ class _HomePageState extends State<HomePage> {
               color: Colors.white,
             ),
           ),
-          IconButton(
-                onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> const NotificationView()));
-                }, 
-                icon: Icon(Icons.notifications_none,color: Colors.white,size: MediaQuery.of(context).size.width * 22 / 360,)
+          Stack(children: [
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const NotificationView()));
+                },
+                icon: Icon(
+                  Icons.notifications_none,
+                  color: Colors.white,
+                  size: MediaQuery.of(context).size.width * 22 / 360,
+                )),
+            if (count != 0)
+              Positioned(
+                left: MediaQuery.of(context).size.width * 25 / 360,
+                bottom: MediaQuery.of(context).size.width * 25 / 360,
+                child: Badge.count(
+                  count: count,
+                  backgroundColor: Colors.amber,
+                  largeSize: (MediaQuery.of(context).size.width * 30 / 360) / 2,
+                  textStyle: GoogleFonts.roboto(
+                    fontSize: MediaQuery.of(context).size.width * 12 / 360,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 ),
+              )
+          ]),
           SizedBox(
             width: MediaQuery.of(context).size.width * 15 / 360,
           )

@@ -5,8 +5,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hadja_grish/api/notification_api.dart';
 import 'package:hadja_grish/api/orders_api.dart';
 import 'package:hadja_grish/constants/app_size.dart';
+import 'package:hadja_grish/models/orders_model.dart';
 import 'package:hadja_grish/providers/auth_provider.dart';
 import 'package:hadja_grish/providers/cart_provider.dart';
 import 'package:hadja_grish/screens/cart/widgets/maps.dart';
@@ -22,6 +24,7 @@ class AddressLivraison extends StatefulWidget {
 
 class _AddressLivraisonState extends State<AddressLivraison> {
   ServicesApiOrders api = ServicesApiOrders();
+  final NotificationServices notiApi = NotificationServices();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController address = TextEditingController();
   final TextEditingController telephone = TextEditingController();
@@ -96,6 +99,8 @@ class _AddressLivraisonState extends State<AddressLivraison> {
       final body = jsonDecode(response.body);
       print(order);
       if (response.statusCode == 201) {
+        OrdersModel order = OrdersModel.fromJson(body["order"]);
+        _sendNotification(order);
         cartprovider.clearCart();
         api.showSnackBarSuccessPersonalized(context, body["message"]);
       }else{
@@ -105,6 +110,29 @@ class _AddressLivraisonState extends State<AddressLivraison> {
       Exception(e);
     }
    }
+  }
+
+  Future<void> _sendNotification(order) async {
+
+    final data = {
+      'userId': "67bdc9247055b3637cb8ba51",
+      'orderId': order?.id,
+      'message': 'Vous avez une nouvelle commande pour un client',
+      'createdAt': DateTime.now().toIso8601String(),
+    };
+
+    try {
+      final response = await notiApi.postNotifications(data);
+      if (response.statusCode == 200) {
+      //   socket.emit('livreur-selectionne', {
+      //     'userId': deliveryId,
+      //     'message': data['message'],
+      //     'orderId': widget.order.id
+      //   });
+      }
+    } catch (e) {
+      // Gestion d'erreur
+    }
   }
 
   @override
