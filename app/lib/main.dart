@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
+import "package:hadja_grish/components/notification_service_local.dart";
 import "package:hadja_grish/components/splash.dart";
 import "package:hadja_grish/providers/auth_provider.dart";
 import "package:hadja_grish/providers/cart_provider.dart";
@@ -7,8 +8,13 @@ import "package:hadja_grish/providers/favorite_provider.dart";
 import "package:hadja_grish/providers/user_provider.dart";
 import "package:hadja_grish/screens/auth/login_page.dart";
 import 'package:provider/provider.dart';
+import "package:timezone/data/latest.dart" as tz;
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final notificationService = NotificationService();
+  await notificationService.init();
+  tz.initializeTimeZones();
   runApp(
     MultiProvider(
     providers: [

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/api/notification_api.dart';
+import 'package:hadja_grish/components/notification_service_local.dart';
 import 'package:hadja_grish/constants/app_size.dart';
 import 'package:hadja_grish/models/notification_model.dart';
 import 'package:hadja_grish/providers/auth_provider.dart';
@@ -19,6 +20,7 @@ class NotificationView extends StatefulWidget {
 
 class _NotificationViewState extends State<NotificationView> {
   final NotificationServices api = NotificationServices();
+  final NotificationService notificationService = NotificationService();
 
   Future<List<NotificationModel>> _getNotification() async {
     final provider = Provider.of<AuthProvider>(context, listen: false);
@@ -27,6 +29,13 @@ class _NotificationViewState extends State<NotificationView> {
       final res = await api.getNotifications(userId);
       final body = jsonDecode(res.body);
       if (res.statusCode == 200) {
+        List<NotificationModel> notifications = (body["notifications"] as List)
+            .map((json) => NotificationModel.fromJson(json))
+            .toList();
+        notifications
+            .map((elment) => notificationService.showNotification(
+                id: 1, title: elment.username, body: elment.message))
+            .toList();
         return (body["notifications"] as List)
             .map((json) => NotificationModel.fromJson(json))
             .toList();
