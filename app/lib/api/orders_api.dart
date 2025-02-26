@@ -58,7 +58,7 @@ class ServicesApiOrders{
 
 //OBTENIR UN SEUL ARTICLE
   getOneOrder(id) async {
-    var uri = "$domaineName/orders/$id";
+    var uri = "$domaineName/orders/one/$id";
     return await http.get(
       Uri.parse(uri),
       headers: {
