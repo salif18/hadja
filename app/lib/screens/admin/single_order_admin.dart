@@ -27,7 +27,8 @@ class SingleOrder extends StatefulWidget {
 
 class _SingleOrderState extends State<SingleOrder> {
   String? deliveryId;
-  IO.Socket? socket; // Déclarez socket comme nullable
+  late IO.Socket socket;
+// Déclarez socket comme nullable
 
   final ServicesApiOrders api = ServicesApiOrders();
   final NotificationServices notiApi = NotificationServices();
@@ -39,6 +40,10 @@ class _SingleOrderState extends State<SingleOrder> {
   @override
   void initState() {
     super.initState();
+    socket = IO.io(
+        "https://hadja-store-node.vercel.app",
+        IO.OptionBuilder().setTransports(["websocket"]).setQuery(
+            {"userId": deliveryId}).build());
     _getLibery().then((_) {
       if (_liberyData.isNotEmpty) {
         deliveryId = _liberyData.first.userId; // Initialisez deliveryId
@@ -53,34 +58,24 @@ class _SingleOrderState extends State<SingleOrder> {
       return;
     }
 
-    socket = IO.io(
-      // 'http://10.0.2.2:8080',
-      "https://hadja-store-node.vercel.app/api",
-      {
-        'transports': ['websocket'],
-        'autoConnect': true,
-        'query': {'userId': deliveryId},
-      },
-    );
-
-    socket?.onConnect((_) {
+    socket.onConnect((_) {
       print('Connecté au serveur WebSocket');
-      socket?.emit('join-room', deliveryId);
+      socket.emit('join-room', deliveryId);
     });
 
-    socket?.onDisconnect((_) {
+    socket.onDisconnect((_) {
       print("Déconnecté du WebSocket");
     });
 
-    socket?.onConnectError((err) {
+    socket.onConnectError((err) {
       print('Erreur de connexion WebSocket: $err');
     });
 
-    socket?.onError((err) {
+    socket.onError((err) {
       print('Erreur WebSocket: $err');
     });
 
-    socket?.connect();
+    // socket.connect();
   }
 
   Future<void> _getLibery() async {
@@ -131,7 +126,7 @@ class _SingleOrderState extends State<SingleOrder> {
   }
 
   Future<void> _sendNotification(String? deliveryId) async {
-    if (deliveryId == null || socket == null) {
+    if (deliveryId == null ) {
       print("Erreur : deliveryId ou socket est null !");
       return;
     }
@@ -146,7 +141,7 @@ class _SingleOrderState extends State<SingleOrder> {
     try {
       final response = await notiApi.postNotifications(data);
       if (response.statusCode == 201) {
-        socket?.emit('livreur-selectionne', {
+        socket.emit('livreur-selectionne', {
           'userId': deliveryId,
           'orderId': widget.order.id,
           "username": livreur.name,
@@ -162,8 +157,8 @@ class _SingleOrderState extends State<SingleOrder> {
 
   @override
   void dispose() {
-    socket?.disconnect();
-    socket?.clearListeners();
+    socket.disconnect();
+    socket.clearListeners();
     super.dispose();
   }
 

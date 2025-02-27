@@ -19,8 +19,7 @@ void main() async {
   final notificationService = NotificationService();
   await notificationService.init();
   tz.initializeTimeZones();
-  runApp(
-    MultiProvider(
+  runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => AuthProvider()),
       ChangeNotifierProvider(create: (context) => UserInfosProvider()),
@@ -39,52 +38,51 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
- final NotificationService notificationService = NotificationService();
-   late IO.Socket socket;
-   
+  final NotificationService notificationService = NotificationService();
+  late IO.Socket socket;
+
   @override
-  void initState() {
+  void initState() async {
+    final provider = Provider.of<AuthProvider>(context, listen: false);
+    final userId = await provider.userId(); //
     super.initState();
+    socket = IO.io(
+        "https://hadja-store-node.vercel.app",
+        IO.OptionBuilder()
+            .setTransports(["websocket"]).setQuery({"userId": userId}).build());
     _connectToSocket();
   }
 
-   Future<void> _connectToSocket() async {
-  final provider = Provider.of<AuthProvider>(context, listen: false);
-  final userId = await provider.userId();  // Assure-toi que userId est bien récupéré
-  
-  if (userId == null || userId.isEmpty) {
-    print("Erreur : userId est null ou vide !");
-    return;
-  }
-
-  socket = IO.io("https://hadja-store-node.vercel.app/api");
-  //  {
-  //   'transports': ['websocket'],
-  //   'autoConnect': true,
-  //   'query': {'userId': userId}
-  // });
-
-  socket.onConnect((_) {
-    print("Connexion WebSocket réussie !");
-    // socket.emit('join-room', userId);
-  });
-
-  socket.on("nouvelle-notification", (data){
-    print(data);
-    notificationService.showNotification(
-      id:data.orderId,
-      title:data.userId,
-      body:data.message
-    );
+  Future<void> _connectToSocket() async {
+    final provider = Provider.of<AuthProvider>(context, listen: false);
+    final userId = await provider.userId();
+    socket.onConnect((_) {
+      print('Connecté au serveur WebSocket');
+      socket.emit('join-room', userId);
     });
-}
 
+    socket.on("nouvelle-notification", (data) {
+      print(data);
+      notificationService.showNotification(
+          id: data.orderId, title: data.username, body: data.message);
+    });
+    socket.onDisconnect((_) {
+      print("Déconnecté du WebSocket");
+    });
+
+    socket.onConnectError((err) {
+      print('Erreur de connexion WebSocket: $err');
+    });
+
+    socket.onError((err) {
+      print('Erreur WebSocket: $err');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-     SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(statusBarColor: Colors.transparent)
-    );
+    SystemChrome.setSystemUIOverlayStyle(
+        const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Longrish",
