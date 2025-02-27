@@ -26,22 +26,61 @@ class SingleOrder extends StatefulWidget {
 }
 
 class _SingleOrderState extends State<SingleOrder> {
+  String? deliveryId;
+  IO.Socket? socket; // Déclarez socket comme nullable
+
   final ServicesApiOrders api = ServicesApiOrders();
   final NotificationServices notiApi = NotificationServices();
-  late IO.Socket socket;
-  List<String> notifications = [];
-
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
   final ServicesApiDelibery apiDelibery = ServicesApiDelibery();
 
   List<ProfilModel> _liberyData = [];
-  String? deliveryId;
 
   @override
   void initState() {
     super.initState();
-    _getLibery();
-    _connectToSocket();
+    _getLibery().then((_) {
+      if (_liberyData.isNotEmpty) {
+        deliveryId = _liberyData.first.userId; // Initialisez deliveryId
+        _connectToSocket();
+      }
+    });
+  }
+
+  void _connectToSocket() {
+    if (deliveryId == null || deliveryId!.isEmpty) {
+      print("Erreur : deliveryId est null ou vide !");
+      return;
+    }
+
+    socket = IO.io(
+      // 'http://10.0.2.2:8080',
+      "https://hadja-store-node.vercel.app/api",
+      {
+        'transports': ['websocket'],
+        'autoConnect': true,
+        'query': {'userId': deliveryId},
+      },
+    );
+
+    socket?.onConnect((_) {
+      print('Connecté au serveur WebSocket');
+      socket?.emit('join-room', deliveryId);
+    });
+
+    socket?.onDisconnect((_) {
+      print("Déconnecté du WebSocket");
+    });
+
+    socket?.onConnectError((err) {
+      print('Erreur de connexion WebSocket: $err');
+    });
+
+    socket?.onError((err) {
+      print('Erreur WebSocket: $err');
+    });
+
+    socket?.connect();
   }
 
   Future<void> _getLibery() async {
@@ -79,9 +118,9 @@ class _SingleOrderState extends State<SingleOrder> {
       final body = jsonDecode(response.body);
       Navigator.pop(context); // Close the dialog
 
-      if (response.statusCode == 200) {
-        _sendNotification();
-         api.showSnackBarSuccessPersonalized(context, body["message"]);
+      if (response.statusCode == 201) {
+        _sendNotification(deliveryId);
+        api.showSnackBarSuccessPersonalized(context, body["message"]);
       } else {
         api.showSnackBarErrorPersonalized(context, body["message"]);
       }
@@ -91,42 +130,41 @@ class _SingleOrderState extends State<SingleOrder> {
     }
   }
 
-  void _connectToSocket() {
-    socket = IO.io('https://hadja-store-node.vercel.app/api', {
-      // Utilisez l'IP locale pour Android
-      'transports': ['websocket'],
-      'autoConnect': true,
-      'query': {'userId': deliveryId} // Ajoutez l'ID du livreur
-    });
-
-    socket.onConnect((_) {
-      socket.emit(
-          'join-room', deliveryId); // Rejoindre la salle après connexion
-    });
-  }
-
-  Future<void> _sendNotification() async {
-    if (deliveryId == null) return;
-
+  Future<void> _sendNotification(String? deliveryId) async {
+    if (deliveryId == null || socket == null) {
+      print("Erreur : deliveryId ou socket est null !");
+      return;
+    }
+    final livreur = _liberyData.firstWhere((e) => e.userId == deliveryId);
     final data = {
       'userId': deliveryId,
       'orderId': widget.order.id,
+      "username": livreur.name,
       'message': 'Vous avez une nouvelle commande à livrer',
-      'createdAt': DateTime.now().toIso8601String(),
     };
 
     try {
       final response = await notiApi.postNotifications(data);
-      if (response.statusCode == 200) {
-        socket.emit('livreur-selectionne', {
+      if (response.statusCode == 201) {
+        socket?.emit('livreur-selectionne', {
           'userId': deliveryId,
+          'orderId': widget.order.id,
+          "username": livreur.name,
           'message': data['message'],
-          'orderId': widget.order.id
         });
+      } else {
+        print("Erreur lors de l'envoi de la notification : ${response.body}");
       }
     } catch (e) {
-      // Gestion d'erreur
+      print("Erreur de connexion à l'API : $e");
     }
+  }
+
+  @override
+  void dispose() {
+    socket?.disconnect();
+    socket?.clearListeners();
+    super.dispose();
   }
 
   @override

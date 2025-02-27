@@ -14,11 +14,11 @@ class NotificationService {
 
   // Configuration pour Android
   final AndroidInitializationSettings _androidInitializationSettings =
-      const AndroidInitializationSettings('assets/logos/logo3.jpg');
+      const AndroidInitializationSettings('@mipmap/ic_launcher');
 
   // Configuration pour iOS
   final DarwinInitializationSettings _iOSInitializationSettings =
-    const DarwinInitializationSettings(
+      const DarwinInitializationSettings(
     requestAlertPermission: true,
     requestBadgePermission: true,
     requestSoundPermission: true,
