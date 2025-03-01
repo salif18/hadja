@@ -28,9 +28,9 @@ class SingleOrder extends StatefulWidget {
 }
 
 class _SingleOrderState extends State<SingleOrder> {
-  FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  // FirebaseFirestore _firestore = FirebaseFirestore.instance;
   String? deliveryId;
-  late IO.Socket socket;
+  // late IO.Socket socket;
 // Déclarez socket comme nullable
 
   final ServicesApiOrders api = ServicesApiOrders();
@@ -39,47 +39,61 @@ class _SingleOrderState extends State<SingleOrder> {
   final ServicesApiDelibery apiDelibery = ServicesApiDelibery();
 
   List<ProfilModel> _liberyData = [];
+ String? _token;
 
   @override
   void initState() {
     super.initState();
-    socket = IO.io(
-        "http://10.0.2.2:8080",
-        IO.OptionBuilder().setTransports(["websocket"]).setQuery(
-            {"userId": deliveryId}).build());
-    _getLibery().then((_) {
-      if (_liberyData.isNotEmpty) {
-        deliveryId = _liberyData.first.userId; // Initialisez deliveryId
-        _connectToSocket();
-      }
-    });
+     getTokenFCM();
+    // socket = IO.io(
+    //     "http://10.0.2.2:8080",
+    //     IO.OptionBuilder().setTransports(["websocket"]).setQuery(
+    //         {"userId": deliveryId}).build());
+    // _getLibery().then((_) {
+    //   if (_liberyData.isNotEmpty) {
+    //     deliveryId = _liberyData.first.userId; // Initialisez deliveryId
+    //     _connectToSocket();
+    //   }
+    // });
   }
 
-  void _connectToSocket() {
-    if (deliveryId == null || deliveryId!.isEmpty) {
-      print("Erreur : deliveryId est null ou vide !");
-      return;
-    }
+  Future<void> getTokenFCM() async {
+  String? token = await FirebaseMessaging.instance.getToken();
+  print("FCM Token: $token");
+  if (token == null) {
+  print("Erreur : Token Firebase est null !");
+  return;
+}
+  setState(() {
+    _token = token;
+  });
+}
 
-    socket.onConnect((_) {
-      print('Connecté au serveur WebSocket');
-      socket.emit('join-room', deliveryId);
-    });
+  // void _connectToSocket() {
+  //   if (deliveryId == null || deliveryId!.isEmpty) {
+  //     print("Erreur : deliveryId est null ou vide !");
+  //     return;
+  //   }
 
-    socket.onDisconnect((_) {
-      print("Déconnecté du WebSocket");
-    });
+  //   socket.onConnect((_) {
+  //     print('Connecté au serveur WebSocket');
+  //     socket.emit('join-room', deliveryId);
+  //   });
 
-    socket.onConnectError((err) {
-      print('Erreur de connexion WebSocket: $err');
-    });
+  //   socket.onDisconnect((_) {
+  //     print("Déconnecté du WebSocket");
+  //   });
 
-    socket.onError((err) {
-      print('Erreur WebSocket: $err');
-    });
+  //   socket.onConnectError((err) {
+  //     print('Erreur de connexion WebSocket: $err');
+  //   });
 
-    // socket.connect();
-  }
+  //   socket.onError((err) {
+  //     print('Erreur WebSocket: $err');
+  //   });
+
+  //   // socket.connect();
+  // }
 
   Future<void> _getLibery() async {
     try {
@@ -135,13 +149,13 @@ class _SingleOrderState extends State<SingleOrder> {
     }
     final livreur = _liberyData.firstWhere((e) => e.userId == deliveryId);
     
-    final token = await FirebaseMessaging.instance.getToken();
-if (token == null) {
-  print("Erreur : Token Firebase est null !");
-  return;
-}
+//     final token = await FirebaseMessaging.instance.getToken();
+// if (token == null) {
+//   print("Erreur : Token Firebase est null !");
+//   return;
+// }
     final data = {
-      'fcmToken': token,
+      'fcmToken': _token,
       'userId': deliveryId,
       'orderId': widget.order.id,
       "username": livreur.name,
@@ -151,18 +165,18 @@ if (token == null) {
     try {
       final response = await notiApi.postNotifications(data);
       if (response.statusCode == 201) {
-        _firestore.collection("notifications").add({
-          'userId': deliveryId,
-          'orderId': widget.order.id,
-          "username": livreur.name,
-          'message': data['message'],
-        }).then((reponse) => print(reponse.id));
-        socket.emit('post-livreur', {
-          'userId': deliveryId,
-          'orderId': widget.order.id,
-          "username": livreur.name,
-          'message': data['message'],
-        });
+        // _firestore.collection("notifications").add({
+        //   'userId': deliveryId,
+        //   'orderId': widget.order.id,
+        //   "username": livreur.name,
+        //   'message': data['message'],
+        // }).then((reponse) => print(reponse.id));
+        // socket.emit('post-livreur', {
+        //   'userId': deliveryId,
+        //   'orderId': widget.order.id,
+        //   "username": livreur.name,
+        //   'message': data['message'],
+        // });
       } else {
         print("Erreur lors de l'envoi de la notification : ${response.body}");
       }
@@ -171,12 +185,12 @@ if (token == null) {
     }
   }
 
-  @override
-  void dispose() {
-    socket.disconnect();
-    socket.clearListeners();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   socket.disconnect();
+  //   socket.clearListeners();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
