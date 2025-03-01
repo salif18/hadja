@@ -60,8 +60,7 @@ class _CardOrderAdminState extends State<CardOrderAdmin> {
         padding: EdgeInsets.all(widget.constraints.maxWidth *
             AppSizes.converValueToadapter(context, 8)),
         child: Container(
-          height: widget.constraints.maxWidth *
-              AppSizes.converValueToadapter(context, 180),
+        
           width: widget.constraints.maxWidth,
           padding: EdgeInsets.all(widget.constraints.maxWidth *
               AppSizes.converValueToadapter(context, 15)),

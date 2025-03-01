@@ -35,8 +35,8 @@ class _AdminOdersState extends State<AdminOders> {
                   icon: Icon(Icons.arrow_back_ios_new_rounded, size: constraints.maxWidth * AppSizes.converValueToadapter(context, 24))),
               bottom: TabBar(
                   isScrollable: true,
-                  indicatorColor: Colors.blue,
-                  labelColor: Colors.blue,
+                  indicatorColor: Colors.blueGrey,
+                  labelColor: Colors.blueGrey,
                   indicatorWeight: 2.3,
                   labelPadding: EdgeInsets.only(
                     left: constraints.maxWidth * AppSizes.converValueToadapter(context, 10), 

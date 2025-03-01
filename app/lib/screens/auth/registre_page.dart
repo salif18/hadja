@@ -103,7 +103,7 @@ class _RegistrePageState extends State<RegistrePage> {
               Padding(
                 padding: EdgeInsets.only(top: constraints.maxWidth * AppSizes.converValueToadapter(context,20)),
                 child: Image.asset(
-                  "assets/logos/logo4.jpg",
+                  "assets/logos/logo1.jpg",
                   width: constraints.maxWidth * AppSizes.converValueToadapter(context,150),
                   height: constraints.maxWidth * AppSizes.converValueToadapter(context,150),
                 ),

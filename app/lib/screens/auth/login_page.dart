@@ -92,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
               Padding(
                 padding:  EdgeInsets.only(top: constraints.maxWidth * AppSizes.converValueToadapter(context, 50)),
                 child: Image.asset(
-                  "assets/logos/logo4.jpg",
+                  "assets/logos/logo1.jpg",
                   width: constraints.maxWidth * AppSizes.converValueToadapter(context, 150),
                   height: constraints.maxWidth * AppSizes.converValueToadapter(context, 150),
                 ),
