@@ -62,6 +62,7 @@ class _MyAppState extends State<MyApp> {
   void setupFirebaseMessaging() async {
     final provider = Provider.of<AuthProvider>(context, listen: false);
     final userId = await provider.userId(); // Attendre que userId soit résolu
+
     FirebaseMessaging.instance.getToken().then((token) async {
       print("Firebase Token: $token"); // À envoyer au backend
       try {
@@ -78,42 +79,25 @@ class _MyAppState extends State<MyApp> {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       print("Notification reçue : ${message.notification?.title}");
 
-      notificationService.showNotification(
-              id: 1, // Convertir en int
-              title: message.notification?.title,
-              body: message.notification!.body ?? ""
-            );
-      
+      // 🔹 Vérifier si la notification contient un titre
+      String? title = message.notification?.title ?? message.data["title"];
+      String? body = message.notification?.body ?? message.data["body"];
+
+      if (title != null && body != null) {
+        notificationService.showNotification(
+          id: 0,
+          title: title,
+          body: body,
+        );
+      } else {
+        print("Aucune notification reçue avec un titre valide !");
+      }
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print("Notification cliquée : ${message.notification?.title}");
     });
   }
-
-  // void getNotifications(String userId) async {
-  //   try {
-  //     QuerySnapshot querySnapshot = await _firestore
-  //         .collection('notifications')
-  //         .where('userId', isEqualTo: userId)
-  //         .get();
-
-  //     if (querySnapshot.docs.isNotEmpty) {
-  //       for (var doc in querySnapshot.docs) {
-  //         final data = doc.data() as Map<String, dynamic>;
-  //         print("Notification : ${data}");
-  //         notificationService.showNotification(
-  //             id: int.parse(data["orderId"]), // Convertir en int
-  //             title: data["username"],
-  //             body: data["message"]);
-  //       }
-  //     } else {
-  //       print("Aucune notification trouvée pour l'utilisateur $userId");
-  //     }
-  //   } catch (e) {
-  //     print("Erreur lors de la récupération des notifications: $e");
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {

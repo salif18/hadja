@@ -28,14 +28,7 @@ class _NotificationViewState extends State<NotificationView> {
     try {
       final res = await api.getNotifications(userId);
       final body = jsonDecode(res.body);
-      if (res.statusCode == 200) {
-        List<NotificationModel> notifications = (body["notifications"] as List)
-            .map((json) => NotificationModel.fromJson(json))
-            .toList();
-        notifications
-            .map((elment) => notificationService.showNotification(
-                id: 1, title: elment.username, body: elment.message))
-            .toList();
+      if (res.statusCode == 200) {  
         return (body["notifications"] as List)
             .map((json) => NotificationModel.fromJson(json))
             .toList();
