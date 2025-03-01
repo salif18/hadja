@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hadja_grish/constants/app_size.dart';
+import 'package:hadja_grish/screens/admin/order_annuler.dart';
 import 'package:hadja_grish/screens/admin/order_en_cours_page.dart';
 import 'package:hadja_grish/screens/admin/order_livrer_page.dart';
 
@@ -17,7 +18,7 @@ class _AdminOdersState extends State<AdminOders> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: LayoutBuilder(
         builder:(context,constraints){
           return Scaffold(
@@ -34,21 +35,28 @@ class _AdminOdersState extends State<AdminOders> {
                   icon: Icon(Icons.arrow_back_ios_new_rounded, size: constraints.maxWidth * AppSizes.converValueToadapter(context, 24))),
               bottom: TabBar(
                   isScrollable: true,
-                  indicatorColor: const Color.fromARGB(255, 5, 191, 100),
-                  indicatorWeight: 4.3,
+                  indicatorColor: Colors.blue,
+                  labelColor: Colors.blue,
+                  indicatorWeight: 2.3,
                   labelPadding: EdgeInsets.only(
-                    left: constraints.maxWidth * AppSizes.converValueToadapter(context, 50), 
-                    right: constraints.maxWidth * AppSizes.converValueToadapter(context, 50)),
+                    left: constraints.maxWidth * AppSizes.converValueToadapter(context, 10), 
+                    right: constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
                   tabs: [
                     Tab(
-                      child: Text("En attente",
+                      child: Text("Commandes en attentes",
                           style: GoogleFonts.roboto(
-                              fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 14), fontWeight: FontWeight.w400)),
+                            
+                              fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.bold)),
                     ),
                     Tab(
-                      child: Text("Livré",
+                      child: Text("Commandes livrées",
                           style: GoogleFonts.roboto(
-                              fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 14), fontWeight: FontWeight.w400)),
+                              fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.bold)),
+                    ),
+                    Tab(
+                      child: Text("Commandes annulées",
+                          style: GoogleFonts.roboto(
+                              fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.bold)),
                     ),
                   ]),
             ),
@@ -56,6 +64,7 @@ class _AdminOdersState extends State<AdminOders> {
               children: [
                 Tab(child: OrderEnCours(constraints:constraints)),
                 Tab(child: OrderLivrer(constraints:constraints)),
+                Tab(child: OrderAnnuler(constraints:constraints)),
               ],
             ));
         }

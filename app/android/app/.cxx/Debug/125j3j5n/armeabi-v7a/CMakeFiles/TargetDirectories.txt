@@ -1,0 +1,2 @@
+C:/Users/KONATE/Documents/Devapp/flutter_la_hadja_shop/app/android/app/.cxx/Debug/125j3j5n/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/KONATE/Documents/Devapp/flutter_la_hadja_shop/app/android/app/.cxx/Debug/125j3j5n/armeabi-v7a/CMakeFiles/rebuild_cache.dir

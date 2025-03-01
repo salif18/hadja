@@ -69,10 +69,12 @@ class ServicesApiOrders{
   }
 
   //MIS A JOURS DU STATUT DE LIVRAISON
-  updateStatutOrders(data) async {
-    var uri = "$domaineName/orders/statut/{}";
+  updateStatutOrders(data,orderId) async {
+    var uri = "$domaineName/orders/statut_of_delibery/$orderId";
     return await http.put(
       Uri.parse(uri),
+       body: jsonEncode(
+            {"newStatus": data}),
       headers: {
        "Content-Type": "application/json",
             "Authorization": "Bearer "
@@ -81,8 +83,8 @@ class ServicesApiOrders{
   }
 
   //SUPPRIMER UNE COMMANDE
-  deleteOrder(data) async {
-    var uri = "$domaineName/orders/{}";
+  cancelOrder(data,orderId) async {
+    var uri = "$domaineName/orders/statut_of_delibery/$orderId";
     return await http.delete(
       Uri.parse(uri),
       headers: {
@@ -159,6 +161,19 @@ class ServicesApiOrders{
           },
     );
   }
+
+
+  //OBTENIR COMMANDES LIVRER
+  getAllOrdersAnnuler()async{
+    var uri = "$domaineName/orders/status/${"Annuler"}";
+    return await http.get(Uri.parse(uri),
+     headers: {
+           "Content-Type": "application/json",
+            "Authorization": "Bearer "
+          },
+    );
+  }
+
 
 
   //message en cas de succès!

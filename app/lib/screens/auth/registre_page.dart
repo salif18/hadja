@@ -93,7 +93,7 @@ class _RegistrePageState extends State<RegistrePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.blueGrey,
       body: LayoutBuilder(
         builder: (context, constraints){
           return SingleChildScrollView(
@@ -109,7 +109,7 @@ class _RegistrePageState extends State<RegistrePage> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: constraints.maxWidth * AppSizes.converValueToadapter(context,8)),
+                padding: EdgeInsets.only(left: constraints.maxWidth * AppSizes.converValueToadapter(context,8),top: constraints.maxWidth * AppSizes.converValueToadapter(context,20)),
                 child: Text("Aw bissimilah",
                     style: GoogleFonts.aclonica(
                         fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context,25),
@@ -117,7 +117,7 @@ class _RegistrePageState extends State<RegistrePage> {
                         color: Colors.white)),
               ),
               Padding(
-                padding: EdgeInsets.only(top: constraints.maxWidth * AppSizes.converValueToadapter(context,29)),
+                padding: EdgeInsets.only(top: constraints.maxWidth * AppSizes.converValueToadapter(context,15)),
                 child: Container(
                   height: constraints.maxWidth * AppSizes.converValueToadapter(context,700),
                   width: double.infinity,
@@ -126,7 +126,7 @@ class _RegistrePageState extends State<RegistrePage> {
                     left: constraints.maxWidth * AppSizes.converValueToadapter(context,15), 
                     right: constraints.maxWidth * AppSizes.converValueToadapter(context,15)),
                   decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: const Color(0xff1d1a30),
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.elliptical(constraints.maxWidth * AppSizes.converValueToadapter(context,50), constraints.maxWidth * AppSizes.converValueToadapter(context,20)),
                         topRight: Radius.elliptical(constraints.maxWidth * AppSizes.converValueToadapter(context,50), constraints.maxWidth * AppSizes.converValueToadapter(context,20)),
@@ -242,7 +242,7 @@ class _RegistrePageState extends State<RegistrePage> {
                         child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               minimumSize: Size(constraints.maxWidth * AppSizes.converValueToadapter(context,400), constraints.maxWidth * AppSizes.converValueToadapter(context,40)),
-                              backgroundColor: const Color(0xff1d1a30),
+                              backgroundColor: Colors.blueGrey,
                             ),
                             onPressed: () {
                               _sendToserver(context);
@@ -258,7 +258,7 @@ class _RegistrePageState extends State<RegistrePage> {
                           children: [
                             Text(
                               "Vous avez déjà un compte ?",
-                              style: GoogleFonts.roboto(fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context,14)),
+                              style: GoogleFonts.roboto(color: Colors.white,fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context,14)),
                             ),
                             TextButton(
                                 onPressed: () {
@@ -273,7 +273,7 @@ class _RegistrePageState extends State<RegistrePage> {
                                   style: GoogleFonts.roboto(
                                     fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context,14),
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.blue[400],
+                                    color: Colors.blueGrey,
                                   ),
                                 ))
                           ],

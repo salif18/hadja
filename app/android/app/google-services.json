@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "167832364896",
+    "project_id": "hadja-store",
+    "storage_bucket": "hadja-store.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:167832364896:android:a7782b2b31a9c3cdb6a005",
+        "android_client_info": {
+          "package_name": "com.example.hadja_grish"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCj68lu_WLSWGClCq9FE5kpPkDU4qFjW30"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

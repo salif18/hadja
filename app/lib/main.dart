@@ -1,5 +1,6 @@
 import "dart:io";
 
+import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:hadja_grish/components/notification_service_local.dart";
@@ -13,8 +14,14 @@ import 'package:provider/provider.dart';
 import "package:socket_io_client/socket_io_client.dart";
 import "package:timezone/data/latest.dart" as tz;
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   WidgetsFlutterBinding.ensureInitialized();
   final notificationService = NotificationService();
   await notificationService.init();
@@ -38,19 +45,55 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final NotificationService notificationService = NotificationService();
   late IO.Socket socket;
 
   @override
-  void initState() async {
+void initState() {
+  super.initState();
+
+  WidgetsBinding.instance.addPostFrameCallback((_) {
     final provider = Provider.of<AuthProvider>(context, listen: false);
-    final userId = await provider.userId(); //
-    super.initState();
+    final userId = provider.userId();
+
+    // Initialisation de la socket
     socket = IO.io(
-        "https://hadja-store-node.vercel.app",
-        IO.OptionBuilder()
-            .setTransports(["websocket"]).setQuery({"userId": userId}).build());
+      "http://10.0.2.2:8080",
+      IO.OptionBuilder()
+          .setTransports(["websocket"])
+          .setQuery({"userId": userId})
+          .build(),
+    );
+
     _connectToSocket();
+    getNotifications(userId.toString());
+  });
+}
+
+  void getNotifications(String userId) {
+    _firestore
+        .collection('notifications')
+        .get()
+        .then((querySnapshot) {
+      // Parcourir chaque document dans le QuerySnapshot
+      for (var doc in querySnapshot.docs) {
+        // Accéder aux données du document
+        print(doc.data());
+        // Appeler showNotification avec les données du document
+        notificationService.showNotification(
+          id: doc[
+              'orderId'], // Assurez-vous que 'orderId' existe dans le document
+          title: doc[
+              'username'], // Assurez-vous que 'username' existe dans le document
+          body: doc[
+              'message'], // Assurez-vous que 'message' existe dans le document
+        );
+      }
+    }).catchError((error) {
+      // Gérer les erreurs
+      print("Erreur lors de la récupération des notifications: $error");
+    });
   }
 
   Future<void> _connectToSocket() async {
@@ -61,7 +104,7 @@ class _MyAppState extends State<MyApp> {
       socket.emit('join-room', userId);
     });
 
-    socket.on("nouvelle-notification", (data) {
+    socket.on("get-notification", (data) {
       print(data);
       notificationService.showNotification(
           id: data.orderId, title: data.username, body: data.message);

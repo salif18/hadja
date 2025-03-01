@@ -82,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.blueGrey,
       body: LayoutBuilder(
         builder: (context , constraints){
           return  SingleChildScrollView(
@@ -100,7 +100,9 @@ class _LoginPageState extends State<LoginPage> {
               Padding(
                 padding: EdgeInsets.only(
                   left: constraints.maxWidth * AppSizes.converValueToadapter(context, 8),
-                  bottom: constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
+                  top: constraints.maxWidth * AppSizes.converValueToadapter(context,20),
+                  // bottom: constraints.maxWidth * AppSizes.converValueToadapter(context, 20)
+                  ),
                 child: Text("Aw bissimilah",
                     style: GoogleFonts.aclonica(
                         fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 25),
@@ -108,7 +110,7 @@ class _LoginPageState extends State<LoginPage> {
                         color: Colors.white)),
               ),
               Padding(
-                padding: EdgeInsets.only(top: constraints.maxWidth * AppSizes.converValueToadapter(context, 29),),
+                padding: EdgeInsets.only(top: constraints.maxWidth * AppSizes.converValueToadapter(context, 15),),
                 child: Container(
                   height: constraints.maxWidth * AppSizes.converValueToadapter(context, 620),
                   width: double.infinity,
@@ -117,7 +119,7 @@ class _LoginPageState extends State<LoginPage> {
                     left: constraints.maxWidth * AppSizes.converValueToadapter(context, 15), 
                     right: constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
                   decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: const Color(0xff1d1a30),
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.elliptical(constraints.maxWidth * AppSizes.converValueToadapter(context, 50), constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
                         topRight: Radius.elliptical(constraints.maxWidth * AppSizes.converValueToadapter(context, 50), constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
@@ -193,7 +195,7 @@ class _LoginPageState extends State<LoginPage> {
                                 child: Text(
                                   "Mot de passe oublié ?",
                                   style: GoogleFonts.roboto(
-                                      fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context, 12), color: Colors.blue[400],),
+                                      fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context, 12), color: Colors.blueGrey,),
                                 ))
                           ],
                         ),
@@ -204,7 +206,7 @@ class _LoginPageState extends State<LoginPage> {
                             style: ElevatedButton.styleFrom(
                               minimumSize:  Size(constraints.maxWidth * AppSizes.converValueToadapter(context, 400), constraints.maxWidth * AppSizes.converValueToadapter(context, 40)),
                               backgroundColor:
-                                  const Color(0xff1d1a30),
+                                  Colors.blueGrey,
                             ),
                             onPressed: () {
                               _sendToserver(context);
@@ -220,7 +222,7 @@ class _LoginPageState extends State<LoginPage> {
                           children: [
                             Text(
                               "Vous n'avez pas de compte ?",
-                              style: GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 14)),
+                              style: GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 14),color: Colors.white),
                             ),
                             TextButton(
                                 onPressed: () {
@@ -231,7 +233,7 @@ class _LoginPageState extends State<LoginPage> {
                                   style: GoogleFonts.roboto(
                                       fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.blue[400],),
+                                      color: Colors.blueGrey,),
                                 ))
                           ],
                         ),

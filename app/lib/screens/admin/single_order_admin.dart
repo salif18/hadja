@@ -14,6 +14,7 @@ import 'package:hadja_grish/models/user.dart';
 import 'package:hadja_grish/screens/admin/admin_track_move.dart';
 import 'package:intl/intl.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SingleOrder extends StatefulWidget {
   final OrdersModel order;
@@ -26,6 +27,7 @@ class SingleOrder extends StatefulWidget {
 }
 
 class _SingleOrderState extends State<SingleOrder> {
+  FirebaseFirestore _firestore = FirebaseFirestore.instance;
   String? deliveryId;
   late IO.Socket socket;
 // Déclarez socket comme nullable
@@ -41,7 +43,7 @@ class _SingleOrderState extends State<SingleOrder> {
   void initState() {
     super.initState();
     socket = IO.io(
-        "https://hadja-store-node.vercel.app",
+        "http://10.0.2.2:8080",
         IO.OptionBuilder().setTransports(["websocket"]).setQuery(
             {"userId": deliveryId}).build());
     _getLibery().then((_) {
@@ -141,7 +143,13 @@ class _SingleOrderState extends State<SingleOrder> {
     try {
       final response = await notiApi.postNotifications(data);
       if (response.statusCode == 201) {
-        socket.emit('livreur-selectionne', {
+        _firestore.collection("notifications").add({
+          'userId': deliveryId,
+          'orderId': widget.order.id,
+          "username": livreur.name,
+          'message': data['message'],
+        }).then((reponse) => print(reponse.id));
+        socket.emit('post-livreur', {
           'userId': deliveryId,
           'orderId': widget.order.id,
           "username": livreur.name,
