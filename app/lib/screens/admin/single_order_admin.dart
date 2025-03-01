@@ -5,6 +5,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hadja_grish/api/auth_api.dart';
 import 'package:hadja_grish/api/livreurs_api.dart';
 import 'package:hadja_grish/api/notification_api.dart';
 import 'package:hadja_grish/api/orders_api.dart';
@@ -13,9 +14,9 @@ import 'package:hadja_grish/models/orders_model.dart';
 import 'package:hadja_grish/models/user.dart';
 import 'package:hadja_grish/screens/admin/admin_track_move.dart';
 import 'package:intl/intl.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:socket_io_client/socket_io_client.dart' as IO;
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 
 class SingleOrder extends StatefulWidget {
   final OrdersModel order;
@@ -32,42 +33,48 @@ class _SingleOrderState extends State<SingleOrder> {
   String? deliveryId;
   // late IO.Socket socket;
 // Déclarez socket comme nullable
-
+final ServicesApiAuth apiAuth = ServicesApiAuth();
   final ServicesApiOrders api = ServicesApiOrders();
   final NotificationServices notiApi = NotificationServices();
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
   final ServicesApiDelibery apiDelibery = ServicesApiDelibery();
 
   List<ProfilModel> _liberyData = [];
- String? _token;
+
 
   @override
   void initState() {
     super.initState();
-     getTokenFCM();
+    // getTokenFCM();
     // socket = IO.io(
     //     "http://10.0.2.2:8080",
     //     IO.OptionBuilder().setTransports(["websocket"]).setQuery(
     //         {"userId": deliveryId}).build());
-    // _getLibery().then((_) {
-    //   if (_liberyData.isNotEmpty) {
-    //     deliveryId = _liberyData.first.userId; // Initialisez deliveryId
-    //     _connectToSocket();
-    //   }
-    // });
+    _getLibery().then((_) {
+      if (_liberyData.isNotEmpty) {
+        deliveryId = _liberyData.first.userId; // Initialisez deliveryId
+        // _connectToSocket();
+      }
+    });
   }
 
-  Future<void> getTokenFCM() async {
-  String? token = await FirebaseMessaging.instance.getToken();
-  print("FCM Token: $token");
-  if (token == null) {
-  print("Erreur : Token Firebase est null !");
-  return;
-}
-  setState(() {
-    _token = token;
-  });
-}
+//   Future<void> getTokenFCM() async {
+//   String? token = await FirebaseMessaging.instance.getToken();
+//   print("FCM Token: $token");
+//   if (token == null) {
+//   print("Erreur : Token Firebase est null !");
+//   return;
+// }
+//   try{
+//     final res = await apiAuth.postTokenFmcUser(token);
+//     final body = jsonDecode(res.body);
+//     if(res.statusCode == 200){
+//       print(body["message"]);
+//     }
+//   }catch(e){
+//     print("erreur $e");
+//   }
+// }
 
   // void _connectToSocket() {
   //   if (deliveryId == null || deliveryId!.isEmpty) {
@@ -149,13 +156,7 @@ class _SingleOrderState extends State<SingleOrder> {
     }
     final livreur = _liberyData.firstWhere((e) => e.userId == deliveryId);
     
-//     final token = await FirebaseMessaging.instance.getToken();
-// if (token == null) {
-//   print("Erreur : Token Firebase est null !");
-//   return;
-// }
     final data = {
-      'fcmToken': _token,
       'userId': deliveryId,
       'orderId': widget.order.id,
       "username": livreur.name,

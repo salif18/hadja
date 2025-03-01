@@ -35,8 +35,8 @@ class _AdminOdersState extends State<AdminOders> {
                   icon: Icon(Icons.arrow_back_ios_new_rounded, size: constraints.maxWidth * AppSizes.converValueToadapter(context, 24))),
               bottom: TabBar(
                   isScrollable: true,
-                  indicatorColor: Colors.blueGrey,
-                  labelColor: Colors.blueGrey,
+                  indicatorColor: Colors.black,
+                  labelColor: Colors.black,
                   indicatorWeight: 2.3,
                   labelPadding: EdgeInsets.only(
                     left: constraints.maxWidth * AppSizes.converValueToadapter(context, 10), 
@@ -45,17 +45,19 @@ class _AdminOdersState extends State<AdminOders> {
                     Tab(
                       child: Text("Commandes en attentes",
                           style: GoogleFonts.roboto(
-                            
+                             color: Colors.blueGrey,
                               fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.bold)),
                     ),
                     Tab(
                       child: Text("Commandes livrées",
                           style: GoogleFonts.roboto(
+                            color: Colors.blueGrey,
                               fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.bold)),
                     ),
                     Tab(
                       child: Text("Commandes annulées",
                           style: GoogleFonts.roboto(
+                            color: Colors.blueGrey,
                               fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.bold)),
                     ),
                   ]),

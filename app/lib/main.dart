@@ -1,8 +1,11 @@
 // import "dart:io";
 
 // import "package:cloud_firestore/cloud_firestore.dart";
+import "dart:convert";
+
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
+import "package:hadja_grish/api/auth_api.dart";
 import "package:hadja_grish/components/notification_service_local.dart";
 import "package:hadja_grish/components/splash.dart";
 import "package:hadja_grish/providers/auth_provider.dart";
@@ -11,35 +14,18 @@ import "package:hadja_grish/providers/favorite_provider.dart";
 import "package:hadja_grish/providers/user_provider.dart";
 import "package:hadja_grish/screens/auth/login_page.dart";
 import 'package:provider/provider.dart';
-// import "package:socket_io_client/socket_io_client.dart";
+
 import "package:timezone/data/latest.dart" as tz;
-// import 'package:socket_io_client/socket_io_client.dart' as IO;
+
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-
-
-void setupFirebaseMessaging() {
-  FirebaseMessaging.instance.getToken().then((token) {
-    print("Firebase Token: $token"); // À envoyer au backend
-  });
-
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    print("Notification reçue : ${message.notification?.title}");
-  });
-
-  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-    print("Notification cliquée : ${message.notification?.title}");
-  });
-}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  setupFirebaseMessaging();
-
 
   WidgetsFlutterBinding.ensureInitialized();
   final notificationService = NotificationService();
@@ -64,35 +50,46 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  // final NotificationService notificationService = NotificationService();
-  // late IO.Socket socket;
+  final ServicesApiAuth apiAuth = ServicesApiAuth();
+  NotificationService notificationService = NotificationService();
 
-  // @override
-  // void initState() {
-  //   super.initState();
+  @override
+  void initState() {
+    super.initState();
+    setupFirebaseMessaging();
+  }
 
-  //   WidgetsBinding.instance.addPostFrameCallback((_) async {
-  //     final provider = Provider.of<AuthProvider>(context, listen: false);
-  //     final userId = await provider.userId(); // Attendre que userId soit résolu
+  void setupFirebaseMessaging() async {
+    final provider = Provider.of<AuthProvider>(context, listen: false);
+    final userId = await provider.userId(); // Attendre que userId soit résolu
+    FirebaseMessaging.instance.getToken().then((token) async {
+      print("Firebase Token: $token"); // À envoyer au backend
+      try {
+        final res = await apiAuth.postTokenFmcUser(userId, token);
+        final body = jsonDecode(res.body);
+        if (res.statusCode == 200) {
+          print(body["message"]);
+        }
+      } catch (e) {
+        print("erreur $e");
+      }
+    });
 
-  //     if (userId != null) {
-        // Initialisation de la socket
-        // socket = IO.io(
-        //   "http://10.0.2.2:8080",
-        //   IO.OptionBuilder()
-        //       .setTransports(["websocket"])
-        //       .setQuery({"userId": userId})
-        //       .build(),
-        // );
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print("Notification reçue : ${message.notification?.title}");
 
-        // _connectToSocket();
-  //       getNotifications(userId); // Passer userId résolu
-  //     } else {
-  //       print("Aucun userId trouvé");
-  //     }
-  //   });
-  // }
+      notificationService.showNotification(
+              id: 1, // Convertir en int
+              title: message.notification?.title,
+              body: message.notification!.body ?? ""
+            );
+      
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print("Notification cliquée : ${message.notification?.title}");
+    });
+  }
 
   // void getNotifications(String userId) async {
   //   try {
@@ -117,34 +114,7 @@ class _MyAppState extends State<MyApp> {
   //     print("Erreur lors de la récupération des notifications: $e");
   //   }
   // }
-  // Avec socket
-  // Future<void> _connectToSocket() async {
-  //   final provider = Provider.of<AuthProvider>(context, listen: false);
-  //   final userId = await provider.userId();
-  //   socket.onConnect((_) {
-  //     print('Connecté au serveur WebSocket');
-  //     socket.emit('join-room', userId);
-  //   });
 
-  //   socket.on("get-notification", (data) {
-  //     print(data);
-  //     notificationService.showNotification(
-  //         id: data.orderId, title: data.username, body: data.message);
-  //   });
-  //   socket.onDisconnect((_) {
-  //     print("Déconnecté du WebSocket");
-  //   });
-
-  //   socket.onConnectError((err) {
-  //     print('Erreur de connexion WebSocket: $err');
-  //   });
-
-  //   socket.onError((err) {
-  //     print('Erreur WebSocket: $err');
-  //   });
-  // }
-
-  
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(

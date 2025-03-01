@@ -44,10 +44,20 @@ class ServicesApiAuth{
     });
   }
 
+//fonction de deconnexion
+  postTokenFmcUser(userId,token) async {
+    var uri = "$domaineName/auth/$userId/save-token";
+    return await http.post(Uri.parse(uri), 
+    body: jsonEncode({"fcmToken":token}),
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token"
+    });
+  }
   //fontion de mis a jour du profil
   postUpdateUserData(data, userId) async {
     var uri = "$domaineName/auth/update/$userId";
-    return await http.post(
+    return await http.put(
       Uri.parse(uri),
       body: jsonEncode(data),
       headers: {
