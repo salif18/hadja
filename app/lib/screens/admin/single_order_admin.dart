@@ -15,6 +15,7 @@ import 'package:hadja_grish/screens/admin/admin_track_move.dart';
 import 'package:intl/intl.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class SingleOrder extends StatefulWidget {
   final OrdersModel order;
@@ -128,12 +129,19 @@ class _SingleOrderState extends State<SingleOrder> {
   }
 
   Future<void> _sendNotification(String? deliveryId) async {
-    if (deliveryId == null ) {
+    if (deliveryId == null) {
       print("Erreur : deliveryId ou socket est null !");
       return;
     }
     final livreur = _liberyData.firstWhere((e) => e.userId == deliveryId);
+    
+    final token = await FirebaseMessaging.instance.getToken();
+if (token == null) {
+  print("Erreur : Token Firebase est null !");
+  return;
+}
     final data = {
+      'fcmToken': token,
       'userId': deliveryId,
       'orderId': widget.order.id,
       "username": livreur.name,
