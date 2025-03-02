@@ -157,7 +157,7 @@ final ServicesApiAuth apiAuth = ServicesApiAuth();
     final livreur = _liberyData.firstWhere((e) => e.userId == deliveryId);
     
     final data = {
-      'userId': deliveryId,
+      'receiverId': deliveryId,
       'orderId': widget.order.id,
       "username": livreur.name,
       'message': 'Vous avez une nouvelle commande à livrer',

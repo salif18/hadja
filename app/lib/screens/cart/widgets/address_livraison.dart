@@ -115,7 +115,7 @@ class _AddressLivraisonState extends State<AddressLivraison> {
 
    Future<void> _sendNotification(order) async {
     final data = {
-      'userId': "",
+      'receiverId': "67bdc9247055b3637cb8ba51",
       'orderId': order.id,
       "username": "Hadja Store",
       'message': 'Vous avez une nouvelle commande',
