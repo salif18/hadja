@@ -58,8 +58,14 @@ class _MyAppState extends State<MyApp> {
     final provider = Provider.of<AuthProvider>(context, listen: false);
     final userId = await provider.userId(); // Attendre que userId soit résolu
 
+    if (userId == null || userId.isEmpty) { //Vérifier si userId est invalide
+    print("Impossible d'envoyer le token, userId est null ou vide.");
+    return;
+  }
+
     FirebaseMessaging.instance.getToken().then((token) async {
       print("Firebase Token: $token"); // À envoyer au backend
+      if (token != null) {
       try {
         final res = await apiAuth.postTokenFmcUser(userId, token);
         final body = jsonDecode(res.body);
@@ -67,8 +73,11 @@ class _MyAppState extends State<MyApp> {
           print(body["message"]);
         }
       } catch (e) {
-        print("erreur $e");
+        print("Erreur lors de l'envoi du token FCM : $e");
       }
+    } else {
+      print("Impossible d'envoyer le token, Firebase n'a pas généré de token.");
+    }
     });
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
