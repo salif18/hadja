@@ -37,6 +37,7 @@ class _AdminOdersState extends State<AdminOders> {
                   isScrollable: true,
                   indicatorColor: Colors.black,
                   labelColor: Colors.black,
+                  labelStyle: GoogleFonts.roboto(fontWeight: FontWeight.bold),
                   indicatorWeight: 2.3,
                   labelPadding: EdgeInsets.only(
                     left: constraints.maxWidth * AppSizes.converValueToadapter(context, 10), 
@@ -45,20 +46,26 @@ class _AdminOdersState extends State<AdminOders> {
                     Tab(
                       child: Text("Commandes en attentes",
                           style: GoogleFonts.roboto(
-                             color: Colors.blueGrey,
-                              fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.bold)),
+                            //  color: Colors.blueGrey,
+                              fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), 
+                              // fontWeight: FontWeight.bold
+                              )),
                     ),
                     Tab(
                       child: Text("Commandes livrées",
                           style: GoogleFonts.roboto(
-                            color: Colors.blueGrey,
-                              fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.bold)),
+                            // color: Colors.blueGrey,
+                              fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), 
+                              // fontWeight: FontWeight.bold
+                              )),
                     ),
                     Tab(
                       child: Text("Commandes annulées",
                           style: GoogleFonts.roboto(
-                            color: Colors.blueGrey,
-                              fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.bold)),
+                            // color: Colors.blueGrey,
+                              fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12), 
+                              // fontWeight: FontWeight.bold
+                              )),
                     ),
                   ]),
             ),
