@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hadja_grish/api/auth_api.dart';
 import 'package:hadja_grish/api/category_api.dart';
 import 'package:hadja_grish/api/notification_api.dart';
 import 'package:hadja_grish/components/drawer.dart';
@@ -33,7 +35,7 @@ class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> drawerKey = GlobalKey<ScaffoldState>();
 
   ServicesApiCategory api = ServicesApiCategory();
-
+  final ServicesApiAuth apiAuth = ServicesApiAuth();
   final NotificationServices apiNoti = NotificationServices();
   int count = 0;
 
@@ -42,6 +44,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    _setupFirebaseMessaging();
     _getCategories();
     _getNotificationNoRead();
     super.initState();
@@ -94,6 +97,36 @@ class _HomePageState extends State<HomePage> {
       }
     } catch (e) {
       Exception(e);
+    }
+  }
+
+  // Enregistrer le token FCM de telephone de utilisateur
+  Future<void> _setupFirebaseMessaging() async {
+    final provider = Provider.of<AuthProvider>(context, listen: false);
+
+    String? userId = await provider.userId();
+    if (userId == null || userId.trim().isEmpty) {
+      print("Impossible d'envoyer le token, userId est null ou vide.");
+      return;
+    }
+
+    try {
+      String? token = await FirebaseMessaging.instance.getToken();
+      if (token == null || token.trim().isEmpty) {
+        print(
+            "Impossible d'envoyer le token, Firebase n'a pas généré de token.");
+        return;
+      }
+
+      print("Firebase Token: $token");
+
+      final res = await apiAuth.postTokenFmcUser(userId, token);
+      if (res.statusCode == 200) {
+        final body = jsonDecode(res.body);
+        print("Token enregistré avec succès : ${body["message"]}");
+      }
+    } catch (e) {
+      print("Erreur lors de l'envoi du token FCM : $e");
     }
   }
 
