@@ -53,10 +53,12 @@ class _MyAppState extends State<MyApp> {
     _initializeFirebaseMessaging();
   }
 
+// initialise firebase messaging
   Future<void> _initializeFirebaseMessaging() async {
     await setupFirebaseMessaging();
   }
 
+// Enregistrer le token FCM de telephone de utilisateur
   Future<void> setupFirebaseMessaging() async {
     final provider = Provider.of<AuthProvider>(context, listen: false);
     

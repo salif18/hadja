@@ -30,10 +30,10 @@ class _AddressLivraisonState extends State<AddressLivraison> {
   final TextEditingController telephone = TextEditingController();
   // double lat = 12.652250;
   // double long = -7.981700;//ville
-    //  double lat = 12.592990;
-    //  double long = -8.065061;//sebenicoro
-     double lat =12.585116;
-     double long = -7.931593;//attbougou
+  //  double lat = 12.592990;
+  //  double long = -8.065061;//sebenicoro
+  double lat = 12.585116;
+  double long = -7.931593; //attbougou
   @override
   void initState() {
     super.initState();
@@ -53,76 +53,80 @@ class _AddressLivraisonState extends State<AddressLivraison> {
     });
   }
 
+// ENVOIE DE LA COMMANDE
   Future<void> sendOrders(BuildContext context) async {
     final provider = Provider.of<AuthProvider>(context, listen: false);
     final userId = await provider.userId();
 
     if (userId == null) {
-    api.showSnackBarErrorPersonalized(context, "Utilisateur non connecté");
-    return;
-  }
+      api.showSnackBarErrorPersonalized(context, "Utilisateur non connecté");
+      return;
+    }
 
     final totalProvider = Provider.of<CartProvider>(context, listen: false);
     final total = totalProvider.calculateTotal();
     final cartprovider = Provider.of<CartProvider>(context, listen: false);
     final cart = cartprovider.myCart;
 
-     if (cart.isEmpty) {
-    api.showSnackBarErrorPersonalized(context, "Panier vide");
-    return;
-  }
-   if (_formKey.currentState!.validate()) {
-    try {
-
-      final cartItems = cart.map((item) => {
-      "productId": item.productId,
-      "name": item.name,
-      "img": item.img,
-      "qty": item.qty,
-      "prix": item.prix
-    }).toList();
-
-      Map<String, dynamic> order = {
-        "userId": userId,
-        "deliveryId": null,
-        "address": address.text,
-        "clientLat": lat,
-        "clientLong": long,
-        "deliveryLat":null,
-        "deliveryLong":null,
-        "telephone": telephone.text,
-        "total": total,
-        "statut_of_delibery": "En attente",
-        "cartItems":cartItems   // jsonEncode(cart.map((item) => item.toJson()).toList()),
-      };
-      final response = await api.postOrders(order);
-      final body = jsonDecode(response.body);
-      print(order);
-      if (response.statusCode == 201) {
-        OrdersModel order = OrdersModel.fromJson(body["order"]);
-        _sendNotification(order);
-        cartprovider.clearCart();
-        api.showSnackBarSuccessPersonalized(context, body["message"]);
-      }else{
-      api.showSnackBarErrorPersonalized(context, body["message"]);
-      }
-    } catch (e) {
-      Exception(e);
+    if (cart.isEmpty) {
+      api.showSnackBarErrorPersonalized(context, "Panier vide");
+      return;
     }
-   }
+    if (_formKey.currentState!.validate()) {
+      try {
+        final cartItems = cart
+            .map((item) => {
+                  "productId": item.productId,
+                  "name": item.name,
+                  "img": item.img,
+                  "qty": item.qty,
+                  "prix": item.prix
+                })
+            .toList();
+
+        Map<String, dynamic> order = {
+          "userId": userId,
+          "deliveryId": null,
+          "address": address.text,
+          "clientLat": lat,
+          "clientLong": long,
+          "deliveryLat": null,
+          "deliveryLong": null,
+          "telephone": telephone.text,
+          "total": total,
+          "statut_of_delibery": "En attente",
+          "cartItems":
+              cartItems // jsonEncode(cart.map((item) => item.toJson()).toList()),
+        };
+        final response = await api.postOrders(order);
+        final body = jsonDecode(response.body);
+        print(order);
+        if (response.statusCode == 201) {
+          OrdersModel order = OrdersModel.fromJson(body["order"]);
+          // APPELLE L'ENVOIE DE LA NOTIFICATION
+          _sendNotification(order);
+          cartprovider.clearCart();
+          api.showSnackBarSuccessPersonalized(context, body["message"]);
+        } else {
+          api.showSnackBarErrorPersonalized(context, body["message"]);
+        }
+      } catch (e) {
+        Exception(e);
+      }
+    }
   }
 
-
-   Future<void> _sendNotification(order) async {
+  // ENVOIE LA NOTIFICATION DANS LA BASE DE DONNEES
+  Future<void> _sendNotification(order) async {
     final data = {
       'receiverId': "67bdc9247055b3637cb8ba51",
       'orderId': order.id,
+      "title": "Nouvelle commande",
       "username": "Hadja Store",
-      'message': 'Vous avez une nouvelle commande',
+      'message': "Vous avez reçu une nouvelle commande.",
     };
     try {
       await notiApi.postNotifications(data);
-    
     } catch (e) {
       print("Erreur de connexion à l'API : $e");
     }
@@ -131,19 +135,23 @@ class _AddressLivraisonState extends State<AddressLivraison> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 560),
-      width:  widget.constraints.maxWidth ,
-      
+      height: widget.constraints.maxWidth *
+          AppSizes.converValueToadapter(context, 560),
+      width: widget.constraints.maxWidth,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular( widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
+        borderRadius: BorderRadius.circular(widget.constraints.maxWidth *
+            AppSizes.converValueToadapter(context, 20)),
         color: Colors.white,
       ),
       child: Padding(
-        padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
+        padding: EdgeInsets.all(widget.constraints.maxWidth *
+            AppSizes.converValueToadapter(context, 20)),
         child: Container(
-          padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
+          padding: EdgeInsets.all(widget.constraints.maxWidth *
+              AppSizes.converValueToadapter(context, 5)),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
+            borderRadius: BorderRadius.circular(widget.constraints.maxWidth *
+                AppSizes.converValueToadapter(context, 20)),
             color: const Color(0xfff0fcf3),
           ),
           child: SingleChildScrollView(child: _formulaires(context)),
@@ -158,27 +166,35 @@ class _AddressLivraisonState extends State<AddressLivraison> {
       child: Column(
         children: [
           Padding(
-            padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
+            padding: EdgeInsets.all(widget.constraints.maxWidth *
+                AppSizes.converValueToadapter(context, 15)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   "Faites-vous livrer chez vous !",
                   style: GoogleFonts.abel(
-                      fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20), fontWeight: FontWeight.bold),
+                      fontSize: widget.constraints.maxWidth *
+                          AppSizes.converValueToadapter(context, 20),
+                      fontWeight: FontWeight.bold),
                 ),
                 Text(
                   "Remplissez bien les renseignements",
-                  style: GoogleFonts.abel(fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 14)),
+                  style: GoogleFonts.abel(
+                      fontSize: widget.constraints.maxWidth *
+                          AppSizes.converValueToadapter(context, 14)),
                 ),
               ],
             ),
           ),
           Container(
-            height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 150),
-            width: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 150),
+            height: widget.constraints.maxWidth *
+                AppSizes.converValueToadapter(context, 150),
+            width: widget.constraints.maxWidth *
+                AppSizes.converValueToadapter(context, 150),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 100)),
+              borderRadius: BorderRadius.circular(widget.constraints.maxWidth *
+                  AppSizes.converValueToadapter(context, 100)),
               image: DecorationImage(
                 image: AssetImage("assets/logos/delibery.png"),
                 fit: BoxFit.fill,
@@ -186,10 +202,11 @@ class _AddressLivraisonState extends State<AddressLivraison> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
+            padding: EdgeInsets.all(widget.constraints.maxWidth *
+                AppSizes.converValueToadapter(context, 8)),
             child: TextFormField(
               controller: address,
-               validator: (value) {
+              validator: (value) {
                 if (value!.isEmpty) {
                   return 'Veuillez votre addresse';
                 }
@@ -201,20 +218,27 @@ class _AddressLivraisonState extends State<AddressLivraison> {
                 fillColor: Colors.white,
                 hintText: "Quartier",
                 hintStyle: GoogleFonts.aBeeZee(
-                    fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.w400),
-                prefixIcon: Icon(Icons.villa_outlined, size: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
+                    fontSize: widget.constraints.maxWidth *
+                        AppSizes.converValueToadapter(context, 12),
+                    fontWeight: FontWeight.w400),
+                prefixIcon: Icon(Icons.villa_outlined,
+                    size: widget.constraints.maxWidth *
+                        AppSizes.converValueToadapter(context, 20)),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
+                  borderRadius: BorderRadius.circular(
+                      widget.constraints.maxWidth *
+                          AppSizes.converValueToadapter(context, 20)),
                   borderSide: BorderSide.none,
                 ),
               ),
             ),
           ),
-           Padding(
-            padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
+          Padding(
+            padding: EdgeInsets.all(widget.constraints.maxWidth *
+                AppSizes.converValueToadapter(context, 8)),
             child: TextFormField(
               controller: telephone,
-               validator: (value) {
+              validator: (value) {
                 if (value!.isEmpty) {
                   return 'Veuillez votre numéro';
                 }
@@ -226,17 +250,24 @@ class _AddressLivraisonState extends State<AddressLivraison> {
                 fillColor: Colors.white,
                 hintText: "Numero",
                 hintStyle: GoogleFonts.aBeeZee(
-                    fontSize:widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12), fontWeight: FontWeight.w400),
-                prefixIcon: Icon(Icons.phone_android_outlined, size: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
+                    fontSize: widget.constraints.maxWidth *
+                        AppSizes.converValueToadapter(context, 12),
+                    fontWeight: FontWeight.w400),
+                prefixIcon: Icon(Icons.phone_android_outlined,
+                    size: widget.constraints.maxWidth *
+                        AppSizes.converValueToadapter(context, 20)),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
+                  borderRadius: BorderRadius.circular(
+                      widget.constraints.maxWidth *
+                          AppSizes.converValueToadapter(context, 20)),
                   borderSide: BorderSide.none,
                 ),
               ),
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
+            padding: EdgeInsets.all(widget.constraints.maxWidth *
+                AppSizes.converValueToadapter(context, 8)),
             child: GestureDetector(
               onTap: () {
                 showDialog(
@@ -244,7 +275,10 @@ class _AddressLivraisonState extends State<AddressLivraison> {
                   builder: (BuildContext context) {
                     return AlertDialog(
                       contentPadding: EdgeInsets.symmetric(
-                          vertical: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 5), horizontal: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
+                          vertical: widget.constraints.maxWidth *
+                              AppSizes.converValueToadapter(context, 5),
+                          horizontal: widget.constraints.maxWidth *
+                              AppSizes.converValueToadapter(context, 5)),
                       content: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -258,7 +292,10 @@ class _AddressLivraisonState extends State<AddressLivraison> {
                             ),
                             child: Text("Valider",
                                 style: GoogleFonts.roboto(
-                                    fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12), color: Colors.white)),
+                                    fontSize: widget.constraints.maxWidth *
+                                        AppSizes.converValueToadapter(
+                                            context, 12),
+                                    color: Colors.white)),
                           ),
                         ],
                       ),
@@ -267,10 +304,13 @@ class _AddressLivraisonState extends State<AddressLivraison> {
                 );
               },
               child: Container(
-                height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 50),
+                height: widget.constraints.maxWidth *
+                    AppSizes.converValueToadapter(context, 50),
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
+                  borderRadius: BorderRadius.circular(
+                      widget.constraints.maxWidth *
+                          AppSizes.converValueToadapter(context, 10)),
                   color: Colors.blue,
                 ),
                 child: Row(
@@ -278,28 +318,42 @@ class _AddressLivraisonState extends State<AddressLivraison> {
                   children: [
                     Text("Coordonnées géographiques",
                         style: GoogleFonts.roboto(
-                            fontSize:widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12), color: Colors.white)),
-                    SizedBox(width: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
+                            fontSize: widget.constraints.maxWidth *
+                                AppSizes.converValueToadapter(context, 12),
+                            color: Colors.white)),
+                    SizedBox(
+                        width: widget.constraints.maxWidth *
+                            AppSizes.converValueToadapter(context, 10)),
                     Icon(Icons.location_searching,
-                        size: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20), color: Colors.white),
+                        size: widget.constraints.maxWidth *
+                            AppSizes.converValueToadapter(context, 20),
+                        color: Colors.white),
                   ],
                 ),
               ),
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
+            padding: EdgeInsets.all(widget.constraints.maxWidth *
+                AppSizes.converValueToadapter(context, 8)),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF1D1A30),
-                minimumSize: Size(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 400), widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 40)),
+                minimumSize: Size(
+                    widget.constraints.maxWidth *
+                        AppSizes.converValueToadapter(context, 400),
+                    widget.constraints.maxWidth *
+                        AppSizes.converValueToadapter(context, 40)),
               ),
               onPressed: () {
                 sendOrders(context);
                 Navigator.pop(context);
               },
               child: Text("Passer commande",
-                  style: GoogleFonts.roboto(fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 12), color: Colors.white)),
+                  style: GoogleFonts.roboto(
+                      fontSize: widget.constraints.maxWidth *
+                          AppSizes.converValueToadapter(context, 12),
+                      color: Colors.white)),
             ),
           ),
         ],

@@ -14,9 +14,6 @@ import 'package:hadja_grish/models/orders_model.dart';
 import 'package:hadja_grish/models/user.dart';
 import 'package:hadja_grish/screens/admin/admin_track_move.dart';
 import 'package:intl/intl.dart';
-// import 'package:socket_io_client/socket_io_client.dart' as IO;
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_messaging/firebase_messaging.dart';
 
 class SingleOrder extends StatefulWidget {
   final OrdersModel order;
@@ -29,11 +26,9 @@ class SingleOrder extends StatefulWidget {
 }
 
 class _SingleOrderState extends State<SingleOrder> {
-  // FirebaseFirestore _firestore = FirebaseFirestore.instance;
   String? deliveryId;
-  // late IO.Socket socket;
-// Déclarez socket comme nullable
-final ServicesApiAuth apiAuth = ServicesApiAuth();
+
+  final ServicesApiAuth apiAuth = ServicesApiAuth();
   final ServicesApiOrders api = ServicesApiOrders();
   final NotificationServices notiApi = NotificationServices();
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
@@ -41,66 +36,15 @@ final ServicesApiAuth apiAuth = ServicesApiAuth();
 
   List<ProfilModel> _liberyData = [];
 
-
   @override
   void initState() {
     super.initState();
-    // getTokenFCM();
-    // socket = IO.io(
-    //     "http://10.0.2.2:8080",
-    //     IO.OptionBuilder().setTransports(["websocket"]).setQuery(
-    //         {"userId": deliveryId}).build());
     _getLibery().then((_) {
       if (_liberyData.isNotEmpty) {
         deliveryId = _liberyData.first.userId; // Initialisez deliveryId
-        // _connectToSocket();
       }
     });
   }
-
-//   Future<void> getTokenFCM() async {
-//   String? token = await FirebaseMessaging.instance.getToken();
-//   print("FCM Token: $token");
-//   if (token == null) {
-//   print("Erreur : Token Firebase est null !");
-//   return;
-// }
-//   try{
-//     final res = await apiAuth.postTokenFmcUser(token);
-//     final body = jsonDecode(res.body);
-//     if(res.statusCode == 200){
-//       print(body["message"]);
-//     }
-//   }catch(e){
-//     print("erreur $e");
-//   }
-// }
-
-  // void _connectToSocket() {
-  //   if (deliveryId == null || deliveryId!.isEmpty) {
-  //     print("Erreur : deliveryId est null ou vide !");
-  //     return;
-  //   }
-
-  //   socket.onConnect((_) {
-  //     print('Connecté au serveur WebSocket');
-  //     socket.emit('join-room', deliveryId);
-  //   });
-
-  //   socket.onDisconnect((_) {
-  //     print("Déconnecté du WebSocket");
-  //   });
-
-  //   socket.onConnectError((err) {
-  //     print('Erreur de connexion WebSocket: $err');
-  //   });
-
-  //   socket.onError((err) {
-  //     print('Erreur WebSocket: $err');
-  //   });
-
-  //   // socket.connect();
-  // }
 
   Future<void> _getLibery() async {
     try {
@@ -120,6 +64,7 @@ final ServicesApiAuth apiAuth = ServicesApiAuth();
     }
   }
 
+//envoie la section de livreur
   Future<void> _sendToServer(BuildContext context) async {
     final data = {
       "deliveryId": deliveryId,
@@ -149,44 +94,29 @@ final ServicesApiAuth apiAuth = ServicesApiAuth();
     }
   }
 
+// Envoie de notification dans la base de donnees
   Future<void> _sendNotification(String? deliveryId) async {
     if (deliveryId == null) {
       print("Erreur : deliveryId ou socket est null !");
       return;
     }
+
     final livreur = _liberyData.firstWhere((e) => e.userId == deliveryId);
-    
+
     final data = {
       'receiverId': deliveryId,
       'orderId': widget.order.id,
+      "title": "Nouvelle commande",
       "username": livreur.name,
-      'message': 'Vous avez une nouvelle commande à livrer',
+      'message': "Vous avez reçu une nouvelle commande à livrer.",
     };
-
     try {
-      final response = await notiApi.postNotifications(data);
-      if (response.statusCode == 201) {
-      
-        // socket.emit('post-livreur', {
-        //   'userId': deliveryId,
-        //   'orderId': widget.order.id,
-        //   "username": livreur.name,
-        //   'message': data['message'],
-        // });
-      } else {
-        print("Erreur lors de l'envoi de la notification : ${response.body}");
-      }
+      //appelle l'envoie de la notification
+      await notiApi.postNotifications(data);
     } catch (e) {
       print("Erreur de connexion à l'API : $e");
     }
   }
-
-  // @override
-  // void dispose() {
-  //   socket.disconnect();
-  //   socket.clearListeners();
-  //   super.dispose();
-  // }
 
   @override
   Widget build(BuildContext context) {
