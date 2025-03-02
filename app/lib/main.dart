@@ -1,5 +1,4 @@
 import "dart:convert";
-
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:hadja_grish/api/auth_api.dart";
@@ -22,10 +21,10 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  WidgetsFlutterBinding.ensureInitialized();
   final notificationService = NotificationService();
   await notificationService.init();
   tz.initializeTimeZones();
+
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => AuthProvider()),
@@ -46,44 +45,47 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final ServicesApiAuth apiAuth = ServicesApiAuth();
-  NotificationService notificationService = NotificationService();
+  final NotificationService notificationService = NotificationService();
 
   @override
   void initState() {
     super.initState();
-    setupFirebaseMessaging();
+    _initializeFirebaseMessaging();
   }
 
-  void setupFirebaseMessaging() async {
+  Future<void> _initializeFirebaseMessaging() async {
+    await setupFirebaseMessaging();
+  }
+
+  Future<void> setupFirebaseMessaging() async {
     final provider = Provider.of<AuthProvider>(context, listen: false);
-    final userId = await provider.userId(); // Attendre que userId soit résolu
-
-    if (userId == null || userId.isEmpty) { //Vérifier si userId est invalide
-    print("Impossible d'envoyer le token, userId est null ou vide.");
-    return;
-  }
-
-    FirebaseMessaging.instance.getToken().then((token) async {
-      print("Firebase Token: $token"); // À envoyer au backend
-      if (token != null) {
-      try {
-        final res = await apiAuth.postTokenFmcUser(userId, token);
-        final body = jsonDecode(res.body);
-        if (res.statusCode == 200) {
-          print(body["message"]);
-        }
-      } catch (e) {
-        print("Erreur lors de l'envoi du token FCM : $e");
-      }
-    } else {
-      print("Impossible d'envoyer le token, Firebase n'a pas généré de token.");
+    
+    String? userId = await provider.userId();
+    if (userId == null || userId.trim().isEmpty) {
+      print("Impossible d'envoyer le token, userId est null ou vide.");
+      return;
     }
-    });
 
+    try {
+      String? token = await FirebaseMessaging.instance.getToken();
+      if (token == null || token.trim().isEmpty) {
+        print("Impossible d'envoyer le token, Firebase n'a pas généré de token.");
+        return;
+      }
+
+      print("Firebase Token: $token");
+
+      final res = await apiAuth.postTokenFmcUser(userId, token);
+      if (res.statusCode == 200) {
+        final body = jsonDecode(res.body);
+        print("Token enregistré avec succès : ${body["message"]}");
+      }
+    } catch (e) {
+      print("Erreur lors de l'envoi du token FCM : $e");
+    }
+
+    // Écoute des notifications en mode foreground
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print("Notification reçue : ${message.notification?.title}");
-
-      // 🔹 Vérifier si la notification contient un titre
       String? title = message.notification?.title ?? message.data["title"];
       String? body = message.notification?.body ?? message.data["body"];
 
@@ -94,10 +96,11 @@ class _MyAppState extends State<MyApp> {
           body: body,
         );
       } else {
-        print("Aucune notification reçue avec un titre valide !");
+        print("Notification reçue sans titre valide !");
       }
     });
 
+    // Écoute des notifications cliquées
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print("Notification cliquée : ${message.notification?.title}");
     });
@@ -106,21 +109,21 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
-        const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+      const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+    );
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "Longrish",
-      home: Consumer<AuthProvider>(
+      title: "Hadja Store",
+       home: Consumer<AuthProvider>(
         builder: (context, provider, child) {
           return FutureBuilder<String?>(
             future: provider.token(),
             builder: (context, snapshot) {
               final token = snapshot.data;
-              if (token != null && token.isNotEmpty) {
-                return const MySplashScreen();
-              } else {
-                return const LoginPage();
-              }
+              return (token != null && token.isNotEmpty)
+                  ? const MySplashScreen()
+                  : const LoginPage();
             },
           );
         },
