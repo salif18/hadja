@@ -166,12 +166,7 @@ final ServicesApiAuth apiAuth = ServicesApiAuth();
     try {
       final response = await notiApi.postNotifications(data);
       if (response.statusCode == 201) {
-        // _firestore.collection("notifications").add({
-        //   'userId': deliveryId,
-        //   'orderId': widget.order.id,
-        //   "username": livreur.name,
-        //   'message': data['message'],
-        // }).then((reponse) => print(reponse.id));
+      
         // socket.emit('post-livreur', {
         //   'userId': deliveryId,
         //   'orderId': widget.order.id,

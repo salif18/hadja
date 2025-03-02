@@ -1,6 +1,3 @@
-// import "dart:io";
-
-// import "package:cloud_firestore/cloud_firestore.dart";
 import "dart:convert";
 
 import "package:flutter/material.dart";
@@ -14,9 +11,7 @@ import "package:hadja_grish/providers/favorite_provider.dart";
 import "package:hadja_grish/providers/user_provider.dart";
 import "package:hadja_grish/screens/auth/login_page.dart";
 import 'package:provider/provider.dart';
-
 import "package:timezone/data/latest.dart" as tz;
-
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';

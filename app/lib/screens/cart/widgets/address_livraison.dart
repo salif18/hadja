@@ -112,26 +112,19 @@ class _AddressLivraisonState extends State<AddressLivraison> {
    }
   }
 
-  Future<void> _sendNotification(order) async {
 
+   Future<void> _sendNotification(order) async {
     final data = {
-      'userId': "67bdc9247055b3637cb8ba51",
-      'orderId': order?.id,
-      'message': 'Vous avez une nouvelle commande pour un client',
-      'createdAt': DateTime.now().toIso8601String(),
+      'userId': "",
+      'orderId': order.id,
+      "username": "Hadja Store",
+      'message': 'Vous avez une nouvelle commande',
     };
-
     try {
-      final response = await notiApi.postNotifications(data);
-      if (response.statusCode == 200) {
-      //   socket.emit('livreur-selectionne', {
-      //     'userId': deliveryId,
-      //     'message': data['message'],
-      //     'orderId': widget.order.id
-      //   });
-      }
+      await notiApi.postNotifications(data);
+    
     } catch (e) {
-      // Gestion d'erreur
+      print("Erreur de connexion à l'API : $e");
     }
   }
 
