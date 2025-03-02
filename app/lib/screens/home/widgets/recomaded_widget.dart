@@ -101,26 +101,30 @@ class _MyRecomadationWidgetState extends State<MyRecomadationWidget> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Padding(
-                                padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 160),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
-                                  ),
-                                  child: Image.network(
-                                    articles[index].img ?? "",
-                                    fit: BoxFit.fill,
+                              Expanded(
+                                flex:3,
+                                child: Padding(
+                                  padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    // height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 160),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
+                                    ),
+                                    child: Image.network(
+                                      articles[index].img ?? "",
+                                      fit: BoxFit.fill,
+                                    ),
                                   ),
                                 ),
                               ),
                               Expanded(
+                                flex: 1,
                                 child: Padding(
                                   padding:
                                       EdgeInsets.only(
                                         left: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 15), 
-                                        top: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
+                                        top: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 4)),
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,

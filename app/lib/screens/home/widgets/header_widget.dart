@@ -24,7 +24,7 @@ class _MyHeaderState extends State<MyHeaderWidget> {
               builder: (context, snaptshot) {
                  ProfilModel? profil = snaptshot.data;
                 return Container(
-                  height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 46),
+                  // height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 46),
                   padding:  EdgeInsets.symmetric(horizontal:widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
                   decoration:  BoxDecoration(),
                   child: Row(

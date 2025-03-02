@@ -130,72 +130,79 @@ class _CartPageState extends State<CartPage> with WidgetsBindingObserver {
                     height: constraints.maxWidth * AppSizes.converValueToadapter(context, 169),
                     child: Column(
                       children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Nombre d'articles",
-                                style: GoogleFonts.roboto(
-                                  fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
-                                  fontWeight: FontWeight.w400,
-                                  color: const Color(0xFF1D1A30),
+                        Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Nombre d'articles",
+                                  style: GoogleFonts.roboto(
+                                    fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
+                                    fontWeight: FontWeight.w400,
+                                    color: const Color(0xFF1D1A30),
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                "${totalArticle}",
-                                style: GoogleFonts.roboto(
-                                  fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
-                                  fontWeight: FontWeight.bold,
-                                  color: const Color(0xFF1D1A30),
+                                Text(
+                                  "${totalArticle}",
+                                  style: GoogleFonts.roboto(
+                                    fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
+                                    fontWeight: FontWeight.bold,
+                                    color: const Color(0xFF1D1A30),
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Total",
-                                style: GoogleFonts.roboto(
-                                  fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
-                                  fontWeight: FontWeight.bold,
+                        Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Total",
+                                  style: GoogleFonts.roboto(
+                                    fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
+                                Text(
+                                  "$total FCFA",
+                                  style: GoogleFonts.roboto(
+                                    fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
+                            child: ElevatedButton.icon(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFF1D1A30),
+                                minimumSize: Size(constraints.maxWidth * AppSizes.converValueToadapter(context, 400), constraints.maxWidth * AppSizes.converValueToadapter(context, 40)),
                               ),
-                              Text(
-                                "$total FCFA",
+                              icon: Icon(
+                                Icons.location_on,
+                                size: constraints.maxWidth * AppSizes.converValueToadapter(context, 20),
+                                color: Colors.white,
+                              ),
+                              onPressed: () {
+                                _showAddLocation(context,constraints);
+                              },
+                              label: Text(
+                                "Adresse de livraison",
                                 style: GoogleFonts.roboto(
                                   fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
-                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
                                 ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
-                          child: ElevatedButton.icon(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF1D1A30),
-                              minimumSize: Size(constraints.maxWidth * AppSizes.converValueToadapter(context, 400), constraints.maxWidth * AppSizes.converValueToadapter(context, 40)),
-                            ),
-                            icon: Icon(
-                              Icons.location_on,
-                              size: constraints.maxWidth * AppSizes.converValueToadapter(context, 20),
-                              color: Colors.white,
-                            ),
-                            onPressed: () {
-                              _showAddLocation(context,constraints);
-                            },
-                            label: Text(
-                              "Adresse de livraison",
-                              style: GoogleFonts.roboto(
-                                fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
-                                color: Colors.white,
                               ),
                             ),
                           ),

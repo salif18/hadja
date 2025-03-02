@@ -150,57 +150,60 @@ class _ArticleByCategoriesState extends State<ArticleByCategories> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Stack(
-                                        children: [Padding(
-                                          padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context,8)),
-                                          child: Container(
-                                            width:
-                                                MediaQuery.of(context).size.width,
-                                            height: constraints.maxWidth * AppSizes.converValueToadapter(context,150),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context,20)),
-                                            ),
-                                            child: Image.network(
-                                              article[index].img ?? "",
-                                              fit: BoxFit.fill,
+                                      Expanded(
+                                        flex: 3,
+                                        child: Stack(
+                                          children: [Padding(
+                                            padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context,8)),
+                                            child: Container(
+                                              width:
+                                                  MediaQuery.of(context).size.width,
+                                              // height: constraints.maxWidth * AppSizes.converValueToadapter(context,150),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context,20)),
+                                              ),
+                                              child: Image.network(
+                                                article[index].img ?? "",
+                                                fit: BoxFit.fill,
+                                              ),
                                             ),
                                           ),
+                                          Positioned(
+                                            right: 12,
+                                            top: 15,
+                                            child: Container(
+                                                width: constraints.maxWidth *AppSizes.converValueToadapter(context, 35),
+                                                                            height: constraints.maxWidth *AppSizes.converValueToadapter(context, 35),
+                                                                            decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        color: Colors.grey.withOpacity(0.5)
+                                                                            ),
+                                              child: IconButton(
+                                                      onPressed: () {
+                                                        favoriteProvider
+                                                            .addMyFavorites(
+                                                                article[index]);
+                                                      },
+                                                      icon: favorites.firstWhereOrNull(
+                                                                  (item) =>
+                                                                      item.id ==
+                                                                      article[index]
+                                                                          .id) ==
+                                                              null
+                                                          ? Icon(
+                                                              Icons.favorite_border,
+                                                              size: constraints.maxWidth * AppSizes.converValueToadapter(context,20),
+                                                              color:
+                                                                  Colors.white,
+                                                            )
+                                                          : Icon(Icons.favorite,
+                                                              size: constraints.maxWidth * AppSizes.converValueToadapter(context,20),
+                                                              color: Colors.red)),
+                                            ), 
+                                          )
+                                          ]
                                         ),
-                                        Positioned(
-                                          right: 12,
-                                          top: 15,
-                                          child: Container(
-                                              width: constraints.maxWidth *AppSizes.converValueToadapter(context, 35),
-                                    height: constraints.maxWidth *AppSizes.converValueToadapter(context, 35),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      color: Colors.grey.withOpacity(0.5)
-                                    ),
-                                            child: IconButton(
-                                                    onPressed: () {
-                                                      favoriteProvider
-                                                          .addMyFavorites(
-                                                              article[index]);
-                                                    },
-                                                    icon: favorites.firstWhereOrNull(
-                                                                (item) =>
-                                                                    item.id ==
-                                                                    article[index]
-                                                                        .id) ==
-                                                            null
-                                                        ? Icon(
-                                                            Icons.favorite_border,
-                                                            size: constraints.maxWidth * AppSizes.converValueToadapter(context,20),
-                                                            color:
-                                                                Colors.white,
-                                                          )
-                                                        : Icon(Icons.favorite,
-                                                            size: constraints.maxWidth * AppSizes.converValueToadapter(context,20),
-                                                            color: Colors.red)),
-                                          ), 
-                                        )
-                                        ]
                                       ),
                                       Expanded(
                                         child: Padding(

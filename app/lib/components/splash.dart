@@ -25,7 +25,7 @@ class _MySplashScreenState extends State<MySplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Colors.white,
       body: LayoutBuilder(
         builder: (context, constraints){
           return AnimatedSwitcher(

@@ -119,57 +119,60 @@ class _MyProductListWidgetState extends State<MyProductListWidget> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Stack(
-                                children: [
-                                  Padding(
-                                  padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 0)),
-                                  child: Container(
-                                    width: widget.constraints.maxWidth ,
-                                    height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 160),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
-                                    ),
-                                    child: Image.network(
-                                      articles[index].img ?? "",
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  right: 12,
-                                  top: 15,
-                                  child:Container(
-                                    width: widget.constraints.maxWidth *AppSizes.converValueToadapter(context, 35),
-                                    height: widget.constraints.maxWidth *AppSizes.converValueToadapter(context, 35),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      color: Colors.grey.withOpacity(0.5)
-                                    ),
-                                    child: IconButton(
-                                        onPressed: () {
-                                          favoriteProvider.addMyFavorites(
-                                              articles[index]);
-                                        },
-                                        icon: favorites.firstWhereOrNull((item) =>
-                                                    item.id ==
-                                                    articles[index].id) ==
-                                                null
-                                            ? Icon(
-                                                Icons.favorite_border,
-                                                size: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20),
-                                                color: Colors.white,
-                                              )
-                                            : Icon(
-                                                Icons.favorite,
-                                                size: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20),
-                                                color: Colors.red),
+                              Expanded(
+                                flex:3,
+                                child: Stack(
+                                  children: [
+                                    Padding(
+                                    padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 0)),
+                                    child: Container(
+                                      width: widget.constraints.maxWidth ,
+                                      // height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 160),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
                                       ),
+                                      child: Image.network(
+                                        articles[index].img ?? "",
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
                                   ),
-                                  )
-                                ]
+                                  Positioned(
+                                    right: 12,
+                                    top: 15,
+                                    child:Container(
+                                      width: widget.constraints.maxWidth *AppSizes.converValueToadapter(context, 35),
+                                      height: widget.constraints.maxWidth *AppSizes.converValueToadapter(context, 35),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        color: Colors.grey.withOpacity(0.5)
+                                      ),
+                                      child: IconButton(
+                                          onPressed: () {
+                                            favoriteProvider.addMyFavorites(
+                                                articles[index]);
+                                          },
+                                          icon: favorites.firstWhereOrNull((item) =>
+                                                      item.id ==
+                                                      articles[index].id) ==
+                                                  null
+                                              ? Icon(
+                                                  Icons.favorite_border,
+                                                  size: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20),
+                                                  color: Colors.white,
+                                                )
+                                              : Icon(
+                                                  Icons.favorite,
+                                                  size: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20),
+                                                  color: Colors.red),
+                                        ),
+                                    ),
+                                    )
+                                  ]
+                                ),
                               ),
                               Padding(
-                                padding: EdgeInsets.only(left: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 5), top: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
+                                padding: EdgeInsets.only(left: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 5), top: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 4)),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
